@@ -32,7 +32,7 @@
 #### Viewing help : `help`
 Format: `help`
 
-> Help is also shown if you enter an incorrect command e.g. `abcd`
+> Help is not shown if you enter an incorrect command e.g. `abcd`
  
 #### Adding a person: `add`
 Adds a person to the address book<br>
