@@ -266,30 +266,88 @@ Priority | As a ... | I want to ... | So that I can...
 
 ## Appendix B : Use Cases
 
-(For all use cases below, the **System** is the `AddressBook` and the **Actor** is the `user`, unless specified otherwise)
+(For all use cases below, the **System** is the `ToDoList` and the **Actor** is the `user/Jim`, unless specified otherwise)
 
-#### Use case: Delete person
+## Appendix B : Use cases
 
-**MSS**
+### Use case : adding a new task
 
-1. User requests to list persons
-2. AddressBook shows a list of persons
-3. User requests to delete a specific person in the list
-4. AddressBook deletes the person <br>
+**MSS:**
+1. User enters the add command in the CLI along with the details for the task.
+2. System will add the task and display confirmation.
+Use case ends
+
+Extensions:
+1a. Add command syntax entered by the user is incorrect.
+>The system will display an error message along with the suggested format of the add command.
+Use case ends
+
+### Use case :  View tasks that are due in the near future
+
+**MSS:**
+1.User enters the view command.
+2. System will display the list of tasks that are due by today.
+Use case ends
+
+Extensions:
+1a. User enters a time modifier after the view command
+>The system will display tasks that are due during the extended time period instead of the default behaviour.
 Use case ends.
 
-**Extensions**
+1b. User enters a time modifier that is unrecognized by the system
+>The system will display an error message along with the suggested format of the view command.
+Use case ends.
 
-2a. The list is empty
+### Use case :  Searching of tasks
 
-> Use case ends
+**MSS:**
+1. User enters the search command along with a search term into the CLI.
+2. The system will first search for tasks with the matching search terms and display to the user.
+Use case ends.
 
-3a. The given index is invalid
+Extensions:
+1a. User did not enter a search term
+>The system will display an error along with the suggested format for the search command.
+Use case ends.
 
-> 3a1. AddressBook shows an error message <br>
-  Use case resumes at step 2
+2a. Search term entered by the user did not match any task
+>The system will display a message informing the user that the search did not yield any results.
+Use case ends.
 
-{More to be added}
+### Use case :  Deleting or marking a task as done
+
+**MSS:**
+1. User <u>searches for the task (UC: Searching of tasks)</u>  or <u>views task that are due in the near future (UC: View tasks that are due in the near future)</u>
+2. User enters the delete command along with the index of the task to delete.
+3. System will delete the selected task.
+Use case ends.
+
+Extensions:
+3a. Index provided by user is not valid
+>The system will display an error message along with the suggested format for the delete command
+Use case ends.
+
+### Use case :  Editing the details of a task System: To-do list
+
+**MSS:**
+User searches for the task (UC: Searching of tasks)  or views task that are due in the near future (UC: View tasks that are due in the near future)
+User enters the edit command with the index of the task the user wishes to edit, along with the new details.
+System will edit and save the selected task
+Use case ends.
+
+Extensions:
+3a. Index provided by user is not valid
+The system will display an error message along with the suggested format for the edit command
+Use case ends.
+
+3b. Not all details are provided by the user.
+The system will only edit the details of the task the user provides and leave the rest unmodified.
+Use case ends.
+
+3c. The user did not enter any new details
+The system will leave the task unmodified
+Use case ends.
+
 
 ## Appendix C : Non Functional Requirements
 
