@@ -268,8 +268,6 @@ Priority | As a ... | I want to ... | So that I can...
 
 (For all use cases below, the **System** is the `ToDoList` and the **Actor** is the `user/Jim`, unless specified otherwise)
 
-## Appendix B : Use cases
-
 ### Use case : adding a new task
 
 **MSS:**
@@ -311,6 +309,7 @@ Use case ends.
 ### Use case :  Searching of tasks
 
 **MSS:**
+
 1. User enters the search command along with a search term into the CLI.
 2. The system will first search for tasks with the matching search terms and display to the user.
 
