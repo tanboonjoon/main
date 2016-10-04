@@ -273,25 +273,35 @@ Priority | As a ... | I want to ... | So that I can...
 ### Use case : adding a new task
 
 **MSS:**
+
 1. User enters the add command in the CLI along with the details for the task.
+
 2. System will add the task and display confirmation.
+
 Use case ends
 
-Extensions:
+**Extensions:**
+
 1a. Add command syntax entered by the user is incorrect.
+
 >The system will display an error message along with the suggested format of the add command.
+
 Use case ends
 
 ### Use case :  View tasks that are due in the near future
 
 **MSS:**
-1.User enters the view command.
+
+1. User enters the view command.
 2. System will display the list of tasks that are due by today.
+
 Use case ends
 
-Extensions:
+**Extensions:**
+
 1a. User enters a time modifier after the view command
 >The system will display tasks that are due during the extended time period instead of the default behaviour.
+
 Use case ends.
 
 1b. User enters a time modifier that is unrecognized by the system
@@ -303,49 +313,64 @@ Use case ends.
 **MSS:**
 1. User enters the search command along with a search term into the CLI.
 2. The system will first search for tasks with the matching search terms and display to the user.
+
 Use case ends.
 
-Extensions:
+**Extensions:**
+
 1a. User did not enter a search term
+
 >The system will display an error along with the suggested format for the search command.
+
 Use case ends.
 
 2a. Search term entered by the user did not match any task
 >The system will display a message informing the user that the search did not yield any results.
+
 Use case ends.
 
 ### Use case :  Deleting or marking a task as done
 
 **MSS:**
-1. User <u>searches for the task (UC: Searching of tasks)</u>  or <u>views task that are due in the near future (UC: View tasks that are due in the near future)</u>
+
+1. User *searches for the task (UC: Searching of tasks)*  or *views task that are due in the near future (UC: View tasks that are due in the near future)*
 2. User enters the delete command along with the index of the task to delete.
 3. System will delete the selected task.
+
 Use case ends.
 
-Extensions:
+**Extensions:**
+
 3a. Index provided by user is not valid
 >The system will display an error message along with the suggested format for the delete command
+
 Use case ends.
 
 ### Use case :  Editing the details of a task System: To-do list
 
 **MSS:**
-User searches for the task (UC: Searching of tasks)  or views task that are due in the near future (UC: View tasks that are due in the near future)
-User enters the edit command with the index of the task the user wishes to edit, along with the new details.
-System will edit and save the selected task
+
+1. User *searches for the task (UC: Searching of tasks)* or *views task that are due in the near future (UC: View tasks that are due in the near future)*
+2. User enters the edit command with the index of the task the user wishes to edit, along with the new details.
+3. System will edit and save the selected task
+
 Use case ends.
 
-Extensions:
+**Extensions:**
+
 3a. Index provided by user is not valid
-The system will display an error message along with the suggested format for the edit command
+>The system will display an error message along with the suggested format for the edit command
+
 Use case ends.
 
 3b. Not all details are provided by the user.
-The system will only edit the details of the task the user provides and leave the rest unmodified.
+>The system will only edit the details of the task the user provides and leave the rest unmodified.
+
 Use case ends.
 
 3c. The user did not enter any new details
-The system will leave the task unmodified
+>The system will leave the task unmodified
+
 Use case ends.
 
 
