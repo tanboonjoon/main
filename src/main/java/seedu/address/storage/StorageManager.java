@@ -30,8 +30,8 @@ public class StorageManager extends ComponentManager implements Storage {
         this.userPrefsStorage = userPrefsStorage;
     }
 
-    public StorageManager(String addressBookFilePath, String userPrefsFilePath) {
-        this(new XmlTaskForceStorage(addressBookFilePath), new JsonUserPrefsStorage(userPrefsFilePath));
+    public StorageManager(String taskForceFilePath, String userPrefsFilePath) {
+        this(new XmlTaskForceStorage(taskForceFilePath), new JsonUserPrefsStorage(userPrefsFilePath));
     }
 
     // ================ UserPrefs methods ==============================
@@ -56,30 +56,30 @@ public class StorageManager extends ComponentManager implements Storage {
 
     @Override
     public Optional<ReadOnlyTaskForce> readTaskForce() throws DataConversionException, IOException {
-        return readAddressBook(taskForceStorage.getTaskForceFilePath());
+        return readTaskForce(taskForceStorage.getTaskForceFilePath());
     }
 
     @Override
-    public Optional<ReadOnlyTaskForce> readAddressBook(String filePath) throws DataConversionException, IOException {
+    public Optional<ReadOnlyTaskForce> readTaskForce(String filePath) throws DataConversionException, IOException {
         logger.fine("Attempting to read data from file: " + filePath);
-        return taskForceStorage.readAddressBook(filePath);
+        return taskForceStorage.readTaskForce(filePath);
     }
 
     @Override
-    public void saveTaskForce(ReadOnlyTaskForce addressBook) throws IOException {
-        saveTaskForce(addressBook, taskForceStorage.getTaskForceFilePath());
+    public void saveTaskForce(ReadOnlyTaskForce taskForce) throws IOException {
+        saveTaskForce(taskForce, taskForceStorage.getTaskForceFilePath());
     }
 
     @Override
-    public void saveTaskForce(ReadOnlyTaskForce addressBook, String filePath) throws IOException {
+    public void saveTaskForce(ReadOnlyTaskForce taskForce, String filePath) throws IOException {
         logger.fine("Attempting to write to data file: " + filePath);
-        taskForceStorage.saveTaskForce(addressBook, filePath);
+        taskForceStorage.saveTaskForce(taskForce, filePath);
     }
 
 
     @Override
     @Subscribe
-    public void handleAddressBookChangedEvent(TaskForceChangedEvent event) {
+    public void handleTaskForceChangedEvent(TaskForceChangedEvent event) {
         logger.info(LogsCenter.getEventHandlingLogMessage(event, "Local data changed, saving to file"));
         try {
             saveTaskForce(event.data);

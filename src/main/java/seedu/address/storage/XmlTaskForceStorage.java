@@ -33,41 +33,41 @@ public class XmlTaskForceStorage implements TaskForceStorage {
      * @param filePath location of the data. Cannot be null
      * @throws DataConversionException if the file is not in the correct format.
      */
-    public Optional<ReadOnlyTaskForce> readAddressBook(String filePath) throws DataConversionException, FileNotFoundException {
+    public Optional<ReadOnlyTaskForce> readTaskForce(String filePath) throws DataConversionException, FileNotFoundException {
         assert filePath != null;
 
-        File addressBookFile = new File(filePath);
+        File taskForceFile = new File(filePath);
 
-        if (!addressBookFile.exists()) {
-            logger.info("TaskForce file "  + addressBookFile + " not found");
+        if (!taskForceFile.exists()) {
+            logger.info("TaskForce file "  + taskForceFile + " not found");
             return Optional.empty();
         }
 
-        ReadOnlyTaskForce addressBookOptional = XmlFileStorage.loadDataFromSaveFile(new File(filePath));
+        ReadOnlyTaskForce taskForceOptional = XmlFileStorage.loadDataFromSaveFile(new File(filePath));
 
-        return Optional.of(addressBookOptional);
+        return Optional.of(taskForceOptional);
     }
 
     /**
      * Similar to {@link #saveTaskForce(ReadOnlyTaskForce)}
      * @param filePath location of the data. Cannot be null
      */
-    public void saveTaskForce(ReadOnlyTaskForce addressBook, String filePath) throws IOException {
-        assert addressBook != null;
+    public void saveTaskForce(ReadOnlyTaskForce taskForce, String filePath) throws IOException {
+        assert taskForce != null;
         assert filePath != null;
 
         File file = new File(filePath);
         FileUtil.createIfMissing(file);
-        XmlFileStorage.saveDataToFile(file, new XmlSerializableTaskForce(addressBook));
+        XmlFileStorage.saveDataToFile(file, new XmlSerializableTaskForce(taskForce));
     }
 
     @Override
     public Optional<ReadOnlyTaskForce> readTaskForce() throws DataConversionException, IOException {
-        return readAddressBook(filePath);
+        return readTaskForce(filePath);
     }
 
     @Override
-    public void saveTaskForce(ReadOnlyTaskForce addressBook) throws IOException {
-        saveTaskForce(addressBook, filePath);
+    public void saveTaskForce(ReadOnlyTaskForce taskForce) throws IOException {
+        saveTaskForce(taskForce, filePath);
     }
 }

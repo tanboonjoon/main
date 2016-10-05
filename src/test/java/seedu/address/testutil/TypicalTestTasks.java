@@ -34,7 +34,7 @@ public class TypicalTestTasks {
         }
     }
 
-    public static void loadAddressBookWithSampleData(TaskForce ab) {
+    public static void loadTaskForceWithSampleData(TaskForce ab) {
 
         try {
             ab.addTask(new Task(alice));
@@ -53,9 +53,9 @@ public class TypicalTestTasks {
         return new TestTask[]{alice, benson, carl, daniel, elle, fiona, george};
     }
 
-    public TaskForce getTypicalAddressBook(){
+    public TaskForce getTypicalTaskForce(){
         TaskForce ab = new TaskForce();
-        loadAddressBookWithSampleData(ab);
+        loadTaskForceWithSampleData(ab);
         return ab;
     }
 }

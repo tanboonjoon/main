@@ -7,7 +7,7 @@ import seedu.address.model.task.UniqueTaskList;
 import seedu.address.model.TaskForce;
 
 /**
- * A utility class to help with building Addressbook objects.
+ * A utility class to help with building TaskForce objects.
  * Example usage: <br>
  *     {@code TaskForce ab = new TaskForceBuilder().withPerson("John", "Doe").withTag("Friend").build();}
  */
@@ -19,7 +19,7 @@ public class TaskForceBuilder {
         this.taskForce = taskForce;
     }
 
-    public TaskForceBuilder withPerson(Task task) throws UniqueTaskList.DuplicateTaskException {
+    public TaskForceBuilder withTask(Task task) throws UniqueTaskList.DuplicateTaskException {
         taskForce.addTask(task);
         return this;
     }
