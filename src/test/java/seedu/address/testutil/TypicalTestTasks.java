@@ -13,10 +13,10 @@ public class TypicalTestTasks {
 
     public TypicalTestTasks() {
         try {
-            alice =  new TaskBuilder().withName("Alice Pauline").withAddress("123, Jurong West Ave 6, #08-111")
+            alice =  new TaskBuilder().withName("Alice Pauline").withAddress("123, Jurong West Ave 6, #08111")
                     .withEmail("alice@gmail.com").withPhone("85355255")
                     .withTags("friends").build();
-            benson = new TaskBuilder().withName("Benson Meier").withAddress("311, Clementi Ave 2, #02-25")
+            benson = new TaskBuilder().withName("Benson Meier").withAddress("311, Clementi Ave 2, #0225")
                     .withEmail("johnd@gmail.com").withPhone("98765432")
                     .withTags("owesMoney", "friends").build();
             carl = new TaskBuilder().withName("Carl Kurz").withPhone("95352563").withEmail("heinz@yahoo.com").withAddress("wall street").build();
