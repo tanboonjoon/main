@@ -9,6 +9,9 @@ import seedu.address.model.ReadOnlyTaskForce;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import com.google.common.collect.Lists;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -17,17 +20,17 @@ import java.util.stream.Collectors;
 /**
  * An Immutable TaskForce that is serializable to XML format
  */
-@XmlRootElement(name = "addressbook")
+@XmlRootElement(name = "taskForceData")
 public class XmlSerializableTaskForce implements ReadOnlyTaskForce {
 
     @XmlElement
-    private List<XmlAdaptedTask> persons;
+    private List<XmlAdaptedTask> tasks;
     @XmlElement
     private List<Tag> tags;
 
     {
-        persons = new ArrayList<>();
-        tags = new ArrayList<>();
+        tasks = Lists.newLinkedList() ;
+        tags = Lists.newLinkedList() ;
     }
 
     /**
@@ -39,7 +42,7 @@ public class XmlSerializableTaskForce implements ReadOnlyTaskForce {
      * Conversion
      */
     public XmlSerializableTaskForce(ReadOnlyTaskForce src) {
-        persons.addAll(src.getTaskList().stream().map(XmlAdaptedTask::new).collect(Collectors.toList()));
+        tasks.addAll(src.getTaskList().stream().map(XmlAdaptedTask::new).collect(Collectors.toList()));
         tags = src.getTagList();
     }
 
@@ -57,7 +60,7 @@ public class XmlSerializableTaskForce implements ReadOnlyTaskForce {
     @Override
     public UniqueTaskList getUniqueTaskList() {
         UniqueTaskList lists = new UniqueTaskList();
-        for (XmlAdaptedTask p : persons) {
+        for (XmlAdaptedTask p : tasks) {
             try {
                 lists.add(p.toModelType());
             } catch (IllegalValueException e) {
@@ -69,7 +72,7 @@ public class XmlSerializableTaskForce implements ReadOnlyTaskForce {
 
     @Override
     public List<ReadOnlyTask> getTaskList() {
-        return persons.stream().map(p -> {
+        return tasks.stream().map(p -> {
             try {
                 return p.toModelType();
             } catch (IllegalValueException e) {

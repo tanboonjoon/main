@@ -67,7 +67,7 @@ public class TaskForce implements ReadOnlyTaskForce {
         resetData(newData.getTaskList(), newData.getTagList());
     }
 
-//// person-level operations
+//// task-level operations
 
     /**
      * Adds a person to the address book.

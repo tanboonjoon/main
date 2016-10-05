@@ -33,7 +33,7 @@ public class XmlAddressBookStorageTest {
     }
 
     private java.util.Optional<ReadOnlyTaskForce> readAddressBook(String filePath) throws Exception {
-        return new XmlTaskForceStorage(filePath).readAddressBook(addToTestDataPathIfNotNull(filePath));
+        return new XmlTaskForceStorage(filePath).readTaskForce(addToTestDataPathIfNotNull(filePath));
     }
 
     private String addToTestDataPathIfNotNull(String prefsFileInTestDataFolder) {
@@ -67,14 +67,14 @@ public class XmlAddressBookStorageTest {
 
         //Save in new file and read back
         xmlTaskForceStorage.saveTaskForce(original, filePath);
-        ReadOnlyTaskForce readBack = xmlTaskForceStorage.readAddressBook(filePath).get();
+        ReadOnlyTaskForce readBack = xmlTaskForceStorage.readTaskForce(filePath).get();
         assertEquals(original, new TaskForce(readBack));
 
         //Modify data, overwrite exiting file, and read back
         original.addTask(new Task(TypicalTestTasks.hoon));
         original.removeTask(new Task(TypicalTestTasks.alice));
         xmlTaskForceStorage.saveTaskForce(original, filePath);
-        readBack = xmlTaskForceStorage.readAddressBook(filePath).get();
+        readBack = xmlTaskForceStorage.readTaskForce(filePath).get();
         assertEquals(original, new TaskForce(readBack));
 
         //Save and read without specifying file path

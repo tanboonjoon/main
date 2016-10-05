@@ -27,7 +27,7 @@ public interface TaskForceStorage {
     /**
      * @see #getTaskForceFilePath()
      */
-    Optional<ReadOnlyTaskForce> readAddressBook(String filePath) throws DataConversionException, IOException;
+    Optional<ReadOnlyTaskForce> readTaskForce(String filePath) throws DataConversionException, IOException;
 
     /**
      * Saves the given {@link ReadOnlyTaskForce} to the storage.
