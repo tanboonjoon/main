@@ -16,7 +16,7 @@ public class TaskBuilder {
     }
 
     public TaskBuilder withName(String name) throws IllegalValueException {
-        this.person.setName(new Name(name));
+        this.person.setName(name);
         return this;
     }
 
@@ -28,17 +28,17 @@ public class TaskBuilder {
     }
 
     public TaskBuilder withAddress(String address) throws IllegalValueException {
-        this.person.setAddress(new Address(address));
+//        this.person.setAddress(new Address(address));
         return this;
     }
 
     public TaskBuilder withPhone(String phone) throws IllegalValueException {
-        this.person.setPhone(new Phone(phone));
+//        this.person.setPhone(new Phone(phone));
         return this;
     }
 
     public TaskBuilder withEmail(String email) throws IllegalValueException {
-        this.person.setEmail(new Email(email));
+//        this.person.setEmail(new Email(email));
         return this;
     }
 

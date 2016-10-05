@@ -41,11 +41,11 @@ public class TaskCard extends UiPart{
 
     @FXML
     public void initialize() {
-        name.setText(person.getName().fullName);
+        name.setText(person.getName());
         id.setText(displayedIndex + ". ");
-        phone.setText(person.getPhone().value);
-        address.setText(person.getAddress().value);
-        email.setText(person.getEmail().value);
+//        phone.setText(person.getPhone().value);
+//        address.setText(person.getAddress().value);
+//        email.setText(person.getEmail().value);
         tags.setText(person.tagsString());
     }
 
