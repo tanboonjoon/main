@@ -1,20 +1,16 @@
 [![Build Status](https://travis-ci.org/CS2103AUG2016-F10-C2/main.svg?branch=master)](https://travis-ci.org/CS2103AUG2016-F10-C2/main)
 [![Coverage Status](https://coveralls.io/repos/github/se-edu/addressbook-level4/badge.svg?branch=master)](https://coveralls.io/github/se-edu/addressbook-level4?branch=master)
 
-# Address Book (Level 4)
+# TaskForce - Task Management App for Desktop
 
 <img src="docs/images/Ui.png" width="600"><br>
 
-* This is a desktop Address Book application. It has a GUI but most of the user interactions happen using 
+* This is a desktop task management application. It has a GUI but most of the user interactions happen using 
   a CLI (Command Line Interface).
-* It is a Java sample application intended for students learning Software Engineering while using Java as 
+* It is a Java sample application built by a team of 4 students learning Software Engineering while using Java as 
   the main programming language. 
-* It is **written in OOP fashion**. It provides a **reasonably well-written** code example that is 
-  **significantly bigger** (around 6 KLoC)than what students usually write in beginner-level SE modules. 
-* What's different from [level 3](https://github.com/se-edu/addressbook-level3):
-    * A more sophisticated GUI that includes a list panel and an in-built Browser.
-    * More test cases, including automated GUI testing.
-    * Support for *Build Automation* using Gradle and for *Continuous Integration* using Travis CI.
+* It is **written in OOP fashion**. It samples the **Address Book (Level 4)** code provided as part of the module.
+
 
   
 #### Site Map
@@ -27,8 +23,8 @@
 
 #### Acknowledgements
 
-* Some parts of this sample application were inspired by the excellent 
-  [Java FX tutorial](http://code.makery.ch/library/javafx-8-tutorial/) by *Marco Jakob*. 
+* This application is modified from the [Address Book (Level 4) application]
+  (https://github.com/nus-cs2103-AY1617S1/addressbook-level4) provided by CS2103's team.
 
 
 #### Licence : [MIT](LICENSE)
