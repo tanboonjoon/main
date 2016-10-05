@@ -9,26 +9,26 @@ import seedu.address.model.task.*;
  */
 public class TaskBuilder {
 
-    private TestTask person;
+    private TestTask task;
 
     public TaskBuilder() {
-        this.person = new TestTask();
+        this.task = new TestTask();
     }
 
     public TaskBuilder withName(String name) throws IllegalValueException {
-        this.person.setName(name);
+        this.task.setName(name);
         return this;
     }
 
     public TaskBuilder withTags(String ... tags) throws IllegalValueException {
         for (String tag: tags) {
-            person.getTags().add(new Tag(tag));
+            task.getTags().add(new Tag(tag));
         }
         return this;
     }
 
     public TaskBuilder withAddress(String address) throws IllegalValueException {
-//        this.person.setAddress(new Address(address));
+        this.task.setDescription(address);
         return this;
     }
 
@@ -43,7 +43,7 @@ public class TaskBuilder {
     }
 
     public TestTask build() {
-        return this.person;
+        return this.task;
     }
 
 }

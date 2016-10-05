@@ -19,6 +19,10 @@ public class TestTask implements ReadOnlyTask {
     public void setName(String name) {
         this.name = name;
     }
+    
+    public void setDescription (String des) {
+    	this.description = des ;
+    }
 
     @Override
     public String getName() {
