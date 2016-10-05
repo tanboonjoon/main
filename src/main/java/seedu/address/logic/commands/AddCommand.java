@@ -1,12 +1,14 @@
 package seedu.address.logic.commands;
 
+import java.util.Set;
+
+import com.google.common.collect.Sets;
+
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.tag.UniqueTagList;
-import seedu.address.model.task.*;
-
-import java.util.HashSet;
-import java.util.Set;
+import seedu.address.model.task.Task;
+import seedu.address.model.task.UniqueTaskList;
 
 /**
  * Adds a task to the taskForce list.
@@ -30,17 +32,14 @@ public class AddCommand extends Command {
      *
      * @throws IllegalValueException if any of the raw values are invalid
      */
-    public AddCommand(String name, String description, Set<String> tags)
-            throws IllegalValueException {
-        final Set<Tag> tagSet = new HashSet<>();
+    public AddCommand(String name, String description, Set<String> tags) throws IllegalValueException {
+        final Set<Tag> tagSet = Sets.newHashSet() ;
+        
         for (String tagName : tags) {
             tagSet.add(new Tag(tagName));
         }
-        this.toAdd = new Task(
-                name,
-                description,
-                new UniqueTagList(tagSet)
-        );
+        
+        this.toAdd = new Task(name, description, new UniqueTagList(tagSet));
     }
 
     @Override
