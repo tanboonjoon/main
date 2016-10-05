@@ -16,3 +16,4 @@ classes/
 /bin/
 .settings
 .project
+src/test/data/
