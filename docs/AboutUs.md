@@ -2,27 +2,37 @@
 
 We are a team of students at National University of Singapore, building a task management app for the module CS2103 - Software Engineering.
 
-# Contact Us
 
-**Email us** : You can reach us at:
-* Ning Yu: [ningyu@u.nus.edu](ningyu@u.nus.edu)
-* Tan Boon Joon: [e0003827@u.nus.edu](e0003827@u.nus.edu)
-* Jeremy Goh: [e0011813@u.nus.edu](e0011813@u.nus.edu)
-* Eric San: [sansoksan@u.nus.edu](sansoksan@u.nus.edu)
+## Project Team
 
 # Roles and Responsibilities
+#### [Bay Chuan Wei Candiie](https://github.com/Candiie) <br>
+<img src="images/candiie.png" width="150"><br>
+**Role**: Project Advisor
 
-This is a breakdown of the roles and responsibilities held by the team. As the project progresses, new tools may become necessarily, and new expertise roles will be introduced to members.
+#### [Tan Boon Joon](http://github.com/lejolly)
+<img src="images/JoshuaLee.jpg" width="150"><br>
+Role: Developer <br>  
+Responsibilities: Team Lead, Integration
 
-### Main Roles:
-* **Team Lead**: Boon Joon
-* **Testing**: Jeremy
-* **Code Quality**: Eric
-* **Documentation**: Ning Yu
-* **Integration**: Boon Joon
-* **UI & Design**: Ning Yu
+#### [Goh Yi Da Jeremy](https://github.com/MightyCupcakes)
+<img src="images/JoshuaLee.jpg" width="150"><br>
+Role: Developer <br>  
+Responsibilities: Testing
 
-### Tool Specialists
+#### [Ning Yu](https://github.com/ningyuuu)
+<img src="images/ningyu.jpg" width="150"><br>
+Role: Developer <br>  
+Responsibilities: Documentation, UI 
+
+
+#### [San Sok San](https://github.com/ericsssan)
+<img src="images/Eric.jpg" width="150"><br>
+Role: Developer <br>  
+Responsibilities: Quality Control
+
+
+## Tool Specialists
 * **Travis, Gradle**: Jeremy
 * **Java 8**: Eric
 * **JavaFX**: Ning Yu
