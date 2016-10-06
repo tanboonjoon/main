@@ -67,6 +67,10 @@ Event: `add TASKNAME  [d/DESCRIPTION] [l/LOCATION] [s/START_DATE] [e/END_DATE] [
 the time has passed at present today)  
 > If no time is specified, it is taken as whole day (start 0000, end 2359) by default
 
+Examples:
+* `add meeting d/at 6pm t/important`<br>
+  Add the task into the ToDoList using `add` command.
+
 #### Blocking out time: `block`  
 Blocks out time for a potential event, or to indicate unavailability to others
 Format: `block s/START_DATE e/END_DATE`
@@ -112,7 +116,7 @@ Format: `delete INDEX`
   The index **must be a positive integer** 1, 2, 3, ...
   
 Examples:
-* `find Meeting`<br>
+* `find a/Meeting`<br>
   `delete 1`<br>
   Deletes the 1st task in the results of the `find` command.
   
