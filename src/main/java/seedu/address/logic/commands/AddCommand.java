@@ -18,7 +18,7 @@ public class AddCommand extends Command {
     public static final String COMMAND_WORD = "add";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a person to the address book. "
-            + "Parameters: NAME -d DESCRIPTION [e- TAG] ...\n"
+            + "Parameters: NAME -d DESCRIPTION [-e TAG] ...\n"
             + "Example: " + COMMAND_WORD
             + " Homework -d CS2103 hw -e veryImportant -e urgent";
 
