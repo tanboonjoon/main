@@ -93,7 +93,6 @@ Method | Explanation | Example
 `d/` | List all deadlines with word appearing in name | `find d/ homework`
 `r/` | List all reminders with word appearing in name | `find r/ shine`
 `a/` | List all events with word appearing in name | `find a/ shoes`
-`t/` | List all events with the given tag | `find t/ urgent`
 
 
 > * The search is not case sensitive. e.g `hans` will match `Hans`
@@ -107,21 +106,26 @@ Examples:
 * `list`<br>
   `delete 2`<br>
   Deletes the 2nd task listed on the todo list.
-* `find Betsy`<br>
+* `find Meeting`<br>
   `delete 1`<br>
   Deletes the 1st task in the results of the `find` command.
 
-#### Deleting a person : `delete`
+#### Deleting a task : `delete`
 Deletes the specified task from the task list. Irreversible.  
 Format: `delete INDEX`
 
-> Deletes the person at the specified `INDEX`.
+> Delete the task at the specified `INDEX`.
   The index refers to the index number shown in the most recent listing.<br>
   The index **must be a positive integer** 1, 2, 3, ...
-
+  
+Examples:
+* `find Betsy`<br>
+  `delete 1`<br>
+  Deletes the 1st task in the results of the `find` command.
+  
 #### Editing a task: `edit`  
 Edits a task in the task list.  
-Format: `edit INDEX [NAME] [s/START_DATE] [e/END_DATE]`   
+Format: `edit INDEX [NAME] [d/DESCRIPTION] [s/START_DATE] [e/END_DATE]`   
 
 > Follows index format of delete - The index refers to the index number shown in the most recent listing.  
 > The index **must be a positive integer** 1, 2, 3, ...  
@@ -155,7 +159,7 @@ There is no need to save manually.
 
 Command | Format  
 -------- | :--------
-Add | `add EVENT d/DESCRIPTION [t/TAG]...`
+Add | `add EVENT [d/DESCRIPTION] [t/TAG]...`
 Block | `block s/START_DATE e/END_DATE`
 Clear | `clear`
 Delete | `delete INDEX`
