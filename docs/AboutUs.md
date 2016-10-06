@@ -8,7 +8,6 @@ We are a team of students at National University of Singapore, building a task m
 
 =======
 # Roles and Responsibilities
->>>>>>> ningyu
 #### [Bay Chuan Wei Candiie](https://github.com/Candiie) <br>
 <img src="images/candiie.png" width="150"><br>
 **Role**: Project Advisor
