@@ -11,7 +11,7 @@ We are a team of students at National University of Singapore, building a task m
 **Role**: Project Advisor
 
 #### [Tan Boon Joon](http://github.com/lejolly)
-<img src="images/JoshuaLee.jpg" width="150"><br>
+<img src="images/boon joon.jpg" width="150"><br>
 Role: Developer <br>  
 Responsibilities: Team Lead, Integration
 
