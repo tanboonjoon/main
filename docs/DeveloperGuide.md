@@ -310,7 +310,7 @@ Use case ends.
 
 **MSS:**
 
-1. User enters the search command along with a search term into the CLI.
+1. User enters the find command along with a search term into the CLI.
 2. The system will display the searched result.
 
 Use case ends.
@@ -380,6 +380,7 @@ Use case ends.
 2. Should be able to hold up to 1000 persons.
 3. Should come with automated unit tests and open source code.
 4. Should favor DOS style commands over Unix-style commands.
+5. Should not take more than 5 seconds when executing find command
 
 {More to be added}
 
