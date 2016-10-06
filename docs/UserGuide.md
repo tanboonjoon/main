@@ -93,6 +93,7 @@ Method | Explanation | Example
 `d/` | List all deadlines with word appearing in name | `find d/ homework`
 `r/` | List all reminders with word appearing in name | `find r/ shine`
 `a/` | List all events with word appearing in name | `find a/ shoes`
+`t/` | List all events with the given tag | `find t/ urgent`
 
 
 > * The search is not case sensitive. e.g `hans` will match `Hans`
