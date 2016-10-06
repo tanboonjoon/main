@@ -399,5 +399,17 @@ Use case ends.
 
 ## Appendix E : Product Survey
 
-{TODO: Add a summary of competing products}
+Product Name | Strengths | Weakness 
+----------- | :---------------- | :---------------- 
+Todoist | Easily classified todo categories, collaboration, notifications | Labels & reminders are premium. Quest points gamification 
+
+OmniFocus | Allows a large amount of information to be organized | Way too complex for the average, simple user 
+
+Google Keep | Simple to use, lightweigh | Text based with no advanced functionality. No events 
+
+Todo.txt | Purely text based, simple and clean. Command line interface for Jim | Lacks advanced functionality. No events
+
+Remember the Milk | Allows management of large number of tasks | Too complex for a simple user 
+
+Any.do | Simple, clean, easy to use | Cannot make time blocks 
 
