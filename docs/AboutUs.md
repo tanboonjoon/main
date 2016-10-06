@@ -5,7 +5,7 @@ We are a team based in the [School of Computing, National University of Singapor
 ## Project Team
 
 #### [Bay Chuan Wei Candiie](https://github.com/Candiie) <br>
-<img src="images/candiie.jpg" width="150"><br>
+<img src="images/candiie.png" width="150"><br>
 **Role**: Project Advisor
 
 -----
