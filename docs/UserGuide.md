@@ -62,7 +62,7 @@ Deadline: `add TASKNAME  [d/DESCRIPTION] [e/END_DATE] [t/TAG]...`
 Event: `add TASKNAME  [d/DESCRIPTION] [l/LOCATION] [s/START_DATE] [e/END_DATE] [t/TAG]...`  
 
 > Tasks can have any number of tags (including 0)  
-> Date format is [DDMMYY][HHMM] (24 Hour format)  
+> Date format is [DDMMYY][HHMM] - 24 Hour format
 > If no date is specified, it is taken as today/tomorrow by default (depending on whether
 the time has passed at present today)  
 > If no time is specified, it is taken as whole day (start 0000, end 2359) by default
@@ -114,12 +114,12 @@ Format: `delete INDEX`
 > Delete the task at the specified `INDEX`.
   The index refers to the index number shown in the most recent listing.<br>
   The index **must be a positive integer** 1, 2, 3, ...
-  
+
 Examples:
 * `find a/Meeting`<br>
   `delete 1`<br>
   Deletes the 1st task in the results of the `find` command.
-  
+
 #### Editing a task: `edit`  
 Edits a task in the task list.  
 Format: `edit INDEX [NAME] [d/DESCRIPTION] [s/START_DATE] [e/END_DATE]`   
@@ -133,6 +133,14 @@ Format: `edit INDEX [NAME] [d/DESCRIPTION] [s/START_DATE] [e/END_DATE]`
 > You can modify an event into a deadline by using `edit INDEX s/` (leaving empty)  
 > You can modify an event into a block by using `edit INDEX n/`  
 > Basically, it allows you to morph events as long as they satisfy the structure
+
+#### Finding free time in a specific day: `freetime`  
+Gives you all the free time blocks in a specific day
+Format: `freetime [d/DAYS_FROM_TODAY]`  
+> By default, freetime gives you today's free time  
+> You can adjust days by using the d/ option  
+> For example, for yesterday's free time, `freetime d/-1`  
+> DAYS_FROM_TODAY **must be an integer**
 
 #### Clearing all entries : `clear`
 Clears all entries from the task list.<br>
@@ -161,6 +169,7 @@ Block | `block s/START_DATE e/END_DATE`
 Clear | `clear`
 Delete | `delete INDEX`
 Edit | `edit INDEX [NAME] [s/START_DATE] [e/END_DATE]`
+Freetime | `freetime [d/DAYS_FROM_TODAY]`
 Search | `find KEYWORD [MORE_KEYWORDS]`
 Help | `help`
 Exit | `exit`
