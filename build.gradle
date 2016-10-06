@@ -115,7 +115,7 @@ tasks.coveralls {
 
 class TaskForceTest extends Test {
     public TaskForceTest() {
-    	  forkEvery = 1
+    	  forkEvery = 20
         systemProperty 'testfx.setup.timeout', '60000'
     }
 
