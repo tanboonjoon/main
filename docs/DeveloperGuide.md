@@ -256,12 +256,15 @@ Priorities: High (must have) - `* * *`, Medium (nice to have)  - `* *`,  Low (un
 Priority | As a ... | I want to ... | So that I can...
 -------- | :-------- | :--------- | :-----------
 `* * *` | new user | see usage instructions | refer to instructions when I forget how to use the App
-`* * *` | user | add a new person |
-`* * *` | user | delete a person | remove entries that I no longer need
-`* * *` | user | find a person by name | locate details of persons without having to go through the entire list
-`* *` | user | hide [private contact details](#private-contact-detail) by default | minimize chance of someone else seeing them by accident
-`*` | user with many persons in the address book | sort persons by name | locate a person easily
-
+`* * *` | user | add a new task |
+`* * *` | user | delete a task | remove tasks that I have completed or give up
+`* * *` | user | find a task by keyword | find all the tasks that contain that keyword
+`* * *` | user | edit a task's information | update/change the detail of a task
+`* * *` | user | specify database location | save the data in my preferred location
+`* * *` | user | to block timeslot | so that i can reserve time for tasks that are not confirmed
+`* * *` | user | find the task due today/future | So that i know that i need to do
+`* *` | user   | find tasks that are overdue | so i can do them as soon as possible
+`*` | advanced user | set recurring task | so the task can repeat itself without me entering it constantly
 {More to be added}
 
 ## Appendix B : Use Cases
