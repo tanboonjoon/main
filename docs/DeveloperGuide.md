@@ -268,13 +268,13 @@ Priority | As a ... | I want to ... | So that I can...
 
 (For all use cases below, the **System** is the `ToDoList` and the **Actor** is the `user/Jim`, unless specified otherwise)
 
-### Use case : adding a new task
+### Use case : Adding a new task
 
 **MSS:**
 
 1. User enters the add command in the CLI along with the details for the task.
 
-2. System will add the task and display confirmation.
+2. System will display that the task has been added to the ToDoList.
 
 Use case ends
 
@@ -311,14 +311,13 @@ Use case ends.
 **MSS:**
 
 1. User enters the search command along with a search term into the CLI.
-2. The system will first search for tasks with the matching search terms and display to the user.
+2. The system will display the searched result.
 
 Use case ends.
 
 **Extensions:**
 
 1a. User did not enter a search term
-
 >The system will display an error along with the suggested format for the search command.
 
 Use case ends.
@@ -333,8 +332,9 @@ Use case ends.
 **MSS:**
 
 1. User *searches for the task (UC: Searching of tasks)*  or *views task that are due in the near future (UC: View tasks that are due in the near future)*
-2. User enters the delete command along with the index of the task to delete.
-3. System will delete the selected task.
+2. System will display the list of tasks available for deletion.
+3. User enters the delete command along with the index of the task to delete.
+4. System will display that the task has been marked as done/deleted.
 
 Use case ends.
 
@@ -350,8 +350,9 @@ Use case ends.
 **MSS:**
 
 1. User *searches for the task (UC: Searching of tasks)* or *views task that are due in the near future (UC: View tasks that are due in the near future)*
-2. User enters the edit command with the index of the task the user wishes to edit, along with the new details.
-3. System will edit and save the selected task
+2. System will display the list of tasks available for edits.
+3. User will enter the index of the tasks and the new information to replace it.
+4. System will display 'Old Task ....' has  been changed to 'New Task...'.
 
 Use case ends.
 
