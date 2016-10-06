@@ -385,6 +385,14 @@ Use case ends.
 4. Should favor DOS style commands over Unix-style commands.
 5. Should not take more than 5 seconds when executing find command
 
+### Project Constraints NFR
+6. final product should be a result of morphing using level4 code
+7. software must work on desktop without internet connection
+8. software must be stand-alone with optional extensions
+9. CommandLine must be the primary mode of input
+10. Software must not use any form of relational database
+11. Data must be stored locally and human editable
+
 {More to be added}
 
 ## Appendix D : Glossary
