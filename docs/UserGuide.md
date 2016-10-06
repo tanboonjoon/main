@@ -105,10 +105,10 @@ Method | Explanation | Example
 Examples:
 * `list`<br>
   `delete 2`<br>
-  Deletes the 2nd person in the address book.
+  Deletes the 2nd task listed on the todo list.
 * `find Betsy`<br>
   `delete 1`<br>
-  Deletes the 1st person in the results of the `find` command.
+  Deletes the 1st task in the results of the `find` command.
 
 #### Deleting a person : `delete`
 Deletes the specified task from the task list. Irreversible.  
