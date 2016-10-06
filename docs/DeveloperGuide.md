@@ -282,7 +282,7 @@ Use case ends
 
 1a. Add command syntax entered by the user is incorrect.
 
-1a1. The system will display an error message along with the suggested format of the add command.
+>The system will display an error message along with the suggested format of the add command.
 
 Use case ends
 
