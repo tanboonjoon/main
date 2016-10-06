@@ -81,18 +81,18 @@ Examples:
 * `add shine shoes t/personal`
 * `add john's graduation ceremony s/1900 e/2100`
 
-#### Searching for (a) specific task(s): `search`
+#### Searching for (a) specific task(s): `find`
 Finds tasks of a specific time, or whose names contain any of the given keywords.  
 Format: `find METHOD DETAILS `
 
 Method | Explanation | Example
 -------- | :-------- | :---------
-`d/` | List all events a number of days after today | `search d/ -1` (yesterday)
-`w/` | List all events in a week, after current week | `search w/ 0` (current week)
-`e/` | List all events with word appearing in name | `search e/ ceremony`
-`d/` | List all deadlines with word appearing in name | `search d/ homework`
-`r/` | List all reminders with word appearing in name | `search r/ shine`
-`a/` | List all events with word appearing in name | `search a/ shoes`
+`d/` | List all events a number of days after today | `find d/ -1` (yesterday)
+`w/` | List all events in a week, after current week | `find w/ 0` (current week)
+`e/` | List all events with word appearing in name | `find e/ ceremony`
+`d/` | List all deadlines with word appearing in name | `find d/ homework`
+`r/` | List all reminders with word appearing in name | `find r/ shine`
+`a/` | List all events with word appearing in name | `find a/ shoes`
 
 
 > * The search is not case sensitive. e.g `hans` will match `Hans`
