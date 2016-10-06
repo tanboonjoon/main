@@ -16,7 +16,7 @@ Role: Developer <br>
 Responsibilities: Team Lead, Integration
 
 #### [Goh Yi Da Jeremy](https://github.com/MightyCupcakes)
-<img src="images/JoshuaLee.jpg" width="150"><br>
+<img src="images/Jeremy.jpg" width="150"><br>
 Role: Developer <br>  
 Responsibilities: Testing
 
