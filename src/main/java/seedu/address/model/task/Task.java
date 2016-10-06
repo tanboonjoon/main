@@ -19,7 +19,7 @@ public class Task implements ReadOnlyTask {
     private UniqueTagList tags;
 
     /**
-     * Every field must be present and not null.
+     * Every field must be present and not null. 
      */
     public Task(Name name, Phone phone, Email email, Address address, UniqueTagList tags) {
         assert !CollectionUtil.isAnyNull(name, phone, email, address, tags);
