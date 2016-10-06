@@ -9,6 +9,9 @@ import seedu.address.model.ReadOnlyTaskForce;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import com.google.common.collect.Lists;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -17,7 +20,7 @@ import java.util.stream.Collectors;
 /**
  * An Immutable TaskForce that is serializable to XML format
  */
-@XmlRootElement(name = "taskforce")
+@XmlRootElement(name = "taskForceData")
 public class XmlSerializableTaskForce implements ReadOnlyTaskForce {
 
     @XmlElement
@@ -26,8 +29,8 @@ public class XmlSerializableTaskForce implements ReadOnlyTaskForce {
     private List<Tag> tags;
 
     {
-        tasks = new ArrayList<>();
-        tags = new ArrayList<>();
+        tasks = Lists.newLinkedList() ;
+        tags = Lists.newLinkedList() ;
     }
 
     /**

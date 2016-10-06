@@ -11,11 +11,11 @@ public class Config {
     public static final String DEFAULT_CONFIG_FILE = "config.json";
 
     // Config values customizable through config file
-    private String appTitle = "TaskForce App";
+    private String appTitle = "Task Force";
     private Level logLevel = Level.INFO;
     private String userPrefsFilePath = "preferences.json";
-    private String taskForceFilePath = "data/taskforce.xml";
-    private String taskForceName = "MyTaskForce";
+    private String taskForceDataFilePath = "data/taskForceData.xml";
+    private String appName = "My Todo list";
 
 
     public Config() {
@@ -46,19 +46,19 @@ public class Config {
     }
 
     public String getTaskForceFilePath() {
-        return taskForceFilePath;
+        return taskForceDataFilePath;
     }
 
     public void setTaskForceFilePath(String taskForceFilePath) {
-        this.taskForceFilePath = taskForceFilePath;
+        this.taskForceDataFilePath = taskForceFilePath;
     }
 
     public String getTaskForceName() {
-        return taskForceName;
+        return appName;
     }
 
     public void setTaskForceName(String taskForceName) {
-        this.taskForceName = taskForceName;
+        this.appName = taskForceName;
     }
 
 
@@ -76,13 +76,13 @@ public class Config {
         return Objects.equals(appTitle, o.appTitle)
                 && Objects.equals(logLevel, o.logLevel)
                 && Objects.equals(userPrefsFilePath, o.userPrefsFilePath)
-                && Objects.equals(taskForceFilePath, o.taskForceFilePath)
-                && Objects.equals(taskForceName, o.taskForceName);
+                && Objects.equals(taskForceDataFilePath, o.taskForceDataFilePath)
+                && Objects.equals(appName, o.appName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(appTitle, logLevel, userPrefsFilePath, taskForceFilePath, taskForceName);
+        return Objects.hash(appTitle, logLevel, userPrefsFilePath, taskForceDataFilePath, appName);
     }
 
     @Override
@@ -91,8 +91,8 @@ public class Config {
         sb.append("App title : " + appTitle);
         sb.append("\nCurrent log level : " + logLevel);
         sb.append("\nPreference file Location : " + userPrefsFilePath);
-        sb.append("\nLocal data file location : " + taskForceFilePath);
-        sb.append("\nTaskForce name : " + taskForceName);
+        sb.append("\nLocal data file location : " + taskForceDataFilePath);
+        sb.append("\nApp name : " + appName);
         return sb.toString();
     }
 

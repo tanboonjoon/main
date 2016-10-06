@@ -8,16 +8,16 @@ import java.io.File;
 import java.io.FileNotFoundException;
 
 /**
- * Stores taskForce data in an XML file
+ * Stores addressbook data in an XML file
  */
 public class XmlFileStorage {
     /**
-     * Saves the given taskForce data to the specified file.
+     * Saves the given addressbook data to the specified file.
      */
-    public static void saveDataToFile(File file, XmlSerializableTaskForce taskForce)
+    public static void saveDataToFile(File file, XmlSerializableTaskForce taskforce)
             throws FileNotFoundException {
         try {
-            XmlUtil.saveDataToFile(file, taskForce);
+            XmlUtil.saveDataToFile(file, taskforce);
         } catch (JAXBException e) {
             assert false : "Unexpected exception " + e.getMessage();
         }

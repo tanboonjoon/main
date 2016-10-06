@@ -53,8 +53,8 @@ public class ConfigUtil {
      * @throws IOException if there was an error during writing to the file
      */
     public static void saveConfig(Config config, String configFilePath) throws IOException {
-        assert config != null;
-        assert configFilePath != null;
+        assert config != null ;
+        assert configFilePath != null ;
 
         FileUtil.serializeObjectToJsonFile(new File(configFilePath), config);
     }

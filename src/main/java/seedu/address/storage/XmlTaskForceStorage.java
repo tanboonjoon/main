@@ -36,29 +36,29 @@ public class XmlTaskForceStorage implements TaskForceStorage {
     public Optional<ReadOnlyTaskForce> readTaskForce(String filePath) throws DataConversionException, FileNotFoundException {
         assert filePath != null;
 
-        File taskForceFile = new File(filePath);
+        File addressBookFile = new File(filePath);
 
-        if (!taskForceFile.exists()) {
-            logger.info("TaskForce file "  + taskForceFile + " not found");
+        if (!addressBookFile.exists()) {
+            logger.info("TaskForce file "  + addressBookFile + " not found");
             return Optional.empty();
         }
 
-        ReadOnlyTaskForce taskForceOptional = XmlFileStorage.loadDataFromSaveFile(new File(filePath));
+        ReadOnlyTaskForce addressBookOptional = XmlFileStorage.loadDataFromSaveFile(new File(filePath));
 
-        return Optional.of(taskForceOptional);
+        return Optional.of(addressBookOptional);
     }
 
     /**
      * Similar to {@link #saveTaskForce(ReadOnlyTaskForce)}
      * @param filePath location of the data. Cannot be null
      */
-    public void saveTaskForce(ReadOnlyTaskForce taskForce, String filePath) throws IOException {
-        assert taskForce != null;
+    public void saveTaskForce(ReadOnlyTaskForce taskforce, String filePath) throws IOException {
+        assert taskforce != null;
         assert filePath != null;
 
         File file = new File(filePath);
         FileUtil.createIfMissing(file);
-        XmlFileStorage.saveDataToFile(file, new XmlSerializableTaskForce(taskForce));
+        XmlFileStorage.saveDataToFile(file, new XmlSerializableTaskForce(taskforce));
     }
 
     @Override
@@ -67,7 +67,7 @@ public class XmlTaskForceStorage implements TaskForceStorage {
     }
 
     @Override
-    public void saveTaskForce(ReadOnlyTaskForce taskForce) throws IOException {
-        saveTaskForce(taskForce, filePath);
+    public void saveTaskForce(ReadOnlyTaskForce taskforce) throws IOException {
+        saveTaskForce(taskforce, filePath);
     }
 }

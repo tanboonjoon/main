@@ -41,7 +41,7 @@ public class MainWindow extends UiPart {
     private VBox rootLayout;
     private Scene scene;
 
-    private String taskForceName;
+    private String addressBookName;
 
     @FXML
     private AnchorPane browserPlaceholder;
@@ -83,12 +83,12 @@ public class MainWindow extends UiPart {
         return mainWindow;
     }
 
-    private void configure(String appTitle, String taskForceName, Config config, UserPrefs prefs,
+    private void configure(String appTitle, String addressBookName, Config config, UserPrefs prefs,
                            Logic logic) {
 
         //Set dependencies
         this.logic = logic;
-        this.taskForceName = taskForceName;
+        this.addressBookName = addressBookName;
         this.config = config;
         this.userPrefs = prefs;
 
@@ -108,7 +108,7 @@ public class MainWindow extends UiPart {
     }
 
     void fillInnerParts() {
-        browserPanel = BrowserPanel.load(browserPlaceholder);
+    	//browserPanel = BrowserPanel.load(browserPlaceholder);
         taskListPanel = TaskListPanel.load(primaryStage, getTaskListPlaceholder(), logic.getFilteredTaskList());
         resultDisplay = ResultDisplay.load(primaryStage, getResultDisplayPlaceholder());
         statusBarFooter = StatusBarFooter.load(primaryStage, getStatusbarPlaceholder(), config.getTaskForceFilePath());
@@ -187,7 +187,7 @@ public class MainWindow extends UiPart {
     }
 
     public void loadTaskPage(ReadOnlyTask task) {
-        browserPanel.loadTaskPage(task);
+        //browserPanel.loadTaskPage(task);
     }
 
     public void releaseResources() {

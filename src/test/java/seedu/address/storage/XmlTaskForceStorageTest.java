@@ -27,12 +27,12 @@ public class XmlTaskForceStorageTest {
     public TemporaryFolder testFolder = new TemporaryFolder();
 
     @Test
-    public void readTaskForce_nullFilePath_assertionFailure() throws Exception {
+    public void readAddressBook_nullFilePath_assertionFailure() throws Exception {
         thrown.expect(AssertionError.class);
-        readTaskForce(null);
+        readAddressBook(null);
     }
 
-    private java.util.Optional<ReadOnlyTaskForce> readTaskForce(String filePath) throws Exception {
+    private java.util.Optional<ReadOnlyTaskForce> readAddressBook(String filePath) throws Exception {
         return new XmlTaskForceStorage(filePath).readTaskForce(addToTestDataPathIfNotNull(filePath));
     }
 
@@ -44,14 +44,14 @@ public class XmlTaskForceStorageTest {
 
     @Test
     public void read_missingFile_emptyResult() throws Exception {
-        assertFalse(readTaskForce("NonExistentFile.xml").isPresent());
+        assertFalse(readAddressBook("NonExistentFile.xml").isPresent());
     }
 
     @Test
     public void read_notXmlFormat_exceptionThrown() throws Exception {
 
         thrown.expect(DataConversionException.class);
-        readTaskForce("NotXmlFormatTaskForce.xml");
+        readAddressBook("NotXmlFormatAddressBook.xml");
 
         /* IMPORTANT: Any code below an exception-throwing line (like the one above) will be ignored.
          * That means you should not have more than one exception test in one method
@@ -59,8 +59,8 @@ public class XmlTaskForceStorageTest {
     }
 
     @Test
-    public void readAndSaveTaskForce_allInOrder_success() throws Exception {
-        String filePath = testFolder.getRoot().getPath() + "TempTaskForce.xml";
+    public void readAndSaveAddressBook_allInOrder_success() throws Exception {
+        String filePath = testFolder.getRoot().getPath() + "TempAddressBook.xml";
         TypicalTestTasks td = new TypicalTestTasks();
         TaskForce original = td.getTypicalTaskForce();
         XmlTaskForceStorage xmlTaskForceStorage = new XmlTaskForceStorage(filePath);
@@ -86,19 +86,19 @@ public class XmlTaskForceStorageTest {
     }
 
     @Test
-    public void saveTaskForce_nullTaskForce_assertionFailure() throws IOException {
+    public void saveAddressBook_nullAddressBook_assertionFailure() throws IOException {
         thrown.expect(AssertionError.class);
-        saveTaskForce(null, "SomeFile.xml");
+        saveAddressBook(null, "SomeFile.xml");
     }
 
-    private void saveTaskForce(ReadOnlyTaskForce taskForce, String filePath) throws IOException {
-        new XmlTaskForceStorage(filePath).saveTaskForce(taskForce, addToTestDataPathIfNotNull(filePath));
+    private void saveAddressBook(ReadOnlyTaskForce addressBook, String filePath) throws IOException {
+        new XmlTaskForceStorage(filePath).saveTaskForce(addressBook, addToTestDataPathIfNotNull(filePath));
     }
 
     @Test
-    public void saveTaskForce_nullFilePath_assertionFailure() throws IOException {
+    public void saveAddressBook_nullFilePath_assertionFailure() throws IOException {
         thrown.expect(AssertionError.class);
-        saveTaskForce(new TaskForce(), null);
+        saveAddressBook(new TaskForce(), null);
     }
 
 

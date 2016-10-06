@@ -40,6 +40,7 @@ public class BrowserPanel extends UiPart{
      * This method should be called after the FX runtime is initialized and in FX application thread.
      * @param placeholder The AnchorPane where the BrowserPanel must be inserted
      */
+    /*
     public static BrowserPanel load(AnchorPane placeholder){
         logger.info("Initializing browser");
         BrowserPanel browserPanel = new BrowserPanel();
@@ -49,9 +50,10 @@ public class BrowserPanel extends UiPart{
         placeholder.getChildren().add(browserPanel.browser);
         return browserPanel;
     }
+    */
 
     public void loadTaskPage(ReadOnlyTask task) {
-        loadPage("https://www.google.com.sg/#safe=off&q=" + task.getName().fullName.replaceAll(" ", "+"));
+        loadPage("https://www.google.com.sg/#safe=off&q=" + task.getName().replaceAll(" ", "+"));
     }
 
     public void loadPage(String url){

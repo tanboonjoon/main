@@ -76,14 +76,14 @@ public class ConfigUtilTest {
         config.setAppTitle("Typical App Title");
         config.setLogLevel(Level.INFO);
         config.setUserPrefsFilePath("C:\\preferences.json");
-        config.setTaskForceFilePath("taskforce.xml");
-        config.setTaskForceName("TypicalTaskForceName");
+        config.setTaskForceFilePath("data/taskForceData.xml");
+        config.setTaskForceName("My Todo list");
         return config;
     }
 
     private Optional<Config> read(String configFileInTestDataFolder) throws DataConversionException {
         String configFilePath = addToTestDataPathIfNotNull(configFileInTestDataFolder);
-        return new ConfigUtil().readConfig(configFilePath);
+        return ConfigUtil.readConfig(configFilePath);
     }
 
     @Test
@@ -103,24 +103,23 @@ public class ConfigUtilTest {
         Config original = getTypicalConfig();
 
         String configFilePath = testFolder.getRoot() + File.separator + "TempConfig.json";
-        ConfigUtil configStorage = new ConfigUtil();
 
         //Try writing when the file doesn't exist
-        configStorage.saveConfig(original, configFilePath);
-        Config readBack = configStorage.readConfig(configFilePath).get();
+        ConfigUtil.saveConfig(original, configFilePath);
+        Config readBack = ConfigUtil.readConfig(configFilePath).get();
         assertEquals(original, readBack);
 
         //Try saving when the file exists
         original.setAppTitle("Updated Title");
         original.setLogLevel(Level.FINE);
-        configStorage.saveConfig(original, configFilePath);
-        readBack = configStorage.readConfig(configFilePath).get();
+        ConfigUtil.saveConfig(original, configFilePath);
+        readBack = ConfigUtil.readConfig(configFilePath).get();
         assertEquals(original, readBack);
     }
 
     private void save(Config config, String configFileInTestDataFolder) throws IOException {
         String configFilePath = addToTestDataPathIfNotNull(configFileInTestDataFolder);
-        new ConfigUtil().saveConfig(config, configFilePath);
+        ConfigUtil.saveConfig(config, configFilePath);
     }
 
     private String addToTestDataPathIfNotNull(String configFileInTestDataFolder) {
