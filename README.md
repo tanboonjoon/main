@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/CS2103AUG2016-F10-C2/main.svg?branch=master)](https://travis-ci.org/CS2103AUG2016-F10-C2/main)
-[![Coverage Status](https://coveralls.io/repos/github/se-edu/addressbook-level4/badge.svg?branch=master)](https://coveralls.io/github/se-edu/addressbook-level4?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/CS2103AUG2016-F10-C2/main/badge.svg?branch=TaskForce)](https://coveralls.io/github/CS2103AUG2016-F10-C2/main?branch=TaskForce)
 
 # TaskForce - Task Management App for Desktop
 
