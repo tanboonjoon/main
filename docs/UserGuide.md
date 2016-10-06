@@ -78,8 +78,8 @@ the time has passed at present today)
 > If no time is specified, it is taken as whole day (start 0000, end 2359) by default
 
 Examples:
-* `add shine shoes t/personal`
-* `add john's graduation ceremony s/1900 e/2100`
+* `block meeting with boss s/1400 e/1600`
+* `block potential compliance audits s/1300 e/1800`
 
 #### Searching for (a) specific task(s): `find`
 Finds tasks of a specific time, or whose names contain any of the given keywords.  
