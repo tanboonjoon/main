@@ -39,4 +39,3 @@ Responsibilities: Quality Control
 * **Travis, Gradle**: Jeremy
 * **Java 8**: Eric
 * **JavaFX**: Ning Yu
->>>>>>> ningyu
