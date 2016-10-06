@@ -57,9 +57,9 @@ Format: `help [COMMAND]`
 #### Adding a task: `add`
 Adds a task to the task list.  
 Format:  
-Reminder: `add TASKNAME [t/TAG]...`  
-Deadline: `add TASKNAME [e/END_DATE] [t/TAG]...`  
-Event: `add TASKNAME [s/START_DATE] [e/END_DATE] [t/TAG]...`  
+Reminder: `add TASKNAME d/DESCRIPTION [t/TAG]...`  
+Deadline: `add TASKNAME d/DESCRIPTION [e/END_DATE] [t/TAG]...`  
+Event: `add TASKNAME d/DESCRIPTION [s/START_DATE] [e/END_DATE] [t/TAG]...`  
 
 > Tasks can have any number of tags (including 0)  
 > Date format is [DDMMYY] [HHMM] (24 Hour format)  
