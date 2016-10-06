@@ -32,7 +32,7 @@ implementation of blocks - events with no name (placeholders).
 4. Type the command in the command box and press <kbd>Enter</kbd> to execute it. <br>
    e.g. typing **`help`** and pressing <kbd>Enter</kbd> will open the help window.
 5. Some example commands you can try:
-   * **`add`**` wash the toilet d/housework` adds a reminder to wash the toilet to the task list.
+   * **`add`**` wash the toilet ` adds a reminder to wash the toilet to the task list.
    * **`search`**` d\0` searches the task list for all tasks happening today.
    * **`exit`** : exits the app
 6. Refer to the [Features](#features) section below for details of each command.<br>
@@ -57,9 +57,9 @@ Format: `help [COMMAND]`
 #### Adding a task: `add`
 Adds a task to the task list.  
 Format:  
-Reminder: `add TASKNAME d/DESCRIPTION [t/TAG]...`  
-Deadline: `add TASKNAME d/DESCRIPTION [e/END_DATE] [t/TAG]...`  
-Event: `add TASKNAME d/DESCRIPTION [s/START_DATE] [e/END_DATE] [t/TAG]...`  
+Reminder: `add TASKNAME  [t/TAG]...`  
+Deadline: `add TASKNAME  [e/END_DATE] [t/TAG]...`  
+Event: `add TASKNAME  [s/START_DATE] [e/END_DATE] [t/TAG]...`  
 
 > Tasks can have any number of tags (including 0)  
 > Date format is [DDMMYY] [HHMM] (24 Hour format)  
