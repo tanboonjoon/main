@@ -57,12 +57,12 @@ Format: `help [COMMAND]`
 #### Adding a task: `add`
 Adds a task to the task list.  
 Format:  
-Reminder: `add TASKNAME  [t/TAG]...`  
-Deadline: `add TASKNAME  [e/END_DATE] [t/TAG]...`  
-Event: `add TASKNAME  [s/START_DATE] [e/END_DATE] [t/TAG]...`  
+Reminder: `add TASKNAME  [d/DESCRIPTION] [t/TAG]...`  
+Deadline: `add TASKNAME  [d/DESCRIPTION] [e/END_DATE] [t/TAG]...`  
+Event: `add TASKNAME  [d/DESCRIPTION] [l/LOCATION] [s/START_DATE] [e/END_DATE] [t/TAG]...`  
 
 > Tasks can have any number of tags (including 0)  
-> Date format is [DDMMYY] [HHMM] (24 Hour format)  
+> Date format is [DDMMYY][HHMM] (24 Hour format)  
 > If no date is specified, it is taken as today/tomorrow by default (depending on whether
 the time has passed at present today)  
 > If no time is specified, it is taken as whole day (start 0000, end 2359) by default
@@ -95,7 +95,7 @@ Method | Explanation | Example
 `a/` | List all events with word appearing in name | `search a/ shoes`
 
 
-> * The search is case sensitive. e.g `hans` will not match `Hans`
+> * The search is not case sensitive. e.g `hans` will match `Hans`
 > * The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
 > * Only the name is searched.
 > * Only full words will be matched e.g. `Han` will not match `Hans`
