@@ -154,7 +154,7 @@ There is no need to save manually.
 
 Command | Format  
 -------- | :--------
-Add | `add NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]...`
+Add | `add EVENT d/DESCRIPTION [t/TAG]...`
 Block | `block s/START_DATE e/END_DATE`
 Clear | `clear`
 Delete | `delete INDEX`
