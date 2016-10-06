@@ -102,13 +102,6 @@ Method | Explanation | Example
 > * Persons matching at least one keyword will be returned (i.e. `OR` search).
     e.g. `Hans` will match `Hans Bo`
 
-Examples:
-* `list`<br>
-  `delete 2`<br>
-  Deletes the 2nd task listed on the todo list.
-* `find Meeting`<br>
-  `delete 1`<br>
-  Deletes the 1st task in the results of the `find` command.
 
 #### Deleting a task : `delete`
 Deletes the specified task from the task list. Irreversible.  
@@ -119,7 +112,7 @@ Format: `delete INDEX`
   The index **must be a positive integer** 1, 2, 3, ...
   
 Examples:
-* `find Betsy`<br>
+* `find Meeting`<br>
   `delete 1`<br>
   Deletes the 1st task in the results of the `find` command.
   
