@@ -61,7 +61,17 @@ Reminder: `add TASKNAME [t/TAG]...`
 Deadline: `add TASKNAME [e/END_DATE] [t/TAG]...`  
 Event: `add TASKNAME [s/START_DATE] [e/END_DATE] [t/TAG]...`  
 
-> Persons can have any number of tags (including 0)  
+> Tasks can have any number of tags (including 0)  
+> Date format is [DDMMYY] [HHMM] (24 Hour format)  
+> If no date is specified, it is taken as today/tomorrow by default (depending on whether
+the time has passed at present today)  
+> If no time is specified, it is taken as whole day (start 0000, end 2359) by default
+
+#### Blocking out time: `block`  
+Blocks out time for a potential event, or to indicate unavailability to others
+Format: `block s/START_DATE e/END_DATE`
+
+> Blocked out time is only blocked, cannot be tagged, cannot be named
 > Date format is [DDMMYY] [HHMM] (24 Hour format)  
 > If no date is specified, it is taken as today/tomorrow by default (depending on whether
 the time has passed at present today)  
@@ -72,7 +82,7 @@ Examples:
 * `add john's graduation ceremony s/1900 e/2100`
 
 #### Searching for (a) specific task(s): `search`
-Finds persons whose names contain any of the given keywords.<br>
+Finds tasks of a specific time, or whose names contain any of the given keywords.  
 Format: `find METHOD DETAILS `
 
 Method | Explanation | Example
@@ -110,7 +120,7 @@ Format: `delete INDEX`
 
 #### Editing a task: `edit`  
 Edits a task in the task list.  
-Format: `edit INDEX [NAME] [s/START_DATE] [e/END_DATE] [t/TAG]`   
+Format: `edit INDEX [NAME] [s/START_DATE] [e/END_DATE]`   
 
 > Follows index format of delete - The index refers to the index number shown in the most recent listing.  
 > The index **must be a positive integer** 1, 2, 3, ...  
@@ -145,8 +155,10 @@ There is no need to save manually.
 Command | Format  
 -------- | :--------
 Add | `add NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]...`
+Block | `block s/START_DATE e/END_DATE`
 Clear | `clear`
 Delete | `delete INDEX`
+Edit | `edit INDEX [NAME] [s/START_DATE] [e/END_DATE]`
 Search | `find KEYWORD [MORE_KEYWORDS]`
 Help | `help`
-Select | `select INDEX`
+Exit | `exit`
