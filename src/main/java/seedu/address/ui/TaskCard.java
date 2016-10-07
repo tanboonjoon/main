@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
+import javafx.scene.shape.Circle;
 import seedu.address.model.task.ReadOnlyTask;
 
 public class TaskCard extends UiPart{
@@ -20,6 +21,8 @@ public class TaskCard extends UiPart{
     private Label description;
     @FXML
     private Label tags;
+    @FXML
+    private Circle circle;
 
     private ReadOnlyTask task;
     private int displayedIndex;
@@ -40,9 +43,10 @@ public class TaskCard extends UiPart{
         name.setText(task.getName());
         id.setText(displayedIndex + ". ");
         description.setText(task.getDescription());
-//        address.setText(task.getAddress().value);
-//        email.setText(task.getEmail().value);
         tags.setText(task.tagsString());
+        
+        circle.getStyleClass().remove("circle_low") ;
+        circle.getStyleClass().add("circle_high") ;
     }
 
     public HBox getLayout() {

@@ -273,7 +273,14 @@
 }
 
 .circle_low {
-	-fx-fill: derive(#00FFFF, 25%);
+	-fx-fill: derive(#03253d, 25%);
+}
+
+.circle_med {
+	-fx-fill: derive(#8cc35e, 25%);
+}
+.circle_high {
+	-fx-fill: derive(#de5347, 25%);
 }
 
 #cardPane {
