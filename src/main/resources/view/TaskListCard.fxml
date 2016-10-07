@@ -5,23 +5,23 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.shape.Circle?>
 
-<HBox id="cardPane" fx:id="cardPane" prefHeight="136.0" prefWidth="304.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1">
+<HBox id="cardPane" fx:id="cardPane" prefHeight="93.0" prefWidth="304.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1">
     <children>
-      <AnchorPane prefHeight="122.0" prefWidth="104.0">
+      <AnchorPane prefHeight="88.0" prefWidth="104.0">
          <children>
-            <Circle fx:id="circle" layoutX="52.0" layoutY="61.0" radius="23.0" stroke="BLACK" strokeType="INSIDE" styleClass="circle_low" />
+            <Circle fx:id="circle" layoutX="52.0" layoutY="46.0" radius="23.0" stroke="BLACK" strokeType="INSIDE" styleClass="circle_low" AnchorPane.bottomAnchor="24.0" AnchorPane.leftAnchor="29.0" AnchorPane.rightAnchor="29.0" AnchorPane.topAnchor="23.0" />
+            <Label fx:id="id" layoutX="47.0" layoutY="36.0" text="Label" AnchorPane.bottomAnchor="36.0" AnchorPane.leftAnchor="47.0" AnchorPane.rightAnchor="22.0" AnchorPane.topAnchor="36.0" />
          </children>
       </AnchorPane>
       <AnchorPane prefHeight="200.0" prefWidth="200.0">
          <children>
             <HBox layoutY="33.0" prefHeight="56.0" prefWidth="200.0">
                <children>
-                           <Label fx:id="id" styleClass="cell_big_label" />
-                           <Label fx:id="name" styleClass="cell_big_label" text="\$first" />
-                          <Label fx:id="tags" styleClass="cell_small_label" text="\$tags" />
                         <Label fx:id="description" styleClass="cell_small_label" text="\$description" />
                </children>
             </HBox>
+                     <Label fx:id="name" layoutY="7.0" styleClass="cell_big_label" text="\$first" AnchorPane.leftAnchor="2.0" AnchorPane.topAnchor="7.0" />
+                    <Label fx:id="tags" layoutX="158.0" layoutY="7.0" styleClass="cell_small_label" text="\$tags" AnchorPane.rightAnchor="6.0" AnchorPane.topAnchor="7.0" />
          </children>
       </AnchorPane>
     </children>

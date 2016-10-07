@@ -1,5 +1,10 @@
 .background {
-    -fx-background-color: derive(#1d1d1d, 20%);
+    /**-fx-background-color: derive(#1d1d1d, 20%);*/
+    -fx-background-color: derive(#FFFFFF, 20%);
+}
+
+.top_banner {
+	-fx-background-color: #f46060 ;
 }
 
 .label {
@@ -83,7 +88,7 @@
 .split-pane {
     -fx-border-radius: 1;
     -fx-border-width: 1;
-    -fx-background-color: derive(#1d1d1d, 20%);
+    -fx-background-color: derive(#ffffff, 20%);
 }
 
 .list-cell {
@@ -107,17 +112,19 @@
 }
 
 .anchor-pane {
-     -fx-background-color: derive(#1d1d1d, 20%);
+     /**-fx-background-color: derive(#1d1d1d, 20%); **/
+     -fx-background-color: derive(#FFFFFF, 20%);
 }
 
 .anchor-pane-with-border {
-     -fx-background-color: derive(#1d1d1d, 20%);
-     -fx-border-color: derive(#1d1d1d, 10%);
-     -fx-border-top-width: 1px;
+     /**-fx-background-color: derive(#1d1d1d, 20%);*/
+     /**-fx-border-color: derive(#1d1d1d, 10%);*/
+     /**-fx-border-top-width: 1px;*/
+     -fx-background-color: derive(#FFFFFF, 20%);
 }
 
 .status-bar {
-    -fx-background-color: derive(#1d1d1d, 20%);
+    -fx-background-color: derive(#f46060, 20%);
     -fx-text-fill: black;
 }
 
@@ -130,7 +137,7 @@
 }
 
 .status-bar .label {
-    -fx-text-fill: white;
+    -fx-text-fill: black;
 }
 
 .status-bar-with-border {
