@@ -29,10 +29,10 @@ public class XmlTaskForceStorageTest {
     @Test
     public void readAddressBook_nullFilePath_assertionFailure() throws Exception {
         thrown.expect(AssertionError.class);
-        readAddressBook(null);
+        readListData(null);
     }
 
-    private java.util.Optional<ReadOnlyTaskForce> readAddressBook(String filePath) throws Exception {
+    private java.util.Optional<ReadOnlyTaskForce> readListData(String filePath) throws Exception {
         return new XmlTaskForceStorage(filePath).readTaskForce(addToTestDataPathIfNotNull(filePath));
     }
 
@@ -44,14 +44,14 @@ public class XmlTaskForceStorageTest {
 
     @Test
     public void read_missingFile_emptyResult() throws Exception {
-        assertFalse(readAddressBook("NonExistentFile.xml").isPresent());
+        assertFalse(readListData("NonExistentFile.xml").isPresent());
     }
 
     @Test
     public void read_notXmlFormat_exceptionThrown() throws Exception {
 
         thrown.expect(DataConversionException.class);
-        readAddressBook("NotXmlFormatAddressBook.xml");
+        readListData("NotXmlFormatTaskForce.xml");
 
         /* IMPORTANT: Any code below an exception-throwing line (like the one above) will be ignored.
          * That means you should not have more than one exception test in one method
