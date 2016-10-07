@@ -18,9 +18,9 @@ public class AddCommand extends Command {
     public static final String COMMAND_WORD = "add";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a person to the address book. "
-            + "Parameters: NAME -d DESCRIPTION [-e TAG] ...\n"
+            + "Parameters: NAME d/DESCRIPTION [e/TAG] ...\n"
             + "Example: " + COMMAND_WORD
-            + " Homework -d CS2103 hw -e veryImportant -e urgent";
+            + " Homework d/CS2103 hw e/veryImportant e/urgent";
 
     public static final String MESSAGE_SUCCESS = "New task added: %1$s";
     public static final String MESSAGE_DUPLICATE_TASK = "This task already exists in the address book";

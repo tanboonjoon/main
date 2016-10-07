@@ -27,9 +27,9 @@ public class Parser {
             Pattern.compile("(?<keywords>\\S+(?:\\s+\\S+)*)"); // one or more keywords separated by whitespace
 
     private static final Pattern TASK_DATA_ARGS_FORMAT = // '-' dashes are reserved for delimiter prefixes
-            Pattern.compile("(?<name>[^-]+)"
-                    + " -d (?<description>[^-]+)"
-                    + "(?<tagArguments>(?: -e [^-]+)*)"); // variable number of tags
+            Pattern.compile("^(?<name>[^\\/]+)"
+                    + "((?<description>d\\/[^\\/]+))?"
+                    + "(?<tagArguments>(?:e\\/[^\\/]+)*)$"); // variable number of tags
 
     public Parser() {}
 
@@ -92,8 +92,8 @@ public class Parser {
         }
         try {
             return new AddCommand(
-                    matcher.group("name"),
-                    matcher.group("description"),
+                    matcher.group("name").trim(),
+                    getDescriptionFromArgs(matcher.group("description")),
                     getTagsFromArgs(matcher.group("tagArguments"))
             );
         } catch (IllegalValueException ive) {
@@ -111,8 +111,18 @@ public class Parser {
             return Collections.emptySet();
         }
         // replace first delimiter prefix, then split
-        final Collection<String> tagStrings = Arrays.asList(tagArguments.replaceFirst(" -e", "").split(" -e"));
+        final Collection<String> tagStrings = Arrays.asList(tagArguments.replaceFirst("e/", "").split("e/"));
         return new HashSet<>(tagStrings);
+    }
+    
+    private static String getDescriptionFromArgs(String rawDescription) {
+    	if (rawDescription == null) {
+    		return "" ;
+    	}
+    	
+    	String result = rawDescription.replaceFirst("d/", "") ;
+    	
+    	return (result.matches("^ +$")) ? " " : result ;
     }
 
     /**
