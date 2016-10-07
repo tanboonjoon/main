@@ -115,6 +115,12 @@ public class Parser {
         return new HashSet<>(tagStrings);
     }
     
+    /**
+     * Extracts the new task's description from the add command's description arguments string.
+     * 
+     * @param rawDescription
+     * @return the description as a string
+     */
     private static String getDescriptionFromArgs(String rawDescription) {
     	if (rawDescription == null) {
     		return "" ;
