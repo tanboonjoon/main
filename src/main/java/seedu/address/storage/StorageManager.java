@@ -30,8 +30,8 @@ public class StorageManager extends ComponentManager implements Storage {
         this.userPrefsStorage = userPrefsStorage;
     }
 
-    public StorageManager(String addressBookFilePath, String userPrefsFilePath) {
-        this(new XmlTaskForceStorage(addressBookFilePath), new JsonUserPrefsStorage(userPrefsFilePath));
+    public StorageManager(String taskForceFilePath, String userPrefsFilePath) {
+        this(new XmlTaskForceStorage(taskForceFilePath), new JsonUserPrefsStorage(userPrefsFilePath));
     }
 
     // ================ UserPrefs methods ==============================
@@ -66,20 +66,20 @@ public class StorageManager extends ComponentManager implements Storage {
     }
 
     @Override
-    public void saveTaskForce(ReadOnlyTaskForce addressBook) throws IOException {
-        saveTaskForce(addressBook, taskForceStorage.getTaskForceFilePath());
+    public void saveTaskForce(ReadOnlyTaskForce taskForce) throws IOException {
+        saveTaskForce(taskForce, taskForceStorage.getTaskForceFilePath());
     }
 
     @Override
-    public void saveTaskForce(ReadOnlyTaskForce addressBook, String filePath) throws IOException {
+    public void saveTaskForce(ReadOnlyTaskForce taskForce, String filePath) throws IOException {
         logger.fine("Attempting to write to data file: " + filePath);
-        taskForceStorage.saveTaskForce(addressBook, filePath);
+        taskForceStorage.saveTaskForce(taskForce, filePath);
     }
 
 
     @Override
     @Subscribe
-    public void handleAddressBookChangedEvent(TaskForceChangedEvent event) {
+    public void handleTaskForceChangedEvent(TaskForceChangedEvent event) {
         logger.info(LogsCenter.getEventHandlingLogMessage(event, "Local data changed, saving to file"));
         try {
             saveTaskForce(event.data);

@@ -10,7 +10,7 @@ import seedu.address.testutil.TypicalTestTasks;
 
 import static org.junit.Assert.assertTrue;
 
-public class AddCommandTest extends AddressBookGuiTest {
+public class AddCommandTest extends TaskForceGuiTest {
 
     @Test
     public void add() {

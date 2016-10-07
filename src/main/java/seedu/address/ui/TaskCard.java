@@ -28,9 +28,9 @@ public class TaskCard extends UiPart{
 
     }
 
-    public static TaskCard load(ReadOnlyTask person, int displayedIndex){
+    public static TaskCard load(ReadOnlyTask task, int displayedIndex){
         TaskCard card = new TaskCard();
-        card.task = person;
+        card.task = task;
         card.displayedIndex = displayedIndex;
         return UiPartLoader.loadUiPart(card);
     }
@@ -40,8 +40,8 @@ public class TaskCard extends UiPart{
         name.setText(task.getName());
         id.setText(displayedIndex + ". ");
         description.setText(task.getDescription());
-//        address.setText(person.getAddress().value);
-//        email.setText(person.getEmail().value);
+//        address.setText(task.getAddress().value);
+//        email.setText(task.getEmail().value);
         tags.setText(task.tagsString());
     }
 

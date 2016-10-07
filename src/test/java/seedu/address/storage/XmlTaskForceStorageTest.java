@@ -17,8 +17,8 @@ import java.io.IOException;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
-public class XmlAddressBookStorageTest {
-    private static String TEST_DATA_FOLDER = FileUtil.getPath("./src/test/data/XmlAddressBookStorageTest/");
+public class XmlTaskForceStorageTest {
+    private static String TEST_DATA_FOLDER = FileUtil.getPath("./src/test/data/XmlTaskForceStorageTest/");
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
@@ -62,7 +62,7 @@ public class XmlAddressBookStorageTest {
     public void readAndSaveAddressBook_allInOrder_success() throws Exception {
         String filePath = testFolder.getRoot().getPath() + "TempAddressBook.xml";
         TypicalTestTasks td = new TypicalTestTasks();
-        TaskForce original = td.getTypicalAddressBook();
+        TaskForce original = td.getTypicalTaskForce();
         XmlTaskForceStorage xmlTaskForceStorage = new XmlTaskForceStorage(filePath);
 
         //Save in new file and read back

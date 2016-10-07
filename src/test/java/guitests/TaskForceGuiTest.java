@@ -23,7 +23,7 @@ import static org.junit.Assert.assertTrue;
 /**
  * A GUI Test class for TaskForce.
  */
-public abstract class AddressBookGuiTest {
+public abstract class TaskForceGuiTest {
 
     /* The TestName Rule makes the current test name available inside test methods */
     @Rule
@@ -76,8 +76,8 @@ public abstract class AddressBookGuiTest {
      * Return null to use the data in the file specified in {@link #getDataFileLocation()}
      */
     protected TaskForce getInitialData() {
-        TaskForce ab = TestUtil.generateEmptyAddressBook();
-        TypicalTestTasks.loadAddressBookWithSampleData(ab);
+        TaskForce ab = TestUtil.generateEmptyTaskForce();
+        TypicalTestTasks.loadTaskForceWithSampleData(ab);
         return ab;
     }
 

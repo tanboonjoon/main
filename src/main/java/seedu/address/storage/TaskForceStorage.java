@@ -31,14 +31,14 @@ public interface TaskForceStorage {
 
     /**
      * Saves the given {@link ReadOnlyTaskForce} to the storage.
-     * @param addressBook cannot be null.
+     * @param taskForce cannot be null.
      * @throws IOException if there was any problem writing to the file.
      */
-    void saveTaskForce(ReadOnlyTaskForce addressBook) throws IOException;
+    void saveTaskForce(ReadOnlyTaskForce taskForce) throws IOException;
 
     /**
      * @see #saveTaskForce(ReadOnlyTaskForce)
      */
-    void saveTaskForce(ReadOnlyTaskForce addressBook, String filePath) throws IOException;
+    void saveTaskForce(ReadOnlyTaskForce taskForce, String filePath) throws IOException;
 
 }

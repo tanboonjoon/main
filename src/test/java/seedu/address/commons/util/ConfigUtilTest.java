@@ -76,8 +76,8 @@ public class ConfigUtilTest {
         config.setAppTitle("Typical App Title");
         config.setLogLevel(Level.INFO);
         config.setUserPrefsFilePath("C:\\preferences.json");
-        config.setAddressBookFilePath("data/taskForceData.xml");
-        config.setAddressBookName("My Todo list");
+        config.setTaskForceFilePath("data/taskForceData.xml");
+        config.setTaskForceName("My Todo list");
         return config;
     }
 

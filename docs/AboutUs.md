@@ -1,52 +1,41 @@
 # About Us
 
-We are a team based in the [School of Computing, National University of Singapore](http://www.comp.nus.edu.sg).
+We are a team of students at National University of Singapore, building a task management app for the module CS2103 - Software Engineering.
+
 
 ## Project Team
 
-#### [Damith C. Rajapakse](http://www.comp.nus.edu.sg/~damithch) <br>
-<img src="images/DamithRajapakse.jpg" width="150"><br>
+
+=======
+# Roles and Responsibilities
+#### [Bay Chuan Wei Candiie](https://github.com/Candiie) <br>
+<img src="images/candiie.png" width="150"><br>
 **Role**: Project Advisor
 
------
-
-#### [Joshua Lee](http://github.com/lejolly)
-<img src="images/JoshuaLee.jpg" width="150"><br>
+#### [Tan Boon Joon](http://github.com/lejolly)
+<img src="images/boon joon.jpg" width="150"><br>
 Role: Developer <br>  
-Responsibilities: UI
+Responsibilities: Team Lead, Integration
 
------
-
-#### [Leow Yijin](http://github.com/yijinl) 
-<img src="images/LeowYijin.jpg" width="150"><br>
+#### [Goh Yi Da Jeremy](https://github.com/MightyCupcakes)
+<img src="images/Jeremy.jpg" width="150"><br>
 Role: Developer <br>  
-Responsibilities: Data
+Responsibilities: Testing
 
------
-
-#### [Martin Choo](http://github.com/m133225)
-<img src="images/MartinChoo.jpg" width="150"><br>
+#### [Ning Yu](https://github.com/ningyuuu)
+<img src="images/ningyu.jpg" width="150"><br>
 Role: Developer <br>  
-Responsibilities: Dev Ops
+Responsibilities: Documentation, UI 
 
------
 
-#### [Thien Nguyen](https://github.com/ndt93)
- Role: Developer <br>  
- Responsibilities: Threading
- 
- -----
+#### [San Sok San](https://github.com/ericsssan)
+<img src="images/Eric.jpg" width="150"><br>
+Role: Developer <br>  
+Responsibilities: Quality Control
 
-#### [You Liang](http://github.com/yl-coder) 
-<img src="images/YouLiang.jpg" width="150"><br>
- Role: Developer <br>  
- Responsibilities: UI
- 
- -----
 
-# Contributors
-
-We welcome contributions. See [Contact Us](ContactUs.md) page for more info.
-
-* [Akshay Narayan](https://github.com/se-edu/addressbook-level4/pulls?q=is%3Apr+author%3Aokkhoy)
-* [Sam Yong](https://github.com/se-edu/addressbook-level4/pulls?q=is%3Apr+author%3Amauris)
+=======
+## Tool Specialists
+* **Travis, Gradle**: Jeremy
+* **Java 8**: Eric
+* **JavaFX**: Ning Yu

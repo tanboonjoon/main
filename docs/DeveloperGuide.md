@@ -1,4 +1,4 @@
-# Developer Guide 
+# Developer Guide
 
 * [Setting Up](#setting-up)
 * [Design](#design)
@@ -20,7 +20,7 @@
 
     > Having any Java 8 version is not enough. <br>
     This app will not work with earlier versions of Java 8.
-    
+
 2. **Eclipse** IDE
 3. **e(fx)clipse** plugin for Eclipse (Do the steps 2 onwards given in
    [this page](http://www.eclipse.org/efxclipse/install.html#for-the-ambitious))
@@ -30,7 +30,7 @@
 #### Importing the project into Eclipse
 
 0. Fork this repo, and clone the fork to your computer
-1. Open Eclipse (Note: Ensure you have installed the **e(fx)clipse** and **buildship** plugins as given 
+1. Open Eclipse (Note: Ensure you have installed the **e(fx)clipse** and **buildship** plugins as given
    in the prerequisites above)
 2. Click `File` > `Import`
 3. Click `Gradle` > `Gradle Project` > `Next` > `Next`
@@ -87,7 +87,7 @@ being saved to the hard disk and the status bar of the UI being updated to refle
 <img src="images\SDforDeletePersonEventHandling.png" width="800">
 
 > Note how the event is propagated through the `EventsCenter` to the `Storage` and `UI` without `Model` having
-  to be coupled to either of them. This is an example of how this Event Driven approach helps us reduce direct 
+  to be coupled to either of them. This is an example of how this Event Driven approach helps us reduce direct
   coupling between components.
 
 The sections below give more details of each component.
@@ -177,7 +177,7 @@ and logging destinations.
 
 ### Configuration
 
-Certain properties of the application can be controlled (e.g App name, logging level) through the configuration file 
+Certain properties of the application can be controlled (e.g App name, logging level) through the configuration file
 (default: `config.json`):
 
 
@@ -199,26 +199,26 @@ Tests can be found in the `./src/test/java` folder.
 
 We have two types of tests:
 
-1. **GUI Tests** - These are _System Tests_ that test the entire App by simulating user actions on the GUI. 
+1. **GUI Tests** - These are _System Tests_ that test the entire App by simulating user actions on the GUI.
    These are in the `guitests` package.
-  
+
 2. **Non-GUI Tests** - These are tests not involving the GUI. They include,
    1. _Unit tests_ targeting the lowest level methods/classes. <br>
       e.g. `seedu.address.commons.UrlUtilTest`
-   2. _Integration tests_ that are checking the integration of multiple code units 
+   2. _Integration tests_ that are checking the integration of multiple code units
      (those code units are assumed to be working).<br>
       e.g. `seedu.address.storage.StorageManagerTest`
-   3. Hybrids of unit and integration tests. These test are checking multiple code units as well as 
+   3. Hybrids of unit and integration tests. These test are checking multiple code units as well as
       how the are connected together.<br>
       e.g. `seedu.address.logic.LogicManagerTest`
-  
+
 **Headless GUI Testing** :
 Thanks to the [TestFX](https://github.com/TestFX/TestFX) library we use,
- our GUI tests can be run in the _headless_ mode. 
+ our GUI tests can be run in the _headless_ mode.
  In the headless mode, GUI tests do not show up on the screen.
  That means the developer can do other things on the Computer while the tests are running.<br>
  See [UsingGradle.md](UsingGradle.md#running-tests) to learn how to run tests in headless mode.
-  
+
 ## Dev Ops
 
 ### Build Automation
@@ -233,12 +233,12 @@ See [UsingTravis.md](UsingTravis.md) for more details.
 ### Making a Release
 
 Here are the steps to create a new release.
- 
+
  1. Generate a JAR file [using Gradle](UsingGradle.md#creating-the-jar-file).
  2. Tag the repo with the version number. e.g. `v0.1`
- 2. [Crete a new release using GitHub](https://help.github.com/articles/creating-releases/) 
+ 2. [Crete a new release using GitHub](https://help.github.com/articles/creating-releases/)
     and upload the JAR file your created.
-   
+
 ### Managing Dependencies
 
 A project often depends on third-party libraries. For example, Address Book depends on the
@@ -256,11 +256,22 @@ Priorities: High (must have) - `* * *`, Medium (nice to have)  - `* *`,  Low (un
 Priority | As a ... | I want to ... | So that I can...
 -------- | :-------- | :--------- | :-----------
 `* * *` | new user | see usage instructions | refer to instructions when I forget how to use the App
-`* * *` | user | add a new person |
-`* * *` | user | delete a person | remove entries that I no longer need
-`* * *` | user | find a person by name | locate details of persons without having to go through the entire list
-`* *` | user | hide [private contact details](#private-contact-detail) by default | minimize chance of someone else seeing them by accident
-`*` | user with many persons in the address book | sort persons by name | locate a person easily
+`* * *` | user | search tasks by day | see what is due or my available on a specific day
+`* * *` | user | add a new task | add items to my calendar or task list
+`* * *` | user | mark a task | mark task as done after I have completed it
+`* * *` | user | delete a task | remove tasks that I have completed or give up
+`* * *` | user | find a task by keyword | find all the tasks that contain that keyword
+`* * *` | user | edit a task's information | update/change the detail of a task
+`* * *` | user | specify database location | save the data in my preferred location
+`* * *` | user | to block timeslot | so that i can reserve time for tasks that are not confirmed
+`* * *` | user | tag a task | so that I can search by classification or group
+`* *` | user   | find tasks that are overdue | so i can do them as soon as possible
+`* *` | user   | be informed of conflicts | so that I can refrain from assigning 2 things to the same task
+`* *` | user | see free time | be informed of my available time slots
+`* *` | advanced user | set working hours | non-working hours will be automatically blocked out
+`*` | advanced user | set recurring task | so the task can repeat itself without me entering it constantly
+`*` | user | sync to google calendar | know what is going on in all my digital platforms
+`*` | advanced user | use natural language | make planning tasks more natural and intuitive
 
 {More to be added}
 
@@ -268,13 +279,13 @@ Priority | As a ... | I want to ... | So that I can...
 
 (For all use cases below, the **System** is the `ToDoList` and the **Actor** is the `user/Jim`, unless specified otherwise)
 
-### Use case : adding a new task
+### Use case : Adding a new task
 
 **MSS:**
 
 1. User enters the add command in the CLI along with the details for the task.
 
-2. System will add the task and display confirmation.
+2. System will display that the task has been added to the ToDoList.
 
 Use case ends
 
@@ -286,55 +297,56 @@ Use case ends
 
 Use case ends
 
-### Use case :  View tasks that are due in the near future
+### Use case :  Search task by time
 
 **MSS:**
 
-1. User enters the view command.
-2. System will display the list of tasks that are due by today.
+1. User enters the search command by date (`d/ or w/`).
+2. System will display the list of tasks that are due that day/week.
 
 Use case ends
 
 **Extensions:**
 
-1a. User enters a time modifier after the view command
->The system will display tasks that are due during the extended time period instead of the default behaviour.
-
-Use case ends.
-
-1b. User enters a time modifier that is unrecognized by the system
+1a. User enters a time modifier that is unrecognized by the system
 >The system will display an error message along with the suggested format of the view command.
+
 Use case ends.
 
-### Use case :  Searching of tasks
+### Use case :  Searching of tasks by name
 
 **MSS:**
 
-1. User enters the search command along with a search term into the CLI.
-2. The system will first search for tasks with the matching search terms and display to the user.
+1. User enters the find command along with a search term into the CLI.
+2. The system will display the searched result.
 
 Use case ends.
 
 **Extensions:**
 
-1a. User did not enter a search term
+1a. User enters a date and name term
+> The system will display all tasks with that name, within a date period.
 
+Use case ends.
+
+2a. User did not enter a search term
 >The system will display an error along with the suggested format for the search command.
 
 Use case ends.
 
-2a. Search term entered by the user did not match any task
+2b. Search term entered by the user did not match any task
 >The system will display a message informing the user that the search did not yield any results.
 
 Use case ends.
 
-### Use case :  Deleting or marking a task as done
+### Use case :  Deleting or marking a task as done (might need to split)
 
 **MSS:**
 
 1. User *searches for the task (UC: Searching of tasks)*  or *views task that are due in the near future (UC: View tasks that are due in the near future)*
-2. User enters the delete command along with the index of the task to delete.
-3. System will delete the selected task.
+2. System will display the list of tasks available for deletion.
+3. User enters the delete command along with the index of the task to delete.
+4. System will display that the task has been marked as done/deleted.
 
 Use case ends.
 
@@ -345,13 +357,14 @@ Use case ends.
 
 Use case ends.
 
-### Use case :  Editing the details of a task System: To-do list
+### Use case :  Editing the details of a task
 
 **MSS:**
 
-1. User *searches for the task (UC: Searching of tasks)* or *views task that are due in the near future (UC: View tasks that are due in the near future)*
-2. User enters the edit command with the index of the task the user wishes to edit, along with the new details.
-3. System will edit and save the selected task
+1. User searches for specific tasks
+2. System will display the list of tasks available for edits.
+3. User will enter the index of the tasks and the new information to replace it.
+4. System will display 'Old Task ....' has  been changed to 'New Task...'.
 
 Use case ends.
 
@@ -379,6 +392,15 @@ Use case ends.
 2. Should be able to hold up to 1000 persons.
 3. Should come with automated unit tests and open source code.
 4. Should favor DOS style commands over Unix-style commands.
+5. Should not take more than 5 seconds when executing find command
+
+### Project Constraints NFR
+6. final product should be a result of morphing using level4 code
+7. software must work on desktop without internet connection
+8. software must be stand-alone with optional extensions
+9. CommandLine must be the primary mode of input
+10. Software must not use any form of relational database
+11. Data must be stored locally and human editable
 
 {More to be added}
 
@@ -394,5 +416,11 @@ Use case ends.
 
 ## Appendix E : Product Survey
 
-{TODO: Add a summary of competing products}
-
+Product Name | Strengths | Weakness
+----------- | :---------------- | :----------------
+Todoist | Easily classified todo categories, collaboration, notifications | Labels & reminders are premium. Quest points gamification
+OmniFocus | Allows a large amount of information to be organized | Way too complex for the average, simple user
+Google Keep | Simple to use, lightweigh | Text based with no advanced functionality. No events
+Todo.txt | Purely text based, simple and clean. Command line interface for Jim | Lacks advanced functionality. No events
+Remember the Milk | Allows management of large number of tasks | Too complex for a simple user
+Any.do | Simple, clean, easy to use | Cannot make time blocks

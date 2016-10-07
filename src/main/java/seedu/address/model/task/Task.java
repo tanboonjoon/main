@@ -17,7 +17,7 @@ public class Task implements ReadOnlyTask {
     private UniqueTagList tags;
 
     /**
-     * Every field must be present and not null.
+     * Every field must be present and not null. 
      */
     public Task(String name, String description, UniqueTagList tags) {
         assert !CollectionUtil.isAnyNull(name, tags);
@@ -53,7 +53,7 @@ public class Task implements ReadOnlyTask {
     }
 
     /**
-     * Replaces this person's tags with the tags in the argument tag list.
+     * Replaces this task's tags with the tags in the argument tag list.
      */
     public void setTags(UniqueTagList replacement) {
         tags.setTags(replacement);

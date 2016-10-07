@@ -45,20 +45,20 @@ public class Config {
         this.userPrefsFilePath = userPrefsFilePath;
     }
 
-    public String getAddressBookFilePath() {
+    public String getTaskForceFilePath() {
         return taskForceDataFilePath;
     }
 
-    public void setAddressBookFilePath(String addressBookFilePath) {
-        this.taskForceDataFilePath = addressBookFilePath;
+    public void setTaskForceFilePath(String taskForceFilePath) {
+        this.taskForceDataFilePath = taskForceFilePath;
     }
 
-    public String getAddressBookName() {
+    public String getTaskForceName() {
         return appName;
     }
 
-    public void setAddressBookName(String addressBookName) {
-        this.appName = addressBookName;
+    public void setTaskForceName(String taskForceName) {
+        this.appName = taskForceName;
     }
 
 
