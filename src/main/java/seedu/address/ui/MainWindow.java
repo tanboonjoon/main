@@ -191,6 +191,6 @@ public class MainWindow extends UiPart {
     }
 
     public void releaseResources() {
-        browserPanel.freeResources();
+        //browserPanel.freeResources();
     }
 }
