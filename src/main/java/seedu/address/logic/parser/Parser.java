@@ -33,8 +33,8 @@ public class Parser {
     
     
     private static final Pattern TASK_EDIT_DATA_ARGS_FORMAT = // '-' dashes are reserved for delimiter prefixes
-            Pattern.compile("^(?<index>\\d+)" 
-                    + "(?<name>[^\\/]+)"
+            Pattern.compile("(?<index>\\d+)" 
+                    + "(?<name>[^\\/]+)?"
                     + "((?<description>d\\/[^\\/]+))?"
                     + "(?<tagArguments>(?:e\\/[^\\/]+)*)$"); // variable number of tags
 
@@ -219,13 +219,15 @@ public class Parser {
             return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE));
         }
         try {
-            return new EditCommand(Integer.parseInt(matcher.group("index")),
+            return new EditCommand(Integer.parseInt(matcher.group("index").trim()),
                     matcher.group("name").trim(),
                     getDescriptionFromArgs(matcher.group("description")),
                     getTagsFromArgs(matcher.group("tagArguments"))
             );
         } catch (IllegalValueException ive) {
             return new IncorrectCommand(ive.getMessage());
+        } catch (NullPointerException ne) {
+            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE));
         }
     }
 

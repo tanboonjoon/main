@@ -19,7 +19,7 @@ public class EditCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Edits the task identified by the index number used in the last task listing.\n"
-            + "Parameters: INDEX (must be a positive integer) [d/DESCRIPTION, e/TAG...]\n"
+            + "Parameters: INDEX (must be a positive integer) NAME | d/DESCRIPTION | e/TAG...\n"
             + "Example: " + COMMAND_WORD + " 1 d/download How I Met Your Mother season 1" ;
     public static final String MESSAGE_EDIT_SUCCESS = "Edit saved!";
     public static final String MESSAGE_DUPLICATE_TASK = "This task already exists in the address book";
@@ -50,7 +50,7 @@ public class EditCommand extends Command {
             indicateAttemptToExecuteIncorrectCommand();
             return new CommandResult(Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
         }
-
+        assert targetIndex < lastShownList.size(): targetIndex;
         ReadOnlyTask taskToEdit = lastShownList.get(targetIndex - 1);
         
         try {
@@ -63,7 +63,7 @@ public class EditCommand extends Command {
         }else{
             newName = taskToEdit.getName();
         }
-        
+        assert name.equals(""): "fail here";
         if(!description.equals("")) {
             newDescription = description;
         }else{
