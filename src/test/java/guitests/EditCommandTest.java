@@ -2,6 +2,8 @@ package guitests;
 
 import guitests.guihandles.TaskCardHandle;
 import org.junit.Test;
+
+import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.commands.EditCommand;
 import seedu.address.commons.core.Messages;
 import seedu.address.testutil.TestTask;
@@ -9,13 +11,12 @@ import seedu.address.testutil.TestUtil;
 import seedu.address.testutil.TypicalTestTasks;
 
 import static org.junit.Assert.assertTrue;
+import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 
 public class EditCommandTest extends TaskForceGuiTest {
 
     @Test
     public void Edit() {
-        
-//        commandBox.runCommand("clear");
         
         //Add one task
         TestTask[] currentList = td.getTypicalTasks();
@@ -32,13 +33,19 @@ public class EditCommandTest extends TaskForceGuiTest {
         taskToAdd = TypicalTestTasks.benson;
         assertAddSuccess(taskToAdd, currentList);
         currentList = TestUtil.addTasksToList(currentList, taskToAdd);
-
+        
+        // Invalid commands
+        String expectedMessage = String.format(Messages.MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE);
+        commandBox.runCommand("edit") ;
+        assertResultMessage(expectedMessage);
+        
+        commandBox.runCommand("edit 1") ;
+        assertResultMessage(expectedMessage);
         
         //Edit first task
         commandBox.runCommand(TypicalTestTasks.elle.getEditCommand(1));
         assertResultMessage(EditCommand.MESSAGE_EDIT_SUCCESS);
-        
-        
+
         //Edit second task
         commandBox.runCommand(TypicalTestTasks.fiona.getEditCommand(2));
         assertResultMessage(EditCommand.MESSAGE_EDIT_SUCCESS);

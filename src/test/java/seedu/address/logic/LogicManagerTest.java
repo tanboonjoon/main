@@ -151,6 +151,10 @@ public class LogicManagerTest {
         String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE);
         assertCommandBehavior(
                 "add wrong args wrong args /e", expectedMessage);
+        assertCommandBehavior(
+                "add wrong args wrong args d/", expectedMessage);
+        assertCommandBehavior(
+                "add wrong args wrong args d/ e/", expectedMessage);
         // Add commands is very flexible. More test cases soon
 //        assertCommandBehavior(
 //                "add Valid Name 12345 e/valid@email.butNoPhonePrefix a/valid, address", expectedMessage);
