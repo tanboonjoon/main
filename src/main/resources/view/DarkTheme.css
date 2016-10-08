@@ -1,3 +1,5 @@
+
+
 .background {
     /**-fx-background-color: derive(#1d1d1d, 20%);*/
     -fx-background-color: derive(#FFFFFF, 20%);
@@ -9,28 +11,28 @@
 
 .label {
     -fx-font-size: 11pt;
-    -fx-font-family: "Segoe UI Light";
+    -fx-font-family: "Open Sans Light";
     -fx-text-fill: #555555;
     -fx-opacity: 0.9;
 }
 
 .label-bright {
     -fx-font-size: 11pt;
-    -fx-font-family: "Segoe UI Light";
+    -fx-font-family: "Open Sans Light";
     -fx-text-fill: white;
     -fx-opacity: 1;
 }
 
 .label-header {
     -fx-font-size: 32pt;
-    -fx-font-family: "Segoe UI Light";
+    -fx-font-family: "Open Sans Light";
     -fx-text-fill: white;
     -fx-opacity: 1;
 }
 
 .text-field {
     -fx-font-size: 12pt;
-    -fx-font-family: "Segoe UI Light";
+    -fx-font-family: "Open Sans Light";
 }
 
 .tab-pane {
@@ -70,7 +72,7 @@
 
 .table-view .column-header .label {
     -fx-font-size: 20pt;
-    -fx-font-family: "Segoe UI Light";
+    -fx-font-family: "Open Sans Light";
     -fx-text-fill: white;
     -fx-alignment: center-left;
     -fx-opacity: 1;
@@ -107,7 +109,7 @@
 }
 
 .cell_small_label {
-    -fx-font-size: 11px;
+    -fx-font-size: 12px;
     -fx-text-fill: #010504;
 }
 
@@ -146,7 +148,7 @@
 }
 
 .result-display {
-	-fx-font: "Segoe UI Light" ;
+	-fx-font-family: "Open Sans Light" ;
 	-fx-font-size: 14pt;
 	-fx-text-fill: #f46060 !important;
 	-fx-background-insets: 0;
@@ -199,7 +201,7 @@
 
 .menu-bar .label {
     -fx-font-size: 14pt;
-    -fx-font-family: "Segoe UI Light";
+    -fx-font-family: "Open Sans Light";
     -fx-text-fill: white;
     -fx-opacity: 0.9;
 }
