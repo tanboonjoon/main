@@ -53,17 +53,12 @@ public class EditCommand extends Command {
         assert targetIndex < lastShownList.size(): targetIndex;
         ReadOnlyTask taskToEdit = lastShownList.get(targetIndex - 1);
         
-        try {
-            model.deleteTask(taskToEdit);
-        } catch (TaskNotFoundException pnfe) {
-            assert false : "The target task cannot be missing";
-        }
+       
         if(!(name.equals(""))) {
             newName = name;
         }else{
             newName = taskToEdit.getName();
         }
-        assert name.equals(""): "fail here";
         if(!description.equals("")) {
             newDescription = description;
         }else{
@@ -78,13 +73,21 @@ public class EditCommand extends Command {
         
         Task newTask = new Task(newName, newDescription, newTagSet);
 
-        assert model != null;
         try {
             model.addTask(newTask);
+           
+            try{
+                model.deleteTask(taskToEdit);
+            } catch (TaskNotFoundException pnfe) {
+                assert false : "The target task cannot be missing";
+            }
+
             return new CommandResult(String.format(MESSAGE_EDIT_SUCCESS, newTask));
+  
         } catch (UniqueTaskList.DuplicateTaskException e) {
             return new CommandResult(MESSAGE_DUPLICATE_TASK);
         }
+       
     }
 
 }
