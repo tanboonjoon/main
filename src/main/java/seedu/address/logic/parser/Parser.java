@@ -30,6 +30,13 @@ public class Parser {
             Pattern.compile("^(?<name>[^\\/]+)"
                     + "((?<description>d\\/[^\\/]+))?"
                     + "(?<tagArguments>(?:e\\/[^\\/]+)*)$"); // variable number of tags
+    
+    
+    private static final Pattern TASK_EDIT_DATA_ARGS_FORMAT = // '-' dashes are reserved for delimiter prefixes
+            Pattern.compile("^(?<index>\\d+)" 
+                    + "(?<name>[^\\/]+)"
+                    + "((?<description>d\\/[^\\/]+))?"
+                    + "(?<tagArguments>(?:e\\/[^\\/]+)*)$"); // variable number of tags
 
     public Parser() {}
 
@@ -51,7 +58,10 @@ public class Parser {
 
         case AddCommand.COMMAND_WORD:
             return prepareAdd(arguments);
-
+            
+        case EditCommand.COMMAND_WORD:
+            return prepareEdit(arguments);
+            
         case SelectCommand.COMMAND_WORD:
             return prepareSelect(arguments);
 
@@ -199,6 +209,24 @@ public class Parser {
         final String[] keywords = matcher.group("keywords").split("\\s+");
         final Set<String> keywordSet = new HashSet<>(Arrays.asList(keywords));
         return new FindCommand(keywordSet);
+    }
+    
+    private Command prepareEdit(String args) {
+//        Optional<String>
+        final Matcher matcher = TASK_EDIT_DATA_ARGS_FORMAT.matcher(args.trim());
+        // Validate arg string format
+        if (!matcher.matches()) {
+            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE));
+        }
+        try {
+            return new EditCommand(Integer.parseInt(matcher.group("index")),
+                    matcher.group("name").trim(),
+                    getDescriptionFromArgs(matcher.group("description")),
+                    getTagsFromArgs(matcher.group("tagArguments"))
+            );
+        } catch (IllegalValueException ive) {
+            return new IncorrectCommand(ive.getMessage());
+        }
     }
 
 }
