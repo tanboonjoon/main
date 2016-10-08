@@ -123,6 +123,10 @@
      -fx-background-color: derive(#FFFFFF, 20%);
 }
 
+.command-anchor-pane {
+	-fx-background-color: derive(#f46060, 0%);
+}
+
 .status-bar {
     -fx-background-color: derive(#f46060, 20%);
     -fx-text-fill: black;
@@ -130,10 +134,21 @@
 
 .command-box {
 	-fx-background-insets: 0;
-    -fx-background-color: transparent, #ececec, transparent, #ececec;
+	-fx-border-insets: 0;
+    -fx-background-color: transparent, #f46060, transparent, #f46060;
+    -fx-border-width: 1px ;
+    -fx-border-color: #f46060 #f46060 #ffffff #f46060;
+}
+
+#commandTextField {
+	-fx-text-fill: white !important;
+	-fx-prompt-text-fill: white ;
 }
 
 .result-display {
+	-fx-font: "Segoe UI Light" ;
+	-fx-font-size: 14pt;
+	-fx-text-fill: #f46060 !important;
 	-fx-background-insets: 0;
     -fx-background-color: transparent, #ececec, transparent, #ececec;
 }

@@ -44,8 +44,8 @@ public class StatusBarFooter extends UiPart {
         addMainPane();
         addSyncStatus();
         setSyncStatus("Not updated yet in this session");
-        addSaveLocation();
-        setSaveLocation("./" + saveLocation);
+        addTeamName();
+        setTeamName("TaskForce App by Team Unknown");
         registerAsAnEventHandler(this);
     }
 
@@ -54,11 +54,11 @@ public class StatusBarFooter extends UiPart {
         placeHolder.getChildren().add(mainPane);
     }
 
-    private void setSaveLocation(String location) {
+    private void setTeamName(String location) {
         this.saveLocationStatus.setText(location);
     }
 
-    private void addSaveLocation() {
+    private void addTeamName() {
         this.saveLocationStatus = new StatusBar();
         FxViewUtil.applyAnchorBoundaryParameters(saveLocationStatus, 0.0, 0.0, 0.0, 0.0);
         saveLocStatusBarPane.getChildren().add(saveLocationStatus);
