@@ -48,7 +48,7 @@ public class EditCommandTest extends TaskForceGuiTest {
         assertResultMessage(EditCommand.MESSAGE_DUPLICATE_TASK);
 
         //Edit invalid index
-        commandBox.runCommand("edit 4000"+TypicalTestTasks.alice);
+        commandBox.runCommand("edit 4000 "+TypicalTestTasks.alice);
         assertResultMessage(Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
         
         //edit invalid command
