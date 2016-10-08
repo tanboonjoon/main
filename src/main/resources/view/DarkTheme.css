@@ -1,17 +1,22 @@
 .background {
-    -fx-background-color: derive(#1d1d1d, 20%);
+    /**-fx-background-color: derive(#1d1d1d, 20%);*/
+    -fx-background-color: derive(#FFFFFF, 20%);
+}
+
+.top_banner {
+	-fx-background-color: #f46060 ;
 }
 
 .label {
     -fx-font-size: 11pt;
-    -fx-font-family: "Segoe UI Semibold";
+    -fx-font-family: "Segoe UI Light";
     -fx-text-fill: #555555;
     -fx-opacity: 0.9;
 }
 
 .label-bright {
     -fx-font-size: 11pt;
-    -fx-font-family: "Segoe UI Semibold";
+    -fx-font-family: "Segoe UI Light";
     -fx-text-fill: white;
     -fx-opacity: 1;
 }
@@ -25,7 +30,7 @@
 
 .text-field {
     -fx-font-size: 12pt;
-    -fx-font-family: "Segoe UI Semibold";
+    -fx-font-family: "Segoe UI Light";
 }
 
 .tab-pane {
@@ -83,7 +88,7 @@
 .split-pane {
     -fx-border-radius: 1;
     -fx-border-width: 1;
-    -fx-background-color: derive(#1d1d1d, 20%);
+    -fx-background-color: derive(#ffffff, 20%);
 }
 
 .list-cell {
@@ -107,22 +112,49 @@
 }
 
 .anchor-pane {
-     -fx-background-color: derive(#1d1d1d, 20%);
+     /**-fx-background-color: derive(#1d1d1d, 20%); **/
+     -fx-background-color: derive(#FFFFFF, 20%);
 }
 
 .anchor-pane-with-border {
-     -fx-background-color: derive(#1d1d1d, 20%);
-     -fx-border-color: derive(#1d1d1d, 10%);
-     -fx-border-top-width: 1px;
+     /**-fx-background-color: derive(#1d1d1d, 20%);*/
+     /**-fx-border-color: derive(#1d1d1d, 10%);*/
+     /**-fx-border-top-width: 1px;*/
+     -fx-background-color: derive(#FFFFFF, 20%);
+}
+
+.command-anchor-pane {
+	-fx-background-color: derive(#f46060, 0%);
 }
 
 .status-bar {
-    -fx-background-color: derive(#1d1d1d, 20%);
+    -fx-background-color: derive(#f46060, 20%);
     -fx-text-fill: black;
 }
 
+.command-box {
+	-fx-background-insets: 0;
+	-fx-border-insets: 0;
+    -fx-background-color: transparent, #f46060, transparent, #f46060;
+    -fx-border-width: 1px ;
+    -fx-border-color: #f46060 #f46060 #ffffff #f46060;
+}
+
+#commandTextField {
+	-fx-text-fill: white !important;
+	-fx-prompt-text-fill: white ;
+}
+
 .result-display {
-    -fx-background-color: #ffffff;
+	-fx-font: "Segoe UI Light" ;
+	-fx-font-size: 14pt;
+	-fx-text-fill: #f46060 !important;
+	-fx-background-insets: 0;
+    -fx-background-color: transparent, #ececec, transparent, #ececec;
+}
+
+.result-display .content {
+	-fx-background-color: transparent, #ececec, transparent, #ececec;
 }
 
 .result-display .label {
@@ -130,7 +162,7 @@
 }
 
 .status-bar .label {
-    -fx-text-fill: white;
+    -fx-text-fill: black;
 }
 
 .status-bar-with-border {
@@ -270,6 +302,17 @@
 
 .scroll-bar:horizontal .increment-arrow, .scroll-bar:horizontal .decrement-arrow {
     -fx-padding: 8 1 8 1;
+}
+
+.circle_low {
+	-fx-fill: derive(#03253d, 25%);
+}
+
+.circle_med {
+	-fx-fill: derive(#8cc35e, 25%);
+}
+.circle_high {
+	-fx-fill: derive(#de5347, 25%);
 }
 
 #cardPane {
