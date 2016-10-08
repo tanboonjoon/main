@@ -1,6 +1,4 @@
-@font-face {
-	src: url('/images/OpenSans-Light.ttf') ;
-}
+
 
 .background {
     /**-fx-background-color: derive(#1d1d1d, 20%);*/
@@ -111,7 +109,7 @@
 }
 
 .cell_small_label {
-    -fx-font-size: 11px;
+    -fx-font-size: 12px;
     -fx-text-fill: #010504;
 }
 
