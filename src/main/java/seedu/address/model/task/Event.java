@@ -26,4 +26,12 @@ public class Event extends Task {
 		return endDate;
 	}
 	
+	@Override
+	public boolean isSameStateAs(ReadOnlyTask other) {
+		return super.isSameStateAs(other) 
+				&& other instanceof Event
+				&& this.getStartDate().equals( ((Event) other).getStartDate() )
+				&& this.getEndDate().equals( ((Event) other).getStartDate() ) ;
+	}
+	
 }

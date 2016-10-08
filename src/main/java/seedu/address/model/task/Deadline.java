@@ -20,5 +20,10 @@ public class Deadline extends Task {
 		return endDate;
 	}
 	
-
+	@Override
+	public boolean isSameStateAs(ReadOnlyTask other) {
+		return super.isSameStateAs(other) 
+				&& other instanceof Deadline
+				&& this.getEndDate().equals( ((Deadline) other).getEndDate() ) ;
+	}
 }
