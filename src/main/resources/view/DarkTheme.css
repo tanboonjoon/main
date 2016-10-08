@@ -128,8 +128,18 @@
     -fx-text-fill: black;
 }
 
+.command-box {
+	-fx-background-insets: 0;
+    -fx-background-color: transparent, #ececec, transparent, #ececec;
+}
+
 .result-display {
-    -fx-background-color: #ffffff;
+	-fx-background-insets: 0;
+    -fx-background-color: transparent, #ececec, transparent, #ececec;
+}
+
+.result-display .content {
+	-fx-background-color: transparent, #ececec, transparent, #ececec;
 }
 
 .result-display .label {

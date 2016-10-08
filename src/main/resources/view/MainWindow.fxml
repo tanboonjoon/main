@@ -16,8 +16,6 @@
       <AnchorPane prefHeight="57.0" prefWidth="342.0" styleClass="top_banner">
          <children>
             <Text fill="WHITE" layoutX="4.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-header" text="TaskForce" AnchorPane.bottomAnchor="3.291667938232422" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="-3.041667938232422" />
-            <Text fill="WHITE" layoutX="192.0" layoutY="49.640299797058105" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label" text="by Team Unknown" AnchorPane.leftAnchor="192.0" AnchorPane.topAnchor="33.8134765625" />
-            <Text fill="WHITE" layoutX="311.3544921875" layoutY="51.853515625" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label" text="v0.1" AnchorPane.bottomAnchor="1.3818359375" AnchorPane.rightAnchor="2.974609375" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="commandBoxPlaceholder" styleClass="anchor-pane-with-border" VBox.vgrow="NEVER">

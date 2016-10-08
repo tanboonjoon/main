@@ -41,6 +41,8 @@ public class CommandBox extends UiPart {
     public void configure(ResultDisplay resultDisplay, Logic logic) {
         this.resultDisplay = resultDisplay;
         this.logic = logic;
+        commandTextField.getStyleClass().removeAll();
+        commandTextField.getStyleClass().add("command-box") ;
         registerAsAnEventHandler(this);
     }
 
