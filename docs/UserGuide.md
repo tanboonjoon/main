@@ -146,8 +146,12 @@ Format: `freetime [d/DAYS_FROM_TODAY]`
 > For example, for yesterday's free time, `freetime d/-1`  
 > DAYS_FROM_TODAY **must be an integer**
 
+#### Undo the previous command : `undo`
+Undo the last command that was successfully executed. <br>
+Format: `undo`
+
 #### Clearing all entries : `clear`
-Clears all entries from the task list.<br>
+Clears **ALL** entries from the task list. This command **CANNOT** be undone! <br>
 Format: `clear`  
 
 #### Exiting the program : `exit`
@@ -174,6 +178,7 @@ Clear | `clear`
 Delete | `delete INDEX`
 Edit | `edit INDEX [NAME] [s/START_DATE] [e/END_DATE] ...`
 Freetime | `freetime [d/DAYS_FROM_TODAY]`
-Search | `find KEYWORD [MORE_KEYWORDS]`
+Find | `find KEYWORD [MORE_KEYWORDS]`
+Undo | `undo`
 Help | `help`
 Exit | `exit`
