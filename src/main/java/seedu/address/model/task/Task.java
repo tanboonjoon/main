@@ -9,10 +9,10 @@ import java.util.Objects;
  * Represents a Task in the address book.
  * Guarantees: details are present and not null, field values are validated.
  */
-public class Task implements ReadOnlyTask {
+public final class Task implements ReadOnlyTask {
 
-    private String name;
-    private String description ;
+    private final String name;
+    private final String description ;
 
     private UniqueTagList tags;
 
