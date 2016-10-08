@@ -4,7 +4,7 @@ import java.util.Date;
 
 import seedu.address.model.tag.UniqueTagList;
 /**
-* A deadline is a task that has only a end date 
+* A deadline is a task that has only a end date  
 *
  */
 public class Deadline extends Task {
