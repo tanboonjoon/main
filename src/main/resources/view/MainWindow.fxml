@@ -8,7 +8,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox maxHeight="Infinity" maxWidth="Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seedu.address.ui.MainWindow">
+<VBox maxHeight="Infinity" maxWidth="Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seedu.address.ui.MainWindow">
    <stylesheets>
       <URL value="@DarkTheme.css" />
       <URL value="@Extensions.css" />
@@ -18,15 +18,15 @@
          <children>
             <AnchorPane fx:id="versionNumberPlaceholder" layoutX="190.0" layoutY="4.0" prefHeight="20.0" prefWidth="21.0" AnchorPane.bottomAnchor="33.0" AnchorPane.leftAnchor="180.0" AnchorPane.rightAnchor="131.0" AnchorPane.topAnchor="4.0">
                <children>
-                  <Text fill="WHITE" layoutY="14.0" strokeType="OUTSIDE" strokeWidth="0.0" text="v0.1" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="-2.0">
+                  <Text fill="WHITE" layoutX="55.0" layoutY="14.0" strokeType="OUTSIDE" strokeWidth="0.0" text="v0.1" wrappingWidth="29.185546875" AnchorPane.leftAnchor="55.0" AnchorPane.topAnchor="-2.0">
                      <font>
-                        <Font name="Segoe UI Light" size="12.0" />
+                        <Font name="Arial" size="12.0" />
                      </font>
                   </Text>
                </children>
             </AnchorPane>
             <Text fill="WHITE" layoutX="4.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-header" text="TaskForce" AnchorPane.bottomAnchor="3.291667938232422" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="-3.041667938232422" />
-            <AnchorPane fx:id="commandBoxPlaceholder" layoutX="183.0" layoutY="37.0" prefHeight="10.0" prefWidth="150.0" styleClass="command-anchor-pane" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="0.0">
+            <AnchorPane fx:id="commandBoxPlaceholder" layoutX="277.0" layoutY="37.0" prefHeight="14.0" prefWidth="523.0" styleClass="command-anchor-pane" AnchorPane.bottomAnchor="-2.0" AnchorPane.leftAnchor="277.0" AnchorPane.rightAnchor="0.0">
                <padding>
                   <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
                </padding>
