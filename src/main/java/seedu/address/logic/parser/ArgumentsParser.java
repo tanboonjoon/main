@@ -151,31 +151,34 @@ public class ArgumentsParser {
 		
 		commandString = commandString.trim().concat(" $/") ; // Append a unique "end of string" character
 		
+		if (!isCommandStringValid()) {
+			throw new IncorrectCommandException() ; 
+		}
 		for (int i = 0; i < commandString.length(); i ++) {
 			
 			if (commandString.charAt(i) != '/') {
 				charStack.push(commandString.charAt(i));
-			} else {
-				CommandArgs nextArg = FLAGS.get(extractFlagFromString(charStack)) ;
-				
-				if (thisArg == null) {
-					throw new IncorrectCommandException() ;
-				} else {
-					String value = extractArgValueFromString(charStack) ;
-					
-					if (value.length() == 0) {
-						throw new IncorrectCommandException() ;
-					}
-					
-					argumentValuesMap.put(thisArg, value) ;
-					thisArg = nextArg ;
-				}
+				continue;
 			}
+			
+			if(thisArg == null) {
+				throw new IncorrectCommandException();
+			}
+			
+			CommandArgs nextArg = FLAGS.get(extractFlagFromString(charStack)) ;
+			String value = extractArgValueFromString(charStack) ;
+			
+			if(value.length() == 0) {
+				throw new IncorrectCommandException() ;
+			}
+			
+			argumentValuesMap.put(thisArg, value) ;
+			thisArg = nextArg ;
+			
+
 		}
 
-		if (!isCommandStringValid()) {
-			throw new IncorrectCommandException() ; 
-		}
+
 	}
 	
 	private String extractFlagFromString(Deque<Character> stack) {
