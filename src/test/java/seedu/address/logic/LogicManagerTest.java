@@ -193,7 +193,7 @@ public class LogicManagerTest {
         // Order does not matter 
         Task john = helper.john() ;
         expectedAB.addTask(john);
-        assertCommandBehavior("add John's Birthday party e/friendsParty d/at his house",
+        assertCommandBehavior("add John's Birthday party t/friendsParty d/at his house",
                 String.format(AddCommand.MESSAGE_SUCCESS, john),
                 expectedAB,
                 expectedAB.getTaskList());
@@ -445,7 +445,7 @@ public class LogicManagerTest {
 
             UniqueTagList tags = p.getTags();
             for(Tag t: tags){
-                cmd.append(" e/").append(t.tagName);
+                cmd.append(" t/").append(t.tagName);
             }
 
             return cmd.toString();
