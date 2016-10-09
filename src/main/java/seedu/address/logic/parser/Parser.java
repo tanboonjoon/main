@@ -125,21 +125,6 @@ public class Parser {
     	} catch (IllegalValueException e) {
     		 return new IncorrectCommand(e.getMessage());
     	}
-    	
-//        final Matcher matcher = TASK_DATA_ARGS_FORMAT.matcher(args.trim());
-//        // Validate arg string format
-//        if (!matcher.matches()) {
-//            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE));
-//        }
-//        try {
-//            return new AddCommand(
-//                    matcher.group("name").trim(),
-//                    getDescriptionFromArgs(matcher.group("description")),
-//                    getTagsFromArgs(matcher.group("tagArguments"))
-//            );
-//        } catch (IllegalValueException ive) {
-//            return new IncorrectCommand(ive.getMessage());
-//        }
     }
 
     /**

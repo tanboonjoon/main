@@ -151,13 +151,14 @@ public class LogicManagerTest {
         String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE);
         assertCommandBehavior(
                 "add wrong args wrong args /e", expectedMessage);
-        // Add commands is very flexible. More test cases soon
-//        assertCommandBehavior(
-//                "add Valid Name 12345 e/valid@email.butNoPhonePrefix a/valid, address", expectedMessage);
-//        assertCommandBehavior(
-//                "add Valid Name p/12345 valid@email.butNoPrefix a/valid, address", expectedMessage);
-//        assertCommandBehavior(
-//                "add Valid Name p/12345 e/valid@email.butNoAddressPrefix valid, address", expectedMessage);
+        assertCommandBehavior(
+        		"add wrong args wrong args d/", expectedMessage);
+        assertCommandBehavior(
+        		"add wrong args wrong args d/ e/", expectedMessage);
+        assertCommandBehavior(
+        		"add wrong args wrong args d/         /e", expectedMessage);
+        assertCommandBehavior(
+        		"add d/         /e", expectedMessage);
     }
 
     @Test
@@ -185,6 +186,23 @@ public class LogicManagerTest {
         // execute command and verify result
         assertCommandBehavior(helper.generateAddCommand(toBeAdded),
                 String.format(AddCommand.MESSAGE_SUCCESS, toBeAdded),
+                expectedAB,
+                expectedAB.getTaskList());
+        
+        
+        // Order does not matter 
+        Task john = helper.john() ;
+        expectedAB.addTask(john);
+        assertCommandBehavior("add John's Birthday party e/friendsParty d/at his house",
+                String.format(AddCommand.MESSAGE_SUCCESS, john),
+                expectedAB,
+                expectedAB.getTaskList());
+        
+     // Optional arguments 
+        Task johnny = helper.johnny() ;
+        expectedAB.addTask(johnny);
+        assertCommandBehavior("add Johnny's Birthday party d/at his house",
+                String.format(AddCommand.MESSAGE_SUCCESS, johnny),
                 expectedAB,
                 expectedAB.getTaskList());
 
@@ -391,6 +409,14 @@ public class LogicManagerTest {
             Tag tag2 = new Tag("tag2");
             UniqueTagList tags = new UniqueTagList(tag1, tag2);
             return new Task(name, " " , tags);
+        }
+        
+        Task john() throws Exception {
+        	return new Task ("John's Birthday party", "at his house", new UniqueTagList(new Tag("friendsParty") )) ;
+        }
+        
+        Task johnny() throws Exception {
+        	return new Task ("Johnny's Birthday party", "at his house", new UniqueTagList() ) ;
         }
 
         /**

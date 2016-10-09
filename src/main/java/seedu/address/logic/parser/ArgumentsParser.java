@@ -49,6 +49,14 @@ public class ArgumentsParser {
 		noFlagArgument = null ;
 	}
 	
+	/**
+	 * Adds a no flag argument to this parser. A no flag argument is defined to be an argument that appears at the very
+	 * start of the command string. No flag arguments are required and there can only be one no flag argument in any
+	 * command string
+	 * 
+	 * @param arg
+	 * @return
+	 */
 	public ArgumentsParser addNoFlagArg (CommandArgs arg) {
 		noFlagArgument = arg ;
 		
@@ -142,6 +150,10 @@ public class ArgumentsParser {
 				} else {
 					String value = extractArgValueFromString(charStack) ;
 					
+					if (value.length() == 0) {
+						throw new IncorrectCommandException() ;
+					}
+					
 					argumentValuesMap.put(thisArg, value) ;
 					thisArg = nextArg ;
 				}
@@ -154,14 +166,17 @@ public class ArgumentsParser {
 	}
 	
 	private String extractFlagFromString(Deque<Character> stack) {
+		
 		StringBuilder sb = new StringBuilder() ;
 		sb.append('/') ;
 		
-		while (stack.peekFirst() != ' ') {
+		while (stack.peekFirst() != null && stack.peekFirst() != ' ') {
 			sb.append(stack.pop()) ;
 		}
 		
-		stack.pop() ;
+		if (!stack.isEmpty()) {
+			stack.pop() ;
+		}
 		
 		return sb.reverse().toString() ;
 	}
