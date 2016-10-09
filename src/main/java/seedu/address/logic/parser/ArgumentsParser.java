@@ -102,7 +102,7 @@ public class ArgumentsParser {
 	 * @param arg
 	 * @return
 	 */
-	public Optional<List<String>> getArgValue(CommandArgs arg) {
+	public Optional<List<String>> getArgValues(CommandArgs arg) {
 		List<String> result = Lists.newLinkedList() ;
 		
 		if (!argumentValuesMap.containsKey(arg)) {
@@ -112,6 +112,19 @@ public class ArgumentsParser {
 		result.addAll(argumentValuesMap.get(arg)) ;
 		
 		return Optional.of(result) ;
+	}
+	
+	/**
+	 * Retrieves the associated values as a string. <p>
+	 * Note if there is more than one value associated to this flag, only the first arbitrary one will be returned.
+	 * <p>
+	 * If there is no such flag present, return an {@code Optional.empty()}.
+	 * 
+	 * @param arg
+	 * @return
+	 */
+	public Optional<String> getArgValue(CommandArgs arg) {
+		return getArgValues(arg).isPresent() ? Optional.of(getArgValues(arg).get().get(0)) : Optional.empty() ;
 	}
 	
 	/**

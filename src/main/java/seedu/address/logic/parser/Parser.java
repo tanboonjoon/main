@@ -118,9 +118,9 @@ public class Parser {
     	
     	try {
     		return new AddCommand(
-    				parser.getArgValue(CommandArgs.NAME).get().get(0),
-    				parser.getArgValue(CommandArgs.DESC).isPresent() ? parser.getArgValue(CommandArgs.DESC).get().get(0) : "",
-    				parser.getArgValue(CommandArgs.TAGS).isPresent() ? Sets.newHashSet(parser.getArgValue(CommandArgs.TAGS).get()) : Collections.emptySet()
+    				parser.getArgValue(CommandArgs.NAME).get(),
+    				parser.getArgValue(CommandArgs.DESC).isPresent() ? parser.getArgValue(CommandArgs.DESC).get() : "",
+    				parser.getArgValues(CommandArgs.TAGS).isPresent() ? Sets.newHashSet(parser.getArgValues(CommandArgs.TAGS).get()) : Collections.emptySet()
     		) ;
     	} catch (IllegalValueException e) {
     		 return new IncorrectCommand(e.getMessage());
@@ -215,14 +215,19 @@ public class Parser {
      * @return the prepared command
      */
     private Command prepareFind(String args) {
-        final Matcher matcher = KEYWORDS_ARGS_FORMAT.matcher(args.trim());
-        if (!matcher.matches()) {
-            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
-                    FindCommand.MESSAGE_USAGE));
-        }
+    	ArgumentsParser parser = new ArgumentsParser() ;
+    	
+    	parser.addNoFlagArg(CommandArgs.NAME) ;
+    	
+    	try {
+    		parser.parse(args);
+    	} catch (IncorrectCommandException e) {
+    		 return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                     FindCommand.MESSAGE_USAGE));
+    	}
 
         // keywords delimited by whitespace
-        final String[] keywords = matcher.group("keywords").split("\\s+");
+        final String[] keywords = parser.getArgValue(CommandArgs.NAME).get().split("\\s+");
         final Set<String> keywordSet = new HashSet<>(Arrays.asList(keywords));
         return new FindCommand(keywordSet);
     }
