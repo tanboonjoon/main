@@ -32,7 +32,7 @@ public class AddCommand extends Command {
      *
      * @throws IllegalValueException if any of the raw values are invalid
      */
-    public AddCommand(String name, String description, Set<String> tags) throws IllegalValueException {
+    public AddCommand(String name, String description,String startDate,String endDate, Set<String> tags) throws IllegalValueException {
         final Set<Tag> tagSet = Sets.newHashSet() ;
         
         for (String tagName : tags) {

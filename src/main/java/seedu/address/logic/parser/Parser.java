@@ -120,6 +120,8 @@ public class Parser {
     		return new AddCommand(
     				parser.getArgValue(CommandArgs.NAME).get(),
     				parser.getArgValue(CommandArgs.DESC).isPresent() ? parser.getArgValue(CommandArgs.DESC).get() : "",
+    				parser.getArgValue(CommandArgs.START_DATETIME).isPresent() ? parser.getArgValue(CommandArgs.START_DATETIME).get() : "",
+    				parser.getArgValue(CommandArgs.END_DATETIME).isPresent() ? parser.getArgValue(CommandArgs.END_DATETIME).get() : "",
     				parser.getArgValues(CommandArgs.TAGS).isPresent() ? Sets.newHashSet(parser.getArgValues(CommandArgs.TAGS).get()) : Collections.emptySet()
     		) ;
     	} catch (IllegalValueException e) {
