@@ -24,6 +24,7 @@ import seedu.address.commons.exceptions.IncorrectCommandException;
 public class ArgumentsParser {
 	
 	public static final ImmutableMap<String, CommandArgs> FLAGS ;
+	public static final int INVALID_VALUE_LENGTH = 0;
 	
 	static {
 		
@@ -168,7 +169,7 @@ public class ArgumentsParser {
 			CommandArgs nextArg = FLAGS.get(extractFlagFromString(charStack)) ;
 			String value = extractArgValueFromString(charStack) ;
 			
-			if(value.length() == 0) {
+			if(value.length() == INVALID_VALUE_LENGTH) {
 				throw new IncorrectCommandException() ;
 			}
 			
@@ -219,8 +220,7 @@ public class ArgumentsParser {
 		
 		if (argsPresent.containsAll(requiredArguments)) {		
 			return true ;
-		} else {
-			return false ;
-		}
+		} 
+		return false;
 	}
  }
