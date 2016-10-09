@@ -152,9 +152,6 @@ public class ArgumentsParser {
 		
 		commandString = commandString.trim().concat(" $/") ; // Append a unique "end of string" character
 		
-		if (!isCommandStringValid()) {
-			throw new IncorrectCommandException() ; 
-		}
 		for (int i = 0; i < commandString.length(); i ++) {
 			
 			if (commandString.charAt(i) != '/') {
@@ -178,7 +175,10 @@ public class ArgumentsParser {
 			
 
 		}
-
+		
+		if (!isCommandStringValid()) {
+			throw new IncorrectCommandException() ; 
+		}
 
 	}
 	
