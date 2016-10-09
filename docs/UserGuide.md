@@ -76,10 +76,10 @@ Examples:
 Blocks out time for a potential event, or to indicate unavailability to others <br>
 Format: `block NAME st/START_DATE et/END_DATE [st/START_DATE et/END_DATE]...`
 
-> Blocked out time is only blocked and cannot be tagged.
-> Date format is MMDDYYY HH:MM (24 hour Format)
+> Blocked out time is only blocked and cannot be tagged.<br>
+> Date format is MMDDYYY HH:MM (24 hour Format)<br>
 > If no date is specified, it is taken as today/tomorrow by default (depending on whether
-the time has passed at present today)  
+the time has passed at present today)  <br>
 > If no time is specified, it is taken as whole day (start 0000, end 2359) by default
 
 Examples:
@@ -141,7 +141,7 @@ Format: `edit INDEX [NAME] [d/DESCRIPTION] [s/START_DATE] [e/END_DATE]`
 > The index **must be a positive integer** 1, 2, 3, ...  
 
 > You can modify a reminder into a deadline/event by adding start & end dates:  
-> * `edit INDEX s/1700 e/1900`    
+> * `edit INDEX st/1700 et/1900`    
 
 > You can modify an event into a deadline by using `edit INDEX s/` (leaving empty)  
 > You can modify an event into a block by using `edit INDEX n/`  
