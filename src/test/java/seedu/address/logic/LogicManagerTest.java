@@ -20,6 +20,8 @@ import seedu.address.model.tag.UniqueTagList;
 import seedu.address.model.task.*;
 import seedu.address.storage.StorageManager;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -107,11 +109,9 @@ public class LogicManagerTest {
 
         //Execute the command
         CommandResult result = logic.execute(inputCommand);
-
         //Confirm the ui display elements should contain the right data
         assertEquals(expectedMessage, result.feedbackToUser);
         assertEquals(expectedShownList, model.getFilteredTaskList());
-
         //Confirm the state of data (saved and in-memory) is as expected
         assertEquals(expectedTodoList, model.getTaskForce());
         assertEquals(expectedTodoList, latestSavedAddressBook);
@@ -189,6 +189,7 @@ public class LogicManagerTest {
                 expectedAB,
                 expectedAB.getTaskList());
         
+
         
         // Order does not matter 
         Task john = helper.john() ;
@@ -205,6 +206,24 @@ public class LogicManagerTest {
                 String.format(AddCommand.MESSAGE_SUCCESS, johnny),
                 expectedAB,
                 expectedAB.getTaskList());
+        
+
+        
+        Task test_event = helper.test_event();
+        expectedAB.addTask(test_event);
+
+        
+        Task test_deadline = helper.test_deadline();
+        expectedAB.addTask(test_deadline);
+
+        
+        CommandResult result = logic.execute("add event d/this is a event st/13022016 1300 et/13022016 1300");
+        assertEquals(String.format(AddCommand.MESSAGE_SUCCESS, test_event), result.feedbackToUser);
+
+        CommandResult result2 = logic.execute("add deadline d/this is a deadline et/13022016 1300");
+        assertEquals(String.format(AddCommand.MESSAGE_SUCCESS, test_deadline), result2.feedbackToUser);
+
+
 
     }
 
@@ -417,6 +436,19 @@ public class LogicManagerTest {
         
         Task johnny() throws Exception {
         	return new Task ("Johnny's Birthday party", "at his house", new UniqueTagList() ) ;
+        }
+        
+
+        Task test_deadline() throws Exception {
+        	LocalDateTime endDate = LocalDateTime.parse("13022016 1300",  DateTimeFormatter.ofPattern("ddMMyyy HHmm"));
+        	return new Deadline("deadline", "this is a deadline", endDate, new UniqueTagList() );
+        }
+        
+        Task test_event() throws Exception {
+        	LocalDateTime startDate = LocalDateTime.parse("13022016 1300",  DateTimeFormatter.ofPattern("ddMMyyy HHmm"));
+        	LocalDateTime endDate = LocalDateTime.parse("13022016 1300",  DateTimeFormatter.ofPattern("ddMMyyy HHmm"));
+        	return new Event("event", "this is a event", startDate, endDate, new UniqueTagList() );
+
         }
 
         /**
