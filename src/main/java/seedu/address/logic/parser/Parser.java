@@ -2,7 +2,8 @@ package seedu.address.logic.parser;
 
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
-
+import static seedu.address.commons.core.Messages.MESSAGE_INVALID_DATE_FORMAT;
+import java.time.format.DateTimeParseException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -120,12 +121,14 @@ public class Parser {
     		return new AddCommand(
     				parser.getArgValue(CommandArgs.NAME).get(),
     				parser.getArgValue(CommandArgs.DESC).isPresent() ? parser.getArgValue(CommandArgs.DESC).get() : "",
-    				parser.getArgValue(CommandArgs.START_DATETIME).isPresent() ? parser.getArgValue(CommandArgs.START_DATETIME).get() : "",
-    				parser.getArgValue(CommandArgs.END_DATETIME).isPresent() ? parser.getArgValue(CommandArgs.END_DATETIME).get() : "",
+    				parser.getArgValue(CommandArgs.START_DATETIME).isPresent() ? parser.getArgValue(CommandArgs.START_DATETIME).get() : null,
+    				parser.getArgValue(CommandArgs.END_DATETIME).isPresent() ? parser.getArgValue(CommandArgs.END_DATETIME).get() : null,
     				parser.getArgValues(CommandArgs.TAGS).isPresent() ? Sets.newHashSet(parser.getArgValues(CommandArgs.TAGS).get()) : Collections.emptySet()
     		) ;
     	} catch (IllegalValueException e) {
     		 return new IncorrectCommand(e.getMessage());
+    	} catch (DateTimeParseException e) {
+    		return new IncorrectCommand(String.format(MESSAGE_INVALID_DATE_FORMAT, AddCommand.MESSAGE_USAGE));
     	}
     }
 
