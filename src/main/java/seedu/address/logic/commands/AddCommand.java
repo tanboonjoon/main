@@ -20,8 +20,10 @@ public class AddCommand extends Command {
 
     public static final String COMMAND_WORD = "add";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a person to the address book. "
-            + "Parameters: NAME [d/DESCRIPTION] [st/START_DATE] [et/END_DATE] [e/TAG] ...\n"
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a person to the address book. \n"
+    		+ "Format : Task : [TASKNAME] [d/DESCIPRTION] [t/TAG] ...\n" 
+            + "Deadline : [TASKNAME] [d/DESCIPRTION] [et/END_DATE] [t/TAG] ...\n" 
+    		+ "Event : [d/DESCRIPTION] [st/START_DATE] [et/END_DATE] [t/TAG] ...\n" 
             + "Example: " + COMMAND_WORD
             + " Homework d/CS2103 hw t/veryImportant t/urgent";
 
@@ -39,9 +41,11 @@ public class AddCommand extends Command {
     public AddCommand(String name, String description,String startDate,String endDate, Set<String> tags) throws IllegalValueException {
         final Set<Tag> tagSet = Sets.newHashSet() ;
         formatter = DateTimeFormatter.ofPattern("ddMMyyy HHmm");
+        
         for (String tagName : tags) {
             tagSet.add(new Tag(tagName));
         }
+        
         if (startDate == null && endDate == null) {
 
         	this.toAdd = new Task(name, description, new UniqueTagList(tagSet));
@@ -56,6 +60,7 @@ public class AddCommand extends Command {
         	LocalDateTime event_startDate = LocalDateTime.parse(startDate, formatter);
         	LocalDateTime event_endDate = LocalDateTime.parse(endDate, formatter);
         	this.toAdd = new Event(name, description, event_startDate, event_endDate, new UniqueTagList(tagSet));
+        	
         }else{
         	throw new IllegalValueException(INVALID_TASK_TYPE_MESSAGE);
         }
