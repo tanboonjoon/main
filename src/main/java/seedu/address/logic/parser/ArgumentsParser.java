@@ -55,18 +55,45 @@ public class ArgumentsParser {
 		return this ;
 	}
 	
+	/** 
+	 * Adds a required argument. <p>
+	 * 
+	 * A required argument is defined to be an argument that if not present in the given command string,
+	 * the command string will be deemed improper.
+	 * 
+	 * @param arg
+	 * @return this object for daisy chaining.
+	 */
 	public ArgumentsParser addRequiredArg (CommandArgs arg) {
 		requiredArguments.add(arg) ;
 		
 		return this ;
 	}
 	
+	/** 
+	 * Adds a optional argument. <p>
+	 * 
+	 * A optional argument is defined to be an argument that may or may not be present in the given command string.
+	 * The command string will be deemed valid in both cases
+	 * 
+	 * @param arg
+	 * @return this object for daisy chaining.
+	 */
 	public ArgumentsParser addOptionalArg (CommandArgs arg) {
 		optionalArguments.add(arg) ;
 		
 		return this ;
 	}
 	
+	/**
+	 * Retrieves the associated values as a List of strings. <p>
+	 * For example e/tag1 e/tag2 would return {tag1, tag2}. If there is only one value, this will return a singleton list.
+	 * <p>
+	 * If there is no such flag present, return an {@code Optional.empty()}.
+	 * 
+	 * @param arg
+	 * @return
+	 */
 	public Optional<List<String>> getArgValue(CommandArgs arg) {
 		List<String> result = Lists.newLinkedList() ;
 		
@@ -79,24 +106,43 @@ public class ArgumentsParser {
 		return Optional.of(result) ;
 	}
 	
-	public void parse(String args) throws IncorrectCommandException {
+	/**
+	 * Returns true if and only if the parsed command string contains a flag-value pair
+	 * containing at least one value
+	 *  
+	 * @param flag
+	 * @return
+	 */
+	public boolean containsFlag(CommandArgs flag) {
+		return argumentValuesMap.containsKey(flag) ;
+	}
+	
+	/**
+	 * Parses the given commandString into their individual flag-value pairs.
+	 * 
+	 * @param commandString
+	 * @throws IncorrectCommandException if given command string does not match the required format
+	 */
+	public void parse(String commandString) throws IncorrectCommandException {
 		
 		Deque<Character> charStack = Lists.newLinkedList();
 		CommandArgs thisArg = noFlagArgument ;
 		
-		args = args.trim() ;
+		commandString = commandString.trim().concat(" $/") ; // Append a unique "end of string" character
 		
-		for (int i = 0; i < args.length(); i ++) {
+		for (int i = 0; i < commandString.length(); i ++) {
 			
-			if (args.charAt(i) != '/') {
-				charStack.push(args.charAt(i));
+			if (commandString.charAt(i) != '/') {
+				charStack.push(commandString.charAt(i));
 			} else {
 				CommandArgs nextArg = FLAGS.get(extractFlagFromString(charStack)) ;
 				
 				if (thisArg == null) {
 					throw new IncorrectCommandException() ;
 				} else {
-					argumentValuesMap.put(thisArg, extractArgValueFromString(charStack)) ;
+					String value = extractArgValueFromString(charStack) ;
+					
+					argumentValuesMap.put(thisArg, value) ;
 					thisArg = nextArg ;
 				}
 			}

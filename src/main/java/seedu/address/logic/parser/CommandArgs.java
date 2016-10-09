@@ -1,6 +1,7 @@
 package seedu.address.logic.parser;
 
 public enum CommandArgs {
+	NAME(""),
 	DESC("d/"),
 	TAGS("e/") ;
 	

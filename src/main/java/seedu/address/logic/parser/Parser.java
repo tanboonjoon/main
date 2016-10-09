@@ -1,15 +1,32 @@
 package seedu.address.logic.parser;
 
-import seedu.address.logic.commands.*;
-import seedu.address.commons.util.StringUtil;
-import seedu.address.commons.exceptions.IllegalValueException;
+import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.address.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
+import com.google.common.collect.Sets;
+
+import seedu.address.commons.exceptions.IllegalValueException;
+import seedu.address.commons.exceptions.IncorrectCommandException;
+import seedu.address.commons.util.StringUtil;
+import seedu.address.logic.commands.AddCommand;
+import seedu.address.logic.commands.ClearCommand;
+import seedu.address.logic.commands.Command;
+import seedu.address.logic.commands.DeleteCommand;
+import seedu.address.logic.commands.ExitCommand;
+import seedu.address.logic.commands.FindCommand;
+import seedu.address.logic.commands.HelpCommand;
+import seedu.address.logic.commands.IncorrectCommand;
+import seedu.address.logic.commands.ListCommand;
+import seedu.address.logic.commands.SelectCommand;
 
 /**
  * Parses user input.
@@ -85,20 +102,44 @@ public class Parser {
      * @return the prepared command
      */
     private Command prepareAdd(String args){
-        final Matcher matcher = TASK_DATA_ARGS_FORMAT.matcher(args.trim());
-        // Validate arg string format
-        if (!matcher.matches()) {
-            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE));
-        }
-        try {
-            return new AddCommand(
-                    matcher.group("name").trim(),
-                    getDescriptionFromArgs(matcher.group("description")),
-                    getTagsFromArgs(matcher.group("tagArguments"))
-            );
-        } catch (IllegalValueException ive) {
-            return new IncorrectCommand(ive.getMessage());
-        }
+    	
+    	ArgumentsParser parser = new ArgumentsParser() ;
+    	
+    	parser
+    		.addNoFlagArg(CommandArgs.NAME)
+    		.addOptionalArg(CommandArgs.DESC)
+    		.addOptionalArg(CommandArgs.TAGS) ;
+    	
+    	try {
+    		parser.parse(args);
+    	} catch (IncorrectCommandException e) {
+    		 return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE));
+    	}
+    	
+    	try {
+    		return new AddCommand(
+    				parser.getArgValue(CommandArgs.NAME).get().get(0),
+    				parser.getArgValue(CommandArgs.DESC).isPresent() ? parser.getArgValue(CommandArgs.DESC).get().get(0) : "",
+    				parser.getArgValue(CommandArgs.TAGS).isPresent() ? Sets.newHashSet(parser.getArgValue(CommandArgs.TAGS).get()) : Collections.emptySet()
+    		) ;
+    	} catch (IllegalValueException e) {
+    		 return new IncorrectCommand(e.getMessage());
+    	}
+    	
+//        final Matcher matcher = TASK_DATA_ARGS_FORMAT.matcher(args.trim());
+//        // Validate arg string format
+//        if (!matcher.matches()) {
+//            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE));
+//        }
+//        try {
+//            return new AddCommand(
+//                    matcher.group("name").trim(),
+//                    getDescriptionFromArgs(matcher.group("description")),
+//                    getTagsFromArgs(matcher.group("tagArguments"))
+//            );
+//        } catch (IllegalValueException ive) {
+//            return new IncorrectCommand(ive.getMessage());
+//        }
     }
 
     /**
