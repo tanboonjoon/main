@@ -2,6 +2,7 @@ package seedu.address.model.task;
 
 import java.time.LocalDateTime;
 
+import seedu.address.commons.util.DateUtil;
 import seedu.address.model.tag.UniqueTagList;
 /**
 * A deadline is a task that has only a ending datetime
@@ -26,4 +27,19 @@ public class Deadline extends Task {
 				&& other instanceof Deadline
 				&& this.getEndDate().equals( ((Deadline) other).getEndDate() ) ;
 	}
+	
+	@Override
+	public String getAsText() {
+        final StringBuilder builder = new StringBuilder();
+        builder.append(getName())
+                .append(" Task Name: ")
+                .append(getName())
+                .append(" Description: ")
+                .append(getDescription())
+                .append(" Due by: ")
+                .append(DateUtil.parseLocalDateTimeIntoString(getEndDate()) )
+                .append(" Tags: ");
+        getTags().forEach(builder::append);
+        return builder.toString();
+    }
 }
