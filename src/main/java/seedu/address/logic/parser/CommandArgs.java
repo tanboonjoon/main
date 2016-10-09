@@ -5,7 +5,7 @@ public enum CommandArgs {
 	TAGS("e/") ;
 	
 	private String commandString ;
-	
+
 	private CommandArgs (String cmd) {
 		commandString = cmd ;
 	}
