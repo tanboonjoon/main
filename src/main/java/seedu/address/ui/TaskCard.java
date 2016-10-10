@@ -8,6 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.shape.Circle;
 import seedu.address.model.task.Deadline;
+import seedu.address.model.task.Event;
 import seedu.address.model.task.ReadOnlyTask;
 
 public class TaskCard extends UiPart{
@@ -28,6 +29,8 @@ public class TaskCard extends UiPart{
     private Circle circle;
     @FXML
     private Label deadline;
+    @FXML
+    private Label startline;
 
     private ReadOnlyTask task;
     private int displayedIndex;
@@ -52,6 +55,12 @@ public class TaskCard extends UiPart{
         tags.setText(task.tagsString());
         if(task instanceof Deadline) {
         	deadline.setText( ((Deadline)task).getEndDate().format(formatter).toString());
+        }
+        
+        if(task instanceof Event) {
+        	deadline.setText( ((Event)task).getEndDate().format(formatter).toString());
+        	startline.setText( ((Event)task).getEndDate().format(formatter).toString() + "  - ");
+
         }
         circle.getStyleClass().remove("circle_low") ;
         circle.getStyleClass().add("circle_high") ;
