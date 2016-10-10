@@ -48,16 +48,22 @@ public class TaskCard extends UiPart{
 
     @FXML
     public void initialize() {
+    	deadline.setVisible(false);
+    	startline.setVisible(false);
+    	
     	formatter = DateTimeFormatter.ofPattern("d MMM HHmm");
         name.setText(task.getName());
         id.setText(displayedIndex + ". ");
         description.setText(task.getDescription());
         tags.setText(task.tagsString());
         if(task instanceof Deadline) {
+        	deadline.setVisible(true);
         	deadline.setText( ((Deadline)task).getEndDate().format(formatter).toString());
         }
         
         if(task instanceof Event) {
+        	deadline.setVisible(true);
+        	startline.setVisible(true);
         	deadline.setText( ((Event)task).getEndDate().format(formatter).toString());
         	startline.setText( ((Event)task).getEndDate().format(formatter).toString() + "  - ");
 
