@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.shape.Circle?>
 
-<HBox id="cardPane" fx:id="cardPane" prefHeight="93.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1">
+<HBox id="cardPane" fx:id="cardPane" prefHeight="93.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
     <children>
       <AnchorPane prefHeight="88.0" prefWidth="104.0">
          <children>
@@ -23,6 +27,7 @@
                      <Label fx:id="name" layoutY="7.0" styleClass="cell_big_label" text="\$first" AnchorPane.leftAnchor="2.0" AnchorPane.topAnchor="7.0" />
             <AnchorPane layoutX="203.0" prefHeight="39.0" prefWidth="172.0" />
                     <Label fx:id="tags" layoutX="502.0" layoutY="2.0" styleClass="cell_small_label" text="\$tags" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="2.0" />
+            <Label fx:id="deadline" layoutX="602.0" layoutY="53.0" styleClass="cell_small_label" text="\$deadline" textOverrun="CLIP" />
          </children>
       </AnchorPane>
     </children>

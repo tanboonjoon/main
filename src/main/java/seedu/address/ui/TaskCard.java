@@ -1,10 +1,13 @@
 package seedu.address.ui;
 
+import java.time.format.DateTimeFormatter;
+
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.shape.Circle;
+import seedu.address.model.task.Deadline;
 import seedu.address.model.task.ReadOnlyTask;
 
 public class TaskCard extends UiPart{
@@ -23,10 +26,12 @@ public class TaskCard extends UiPart{
     private Label tags;
     @FXML
     private Circle circle;
+    @FXML
+    private Label deadline;
 
     private ReadOnlyTask task;
     private int displayedIndex;
-
+    private DateTimeFormatter formatter;
     public TaskCard(){
 
     }
@@ -40,11 +45,14 @@ public class TaskCard extends UiPart{
 
     @FXML
     public void initialize() {
+    	formatter = DateTimeFormatter.ofPattern("d MMM HHmm");
         name.setText(task.getName());
         id.setText(displayedIndex + ". ");
         description.setText(task.getDescription());
         tags.setText(task.tagsString());
-        
+        if(task instanceof Deadline) {
+        	deadline.setText( ((Deadline)task).getEndDate().format(formatter).toString());
+        }
         circle.getStyleClass().remove("circle_low") ;
         circle.getStyleClass().add("circle_high") ;
     }
