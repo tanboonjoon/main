@@ -65,7 +65,7 @@ public class TaskCard extends UiPart{
         	deadline.setVisible(true);
         	startline.setVisible(true);
         	deadline.setText( ((Event)task).getEndDate().format(formatter).toString());
-        	startline.setText( ((Event)task).getEndDate().format(formatter).toString() + "  - ");
+        	startline.setText( ((Event)task).getStartDate().format(formatter).toString() + "  - ");
 
         }
         circle.getStyleClass().remove("circle_low") ;
