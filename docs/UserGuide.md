@@ -33,7 +33,7 @@ implementation of blocks - events with no name (placeholders).
    e.g. typing **`help`** and pressing <kbd>Enter</kbd> will open the help window.
 5. Some example commands you can try:
    * **`add`**` wash the toilet ` adds a reminder to wash the toilet to the task list.
-   * **`search`**` d\0` searches the task list for all tasks happening today.
+   * **`search`**` d/0` searches the task list for all tasks happening today.
    * **`exit`** : exits the app
 6. Refer to the [Features](#features) section below for details of each command.<br>
 
@@ -62,7 +62,7 @@ Deadline: `add TASKNAME  [d/DESCRIPTION] [et/END_DATE] [t/TAG]...`
 Event: `add TASKNAME  [d/DESCRIPTION]  [st/START_DATE] [et/END_DATE] [t/TAG]...`  
 
 > Tasks can have any number of tags (including 0)  
-> Date format is [DDMMYY][HHMM] - 24 Hour format
+> Date format is MMDDYYY HH:MM (24 hour Format)
 > If no date is specified, it is taken as today/tomorrow by default (depending on whether
 the time has passed at present today)  
 > If no time is specified, it is taken as whole day (start 0000, end 2359) by default
@@ -73,18 +73,30 @@ Examples:
   Add the task into the ToDoList using `add` command.
 
 #### Blocking out time: `block`  
-Blocks out time for a potential event, or to indicate unavailability to others
-Format: `block s/START_DATE e/END_DATE`
+Blocks out time for a potential event, or to indicate unavailability to others <br>
+Format: `block NAME st/START_DATE et/END_DATE [st/START_DATE et/END_DATE]...`
 
-> Blocked out time is only blocked, cannot be tagged, cannot be named
-> Date format is [DDMMYY] [HHMM] (24 Hour format)  
+> Blocked out time is only blocked and cannot be tagged.<br>
+> Date format is MMDDYYY HH:MM (24 hour Format)<br>
 > If no date is specified, it is taken as today/tomorrow by default (depending on whether
-the time has passed at present today)  
+the time has passed at present today)  <br>
 > If no time is specified, it is taken as whole day (start 0000, end 2359) by default
 
 Examples:
-* `block meeting with boss s/1400 e/1600`
-* `block potential compliance audits s/1300 e/1800`
+* `block meeting with boss st/1400 et/1600 st/tommorrow 1400 et/tommorrow 1600`
+* `block compliance audits st/1300 et/180`
+
+#### Blocking out time: `confirm`  
+Confirms a blocked out time and converts it into an event <br>
+Format: `confirm NAME st/START_DATE et/END_DATE`
+
+> All other times associated to the previously blocked out event will be released.<br>
+> Date format is MMDDYYY HH:MM (24 hour Format)<br>
+> Date and time must be previously be blocked by a block of the same name<br>
+
+Examples:
+* `confirm meeting with boss st/1400 et/1600`
+* `confirm compliance audits st/1300 et/1800`
 
 #### Searching for (a) specific task(s): `find`
 Finds tasks of a specific time, or whose names contain any of the given keywords.  
@@ -129,7 +141,7 @@ Format: `edit INDEX [NAME] [d/DESCRIPTION] [s/START_DATE] [e/END_DATE]`
 > The index **must be a positive integer** 1, 2, 3, ...  
 
 > You can modify a reminder into a deadline/event by adding start & end dates:  
-> * `edit INDEX s/1700 e/1900`    
+> * `edit INDEX st/1700 et/1900`    
 
 > You can modify an event into a deadline by using `edit INDEX s/` (leaving empty)  
 > You can modify an event into a block by using `edit INDEX n/`  
@@ -173,7 +185,8 @@ There is no need to save manually.
 Command | Format  
 -------- | :--------
 Add | `add EVENT [d/DESCRIPTION] [t/TAG] [st/START_DATE] [et/END_DATE] [t/TAG]...`
-Block | `block s/START_DATE e/END_DATE`
+Block | `block NAME s/START_DATE e/END_DATE`
+Confirm | `confirm NAME s/START_DATE e/END_DATE`
 Clear | `clear`
 Delete | `delete INDEX`
 Edit | `edit INDEX [NAME] [s/START_DATE] [e/END_DATE] ...`
@@ -182,3 +195,4 @@ Find | `find KEYWORD [MORE_KEYWORDS]`
 Undo | `undo`
 Help | `help`
 Exit | `exit`
+
