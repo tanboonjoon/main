@@ -1,18 +1,19 @@
 package seedu.address.model;
 
-import javafx.collections.transformation.FilteredList;
-import seedu.address.commons.core.LogsCenter;
-import seedu.address.commons.core.UnmodifiableObservableList;
-import seedu.address.commons.util.StringUtil;
-import seedu.address.model.task.Task;
-import seedu.address.model.task.ReadOnlyTask;
-import seedu.address.model.task.UniqueTaskList;
-import seedu.address.model.task.UniqueTaskList.TaskNotFoundException;
-import seedu.address.commons.events.model.TaskForceChangedEvent;
-import seedu.address.commons.core.ComponentManager;
-
 import java.util.Set;
 import java.util.logging.Logger;
+
+import javafx.collections.transformation.FilteredList;
+import seedu.address.commons.core.ComponentManager;
+import seedu.address.commons.core.LogsCenter;
+import seedu.address.commons.core.UnmodifiableObservableList;
+import seedu.address.commons.events.BaseEvent;
+import seedu.address.commons.events.model.TaskForceChangedEvent;
+import seedu.address.commons.util.StringUtil;
+import seedu.address.model.task.ReadOnlyTask;
+import seedu.address.model.task.Task;
+import seedu.address.model.task.UniqueTaskList;
+import seedu.address.model.task.UniqueTaskList.TaskNotFoundException;
 
 /**
  * Represents the in-memory model of the address book data.
@@ -61,7 +62,12 @@ public class ModelManager extends ComponentManager implements Model {
 
     /** Raises an event to indicate the model has changed */
     private void indicateTaskForceChanged() {
-        raise(new TaskForceChangedEvent(taskForce));
+    	raiseEvent(new TaskForceChangedEvent(taskForce));
+    }
+    
+    @Override
+    public void raiseEvent(BaseEvent event) {
+    	raise(event) ;
     }
 
     @Override
