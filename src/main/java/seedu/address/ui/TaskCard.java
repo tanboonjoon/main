@@ -5,8 +5,10 @@ import java.time.format.DateTimeFormatter;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 import seedu.address.model.task.Deadline;
 import seedu.address.model.task.Event;
 import seedu.address.model.task.ReadOnlyTask;
@@ -14,6 +16,8 @@ import seedu.address.model.task.ReadOnlyTask;
 public class TaskCard extends UiPart{
 
     private static final String FXML = "TaskListCard.fxml";
+    
+    public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("d MMM h:mm a");
 
     @FXML
     private HBox cardPane;
@@ -28,13 +32,16 @@ public class TaskCard extends UiPart{
     @FXML
     private Circle circle;
     @FXML
-    private Label deadline;
-    @FXML
     private Label startline;
+    
+    @FXML
+    private Rectangle descBar ;
+    @FXML
+    private ImageView clock ;
 
     private ReadOnlyTask task;
     private int displayedIndex;
-    private DateTimeFormatter formatter;
+    
     public TaskCard(){
 
     }
@@ -48,25 +55,35 @@ public class TaskCard extends UiPart{
 
     @FXML
     public void initialize() {
-    	deadline.setVisible(false);
     	startline.setVisible(false);
-    	formatter = DateTimeFormatter.ofPattern("d MMM HHmm");
-        name.setText(task.getName());
+    	clock.setVisible(false);
+        
+    	name.setText(task.getName());
         id.setText(displayedIndex + ". ");
+        
         description.setText(task.getDescription());
+        
+        if (task.getDescription().length() == 0) {
+            descBar.setVisible(false);
+        }
+        
         tags.setText(task.tagsString());
+        
         if(task instanceof Deadline) {
-        	deadline.setVisible(true);
-        	deadline.setText( ((Deadline)task).getEndDate().format(formatter).toString());
+            clock.setVisible(true);
+            startline.setVisible(true);
+            startline.setText( ((Deadline) task).getEndDate().format(FORMATTER).toString());
         }
         
         if(task instanceof Event) {
-        	deadline.setVisible(true);
         	startline.setVisible(true);
-        	deadline.setText( ((Event)task).getEndDate().format(formatter).toString());
-        	startline.setText( ((Event)task).getStartDate().format(formatter).toString() + "  - ");
+        	clock.setVisible(true);
+        	
+        	String text = ((Event) task).getStartDate().format(FORMATTER).toString() + " to " + ((Event) task).getEndDate().format(FORMATTER).toString() ;
+        	startline.setText(text);
 
         }
+        
         circle.getStyleClass().remove("circle_low") ;
         circle.getStyleClass().add("circle_high") ;
     }
