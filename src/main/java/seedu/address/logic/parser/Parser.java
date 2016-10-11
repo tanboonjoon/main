@@ -3,18 +3,25 @@ package seedu.address.logic.parser;
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_DATE_FORMAT;
+
+import java.lang.reflect.Field;
 import java.time.format.DateTimeParseException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
+import seedu.address.MainApp;
+import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.commons.exceptions.IncorrectCommandException;
 import seedu.address.commons.util.StringUtil;
@@ -28,13 +35,13 @@ import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.IncorrectCommand;
 import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.commands.SelectCommand;
-import seedu.address.logic.preparer.Preparer;
-import seedu.address.logic.preparer.addPreparer;
 
 /**
  * Parses user input.
  */
 public class Parser {
+	
+	private static final Logger logger = LogsCenter.getLogger(Parser.class);
 
     /**
      * Used for initial separation of command word and args.
@@ -48,6 +55,50 @@ public class Parser {
             Pattern.compile("^(?<name>[^\\/]+)"
                     + "((?<description>d\\/[^\\/]+))?"
                     + "(?<tagArguments>(?:e\\/[^\\/]+)*)$"); // variable number of tags
+    
+    private static Map<String, Class<? extends CommandParser>> commandRegistry = Maps.newHashMap();
+    
+    static {
+        registerCommand (AddCommandParser.class, AddCommand.COMMAND_WORD);
+        registerCommand (SelectCommandParser.class, SelectCommand.COMMAND_WORD);
+        registerCommand (DeleteCommandParser.class, DeleteCommand.COMMAND_WORD);
+        registerCommand (FindCommandParser.class, FindCommand.COMMAND_WORD);
+        registerCommand (ClearCommandParser.class, ClearCommand.COMMAND_WORD);
+        registerCommand (HelpCommandParser.class, HelpCommand.COMMAND_WORD);
+        registerCommand (ListCommandParser.class, ListCommand.COMMAND_WORD);
+        registerCommand (ExitCommandParser.class, ExitCommand.COMMAND_WORD);
+        
+    }
+    
+    /**
+     * Registers all associated command word strings with the provided command parser class.
+     * One command parser can be associated with multiple command words such as ("add", "schedule", etc)
+     * 
+     */
+    public static void registerCommand(Class<? extends CommandParser> parser, String... command) {
+    	
+    	for (String word : command) {
+    		commandRegistry.put(word, parser);
+    	}	
+    }
+    
+    public static CommandParser getParserFromCommandWord (String commandWord) {
+    	
+    	if (!commandRegistry.containsKey(commandWord)) {
+    		return new IncorrectCommandParser();
+    	}
+    	
+    	Class<? extends CommandParser> parser = commandRegistry.get(commandWord) ;
+    	
+    	try {
+    		CommandParser commandParser = parser.newInstance() ;
+    		
+    		return commandParser ;
+    	} catch (Exception e) {
+    		return new IncorrectCommandParser() ;
+    	}
+    	
+    }
 
     public Parser() {}
 
@@ -63,39 +114,12 @@ public class Parser {
             return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, HelpCommand.MESSAGE_USAGE));
         }
         
-        Preparer preparer = new Preparer(); // abstract class can't be created
+        //Preparer preparer = new Preparer(); // abstract class can't be created
         
         final String commandWord = matcher.group("commandWord");
         final String arguments = matcher.group("arguments");
-        switch (commandWord) {
-
-        case AddCommand.COMMAND_WORD:
-            return new addPreparer().prepare(arguments);
-
-        case SelectCommand.COMMAND_WORD:
-            return preparer.prepareSelect(arguments);
-
-        case DeleteCommand.COMMAND_WORD:
-            return preparer.prepareDelete(arguments);
-
-        case ClearCommand.COMMAND_WORD:
-            return new ClearCommand();
-
-        case FindCommand.COMMAND_WORD:
-            return preparer.prepareFind(arguments);
-
-        case ListCommand.COMMAND_WORD:
-            return new ListCommand();
-
-        case ExitCommand.COMMAND_WORD:
-            return new ExitCommand();
-
-        case HelpCommand.COMMAND_WORD:
-            return new HelpCommand();
-
-        default:
-            return new IncorrectCommand(MESSAGE_UNKNOWN_COMMAND);
-        }
+        return getParserFromCommandWord(commandWord).prepareCommand(arguments);
+        
     }
 
     /**
