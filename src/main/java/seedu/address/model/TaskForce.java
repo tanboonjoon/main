@@ -1,14 +1,26 @@
 package seedu.address.model;
 
+import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import com.google.common.collect.Lists;
+
 import javafx.collections.ObservableList;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.tag.UniqueTagList;
-import seedu.address.model.task.Task;
+import seedu.address.model.task.Deadline;
+import seedu.address.model.task.Event;
 import seedu.address.model.task.ReadOnlyTask;
+import seedu.address.model.task.Task;
 import seedu.address.model.task.UniqueTaskList;
-
-import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * Wraps all data at the address-book level
@@ -59,8 +71,32 @@ public class TaskForce implements ReadOnlyTaskForce {
     }
 
     public void resetData(Collection<? extends ReadOnlyTask> newTasks, Collection<Tag> newTags) {
-        setTasks(newTasks.stream().map(Task::new).collect(Collectors.toList()));
-        setTags(newTags);
+
+        List<Task> tasks = Lists.newLinkedList() ;
+        
+        for (ReadOnlyTask thisTask : newTasks) {
+            String name = thisTask.getName() ;
+            String description = thisTask.getDescription() ;
+            UniqueTagList tags = thisTask.getTags() ;
+            
+            if (thisTask instanceof Deadline) {
+                LocalDateTime end = ((Deadline) thisTask).getEndDate() ;
+                
+                tasks.add(new Deadline (name, description, end, tags)) ;
+            
+            } else if (thisTask instanceof Event) {
+                LocalDateTime start = ((Event) thisTask).getStartDate() ;
+                LocalDateTime end = ((Event) thisTask).getEndDate() ;
+                
+                tasks.add(new Event (name, description, start, end, tags)) ;
+            
+            } else {
+                tasks.add(new Task (name, description, tags)) ;
+            }
+        }
+        
+        setTasks (tasks) ;
+        setTags (newTags);
     }
 
     public void resetData(ReadOnlyTaskForce newData) {
