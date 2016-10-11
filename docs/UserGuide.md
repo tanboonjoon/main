@@ -8,13 +8,13 @@
 
 ## Overview
 
-1. TaskForce allows a user to manage his tasks through a simple
+1. TaskForce allows you to manage his tasks through a simple
 command-line interface (CLI)-based application.
 2. It allows for 3 main kinds of tasks:  
    * Reminders - a task with no start nor end date  
    * Deadline - a task that ends at a specific time  
    * Event - an event has both a start and end time
-3. One can also block out time from his calendar through this app, through the
+3. You can also block out time from your calendar through this app, through the
 implementation of blocks - events with no name (placeholders).
 4. This app is built on Java, and runs on any Desktop.
 
@@ -58,8 +58,8 @@ Format: `help [COMMAND]`
 Adds a task to the task list.  
 Format:  
 Reminder: `add TASKNAME  [d/DESCRIPTION] [t/TAG]...`  
-Deadline: `add TASKNAME  [d/DESCRIPTION] [e/END_DATE] [t/TAG]...`  
-Event: `add TASKNAME  [d/DESCRIPTION] [l/LOCATION] [s/START_DATE] [e/END_DATE] [t/TAG]...`  
+Deadline: `add TASKNAME  [d/DESCRIPTION] [et/END_DATE] [t/TAG]...`  
+Event: `add TASKNAME  [d/DESCRIPTION]  [st/START_DATE] [et/END_DATE] [t/TAG]...`  
 
 > Tasks can have any number of tags (including 0)  
 > Date format is [DDMMYY][HHMM] - 24 Hour format
@@ -68,7 +68,8 @@ the time has passed at present today)
 > If no time is specified, it is taken as whole day (start 0000, end 2359) by default
 
 Examples:
-* `add meeting d/at 6pm t/important`<br>
+* `add housework d/to get pocket money t/important`<br>
+* `report d/school report et/130116 2200 t/important`<br>
   Add the task into the ToDoList using `add` command.
 
 #### Blocking out time: `block`  
@@ -94,7 +95,7 @@ Method | Explanation | Example
 `d/` | List all events a number of days after today | `find d/ -1` (yesterday)
 `w/` | List all events in a week, after current week | `find w/ 0` (current week)
 `e/` | List all events with word appearing in name | `find e/ ceremony`
-`d/` | List all deadlines with word appearing in name | `find d/ homework`
+`dl/` | List all deadlines with word appearing in name | `find dl/ homework`
 `r/` | List all reminders with word appearing in name | `find r/ shine`
 `a/` | List all events with word appearing in name | `find a/ shoes`
 
@@ -133,6 +134,9 @@ Format: `edit INDEX [NAME] [d/DESCRIPTION] [s/START_DATE] [e/END_DATE]`
 > You can modify an event into a deadline by using `edit INDEX s/` (leaving empty)  
 > You can modify an event into a block by using `edit INDEX n/`  
 > Basically, it allows you to morph events as long as they satisfy the structure
+Examples:
+* `edit 1 schoolwork d/change deadline et/220506 2200`
+* `edit 4 dinner d/change location t/important`
 
 #### Finding free time in a specific day: `freetime`  
 Gives you all the free time blocks in a specific day
@@ -142,8 +146,12 @@ Format: `freetime [d/DAYS_FROM_TODAY]`
 > For example, for yesterday's free time, `freetime d/-1`  
 > DAYS_FROM_TODAY **must be an integer**
 
+#### Undo the previous command : `undo`
+Undo the last command that was successfully executed. <br>
+Format: `undo`
+
 #### Clearing all entries : `clear`
-Clears all entries from the task list.<br>
+Clears **ALL** entries from the task list. This command **CANNOT** be undone! <br>
 Format: `clear`  
 
 #### Exiting the program : `exit`
@@ -164,12 +172,13 @@ There is no need to save manually.
 
 Command | Format  
 -------- | :--------
-Add | `add EVENT [d/DESCRIPTION] [t/TAG]...`
+Add | `add EVENT [d/DESCRIPTION] [t/TAG] [st/START_DATE] [et/END_DATE] [t/TAG]...`
 Block | `block s/START_DATE e/END_DATE`
 Clear | `clear`
 Delete | `delete INDEX`
-Edit | `edit INDEX [NAME] [s/START_DATE] [e/END_DATE]`
+Edit | `edit INDEX [NAME] [s/START_DATE] [e/END_DATE] ...`
 Freetime | `freetime [d/DAYS_FROM_TODAY]`
-Search | `find KEYWORD [MORE_KEYWORDS]`
+Find | `find KEYWORD [MORE_KEYWORDS]`
+Undo | `undo`
 Help | `help`
 Exit | `exit`

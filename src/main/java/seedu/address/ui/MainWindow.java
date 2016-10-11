@@ -7,6 +7,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import seedu.address.commons.core.Config;
 import seedu.address.commons.core.GuiSettings;
@@ -97,7 +98,12 @@ public class MainWindow extends UiPart {
         setIcon(ICON);
         setWindowMinSize();
         setWindowDefaultSize(prefs);
+        
         scene = new Scene(rootLayout);
+        
+        // Loads the Open sans custom truetype font
+        Font.loadFont(this.getClass().getResourceAsStream("/images/OpenSans-Light.ttf"), 12) ;
+        
         primaryStage.setScene(scene);
 
         setAccelerators();

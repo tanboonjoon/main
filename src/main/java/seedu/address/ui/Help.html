@@ -1,0 +1,182 @@
+<html>
+<head></head>
+<style>
+table {
+    table-layout: auto;
+    border-collapse: collapse;
+    width: 100%;
+}
+table th {
+    border: 1px solid #ccc;
+}
+table td {
+    border: 1px solid #ccc;
+}
+table td.absorbing-column {
+    width: 100%;
+}
+</style>
+<body>
+    <h1 id="Help">Help</h1>
+
+    <ul>
+        <li><a href="#Help">Help</a></li>
+        <li><a href="#Add">Add</a></li>
+        <li><a href="#Delete">Delete</a></li>
+        <li><a href="#Find">Find</a></li>
+        <li><a href="#Clear">Clear</a></li>
+        <li><a href="#Edit">Edit</a></li>
+        <li><a href="#Freetime">Freetime</a></li>
+        <li><a href="#Block">Block</a></li>
+        <li><a href="#Exit">Exit</a></li>
+        <li><a href="#command-summary">Command Summary</a></li>
+
+    </ul>
+
+    <h2 id ="Help">Help</h2>
+    <h3>Display the help menu</h3>
+    <p>Example:</p>
+    <li><code>help</code></li>
+
+    <h2 id ="Add">Add</h2>
+    <h3>Adding a task into TaskForce</h3>
+
+
+    <p>Format:</p>
+    <p>
+        Reminder: <code>add TASKNAME  [d/DESCRIPTION] [t/TAG]...</code> <br />
+        Deadline: <code>add TASKNAME  [d/DESCRIPTION] [et/END_DATE] [t/TAG]...</code> <br />
+        Event: <code> add TASKNAME  [d/DESCRIPTION] [st/START_DATE] [et/END_DATE] [t/TAG]...</code> <br /> </p>
+        <p>Example:</p>
+        <li><code>add cleaning House d/pocket money t/important</code></li>
+        <li><code>add concert d/justin biber  st/130116 2100 et/130116 2200 t/important t/expensive</code></li>
+        <li><code>add report d/cs2105 et/130116 1300 t/important t/schoolwork</code></li>
+
+        <h2 id ="Delete">Delete</h2>
+        <h3>To Delete a task from TaskForce</h3>
+        <p>Format: delete INDEX</p>
+        <li><code>delete 2</code></li>
+
+
+        <h2 id ="Find">Find</h2>
+
+        <h3>To Find a tasks in the TaskForce using a keyword</h3>
+        <h3>A KEYWORD refer to a word contain in TASKNAME or a number that refer to DAYS or WEEKS</h3>
+        <p>Format : 'find METHOD KEYWORD'</p>
+        <table style="width:50%">
+          <tr>
+            <th>'d/'</th>
+            <th>List all events a number of days after today</th> 
+            <th>`find d/ -1`</th>
+        </tr>
+        <tr>
+            <td>'w/'</td>
+            <td>List all events in a week, after current week</td> 
+            <td>`find w/ 0`</td>
+        </tr>
+
+        <tr>
+            <td>`e/`</td>
+            <td>List all events with word appearing in name </td> 
+            <td>`find e/ ceremony`</td>
+        </tr>
+        <tr>
+            <td>'dl/'</td>
+            <td>List all deadlines with word appearing in name</td> 
+            <td>`find dl/ homework`</td>
+        </tr>
+        <tr>
+            <td>'r/'</td>
+            <td>List all reminders with word appearing in name</td> 
+            <td>`find r/ shine`</td>
+        </tr>
+        <tr>
+            <td>'a/'</td>
+            <td>List all events with word appearing in name</td> 
+            <td>`find a/ shoes`</td>
+        </tr>
+    </table>
+    <p>> * The search is not case sensitive. e.g `hans` will match `Hans`</p>
+    <p>> * The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`</p>
+    <p>> * Only the name is searched.</p>
+    <p>> * Only full words will be matched e.g. `Han` will not match `Hans`</p>
+    <p>> * Persons matching at least one keyword will be returned (i.e. `OR` search).
+        e.g. `Hans` will match `Hans Bo`</p>
+
+
+        <h2 id ="Clear">Clear</h2>
+        <h3>To clear the entire taskForce's data</h3>
+        <p>Example:</p>
+        <li><code>clear</code></li>
+
+        <h2 id ="Edit">Edit</h2>
+        <h3>To edit a Task in the TaskForce</h3>
+        <p>Format : edit INDEX [TASKNAME] [d/DESCRIPTION] [s/START_DATE] [e/END_DATE] [t/TAG].... </p>
+        <p>Example:</p>
+        <li><code>edit 2 housework d/get more pocket money t/changed </code></li>
+
+        <h2 id ="Freetime">Freetime</h2>
+        <h3>give you all the free time block in a specific day</h3>
+        <p>Format: freetime [d/DAYS_FROM_TODAY]</p>
+        <p>default command giveu today's free time </p>
+        <p>Example:</p>
+        <li><code>free d/4</code></li>
+
+        <h2 id ="Block">Block</h2>
+        <h3>Block out time for a potential event </h3>
+        <p>Format: block st/START_DATE et/END_DATE </p>
+        <p>Example:</p>
+        <li><code>block meeting with boss s/1400 e/16004</code></li>
+        <li><code>block potential compliance audits s/1300 e/1800</code></li>
+
+        <h2 id ="Exit">exit</h2>
+        <h3>To exit the TaskForce program</h3>
+        <p>Example:</p>
+        <li><code>exit</code></li>
+
+
+        <h2 id ="command-summary">commanry summary</h2>
+        <h3>A summary of all the command syntax</h3>
+        <table style="width:70%">
+          <tr>
+            <th>Command</th>
+            <th>Format</th> 
+        </tr>
+        <tr>
+            <td>Add</td>
+            <td>`add EVENT [d/DESCRIPTION] [st/START_DATE] [et/END_DATE] [t/TAG]...`</td>
+            <tr>
+                <td>Block</td>
+                <td>`block s/START_DATE e/END_DATE`</td> 
+            </tr>
+            <tr>
+                <td>Clear</td>
+                <td> `clear`</td> 
+            </tr>
+            <tr>
+                <td>Delete</td>
+                <td>`delete INDEX`</td> 
+            </tr>
+            <tr>
+                <td>Edit</td>
+                <td>`edit INDEX [NAME] [s/START_DATE] [e/END_DATE]....`</td> 
+            </tr>
+            <tr>
+                <td>Freetime</td>
+                <td>`freetime [d/DAYS_FROM_TODAY]</td> 
+            </tr>
+            <tr>
+                <td>Search</td>
+                <td>`find KEYWORD [MORE_KEYWORDS]`</td> 
+            </tr>
+            <tr>
+                <td>Help</td>
+                <td>`help`</td> 
+            </tr>
+            <tr>
+                <td>Exit </td>
+                <td>`exit`</td> 
+            </tr>
+        </table>
+    </body>
+    </html>

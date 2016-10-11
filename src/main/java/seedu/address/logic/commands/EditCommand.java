@@ -1,5 +1,6 @@
 package seedu.address.logic.commands;
 
+import java.util.Collections;
 import java.util.Set;
 
 import com.google.common.collect.Sets;
@@ -46,11 +47,10 @@ public class EditCommand extends Command {
         UniqueTagList newTagSet;
         UnmodifiableObservableList<ReadOnlyTask> lastShownList = model.getFilteredTaskList();
 
-        if (lastShownList.size() < targetIndex) {
+        if (lastShownList.size() < targetIndex || targetIndex < 1) {
             indicateAttemptToExecuteIncorrectCommand();
             return new CommandResult(Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
         }
-        assert targetIndex < lastShownList.size(): targetIndex;
         ReadOnlyTask taskToEdit = lastShownList.get(targetIndex - 1);
         
        
@@ -70,7 +70,9 @@ public class EditCommand extends Command {
         }else{
             newTagSet = taskToEdit.getTags();
         }
-        
+        if(name.equals("") && description.equals("") && tagSet.isEmpty()){
+            return new CommandResult("Nohting changed!");
+        }
         Task newTask = new Task(newName, newDescription, newTagSet);
 
         try {
@@ -85,6 +87,7 @@ public class EditCommand extends Command {
             return new CommandResult(String.format(MESSAGE_EDIT_SUCCESS, newTask));
   
         } catch (UniqueTaskList.DuplicateTaskException e) {
+           
             return new CommandResult(MESSAGE_DUPLICATE_TASK);
         }
        

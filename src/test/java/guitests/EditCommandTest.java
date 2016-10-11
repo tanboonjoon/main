@@ -39,6 +39,7 @@ public class EditCommandTest extends TaskForceGuiTest {
         commandBox.runCommand("edit") ;
         assertResultMessage(expectedMessage);
         
+        expectedMessage = "Nohting changed!";
         commandBox.runCommand("edit 1") ;
         assertResultMessage(expectedMessage);
         

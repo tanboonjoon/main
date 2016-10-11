@@ -1,15 +1,33 @@
 package seedu.address.logic.parser;
 
-import seedu.address.logic.commands.*;
-import seedu.address.commons.util.StringUtil;
-import seedu.address.commons.exceptions.IllegalValueException;
+import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.address.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
+import com.google.common.collect.Sets;
+
+import seedu.address.commons.exceptions.IllegalValueException;
+import seedu.address.commons.exceptions.IncorrectCommandException;
+import seedu.address.commons.util.StringUtil;
+import seedu.address.logic.commands.AddCommand;
+import seedu.address.logic.commands.ClearCommand;
+import seedu.address.logic.commands.Command;
+import seedu.address.logic.commands.DeleteCommand;
+import seedu.address.logic.commands.EditCommand;
+import seedu.address.logic.commands.ExitCommand;
+import seedu.address.logic.commands.FindCommand;
+import seedu.address.logic.commands.HelpCommand;
+import seedu.address.logic.commands.IncorrectCommand;
+import seedu.address.logic.commands.ListCommand;
+import seedu.address.logic.commands.SelectCommand;
 
 /**
  * Parses user input.
@@ -29,15 +47,14 @@ public class Parser {
     private static final Pattern TASK_DATA_ARGS_FORMAT = // '-' dashes are reserved for delimiter prefixes
             Pattern.compile("^(?<name>[^\\/]+)"
                     + "((?<description>d\\/[^\\/]+))?"
-                    + "(?<tagArguments>(?:e\\/[^\\/]+)*)$"); // variable number of tags
+                    + "(?<tagArguments>(?:t\\/[^\\/]+)*)$"); // variable number of tags
     
     
     private static final Pattern TASK_EDIT_DATA_ARGS_FORMAT = // '-' dashes are reserved for delimiter prefixes
-            Pattern.compile("(?<index>\\d+)" 
+            Pattern.compile("(?<index>)" 
                     + "(?<name>[^\\/]+)?"
-                    + "((?<description>d\\/[^\\/]+))?"
-                    + "(?<tagArguments>(?:e\\/[^\\/]+)*)$"); // variable number of tags
-
+                ); // variable number of tags);
+                    
     public Parser() {}
 
     /**
@@ -95,20 +112,29 @@ public class Parser {
      * @return the prepared command
      */
     private Command prepareAdd(String args){
-        final Matcher matcher = TASK_DATA_ARGS_FORMAT.matcher(args.trim());
-        // Validate arg string format
-        if (!matcher.matches()) {
-            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE));
-        }
-        try {
-            return new AddCommand(
-                    matcher.group("name").trim(),
-                    getDescriptionFromArgs(matcher.group("description")),
-                    getTagsFromArgs(matcher.group("tagArguments"))
-            );
-        } catch (IllegalValueException ive) {
-            return new IncorrectCommand(ive.getMessage());
-        }
+    	
+    	ArgumentsParser parser = new ArgumentsParser() ;
+    	
+    	parser
+    		.addNoFlagArg(CommandArgs.NAME)
+    		.addOptionalArg(CommandArgs.DESC)
+    		.addOptionalArg(CommandArgs.TAGS) ;
+    	
+    	try {
+    		parser.parse(args);
+    	} catch (IncorrectCommandException e) {
+    		 return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE));
+    	}
+    	
+    	try {
+    		return new AddCommand(
+    				parser.getArgValue(CommandArgs.NAME).get(),
+    				parser.getArgValue(CommandArgs.DESC).isPresent() ? parser.getArgValue(CommandArgs.DESC).get() : "",
+    				parser.getArgValues(CommandArgs.TAGS).isPresent() ? Sets.newHashSet(parser.getArgValues(CommandArgs.TAGS).get()) : Collections.emptySet()
+    		) ;
+    	} catch (IllegalValueException e) {
+    		 return new IncorrectCommand(e.getMessage());
+    	}
     }
 
     /**
@@ -121,7 +147,7 @@ public class Parser {
             return Collections.emptySet();
         }
         // replace first delimiter prefix, then split
-        final Collection<String> tagStrings = Arrays.asList(tagArguments.replaceFirst("e/", "").split("e/"));
+        final Collection<String> tagStrings = Arrays.asList(tagArguments.replaceFirst("t/", "").split("t/"));
         return new HashSet<>(tagStrings);
     }
     
@@ -131,14 +157,41 @@ public class Parser {
      * @param rawDescription
      * @return the description as a string
      */
-    private static String getDescriptionFromArgs(String rawDescription) {
-    	if (rawDescription == null) {
+    private static String getDescriptionFromArgs(String args) {
+    	if (args == null || args.equals("")) {
     		return "" ;
     	}
     	
-    	String result = rawDescription.replaceFirst("d/", "") ;
-    	
-    	return (result.matches("^ +$")) ? " " : result ;
+    	Pattern pattern = Pattern.compile("d/(?<description>.*?(?=st/)|(?=et/)|(?=t/))");
+    	Matcher matcher = pattern.matcher(args.trim());
+    	return matcher.group("description").trim();
+    }
+    
+    private static String getTitleFromArgs(String args){
+        if (args == null || args.equals("")) {
+            return "" ;
+        }
+        Pattern pattern = Pattern.compile("(?<name>\\D+.+$|(?=d/)|(?=st/)|(?=et/)|(?=t/))");
+        Matcher matcher = pattern.matcher(args.trim());
+        return matcher.group("name").trim();
+    }
+    
+    /**
+     * Extract index digit from edit command arguments string
+     * @param args
+     * @return the index as integer.
+     */
+    private static int getIndexFromArgs(String args) {
+        if(args == null || args.equals("")){
+            return 0;
+        }
+        Pattern pattern = Pattern.compile("^(?<index>\\d+)");
+        Matcher matcher = pattern.matcher(args.trim());
+        if(matcher.matches()){
+            return Integer.parseInt(matcher.group("index"));
+        }else{
+            return 0;
+        }
     }
 
     /**
@@ -199,35 +252,64 @@ public class Parser {
      * @return the prepared command
      */
     private Command prepareFind(String args) {
-        final Matcher matcher = KEYWORDS_ARGS_FORMAT.matcher(args.trim());
-        if (!matcher.matches()) {
-            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
-                    FindCommand.MESSAGE_USAGE));
-        }
+    	ArgumentsParser parser = new ArgumentsParser() ;
+    	
+    	parser.addNoFlagArg(CommandArgs.NAME) ;
+    	
+    	try {
+    		parser.parse(args);
+    	} catch (IncorrectCommandException e) {
+    		 return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                     FindCommand.MESSAGE_USAGE));
+    	}
 
         // keywords delimited by whitespace
-        final String[] keywords = matcher.group("keywords").split("\\s+");
+        final String[] keywords = parser.getArgValue(CommandArgs.NAME).get().split("\\s+");
         final Set<String> keywordSet = new HashSet<>(Arrays.asList(keywords));
         return new FindCommand(keywordSet);
     }
     
     private Command prepareEdit(String args) {
-//        Optional<String>
-        final Matcher matcher = TASK_EDIT_DATA_ARGS_FORMAT.matcher(args.trim());
-        // Validate arg string format
-        if (!matcher.matches()) {
-            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE));
-        }
+        int index = 0;
+        String name = "";
+        ArgumentsParser parser = new ArgumentsParser() ;
+        
+        parser  .addNoFlagArg(CommandArgs.NAME)
+                .addOptionalArg(CommandArgs.NAME)
+                .addOptionalArg(CommandArgs.DESC)
+                .addOptionalArg(CommandArgs.TAGS) ;
+        
         try {
-            return new EditCommand(Integer.parseInt(matcher.group("index").trim()),
-                    matcher.group("name").trim(),
-                    getDescriptionFromArgs(matcher.group("description")),
-                    getTagsFromArgs(matcher.group("tagArguments"))
+                parser.parse(args);
+        } catch (IncorrectCommandException e) {
+                 return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE));
+        }        
+        String[] strArray = parser.getArgValue(CommandArgs.NAME).get().split(" ");
+        
+        
+        if(!strArray[0].isEmpty()){
+            try {
+                index = Integer.parseInt(strArray[0]);
+            } catch (NumberFormatException e){
+                return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE));
+            }
+            try {
+                name = parser.getArgValue(CommandArgs.NAME).get().replaceFirst(strArray[0], "").trim();
+            } catch (NullPointerException e){
+                return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE));
+            }
+        }
+
+        try {
+            return new EditCommand(
+                    index,
+                    name,
+                    parser.getArgValue(CommandArgs.DESC).isPresent() ? parser.getArgValue(CommandArgs.DESC).get() : "",
+                    parser.getArgValues(CommandArgs.TAGS).isPresent() ? Sets.newHashSet(parser.getArgValues(CommandArgs.TAGS).get()) : Collections.emptySet()
+   
             );
         } catch (IllegalValueException ive) {
             return new IncorrectCommand(ive.getMessage());
-        } catch (NullPointerException ne) {
-            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE));
         }
     }
 
