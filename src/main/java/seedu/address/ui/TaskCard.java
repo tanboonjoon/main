@@ -50,7 +50,6 @@ public class TaskCard extends UiPart{
     public void initialize() {
     	deadline.setVisible(false);
     	startline.setVisible(false);
-    	
     	formatter = DateTimeFormatter.ofPattern("d MMM HHmm");
         name.setText(task.getName());
         id.setText(displayedIndex + ". ");

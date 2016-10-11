@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.shape.Circle?>
 
-<HBox id="cardPane" fx:id="cardPane" prefHeight="93.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<HBox id="cardPane" fx:id="cardPane" prefHeight="93.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="TaskCard">
     <children>
       <AnchorPane prefHeight="88.0" prefWidth="104.0">
          <children>
@@ -28,7 +28,7 @@
             <AnchorPane layoutX="203.0" prefHeight="39.0" prefWidth="172.0" />
                     <Label fx:id="tags" layoutX="502.0" layoutY="2.0" style="-fx-border-color: FFFF;" styleClass="cell_small_label" text="\$tags" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="2.0" />
             <Label fx:id="deadline" layoutX="602.0" layoutY="53.0" styleClass="cell_small_label" text="\$deadline" />
-            <Label fx:id="startline" layoutX="543.0" layoutY="53.0" styleClass="cell_small_label" text="\$startline" />
+            <Label fx:id="startline" layoutX="509.0" layoutY="53.0" styleClass="cell_small_label" text="\$startline" />
          </children>
       </AnchorPane>
     </children>
