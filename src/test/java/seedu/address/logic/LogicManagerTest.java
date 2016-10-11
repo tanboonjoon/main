@@ -10,6 +10,7 @@ import seedu.address.commons.core.EventsCenter;
 import seedu.address.logic.commands.*;
 import seedu.address.commons.events.ui.JumpToListRequestEvent;
 import seedu.address.commons.events.ui.ShowHelpRequestEvent;
+import seedu.address.commons.util.DateUtil;
 import seedu.address.commons.events.model.TaskForceChangedEvent;
 import seedu.address.model.TaskForce;
 import seedu.address.model.Model;
@@ -190,7 +191,6 @@ public class LogicManagerTest {
                 expectedAB.getTaskList());
         
 
-        
         // Order does not matter 
         Task john = helper.john() ;
         expectedAB.addTask(john);
@@ -216,11 +216,10 @@ public class LogicManagerTest {
         Task test_deadline = helper.test_deadline();
         expectedAB.addTask(test_deadline);
 
-        
         CommandResult result = logic.execute("add event d/this is a event st/13022016 1300 et/13022016 1300");
         assertEquals(String.format(AddCommand.MESSAGE_SUCCESS, test_event), result.feedbackToUser);
 
-        CommandResult result2 = logic.execute("add deadline d/this is a deadline et/13022016 1300");
+        CommandResult result2 = logic.execute("add deadline d/this is a deadline et/Aug 13 2016 1600");
         assertEquals(String.format(AddCommand.MESSAGE_SUCCESS, test_deadline), result2.feedbackToUser);
 
 
@@ -440,13 +439,12 @@ public class LogicManagerTest {
         
 
         Task test_deadline() throws Exception {
-        	LocalDateTime endDate = LocalDateTime.parse("13022016 1300",  DateTimeFormatter.ofPattern("ddMMyyy HHmm"));
-        	return new Deadline("deadline", "this is a deadline", endDate, new UniqueTagList() );
+        	return new Deadline("deadline", "this is a deadline", DateUtil.parseStringIntoDateTime("13 Aug 16 1300"), new UniqueTagList() );
         }
         
         Task test_event() throws Exception {
-        	LocalDateTime startDate = LocalDateTime.parse("13022016 1300",  DateTimeFormatter.ofPattern("ddMMyyy HHmm"));
-        	LocalDateTime endDate = LocalDateTime.parse("13022016 1300",  DateTimeFormatter.ofPattern("ddMMyyy HHmm"));
+        	LocalDateTime startDate = DateUtil.parseStringIntoDateTime("13022016 1300") ;
+        	LocalDateTime endDate = DateUtil.parseStringIntoDateTime("13022016 1300");
         	return new Event("event", "this is a event", startDate, endDate, new UniqueTagList() );
 
         }
