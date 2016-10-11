@@ -1,21 +1,25 @@
 package seedu.address.storage;
 
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+
+import java.io.IOException;
+import java.time.LocalDateTime;
+
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.rules.TemporaryFolder;
+
 import seedu.address.commons.exceptions.DataConversionException;
 import seedu.address.commons.util.FileUtil;
-import seedu.address.model.TaskForce;
-import seedu.address.model.task.Task;
 import seedu.address.model.ReadOnlyTaskForce;
+import seedu.address.model.TaskForce;
+import seedu.address.model.task.Deadline;
+import seedu.address.model.task.Event;
+import seedu.address.model.task.Task;
 import seedu.address.testutil.TypicalTestTasks;
-
-import java.io.IOException;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 
 public class XmlTaskForceStorageTest {
     private static String TEST_DATA_FOLDER = FileUtil.getPath("./src/test/data/XmlTaskForceStorageTest/");
@@ -73,6 +77,17 @@ public class XmlTaskForceStorageTest {
         //Modify data, overwrite exiting file, and read back
         original.addTask(new Task(TypicalTestTasks.hoon));
         original.removeTask(new Task(TypicalTestTasks.alice));
+        xmlTaskForceStorage.saveTaskForce(original, filePath);
+        readBack = xmlTaskForceStorage.readTaskForce(filePath).get();
+        assertEquals(original, new TaskForce(readBack));
+        
+        //Modify data, overwrite exiting file, and read back
+        original.addTask(new Deadline(TypicalTestTasks.hoon.getName(),TypicalTestTasks.hoon.getDescription(), LocalDateTime.now(), TypicalTestTasks.hoon.getTags()));
+        xmlTaskForceStorage.saveTaskForce(original, filePath);
+        readBack = xmlTaskForceStorage.readTaskForce(filePath).get();
+        assertEquals(original, new TaskForce(readBack));
+        
+        original.addTask(new Event(TypicalTestTasks.hoon.getName(),TypicalTestTasks.hoon.getDescription(), LocalDateTime.now(), LocalDateTime.now(), TypicalTestTasks.hoon.getTags()));
         xmlTaskForceStorage.saveTaskForce(original, filePath);
         readBack = xmlTaskForceStorage.readTaskForce(filePath).get();
         assertEquals(original, new TaskForce(readBack));
