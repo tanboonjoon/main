@@ -2,6 +2,7 @@ package seedu.address.model.task;
 
 import java.time.LocalDateTime;
 
+import seedu.address.commons.util.DateUtil;
 import seedu.address.model.tag.UniqueTagList;
 /**
 * A event is a task that has a start datetime and and a end datetime
@@ -33,5 +34,22 @@ public class Event extends Task {
 				&& this.getStartDate().equals( ((Event) other).getStartDate() )
 				&& this.getEndDate().equals( ((Event) other).getStartDate() ) ;
 	}
+	
+	@Override
+	public String getAsText() {
+        final StringBuilder builder = new StringBuilder();
+        builder.append(getName())
+                .append(" Task Name: ")
+                .append(getName())
+                .append(" Description: ")
+                .append(getDescription())
+                .append(" From: ")
+                .append(DateUtil.parseLocalDateTimeIntoString(getStartDate()) )
+                .append(" To: ")
+                .append(DateUtil.parseLocalDateTimeIntoString(getEndDate()) )
+                .append(" Tags: ");
+        getTags().forEach(builder::append);
+        return builder.toString();
+    }
 	
 }

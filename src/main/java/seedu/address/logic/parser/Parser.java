@@ -3,6 +3,8 @@ package seedu.address.logic.parser;
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
 
+import static seedu.address.commons.core.Messages.MESSAGE_INVALID_DATE_FORMAT;
+import java.time.format.DateTimeParseException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -22,6 +24,7 @@ import seedu.address.logic.commands.ClearCommand;
 import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.DeleteCommand;
 import seedu.address.logic.commands.EditCommand;
+
 import seedu.address.logic.commands.ExitCommand;
 import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.commands.HelpCommand;
@@ -49,12 +52,7 @@ public class Parser {
                     + "((?<description>d\\/[^\\/]+))?"
                     + "(?<tagArguments>(?:t\\/[^\\/]+)*)$"); // variable number of tags
     
-    
-    private static final Pattern TASK_EDIT_DATA_ARGS_FORMAT = // '-' dashes are reserved for delimiter prefixes
-            Pattern.compile("(?<index>)" 
-                    + "(?<name>[^\\/]+)?"
-                ); // variable number of tags);
-                    
+
     public Parser() {}
 
     /**
@@ -130,10 +128,15 @@ public class Parser {
     		return new AddCommand(
     				parser.getArgValue(CommandArgs.NAME).get(),
     				parser.getArgValue(CommandArgs.DESC).isPresent() ? parser.getArgValue(CommandArgs.DESC).get() : "",
+    				parser.getArgValue(CommandArgs.START_DATETIME).isPresent() ? parser.getArgValue(CommandArgs.START_DATETIME).get() : null,
+    				parser.getArgValue(CommandArgs.END_DATETIME).isPresent() ? parser.getArgValue(CommandArgs.END_DATETIME).get() : null,
     				parser.getArgValues(CommandArgs.TAGS).isPresent() ? Sets.newHashSet(parser.getArgValues(CommandArgs.TAGS).get()) : Collections.emptySet()
     		) ;
     	} catch (IllegalValueException e) {
     		 return new IncorrectCommand(e.getMessage());
+
+    	} catch (DateTimeParseException e) {
+    		return new IncorrectCommand(String.format(MESSAGE_INVALID_DATE_FORMAT, AddCommand.MESSAGE_USAGE));
     	}
     }
 
@@ -151,49 +154,7 @@ public class Parser {
         return new HashSet<>(tagStrings);
     }
     
-    /**
-     * Extracts the new task's description from the add command's description arguments string.
-     * 
-     * @param rawDescription
-     * @return the description as a string
-     */
-    private static String getDescriptionFromArgs(String args) {
-    	if (args == null || args.equals("")) {
-    		return "" ;
-    	}
-    	
-    	Pattern pattern = Pattern.compile("d/(?<description>.*?(?=st/)|(?=et/)|(?=t/))");
-    	Matcher matcher = pattern.matcher(args.trim());
-    	return matcher.group("description").trim();
-    }
     
-    private static String getTitleFromArgs(String args){
-        if (args == null || args.equals("")) {
-            return "" ;
-        }
-        Pattern pattern = Pattern.compile("(?<name>\\D+.+$|(?=d/)|(?=st/)|(?=et/)|(?=t/))");
-        Matcher matcher = pattern.matcher(args.trim());
-        return matcher.group("name").trim();
-    }
-    
-    /**
-     * Extract index digit from edit command arguments string
-     * @param args
-     * @return the index as integer.
-     */
-    private static int getIndexFromArgs(String args) {
-        if(args == null || args.equals("")){
-            return 0;
-        }
-        Pattern pattern = Pattern.compile("^(?<index>\\d+)");
-        Matcher matcher = pattern.matcher(args.trim());
-        if(matcher.matches()){
-            return Integer.parseInt(matcher.group("index"));
-        }else{
-            return 0;
-        }
-    }
-
     /**
      * Parses arguments in the context of the delete task command.
      *
