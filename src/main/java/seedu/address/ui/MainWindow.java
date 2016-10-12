@@ -8,7 +8,9 @@ import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import seedu.address.MainApp;
 import seedu.address.commons.core.Config;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.events.ui.ExitAppRequestEvent;
@@ -61,6 +63,9 @@ public class MainWindow extends UiPart {
 
     @FXML
     private AnchorPane statusbarPlaceholder;
+    
+    @FXML
+    private Text versionNum ;
 
 
     public MainWindow() {
@@ -92,6 +97,8 @@ public class MainWindow extends UiPart {
         this.addressBookName = addressBookName;
         this.config = config;
         this.userPrefs = prefs;
+        
+        versionNum.setText(MainApp.VERSION.toString());
 
         //Configure the UI
         setTitle(appTitle);
