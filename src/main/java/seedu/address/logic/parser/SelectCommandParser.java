@@ -7,7 +7,9 @@ import java.util.Optional;
 import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.IncorrectCommand;
 import seedu.address.logic.commands.SelectCommand;
-
+/*
+ * parse argument and prepare them for select command
+ */
 public class SelectCommandParser extends CommandParser {
 
     /**

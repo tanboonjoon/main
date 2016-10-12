@@ -8,7 +8,9 @@ import seedu.address.commons.exceptions.IncorrectCommandException;
 import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.commands.IncorrectCommand;
-
+/*
+ * parsing arguments and prepare them for find command
+ */
 public class FindCommandParser extends CommandParser {
 
     /**

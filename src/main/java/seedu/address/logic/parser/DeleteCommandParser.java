@@ -7,7 +7,9 @@ import java.util.Optional;
 import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.DeleteCommand;
 import seedu.address.logic.commands.IncorrectCommand;
-
+/*
+ * parsing arguments to and preparing them for delete command
+ */
 public class DeleteCommandParser extends CommandParser {
 
     /**

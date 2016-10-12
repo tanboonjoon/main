@@ -13,7 +13,11 @@ import seedu.address.commons.exceptions.IncorrectCommandException;
 import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.IncorrectCommand;
-
+/**
+ * 
+ * Parse arguments and prepare them for addcommand
+ *
+ */
 public class AddCommandParser extends CommandParser {
 
     /**
