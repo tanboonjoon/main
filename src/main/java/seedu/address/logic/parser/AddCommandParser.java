@@ -30,7 +30,9 @@ public class AddCommandParser extends CommandParser {
 		parser
 		.addNoFlagArg(CommandArgs.NAME)
 		.addOptionalArg(CommandArgs.DESC)
-		.addOptionalArg(CommandArgs.TAGS) ;
+		.addOptionalArg(CommandArgs.TAGS) 
+		.addOptionalArg(CommandArgs.START_DATETIME)
+		.addOptionalArg(CommandArgs.END_DATETIME);
 
 		try {
 			parser.parse(args);
