@@ -2,6 +2,7 @@ package seedu.address.logic.parser;
 
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
+
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_DATE_FORMAT;
 
 import java.lang.reflect.Field;
@@ -29,6 +30,8 @@ import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.commands.ClearCommand;
 import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.DeleteCommand;
+import seedu.address.logic.commands.EditCommand;
+
 import seedu.address.logic.commands.ExitCommand;
 import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.commands.HelpCommand;
@@ -42,6 +45,8 @@ import seedu.address.logic.commands.SelectCommand;
 public class Parser {
 	
 	private static final Logger logger = LogsCenter.getLogger(Parser.class);
+	
+	private static final Pattern TASK_INDEX_ARGS_FORMAT = Pattern.compile("(?<targetIndex>.+)");
 
     /**
      * Used for initial separation of command word and args.
@@ -118,6 +123,7 @@ public class Parser {
         
         final String commandWord = matcher.group("commandWord");
         final String arguments = matcher.group("arguments");
+
         return getParserFromCommandWord(commandWord).prepareCommand(arguments);
         
     }
@@ -132,7 +138,7 @@ public class Parser {
             return Collections.emptySet();
         }
         // replace first delimiter prefix, then split
-        final Collection<String> tagStrings = Arrays.asList(tagArguments.replaceFirst("e/", "").split("e/"));
+        final Collection<String> tagStrings = Arrays.asList(tagArguments.replaceFirst("t/", "").split("t/"));
         return new HashSet<>(tagStrings);
     }
     
@@ -152,5 +158,124 @@ public class Parser {
     	return (result.matches("^ +$")) ? " " : result ;
     }
 
+    
+    /**
+     * Parses arguments in the context of the delete task command.
+     *
+     * @param args full command args string
+     * @return the prepared command
+     */
+    private Command prepareDelete(String args) {
+
+        Optional<Integer> index = parseIndex(args);
+        if(!index.isPresent()){
+            return new IncorrectCommand(
+                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE));
+        }
+
+        return new DeleteCommand(index.get());
+    }
+
+    /**
+     * Parses arguments in the context of the select task command.
+     *
+     * @param args full command args string
+     * @return the prepared command
+     */
+    private Command prepareSelect(String args) {
+        Optional<Integer> index = parseIndex(args);
+        if(!index.isPresent()){
+            return new IncorrectCommand(
+                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, SelectCommand.MESSAGE_USAGE));
+        }
+
+        return new SelectCommand(index.get());
+    }
+
+    /**
+     * Returns the specified index in the {@code command} IF a positive unsigned integer is given as the index.
+     *   Returns an {@code Optional.empty()} otherwise.
+     */
+    private Optional<Integer> parseIndex(String command) {
+        final Matcher matcher = TASK_INDEX_ARGS_FORMAT.matcher(command.trim());
+        if (!matcher.matches()) {
+            return Optional.empty();
+        }
+
+        String index = matcher.group("targetIndex");
+        if(!StringUtil.isUnsignedInteger(index)){
+            return Optional.empty();
+        }
+        return Optional.of(Integer.parseInt(index));
+
+    }
+
+    /**
+     * Parses arguments in the context of the find task command.
+     *
+     * @param args full command args string
+     * @return the prepared command
+     */
+    private Command prepareFind(String args) {
+    	ArgumentsParser parser = new ArgumentsParser() ;
+    	
+    	parser.addNoFlagArg(CommandArgs.NAME) ;
+    	
+    	try {
+    		parser.parse(args);
+    	} catch (IncorrectCommandException e) {
+    		 return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                     FindCommand.MESSAGE_USAGE));
+    	}
+
+        // keywords delimited by whitespace
+        final String[] keywords = parser.getArgValue(CommandArgs.NAME).get().split("\\s+");
+        final Set<String> keywordSet = new HashSet<>(Arrays.asList(keywords));
+        return new FindCommand(keywordSet);
+    }
+    
+    private Command prepareEdit(String args) {
+        int index = 0;
+        String name = "";
+        ArgumentsParser parser = new ArgumentsParser() ;
+        
+        parser  .addNoFlagArg(CommandArgs.NAME)
+                .addOptionalArg(CommandArgs.NAME)
+                .addOptionalArg(CommandArgs.DESC)
+                .addOptionalArg(CommandArgs.TAGS) ;
+        
+        try {
+                parser.parse(args);
+        } catch (IncorrectCommandException e) {
+                 return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE));
+        }        
+        String[] strArray = parser.getArgValue(CommandArgs.NAME).get().split(" ");
+        
+        
+        if(!strArray[0].isEmpty()){
+            try {
+                index = Integer.parseInt(strArray[0]);
+            } catch (NumberFormatException e){
+                return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE));
+            }
+            try {
+                name = parser.getArgValue(CommandArgs.NAME).get().replaceFirst(strArray[0], "").trim();
+            } catch (NullPointerException e){
+                return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE));
+            }
+        }
+
+        try {
+            return new EditCommand(
+                    index,
+                    name,
+                    parser.getArgValue(CommandArgs.DESC).isPresent() ? parser.getArgValue(CommandArgs.DESC).get() : "",
+                    parser.getArgValues(CommandArgs.TAGS).isPresent() ? Sets.newHashSet(parser.getArgValues(CommandArgs.TAGS).get()) : Collections.emptySet()
+   
+            );
+        } catch (IllegalValueException ive) {
+            return new IncorrectCommand(ive.getMessage());
+        }
+    }
 
 }
