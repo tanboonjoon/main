@@ -18,7 +18,7 @@
          <children>
             <AnchorPane fx:id="versionNumberPlaceholder" layoutX="190.0" layoutY="4.0" prefHeight="20.0" prefWidth="21.0" AnchorPane.bottomAnchor="33.0" AnchorPane.leftAnchor="180.0" AnchorPane.rightAnchor="131.0" AnchorPane.topAnchor="4.0">
                <children>
-                  <Text fill="WHITE" layoutX="5.0" layoutY="11.0" strokeType="OUTSIDE" strokeWidth="0.0" text="v0.1" wrappingWidth="29.185546875" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="0.13671875">
+                  <Text fx:id="versionNum" fill="WHITE" layoutX="5.0" layoutY="11.0" strokeType="OUTSIDE" strokeWidth="0.0" text="v0.1" wrappingWidth="29.185546875" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="0.13671875">
                      <font>
                         <Font name="Open Sans Light" size="12.0" />
                      </font>

@@ -66,7 +66,7 @@ public class Version implements Comparable<Version> {
 
     @JsonValue
     public String toString() {
-        return String.format("V%d.%d.%d%s", major, minor, patch, isEarlyAccess ? "ea" : "");
+        return String.format("v%d.%d%s", minor, patch, isEarlyAccess ? "ea" : "");
     }
 
     @Override
