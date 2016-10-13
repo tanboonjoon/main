@@ -2,13 +2,13 @@ package seedu.address.logic.parser;
 
 import java.util.Deque;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
 import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableMap.Builder;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
 
@@ -23,31 +23,30 @@ import seedu.address.commons.exceptions.IncorrectCommandException;
  */
 public class ArgumentsParser {
 	
-	public static final ImmutableMap<String, CommandArgs> FLAGS ;
 	public static final int INVALID_VALUE_LENGTH = 0;
-	
-	static {
-		
-		Builder<String, CommandArgs> builder = new ImmutableMap.Builder<String, CommandArgs>() ;
-		
-		for (CommandArgs args : CommandArgs.values()) {
-			builder.put(args.toString(), args) ;
-		}
-		
-		FLAGS = builder.build() ;
-	}
 	
 	private CommandArgs noFlagArgument ;
 	private Set<CommandArgs> requiredArguments ;
 	private Set<CommandArgs> optionalArguments ;
 	private Multimap<CommandArgs, String> argumentValuesMap ;
+	private Map<String, CommandArgs> flags ;
 	
 	public ArgumentsParser() {
 		requiredArguments = Sets.newHashSet() ;
 		optionalArguments = Sets.newHashSet() ;
 		argumentValuesMap = ArrayListMultimap.create();
+		flags = Maps.newHashMap() ;
 		
 		noFlagArgument = null ;
+	}
+	
+	private void addFlag (CommandArgs arg) {
+	    
+	    if (flags.containsKey(arg.toString())) {
+	        return ;
+	    }
+	    
+	    flags.put(arg.toString(), arg) ;
 	}
 	
 	/**
@@ -60,6 +59,7 @@ public class ArgumentsParser {
 	 */
 	public ArgumentsParser addNoFlagArg (CommandArgs arg) {
 		noFlagArgument = arg ;
+		addFlag(arg) ;
 		
 		return this ;
 	}
@@ -75,6 +75,7 @@ public class ArgumentsParser {
 	 */
 	public ArgumentsParser addRequiredArg (CommandArgs arg) {
 		requiredArguments.add(arg) ;
+		addFlag(arg) ;
 		
 		return this ;
 	}
@@ -90,6 +91,7 @@ public class ArgumentsParser {
 	 */
 	public ArgumentsParser addOptionalArg (CommandArgs arg) {
 		optionalArguments.add(arg) ;
+		addFlag(arg) ;
 		
 		return this ;
 	}
@@ -163,7 +165,7 @@ public class ArgumentsParser {
 				throw new IncorrectCommandException();
 			}
 			
-			CommandArgs nextArg = FLAGS.get(extractFlagFromString(charStack)) ;
+			CommandArgs nextArg = flags.get(extractFlagFromString(charStack)) ;
 			String value = extractArgValueFromString(charStack) ;
 			
 			if(value.length() == INVALID_VALUE_LENGTH) {
