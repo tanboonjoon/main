@@ -6,6 +6,7 @@ public enum CommandArgs {
 	TAGS("t/"),
 	START_DATETIME ("st/"),
 	END_DATETIME ("et/"),
+
 	//Arguments for find command to parse
 	FIND_DAY ("day/"),
 	FIND_WEEK ("week/"),
@@ -13,7 +14,7 @@ public enum CommandArgs {
 	FIND_DEADLINE ("deadline/"),
 	FIND_TASK ("reminder/"),
 	FIND_ALL ("all/");
-	
+
 	
 	
 	private String commandString ;
