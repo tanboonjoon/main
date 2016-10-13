@@ -1,5 +1,10 @@
 package seedu.address.logic.commands;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import seedu.address.commons.core.EventsCenter;
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.events.ui.IncorrectCommandAttemptedEvent;
@@ -8,9 +13,12 @@ import seedu.address.model.Model;
 /**
  * Represents a command with hidden internal logic and the ability to be executed.
  */
-public abstract class Command {
+public abstract class Command implements Undoable {
     protected Model model;
-
+    public Map<Model, String> history;
+    public Model currentPointer;
+//    public List<HashMap<Model,String>> history = new ArrayList<HashMap<Model,String>>();
+    
     /**
      * Constructs a feedback message to summarise an operation that displayed a listing of task.
      *
@@ -37,6 +45,10 @@ public abstract class Command {
         this.model = model;
     }
 
+    public void setHistory(Map<Model, String> his){
+        this.history = his;
+    }
+    
     /**
      * Raises an event to indicate an attempt to execute an incorrect command
      */

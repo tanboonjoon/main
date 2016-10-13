@@ -92,5 +92,10 @@ public class EditCommand extends Command {
         }
        
     }
+    
+    @Override
+    public boolean isUndoableCommand(){
+        return true;
+    }
 
 }
