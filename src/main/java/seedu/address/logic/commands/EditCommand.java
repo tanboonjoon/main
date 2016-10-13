@@ -16,7 +16,10 @@ import seedu.address.model.task.UniqueTaskList;
 import seedu.address.model.task.UniqueTaskList.TaskNotFoundException;
 
 public class EditCommand extends Command {
-    public static final String COMMAND_WORD = "edit";
+    public static final String[] COMMAND_WORD = {
+            "edit",
+            "postpone"
+    };
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Edits the task identified by the index number used in the last task listing.\n"
