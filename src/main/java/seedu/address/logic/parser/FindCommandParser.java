@@ -35,7 +35,9 @@ public class FindCommandParser extends CommandParser {
         .addOptionalArg(CommandArgs.FIND_WEEK)
         .addOptionalArg(CommandArgs.FIND_DAY);
         
-        try {	
+
+        try {
+
             parser.parse(args);
             final String find_type = prepareFindTypes(
             		parser.getArgValue(CommandArgs.FIND_ALL).isPresent() ? "ALL"  : "",
@@ -71,6 +73,7 @@ public class FindCommandParser extends CommandParser {
     	
     }
     
+<<<<<<< 7da5dadb0c00bb8601807684006821886bf75935
     public String[] getKeywords(String find_type, ArgumentsParser parser) throws IncorrectCommandException {
   
     	
@@ -91,6 +94,12 @@ public class FindCommandParser extends CommandParser {
     		throw new IncorrectCommandException() ;
     	}
  
+=======
+    public String prepareArgument(String...args ) {
+    	System.out.println(args.length);
+    	return "asd";
+    	
+>>>>>>> test
     }
     
 
