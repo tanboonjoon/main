@@ -17,7 +17,7 @@ public class FindCommand extends Command {
 
     private final Set<String> keywords;
 
-    public FindCommand(Set<String> keywords) {
+    public FindCommand(Set<String> keywords, String findtype) {
         this.keywords = keywords;
     }
 

@@ -7,12 +7,12 @@ public enum CommandArgs {
 	START_DATETIME ("st/"),
 	END_DATETIME ("et/"),
 	//Arguments for find command to parse
-	FIND_DAY ("d/"),
-	FIND_WEEK ("w/"),
-	FIND_EVENT ("e/"),
-	FIND_DEADLINE ("dl/"),
-	FIND_TASK ("r/"),
-	FIND_ALL ("a/");
+	FIND_DAY ("day/"),
+	FIND_WEEK ("week/"),
+	FIND_EVENT ("event/"),
+	FIND_DEADLINE ("deadline/"),
+	FIND_TASK ("reminder/"),
+	FIND_ALL ("all/");
 	
 	
 	
