@@ -5,7 +5,16 @@ public enum CommandArgs {
 	DESC("d/"),
 	TAGS("t/"),
 	START_DATETIME ("st/"),
-	END_DATETIME ("et/");
+	END_DATETIME ("et/"),
+	
+	FIND_DATE ("d/"),
+	FIND_WEEK ("w/"),
+	FIND_EVENT ("e/"),
+	FIND_DEADLINE ("dl/"),
+	FIND_TASK ("r/"),
+	FIND_ALL ("a/");
+	
+	
 	
 	private String commandString ;
 
