@@ -7,6 +7,8 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.commons.exceptions.IncorrectCommandException;
 import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.FindCommand;
@@ -22,6 +24,7 @@ public class FindCommandParser extends CommandParser {
      * @param args full command args string
      * @return the prepared command
      */
+	public static String EMPTY_STRING = "";
     public static int VALID_FIND_TYPE_NUMBER = 1;
     public static int FIND_TYPE_INDEX = 0;
     @Override
@@ -51,11 +54,15 @@ public class FindCommandParser extends CommandParser {
             
             final String[] keywords = getKeywords(find_type, parser);
             final Set<String> keywordSet = new HashSet<>(Arrays.asList(keywords));
+            keywordSet.remove(EMPTY_STRING);
             return new FindCommand(keywordSet, find_type);
         } catch (IncorrectCommandException e) {
              return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
                      FindCommand.MESSAGE_USAGE));
-        }
+        } catch (IllegalValueException e) {
+			// TODO Auto-generated catch block
+        	return new IncorrectCommand(e.getMessage());
+		}
         
         // keywords delimited by whitespace
 
@@ -67,7 +74,6 @@ public class FindCommandParser extends CommandParser {
     	List<String> find_type = new ArrayList<String> (Arrays.asList(args));
     	find_type.removeAll(Arrays.asList("" , null));
     	
-    	System.out.println(find_type.size());
         if(find_type.size() != VALID_FIND_TYPE_NUMBER) {
         	throw new IncorrectCommandException() ;
         }

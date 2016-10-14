@@ -1,5 +1,6 @@
 package seedu.address.model;
 
+import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.logging.Logger;
 
@@ -96,8 +97,8 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     @Override
-    public void updateFilteredTaskList(Set<String> keywords){
-        updateFilteredTaskList(new PredicateExpression(new NameQualifier(keywords)));
+    public void updateFilteredTaskList(Set<String> keywords, String findType){
+        updateFilteredTaskList(new PredicateExpression(new NameQualifier(keywords, findType)));
     }
 
     private void updateFilteredTaskList(Expression expression) {
@@ -137,20 +138,29 @@ public class ModelManager extends ComponentManager implements Model {
 
     private class NameQualifier implements Qualifier {
         private Set<String> nameKeyWords;
+        private String findType;
 
-        NameQualifier(Set<String> nameKeyWords) {
+        NameQualifier(Set<String> nameKeyWords, String findType) {
             this.nameKeyWords = nameKeyWords;
+            this.findType = findType;
         }
 
         @Override
         public boolean run(ReadOnlyTask task) {
-            return nameKeyWords.stream()
-                    .filter(keyword -> 
-                    
-                    
-                    StringUtil.containsIgnoreCase(task.getName(), keyword))
-                    .findAny()
-                    .isPresent();
+        	LocalDateTime dateToday = LocalDateTime.now();
+        	if(findType.equals("ALL")) {
+                return nameKeyWords.stream()
+                        .filter(keyword ->                     
+                        StringUtil.containsIgnoreCase(task.getName(), keyword))
+                        .findAny()
+                        .isPresent();
+        	}else if(findType.equals("WEEK")) {
+        		
+        	}else if(findType.equals("DAY")) {
+        	
+        	}
+			return false;
+ 
         }
 
         @Override

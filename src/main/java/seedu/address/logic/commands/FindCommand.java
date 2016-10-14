@@ -2,6 +2,8 @@ package seedu.address.logic.commands;
 
 import java.util.Set;
 
+import seedu.address.commons.exceptions.IllegalValueException;
+
 /**
  * Finds and lists all tasks in taskForce whose name contains any of the argument keywords.
  * Keyword matching is case sensitive.
@@ -14,31 +16,41 @@ public class FindCommand extends Command {
             + "the specified keywords (case-sensitive) and displays them as a list with index numbers.\n"
             + "Parameters: KEYWORD [MORE_KEYWORDS]...\n"
             + "Example: " + COMMAND_WORD + " meeting";
-
+    private final String INVALID_FIND_DATE_MESSAGE = "Please enter valid number when search by day/week";
+    private final String FIND_TYPE_ALL = "ALL";
+    private final int VALID_NO_OF_DATES_ARGS = 1;
     private final Set<String> keywords;
     private final String findType;
 
-    public FindCommand(Set<String> keywords, String findType) {
-        this.keywords = keywords;
+    public FindCommand(Set<String> keywords, String findType) throws IllegalValueException {
+
+    	if(!checkKeyWord(keywords, findType)) {
+        	throw new IllegalValueException(INVALID_FIND_DATE_MESSAGE);
+        }
+    	this.keywords = keywords;
         this.findType = findType;
     }
     
     public boolean checkKeyWord(Set<String> keywords, String findType) {
-
-    	switch(findType) {
-    	case "ALL" :
-    		break;
-    	case "DAY" :
-    		break;
-    	case "Week" :
-    		break;
+    	if(findType.equals(FIND_TYPE_ALL)) {
+    		return true;
     	}
-    	return false;
+    	if(keywords.size() != VALID_NO_OF_DATES_ARGS) {
+    		return false;
+    	}
+    	
+    	try {
+    		Integer.parseInt(keywords.toString());
+    	}catch (NumberFormatException e ) {
+    		return false;
+    	}
+    	return true;
+    	
     }
 
     @Override
     public CommandResult execute() {
-        model.updateFilteredTaskList(keywords);
+        model.updateFilteredTaskList(keywords, findType);
         return new CommandResult(getMessageForTaskListShownSummary(model.getFilteredTaskList().size()));
     }
 
