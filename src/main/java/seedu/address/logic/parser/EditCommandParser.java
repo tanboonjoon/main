@@ -54,10 +54,10 @@ public class EditCommandParser extends CommandParser {
         try {
             
             LocalDateTime startDate = parser.getArgValue(CommandArgs.START_DATETIME).isPresent() ? 
-                    DateUtil.parseStringIntoDateTime(parser.getArgValue(CommandArgs.START_DATETIME).get()) : null;
+                    DateUtil.parseStringIntoDateTime(parser.getArgValue(CommandArgs.START_DATETIME).get()).get() : null;
 
             LocalDateTime endDate = parser.getArgValue(CommandArgs.END_DATETIME).isPresent() ? 
-                    DateUtil.parseStringIntoDateTime(parser.getArgValue(CommandArgs.END_DATETIME).get()) : null;
+                    DateUtil.parseStringIntoDateTime(parser.getArgValue(CommandArgs.END_DATETIME).get()).get() : null;
             
             
             return new EditCommand(
