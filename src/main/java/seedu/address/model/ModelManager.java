@@ -90,6 +90,19 @@ public class ModelManager extends ComponentManager implements Model {
         updateFilteredListToShowAll();
         indicateTaskForceChanged();
     }
+    
+    //=========== Undo Task History Accessors ===============================================================
+
+	@Override
+	public void recordTask(String COMMAND_WORD, ArrayList<Task> taskList) {
+		taskHistory.push(new Pair<String, ArrayList<Task>>(COMMAND_WORD, taskList));		
+	}
+
+	@Override
+	public Pair<String, ArrayList<Task>> popTask() {
+		return taskHistory.pop();
+	}
+
 
     //=========== Filtered Task List Accessors ===============================================================
 
@@ -163,5 +176,5 @@ public class ModelManager extends ComponentManager implements Model {
             return "name=" + String.join(", ", nameKeyWords);
         }
     }
-
+    
 }
