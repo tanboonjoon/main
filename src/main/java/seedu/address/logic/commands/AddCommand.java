@@ -33,7 +33,7 @@ public class AddCommand extends Command {
 
     public static final String MESSAGE_SUCCESS = "New task added: %1$s";
     public static final String MESSAGE_DUPLICATE_TASK = "This task already exists in the address book";
-    public static final String INVALID_TASK_TYPE_MESSAGE = "Please add a endDate as well OR remove startDate from your command";
+    public static final String INVALID_TASK_TYPE_MESSAGE = "Please make sure you follow the correct add format";
     public static final String INVALID_END_DATE_MESSAGE = "Please make sure your end date is later than start date";
     //the boolean variable represent that end date > start date
     public static final boolean IS_INVALID_END_DATE = true;
