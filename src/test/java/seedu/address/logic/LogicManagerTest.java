@@ -447,8 +447,8 @@ public class LogicManagerTest {
         }
         
         Task test_event() throws Exception {
-        	LocalDateTime startDate = DateUtil.parseStringIntoDateTime("13022016 1300") ;
-        	LocalDateTime endDate = DateUtil.parseStringIntoDateTime("13022016 1300");
+        	LocalDateTime startDate = DateUtil.parseStringIntoDateTime("13022016 1300").get() ;
+        	LocalDateTime endDate = DateUtil.parseStringIntoDateTime("13022016 1300").get();
         	return new Event("event", "this is a event", startDate, endDate, new UniqueTagList() );
 
         }
