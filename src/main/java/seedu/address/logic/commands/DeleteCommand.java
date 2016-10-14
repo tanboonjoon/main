@@ -1,9 +1,5 @@
 package seedu.address.logic.commands;
 
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
-import java.util.Set;
-
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.UnmodifiableObservableList;
 import seedu.address.model.task.ReadOnlyTask;
@@ -43,9 +39,6 @@ public class DeleteCommand extends Command {
         ReadOnlyTask taskToDelete = lastShownList.get(targetIndex - 1);
 
         try {
-            LinkedList<ReadOnlyTask> task = new LinkedList<ReadOnlyTask>();
-            task.add(taskToDelete);
-            this.taskHistory.put(COMMAND_WORD, task);
             model.deleteTask(taskToDelete);
         } catch (TaskNotFoundException pnfe) {
             assert false : "The target task cannot be missing";
@@ -54,9 +47,5 @@ public class DeleteCommand extends Command {
         return new CommandResult(String.format(MESSAGE_DELETE_TASK_SUCCESS, taskToDelete));
     }
     
-    @Override
-    public boolean isUndoableCommand(){
-        return true;
-    }
 
 }
