@@ -443,7 +443,7 @@ public class LogicManagerTest {
         
 
         Task test_deadline() throws Exception {
-        	return new Deadline("deadline", "this is a deadline", DateUtil.parseStringIntoDateTime("13 Aug 16 1300"), new UniqueTagList() );
+        	return new Deadline("deadline", "this is a deadline", DateUtil.parseStringIntoDateTime("13 Aug 16 1300").get(), new UniqueTagList() );
         }
         
         Task test_event() throws Exception {
