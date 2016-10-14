@@ -231,8 +231,9 @@ public class ModelManager extends ComponentManager implements Model {
     @Override
     public void updateTask(ReadOnlyTask from, Task to) throws UniqueTaskList.TaskNotFoundException, UniqueTaskList.DuplicateTaskException{
         recordTaskForce(taskForce);
-        this.deleteTask(from);
-        this.addTask(to);
+        this.taskForce.removeTask(from);
+        this.taskForce.addTask(to);
+        indicateTaskForceChanged();
     }
 
 }
