@@ -2,9 +2,7 @@ package seedu.address.logic.commands;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.Set;
 import com.google.common.collect.Sets;
 
@@ -14,7 +12,6 @@ import seedu.address.model.tag.Tag;
 import seedu.address.model.tag.UniqueTagList;
 import seedu.address.model.task.Deadline;
 import seedu.address.model.task.Event;
-import seedu.address.model.task.ReadOnlyTask;
 import seedu.address.model.task.Task;
 import seedu.address.model.task.UniqueTaskList;
 
@@ -23,13 +20,18 @@ import seedu.address.model.task.UniqueTaskList;
  */
 public class AddCommand extends Command {
 
-    public static final String COMMAND_WORD = "add";
+    public static final String[] COMMAND_WORD = {
+            "add",
+            "schedule"
+    };
+    
+    public static final String DEFAULT_COMMAND_WORD = COMMAND_WORD[0] ;
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a person to the address book. \n"
+    public static final String MESSAGE_USAGE = DEFAULT_COMMAND_WORD + ": Adds a person to the address book. \n"
     		+ "Format : Task : [TASKNAME] [d/DESCIPRTION] [t/TAG] ...\n" 
             + "Deadline : [TASKNAME] [d/DESCIPRTION] [et/END_DATE] [t/TAG] ...\n" 
     		+ "Event : [d/DESCRIPTION] [st/START_DATE] [et/END_DATE] [t/TAG] ...\n" 
-            + "Example: " + COMMAND_WORD
+            + "Example: " + DEFAULT_COMMAND_WORD
             + " Homework d/CS2103 hw t/veryImportant t/urgent";
 
     public static final String MESSAGE_SUCCESS = "New task added: %1$s";
@@ -75,21 +77,14 @@ public class AddCommand extends Command {
     public CommandResult execute() {
         assert model != null;
         try {
-            LinkedList<ReadOnlyTask> task = new LinkedList<ReadOnlyTask>();
-            task.add(toAdd);
-            this.taskHistory.put(COMMAND_WORD, task);
             model.addTask(toAdd);
-            this.commandHistory.add(COMMAND_WORD);
+            ArrayList<Task> taskList = new ArrayList<Task>();
+            taskList.add(toAdd);
             return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
         } catch (UniqueTaskList.DuplicateTaskException e) {
             return new CommandResult(MESSAGE_DUPLICATE_TASK);
         }
+    }
 
-    }
-    
-    @Override
-    public boolean isUndoableCommand(){
-        return true;
-    }
 
 }

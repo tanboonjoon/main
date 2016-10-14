@@ -1,9 +1,15 @@
 package seedu.address.model;
 
+import java.util.ArrayList;
+import java.util.Deque;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.ListIterator;
 import java.util.Set;
 import java.util.logging.Logger;
 
 import javafx.collections.transformation.FilteredList;
+import javafx.util.Pair;
 import seedu.address.commons.core.ComponentManager;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.core.UnmodifiableObservableList;
@@ -13,6 +19,7 @@ import seedu.address.commons.util.StringUtil;
 import seedu.address.model.task.ReadOnlyTask;
 import seedu.address.model.task.Task;
 import seedu.address.model.task.UniqueTaskList;
+import seedu.address.model.task.UniqueTaskList.DuplicateTaskException;
 import seedu.address.model.task.UniqueTaskList.TaskNotFoundException;
 
 /**
@@ -24,12 +31,15 @@ public class ModelManager extends ComponentManager implements Model {
 
     private final TaskForce taskForce;
     private final FilteredList<Task> filteredTasks;
+    private final Deque<ReadOnlyTaskForce> undoTaskForceHistory = new LinkedList<ReadOnlyTaskForce>();
+    private final Deque<ReadOnlyTaskForce> redoTaskForceHistory = new LinkedList<ReadOnlyTaskForce>();
 
     /**
      * Initializes a ModelManager with the given TaskForce
      * TaskForce and its variables should not be null
      */
     public ModelManager(TaskForce src, UserPrefs userPrefs) {
+        
         super();
         assert src != null;
         assert userPrefs != null;
@@ -38,6 +48,10 @@ public class ModelManager extends ComponentManager implements Model {
 
         taskForce = new TaskForce(src);
         filteredTasks = new FilteredList<>(taskForce.getTasks());
+//        taskHistory = new LinkedList<Pair<String, ArrayList<Task>>>();
+//        taskHistory = new LinkedList<LinkedHashMap<String,ArrayList<ReadOnlyTask>>>();
+//        undoHistory = new LinkedList<LinkedHashMap<String,ArrayList<ReadOnlyTask>>>();
+
     }
 
     public ModelManager() {
@@ -47,6 +61,7 @@ public class ModelManager extends ComponentManager implements Model {
     public ModelManager(ReadOnlyTaskForce initialData, UserPrefs userPrefs) {
         taskForce = new TaskForce(initialData);
         filteredTasks = new FilteredList<>(taskForce.getTasks());
+//        taskHistory = new LinkedList<Pair<String, ArrayList<Task>>>();
     }
 
     @Override
@@ -72,16 +87,32 @@ public class ModelManager extends ComponentManager implements Model {
 
     @Override
     public synchronized void deleteTask(ReadOnlyTask target) throws TaskNotFoundException {
+        
+        recordTaskForce(taskForce);
         taskForce.removeTask(target);
         indicateTaskForceChanged();
     }
 
     @Override
     public synchronized void addTask(Task task) throws UniqueTaskList.DuplicateTaskException {
+        recordTaskForce(taskForce);
         taskForce.addTask(task);
         updateFilteredListToShowAll();
         indicateTaskForceChanged();
     }
+    
+    //=========== Undo Task History Accessors ===============================================================
+//
+//	@Override
+//	public void recordTask(String COMMAND_WORD, ArrayList<Task> taskList) {
+//		taskHistory.push(new Pair<String, ArrayList<Task>>(COMMAND_WORD, taskList));		
+//	}
+//
+//	@Override
+//	public Pair<String, ArrayList<Task>> getPreviousTask() {
+//		return taskHistory.pop();
+//	}
+
 
     //=========== Filtered Task List Accessors ===============================================================
 
@@ -154,6 +185,54 @@ public class ModelManager extends ComponentManager implements Model {
         public String toString() {
             return "name=" + String.join(", ", nameKeyWords);
         }
+    }
+
+    @Override
+    public synchronized boolean revertTaskForce() {
+        
+        if(undoTaskForceHistory.peekFirst() != null) {
+            
+            ReadOnlyTaskForce item = undoTaskForceHistory.pollFirst();
+            redoTaskForceHistory.offerFirst(new TaskForce(taskForce));
+            this.taskForce.resetData(item);
+            updateFilteredListToShowAll();
+        }else{
+            return false;
+        }
+
+        
+        return true;
+    }
+
+    @Override
+    public void recordTaskForce(ReadOnlyTaskForce taskForce) {
+        undoTaskForceHistory.addFirst(new TaskForce(taskForce));
+        if(undoTaskForceHistory.size() > 10 ) {
+            undoTaskForceHistory.removeLast();
+        }
+        
+        redoTaskForceHistory.clear();
+        
+    }
+    @Override
+    public synchronized boolean restoreTaskForce() {
+          if(redoTaskForceHistory.peekFirst() != null) {
+              ReadOnlyTaskForce item = redoTaskForceHistory.pollFirst();
+              undoTaskForceHistory.offerFirst(new TaskForce(taskForce));
+              this.taskForce.resetData(item);
+              updateFilteredListToShowAll();
+          }else{
+              return false;
+          }
+      
+      return true;
+    }
+    
+    @Override
+    public void updateTask(ReadOnlyTask from, Task to) throws UniqueTaskList.TaskNotFoundException, UniqueTaskList.DuplicateTaskException{
+        recordTaskForce(taskForce);
+        taskForce.removeTask(from);
+        taskForce.addTask(to);
     }
 
 }
