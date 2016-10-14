@@ -16,8 +16,10 @@ public class FindCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Finds all tasks whose names contain any of "
             + "the specified keywords (case-sensitive) and displays them as a list with index numbers.\n"
-            + "Parameters: KEYWORD [MORE_KEYWORDS]...\n"
-            + "Example: " + COMMAND_WORD + " meeting";
+            + "Parameters: TYPE/KEYWORDS\n"
+            + "Example: " + COMMAND_WORD + " all/meeting\n" 
+            +  COMMAND_WORD + " day/3\n" 
+            +  COMMAND_WORD + " week/-4";
     public final static String INVALID_FIND_DATE_MESSAGE = "Please enter valid number when search by day/week";
     private final String FIND_TYPE_ALL = "ALL";
     private final int VALID_NO_OF_DATES_ARGS = 1;

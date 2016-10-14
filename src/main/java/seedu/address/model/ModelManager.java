@@ -149,6 +149,7 @@ public class ModelManager extends ComponentManager implements Model {
         private String formattedDateForCompare;
         private String formattedTaskDate;
         private final int SAME_DAY_INDEX = 0;
+        private final int DATE_ARGS_INDEX = 0;
         NameQualifier(Set<String> nameKeyWords, String findType) {
             this.nameKeyWords = nameKeyWords;
             this.findType = findType;
@@ -169,8 +170,8 @@ public class ModelManager extends ComponentManager implements Model {
         	DateTimeFormatter format_exclude_time = DateTimeFormatter.ofPattern("ddMMyyyy");
         	LocalDateTime dateForCompare = dateToday;
         	List<String> getTimeList = new ArrayList(nameKeyWords);
-        	Long timeToAdd = Long.parseLong(getTimeList.get(0));
-        	System.out.println("timeToAdd :" + timeToAdd);
+        	Long timeToAdd = Long.parseLong(getTimeList.get(DATE_ARGS_INDEX));
+        	
         	if(findType.equals("WEEK")) {
         		dateForCompare = dateToday.plusWeeks(timeToAdd); 
 
@@ -184,8 +185,6 @@ public class ModelManager extends ComponentManager implements Model {
         	if (task instanceof Deadline ) {
         		LocalDateTime taskDate = ((Deadline)task).getEndDate();
         		formattedTaskDate = taskDate.format(format_exclude_time);
-        		System.out.println(formattedTaskDate);
-        		System.out.println(formattedDateForCompare);
         		return formattedDateForCompare.compareTo(formattedTaskDate) == SAME_DAY_INDEX ;
         	}
         	if (task instanceof Event) {
