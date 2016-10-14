@@ -23,12 +23,14 @@ public class AddCommand extends Command {
             "add",
             "schedule"
     };
+    
+    public static final String DEFAULT_COMMAND_WORD = COMMAND_WORD[0] ;
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a person to the address book. \n"
+    public static final String MESSAGE_USAGE = DEFAULT_COMMAND_WORD + ": Adds a person to the address book. \n"
     		+ "Format : Task : [TASKNAME] [d/DESCIPRTION] [t/TAG] ...\n" 
             + "Deadline : [TASKNAME] [d/DESCIPRTION] [et/END_DATE] [t/TAG] ...\n" 
     		+ "Event : [d/DESCRIPTION] [st/START_DATE] [et/END_DATE] [t/TAG] ...\n" 
-            + "Example: " + COMMAND_WORD
+            + "Example: " + DEFAULT_COMMAND_WORD
             + " Homework d/CS2103 hw t/veryImportant t/urgent";
 
     public static final String MESSAGE_SUCCESS = "New task added: %1$s";
