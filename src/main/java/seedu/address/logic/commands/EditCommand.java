@@ -1,8 +1,10 @@
 package seedu.address.logic.commands;
 
-import java.util.Collections;
+import java.time.LocalDateTime;
+import java.util.Map;
 import java.util.Set;
 
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 import seedu.address.commons.core.Messages;
@@ -10,40 +12,70 @@ import seedu.address.commons.core.UnmodifiableObservableList;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.tag.UniqueTagList;
+import seedu.address.model.task.Deadline;
+import seedu.address.model.task.Event;
 import seedu.address.model.task.ReadOnlyTask;
 import seedu.address.model.task.Task;
 import seedu.address.model.task.UniqueTaskList;
 import seedu.address.model.task.UniqueTaskList.TaskNotFoundException;
 
 public class EditCommand extends Command {
+    
     public static final String[] COMMAND_WORD = {
             "edit",
             "postpone"
     };
+    
+    public static final int INVALID_VALUE_LENGTH = 0;
+    public static final String DEFAULT_COMMAND_WORD = COMMAND_WORD[0] ;
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD
+    public static final String MESSAGE_USAGE = DEFAULT_COMMAND_WORD
             + ": Edits the task identified by the index number used in the last task listing.\n"
             + "Parameters: INDEX (must be a positive integer) NAME | d/DESCRIPTION | e/TAG...\n"
-            + "Example: " + COMMAND_WORD + " 1 d/download How I Met Your Mother season 1" ;
+            + "Example: " + DEFAULT_COMMAND_WORD + " 1 d/download How I Met Your Mother season 1" ;
     public static final String MESSAGE_EDIT_SUCCESS = "Edit saved!";
     public static final String MESSAGE_DUPLICATE_TASK = "This task already exists in the address book";
+    
+    private static final String START_DATE = "startDate" ;
+    private static final String END_DATE = "endDate" ;
 
     private final int targetIndex;
     private final String name;
     private final String description;
     private final Set<Tag> tagSet;
+    private final Map<String, LocalDateTime> dateMap ;
     
-    public EditCommand(int targetIndex, String name, String description, Set<String> tags) throws IllegalValueException {
+    private boolean hasChanged = false ;
+    
+    public EditCommand(int targetIndex, String name, String description, Set<String> tags, LocalDateTime startDate, LocalDateTime endDate) throws IllegalValueException {
         this.targetIndex = targetIndex;
         this.name = name;
         this.description = description;
         this.tagSet = Sets.newHashSet() ;
+        this.dateMap = Maps.newHashMap() ;
         
         for (String tagName : tags) {
             tagSet.add(new Tag(tagName));
         }
+        
+        if (startDate != null) {
+            dateMap.put(START_DATE, startDate) ;
+        }
+        
+        if (endDate != null) {
+            dateMap.put(END_DATE, endDate) ;
+        }
 
     }
+    
+    public EditCommand(int targetIndex, String name, String description, Set<String> tags) throws IllegalValueException {
+        this (targetIndex, name, description, tags, null, null) ;
+    }
+    
+    public EditCommand(int targetIndex, String name, String description, Set<String> tags, LocalDateTime endDate) throws IllegalValueException {
+        this (targetIndex, name, description, tags, null, endDate) ;
+    }
+    
     @Override
     public CommandResult execute() {
         String newName, newDescription;
@@ -54,29 +86,36 @@ public class EditCommand extends Command {
             indicateAttemptToExecuteIncorrectCommand();
             return new CommandResult(Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
         }
-        ReadOnlyTask taskToEdit = lastShownList.get(targetIndex - 1);
         
+        ReadOnlyTask taskToEdit = lastShownList.get(targetIndex - 1);  
        
-        if(!(name.equals(""))) {
+        if(isValidString(name)) {
             newName = name;
+            hasChanged = true ;
         }else{
             newName = taskToEdit.getName();
         }
-        if(!description.equals("")) {
+        if(isValidString(description)) {
             newDescription = description;
+            hasChanged = true ;
         }else{
             newDescription = taskToEdit.getDescription();
         }
         
         if(!tagSet.isEmpty()) {
             newTagSet = new UniqueTagList(tagSet);
+            hasChanged = true ;
         }else{
             newTagSet = taskToEdit.getTags();
         }
-        if(name.equals("") && description.equals("") && tagSet.isEmpty()){
-            return new CommandResult("Nohting changed!");
+        
+        determineDateTimeOfNewTask (taskToEdit) ;
+        
+        if(!hasChanged){
+            return new CommandResult("Nothing changed!");
         }
-        Task newTask = new Task(newName, newDescription, newTagSet);
+       
+        Task newTask = createNewTask (newName, newDescription, newTagSet, dateMap.get(START_DATE), dateMap.get(END_DATE));
 
         try {
             model.addTask(newTask);
@@ -94,6 +133,52 @@ public class EditCommand extends Command {
             return new CommandResult(MESSAGE_DUPLICATE_TASK);
         }
        
+    }
+    
+    private boolean isValidString (String s) {
+        return s.length() > INVALID_VALUE_LENGTH ;
+    }
+    
+    private Task createNewTask (String name, String description, UniqueTagList tag, LocalDateTime startTime, LocalDateTime endTime) {
+        
+        if (startTime != null && endTime != null) {
+            return new Event (name, description, startTime, endTime, tag) ;
+        
+        } 
+        
+        if (endTime != null && startTime == null) {
+            return new Deadline (name, description, endTime, tag) ;
+        
+        } 
+        
+        return new Task (name, description, tag) ;
+    }
+    
+    private void determineDateTimeOfNewTask (ReadOnlyTask taskToEdit) {
+        if (taskToEdit instanceof Event) {
+
+            if (!dateMap.containsKey(START_DATE)) {
+                dateMap.put(START_DATE, ( (Event) taskToEdit).getStartDate()) ;
+            } else {
+                hasChanged = true ;
+            }
+
+            if (!dateMap.containsKey(END_DATE)) {
+                dateMap.put(END_DATE, ( (Event) taskToEdit).getEndDate()) ;
+            } else {
+                hasChanged = true ;
+            }
+
+        }
+
+        if (taskToEdit instanceof Deadline) {
+
+            if (!dateMap.containsKey(END_DATE)) {
+                dateMap.put(END_DATE, ( (Deadline) taskToEdit).getEndDate()) ;
+            } else {
+                hasChanged = true ;
+            }
+        }
     }
 
 }

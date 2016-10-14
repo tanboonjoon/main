@@ -2,12 +2,14 @@ package seedu.address.logic.parser;
 
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 
+import java.time.LocalDateTime;
 import java.util.Collections;
 
 import com.google.common.collect.Sets;
 
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.commons.exceptions.IncorrectCommandException;
+import seedu.address.commons.util.DateUtil;
 import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.EditCommand;
 import seedu.address.logic.commands.IncorrectCommand;
@@ -20,10 +22,13 @@ public class EditCommandParser extends CommandParser {
         String name = "";
         ArgumentsParser parser = new ArgumentsParser() ;
 
-        parser  .addNoFlagArg(CommandArgs.NAME)
+        parser  
+        .addNoFlagArg(CommandArgs.NAME)
         .addOptionalArg(CommandArgs.NAME)
         .addOptionalArg(CommandArgs.DESC)
-        .addOptionalArg(CommandArgs.TAGS) ;
+        .addOptionalArg(CommandArgs.TAGS)
+        .addOptionalArg(CommandArgs.START_DATETIME)
+        .addOptionalArg(CommandArgs.END_DATETIME);
 
         try {
             parser.parse(args);
@@ -47,12 +52,21 @@ public class EditCommandParser extends CommandParser {
         }
 
         try {
+            
+            LocalDateTime startDate = parser.getArgValue(CommandArgs.START_DATETIME).isPresent() ? 
+                    DateUtil.parseStringIntoDateTime(parser.getArgValue(CommandArgs.START_DATETIME).get()) : null;
+
+            LocalDateTime endDate = parser.getArgValue(CommandArgs.END_DATETIME).isPresent() ? 
+                    DateUtil.parseStringIntoDateTime(parser.getArgValue(CommandArgs.END_DATETIME).get()) : null;
+            
+            
             return new EditCommand(
                     index,
                     name,
                     parser.getArgValue(CommandArgs.DESC).isPresent() ? parser.getArgValue(CommandArgs.DESC).get() : "",
-                            parser.getArgValues(CommandArgs.TAGS).isPresent() ? Sets.newHashSet(parser.getArgValues(CommandArgs.TAGS).get()) : Collections.emptySet()
-
+                    parser.getArgValues(CommandArgs.TAGS).isPresent() ? Sets.newHashSet(parser.getArgValues(CommandArgs.TAGS).get()) : Collections.emptySet(),
+                    startDate,
+                    endDate
                     );
         } catch (IllegalValueException ive) {
             return new IncorrectCommand(ive.getMessage());
