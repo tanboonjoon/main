@@ -1,6 +1,8 @@
 package seedu.address.logic.commands;
 
 import java.util.Collections;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.Set;
 
 import com.google.common.collect.Sets;
@@ -76,9 +78,14 @@ public class EditCommand extends Command {
         Task newTask = new Task(newName, newDescription, newTagSet);
 
         try {
+            LinkedList<ReadOnlyTask> task = new LinkedList<ReadOnlyTask>();
+            task.add(newTask);            
+            this.taskHistory.put(COMMAND_WORD, task);
             model.addTask(newTask);
            
             try{
+                task.add(taskToEdit);
+                this.taskHistory.put(COMMAND_WORD, task);
                 model.deleteTask(taskToEdit);
             } catch (TaskNotFoundException pnfe) {
                 assert false : "The target task cannot be missing";
@@ -91,6 +98,11 @@ public class EditCommand extends Command {
             return new CommandResult(MESSAGE_DUPLICATE_TASK);
         }
        
+    }
+    
+    @Override
+    public boolean isUndoableCommand(){
+        return true;
     }
 
 }

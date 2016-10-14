@@ -19,4 +19,9 @@ public class ClearCommand extends Command {
         model.resetData(TaskForce.getEmptyTaskForce());
         return new CommandResult(MESSAGE_SUCCESS);
     }
+    
+    @Override
+    public boolean isUndoableCommand(){
+        return true;
+    }
 }

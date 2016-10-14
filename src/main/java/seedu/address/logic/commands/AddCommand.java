@@ -2,6 +2,9 @@ package seedu.address.logic.commands;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.Set;
 import com.google.common.collect.Sets;
 
@@ -11,6 +14,7 @@ import seedu.address.model.tag.Tag;
 import seedu.address.model.tag.UniqueTagList;
 import seedu.address.model.task.Deadline;
 import seedu.address.model.task.Event;
+import seedu.address.model.task.ReadOnlyTask;
 import seedu.address.model.task.Task;
 import seedu.address.model.task.UniqueTaskList;
 
@@ -71,12 +75,21 @@ public class AddCommand extends Command {
     public CommandResult execute() {
         assert model != null;
         try {
+            LinkedList<ReadOnlyTask> task = new LinkedList<ReadOnlyTask>();
+            task.add(toAdd);
+            this.taskHistory.put(COMMAND_WORD, task);
             model.addTask(toAdd);
+            this.commandHistory.add(COMMAND_WORD);
             return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
         } catch (UniqueTaskList.DuplicateTaskException e) {
             return new CommandResult(MESSAGE_DUPLICATE_TASK);
         }
 
+    }
+    
+    @Override
+    public boolean isUndoableCommand(){
+        return true;
     }
 
 }
