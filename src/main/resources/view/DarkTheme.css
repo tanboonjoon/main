@@ -1,5 +1,4 @@
 
-
 .background {
     /**-fx-background-color: derive(#1d1d1d, 20%);*/
     -fx-background-color: derive(#FFFFFF, 20%);
@@ -101,6 +100,11 @@
 
 .list-cell .label {
     -fx-text-fill: #010504;
+}
+
+.task_id {
+	-fx-font-family: "Open Sans Light";
+	-fx-text-fill: #000!important ;
 }
 
 .cell_big_label {
@@ -308,7 +312,7 @@
 }
 
 .circle_low {
-	-fx-fill: derive(#03253d, 25%);
+	-fx-fill: derive(#0325dd, 25%);
 }
 
 .circle_med {
