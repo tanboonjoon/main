@@ -35,8 +35,9 @@ public class AddCommand extends Command {
 
     public static final String MESSAGE_SUCCESS = "New task added: %1$s";
     public static final String MESSAGE_DUPLICATE_TASK = "This task already exists in the address book";
-    public static final String INVALID_TASK_TYPE_MESSAGE = "Please add a endDate as well OR remove startDate from your command";
-    
+    public static final String INVALID_TASK_TYPE_MESSAGE = "Please make sure you follow the correct add format";
+    public static final String INVALID_END_DATE_MESSAGE = "Please make sure your end date is later than start date";
+
     private Task toAdd;
 
     /**
@@ -57,13 +58,22 @@ public class AddCommand extends Command {
         	
         } else if (startDate == null && endDate != null) {
         	
-        	LocalDateTime deadline_endDate = DateUtil.parseStringIntoDateTime(endDate) ;
+        	LocalDateTime deadline_endDate = DateUtil.parseStringIntoDateTime(endDate).isPresent() ?
+        	        DateUtil.parseStringIntoDateTime(endDate).get() : DateUtil.END_OF_TODAY ;
+        	
         	this.toAdd = new Deadline(name, description, deadline_endDate, new UniqueTagList(tagSet));
         	
-        } else if (startDate !=null && endDate != null) {
+        } else if (startDate !=null) {
         	
-        	LocalDateTime event_startDate = DateUtil.parseStringIntoDateTime(startDate) ;
-        	LocalDateTime event_endDate = DateUtil.parseStringIntoDateTime(endDate) ;
+        	LocalDateTime event_startDate = DateUtil.parseStringIntoDateTime(startDate).isPresent() ?
+        	        DateUtil.parseStringIntoDateTime(startDate).get() : LocalDateTime.now() ;
+        	        
+	        LocalDateTime event_endDate = DateUtil.parseStringIntoDateTime(endDate).isPresent() ?
+	                DateUtil.parseStringIntoDateTime(endDate).get() : DateUtil.END_OF_TODAY ;
+        	
+        	if (event_endDate.isBefore(event_startDate)) {
+        		throw new IllegalValueException(INVALID_END_DATE_MESSAGE);
+        	}
         	
         	this.toAdd = new Event(name, description, event_startDate, event_endDate, new UniqueTagList(tagSet));
         	
