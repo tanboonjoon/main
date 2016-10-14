@@ -83,5 +83,10 @@ public class Task implements ReadOnlyTask {
 	public boolean getDoneStatus() {
 		return doneStatus;
 	}
+	
+	public void markDone() {
+		// flips the switch on doneStatus
+		doneStatus = !doneStatus;
+	}
 
 }

@@ -11,6 +11,7 @@ public class TestTask implements ReadOnlyTask {
     private String name;
     private String description ;
     private UniqueTagList tags;
+    private boolean doneStatus;
 
     public TestTask() {
         tags = new UniqueTagList();
@@ -59,4 +60,9 @@ public class TestTask implements ReadOnlyTask {
         this.getTags().getInternalList().stream().forEach(s -> sb.append("e/ " + s.tagName + " "));
         return sb.toString();
     }
+
+	@Override
+	public boolean getDoneStatus() {
+		return doneStatus;
+	}
 }
