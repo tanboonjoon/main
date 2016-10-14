@@ -19,7 +19,10 @@ import seedu.address.model.task.UniqueTaskList;
  */
 public class AddCommand extends Command {
 
-    public static final String COMMAND_WORD = "add";
+    public static final String[] COMMAND_WORD = {
+            "add",
+            "schedule"
+    };
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a person to the address book. \n"
     		+ "Format : Task : [TASKNAME] [d/DESCIPRTION] [t/TAG] ...\n" 
