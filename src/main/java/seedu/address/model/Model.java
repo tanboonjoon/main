@@ -31,7 +31,7 @@ public interface Model {
     void updateFilteredListToShowAll();
 
     /** Updates the filter of the filtered task list to filter by the given keywords*/
-    void updateFilteredTaskList(Set<String> keywords);
+    void updateFilteredTaskList(Set<String> keywords, String findType);
     
     /** Raises the given event to the event handler **/
     void raiseEvent(BaseEvent event) ;

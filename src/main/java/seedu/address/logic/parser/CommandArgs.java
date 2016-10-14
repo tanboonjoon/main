@@ -5,7 +5,15 @@ public enum CommandArgs {
 	DESC("d/"),
 	TAGS("t/"),
 	START_DATETIME ("st/"),
-	END_DATETIME ("et/");
+	END_DATETIME ("et/"),
+
+
+	//Arguments for find command to parse
+	FIND_DAY ("day/"),
+	FIND_WEEK ("week/"),
+	FIND_ALL ("all/");
+
+	
 	
 	private String commandString ;
 
