@@ -16,9 +16,24 @@ public class FindCommand extends Command {
             + "Example: " + COMMAND_WORD + " meeting";
 
     private final Set<String> keywords;
+    private final String findType;
 
-    public FindCommand(Set<String> keywords, String findtype) {
+    public FindCommand(Set<String> keywords, String findType) {
         this.keywords = keywords;
+        this.findType = findType;
+    }
+    
+    public boolean checkKeyWord(Set<String> keywords, String findType) {
+
+    	switch(findType) {
+    	case "ALL" :
+    		break;
+    	case "DAY" :
+    		break;
+    	case "Week" :
+    		break;
+    	}
+    	return false;
     }
 
     @Override

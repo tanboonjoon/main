@@ -28,10 +28,8 @@ public class FindCommandParser extends CommandParser {
     public Command prepareCommand(String args) {
         ArgumentsParser parser = new ArgumentsParser() ;
         
-        parser.addOptionalArg(CommandArgs.FIND_ALL)
-        .addOptionalArg(CommandArgs.FIND_EVENT)
-        .addOptionalArg(CommandArgs.FIND_DEADLINE)
-        .addOptionalArg(CommandArgs.FIND_TASK)
+        parser.addNoFlagArg(CommandArgs.NAME)
+        .addOptionalArg(CommandArgs.FIND_ALL)
         .addOptionalArg(CommandArgs.FIND_WEEK)
         .addOptionalArg(CommandArgs.FIND_DAY);
 
@@ -40,12 +38,16 @@ public class FindCommandParser extends CommandParser {
             parser.parse(args);
             final String find_type = prepareFindTypes(
             		parser.getArgValue(CommandArgs.FIND_ALL).isPresent() ? "ALL"  : "",
-            		parser.getArgValue(CommandArgs.FIND_EVENT).isPresent() ? "EVENT" : "" ,
-            		parser.getArgValue(CommandArgs.FIND_DEADLINE).isPresent() ? "DEADLINE"  : "",
-            		parser.getArgValue(CommandArgs.FIND_TASK).isPresent() ? "TASK" : "",
             		parser.getArgValue(CommandArgs.FIND_WEEK).isPresent() ? "WEEK"  : "",
             		parser.getArgValue(CommandArgs.FIND_DAY).isPresent() ? "DAY" : ""
             		);
+            //To be edited, current parser must accept a addNoFlagArg
+            String noFlag = parser.getArgValue(CommandArgs.NAME).get();
+            if(!noFlag.equals("task")) {
+            	return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                        FindCommand.MESSAGE_USAGE));
+            }
+            //end of noFlag
             
             final String[] keywords = getKeywords(find_type, parser);
             final Set<String> keywordSet = new HashSet<>(Arrays.asList(keywords));
@@ -65,7 +67,7 @@ public class FindCommandParser extends CommandParser {
     	List<String> find_type = new ArrayList<String> (Arrays.asList(args));
     	find_type.removeAll(Arrays.asList("" , null));
     	
-    	
+    	System.out.println(find_type.size());
         if(find_type.size() != VALID_FIND_TYPE_NUMBER) {
         	throw new IncorrectCommandException() ;
         }
@@ -84,12 +86,7 @@ public class FindCommandParser extends CommandParser {
     	switch(find_type) {
     	case "ALL":
     		return parser.getArgValue(CommandArgs.FIND_ALL).get().split("\\s+");
-    	case "EVENT":
-    		return parser.getArgValue(CommandArgs.FIND_EVENT).get().split("\\s+");
-    	case "DEADLINE":
-    		return parser.getArgValue(CommandArgs.FIND_DEADLINE).get().split("\\s+");
-    	case "TASK":
-    		return parser.getArgValue(CommandArgs.FIND_TASK).get().split("\\s+");
+
     	case "WEEK":
     		return parser.getArgValue(CommandArgs.FIND_WEEK).get().split("\\s+"); 		
     	case "DAY":

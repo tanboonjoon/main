@@ -11,9 +11,6 @@ public enum CommandArgs {
 	//Arguments for find command to parse
 	FIND_DAY ("day/"),
 	FIND_WEEK ("week/"),
-	FIND_EVENT ("event/"),
-	FIND_DEADLINE ("deadline/"),
-	FIND_TASK ("reminder/"),
 	FIND_ALL ("all/");
 
 	
