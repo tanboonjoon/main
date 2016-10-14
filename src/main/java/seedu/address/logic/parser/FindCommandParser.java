@@ -34,7 +34,6 @@ public class FindCommandParser extends CommandParser {
         .addOptionalArg(CommandArgs.FIND_TASK)
         .addOptionalArg(CommandArgs.FIND_WEEK)
         .addOptionalArg(CommandArgs.FIND_DAY);
-        
 
         try {	
 
@@ -59,6 +58,7 @@ public class FindCommandParser extends CommandParser {
         // keywords delimited by whitespace
 
 
+
     }
     
     public String prepareFindTypes(String...args ) throws IncorrectCommandException {
@@ -73,6 +73,9 @@ public class FindCommandParser extends CommandParser {
         return find_type.get(FIND_TYPE_INDEX);
     	
     }
+    
+
+
     
 
     public String[] getKeywords(String find_type, ArgumentsParser parser) throws IncorrectCommandException {
@@ -95,6 +98,7 @@ public class FindCommandParser extends CommandParser {
     		throw new IncorrectCommandException() ;
     	}
  
+
 
     
 
