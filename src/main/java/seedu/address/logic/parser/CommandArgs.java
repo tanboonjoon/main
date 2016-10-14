@@ -15,8 +15,12 @@ public enum CommandArgs {
 	FIND_DEADLINE ("deadline/"),
 	FIND_TASK ("reminder/"),
 	FIND_ALL ("all/");
+<<<<<<< a3b7c3fee4cf41d4e70a04345b906eb9e90dc676
 
 
+=======
+	
+>>>>>>> modify findParser
 	
 	
 	private String commandString ;
