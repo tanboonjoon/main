@@ -18,7 +18,7 @@ public class FindCommand extends Command {
             + "the specified keywords (case-sensitive) and displays them as a list with index numbers.\n"
             + "Parameters: KEYWORD [MORE_KEYWORDS]...\n"
             + "Example: " + COMMAND_WORD + " meeting";
-    private final String INVALID_FIND_DATE_MESSAGE = "Please enter valid number when search by day/week";
+    public final static String INVALID_FIND_DATE_MESSAGE = "Please enter valid number when search by day/week";
     private final String FIND_TYPE_ALL = "ALL";
     private final int VALID_NO_OF_DATES_ARGS = 1;
     private final int INTEGER_ARGS_INDEX = 0;
