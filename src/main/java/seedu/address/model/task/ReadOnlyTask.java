@@ -11,6 +11,8 @@ public interface ReadOnlyTask {
     public String getName()  ;
     
     public String getDescription() ;
+    
+    public boolean getDoneStatus();
 
     /**
      * The returned TagList is a deep copy of the internal TagList,

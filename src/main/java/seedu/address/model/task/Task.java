@@ -13,6 +13,7 @@ public class Task implements ReadOnlyTask {
 
     private final String name;
     private final String description ;
+    private boolean doneStatus;
 
     private UniqueTagList tags;
 
@@ -24,6 +25,7 @@ public class Task implements ReadOnlyTask {
         this.name = name;
         this.description = description ;
         this.tags = new UniqueTagList(tags); // protect internal tags from changes in the arg list
+        this.doneStatus = true;
     }
     
     public Task(String name, UniqueTagList tags) {
@@ -76,5 +78,10 @@ public class Task implements ReadOnlyTask {
     public String toString() {
         return getAsText();
     }
+
+	@Override
+	public boolean getDoneStatus() {
+		return doneStatus;
+	}
 
 }
