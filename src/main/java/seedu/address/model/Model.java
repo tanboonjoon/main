@@ -43,6 +43,6 @@ public interface Model {
 	public void recordTask(String COMMAND_WORD, ArrayList<Task> taskList);
 	
 	/* a method to pop out the latest task from history so as to update it */
-	public Pair<String, ArrayList<Task>> popTask();
+	public Pair<String, ArrayList<Task>> getPreviousTask();
 
 }

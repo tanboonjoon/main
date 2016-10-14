@@ -80,7 +80,7 @@ public class AddCommand extends Command {
             model.addTask(toAdd);
             ArrayList<Task> taskList = new ArrayList<Task>();
             taskList.add(toAdd);
-            model.recordTask(COMMAND_WORD[0], taskList);
+            model.recordTask(DEFAULT_COMMAND_WORD, taskList);
             return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
         } catch (UniqueTaskList.DuplicateTaskException e) {
             return new CommandResult(MESSAGE_DUPLICATE_TASK);

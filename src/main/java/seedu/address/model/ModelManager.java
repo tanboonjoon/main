@@ -99,7 +99,7 @@ public class ModelManager extends ComponentManager implements Model {
 	}
 
 	@Override
-	public Pair<String, ArrayList<Task>> popTask() {
+	public Pair<String, ArrayList<Task>> getPreviousTask() {
 		return taskHistory.pop();
 	}
 
