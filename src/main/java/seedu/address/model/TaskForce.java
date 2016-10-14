@@ -149,12 +149,12 @@ public class TaskForce implements ReadOnlyTaskForce {
     }
 
 //// mark as done operations
-    
+
     public void markTask(ReadOnlyTask task) {
     	// flips the boolean switch on doneStatus
     	((Task)task).markDone();
-    }    
-    
+    }	    
+
 //// tag-level operations
 
     public void addTag(Tag t) throws UniqueTagList.DuplicateTagException {
