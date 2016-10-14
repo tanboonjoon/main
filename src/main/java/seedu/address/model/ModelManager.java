@@ -1,9 +1,13 @@
 package seedu.address.model;
 
+import java.util.ArrayList;
+import java.util.Deque;
+import java.util.LinkedList;
 import java.util.Set;
 import java.util.logging.Logger;
 
 import javafx.collections.transformation.FilteredList;
+import javafx.util.Pair;
 import seedu.address.commons.core.ComponentManager;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.core.UnmodifiableObservableList;
@@ -24,6 +28,8 @@ public class ModelManager extends ComponentManager implements Model {
 
     private final TaskForce taskForce;
     private final FilteredList<Task> filteredTasks;
+    private final Deque<Pair<String, ArrayList<Task>>> taskHistory;
+    
 
     /**
      * Initializes a ModelManager with the given TaskForce
@@ -38,6 +44,7 @@ public class ModelManager extends ComponentManager implements Model {
 
         taskForce = new TaskForce(src);
         filteredTasks = new FilteredList<>(taskForce.getTasks());
+        taskHistory = new LinkedList<Pair<String, ArrayList<Task>>>();
     }
 
     public ModelManager() {
@@ -47,6 +54,7 @@ public class ModelManager extends ComponentManager implements Model {
     public ModelManager(ReadOnlyTaskForce initialData, UserPrefs userPrefs) {
         taskForce = new TaskForce(initialData);
         filteredTasks = new FilteredList<>(taskForce.getTasks());
+        taskHistory = new LinkedList<Pair<String, ArrayList<Task>>>();
     }
 
     @Override
