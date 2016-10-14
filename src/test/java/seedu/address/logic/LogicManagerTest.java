@@ -151,15 +151,19 @@ public class LogicManagerTest {
     public void execute_add_invalidArgsFormat() throws Exception {
         String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE);
         assertCommandBehavior(
-                "add wrong args wrong args /e", expectedMessage);
+                "add wrong args wrong args /t", expectedMessage);
         assertCommandBehavior(
         		"add wrong args wrong args d/", expectedMessage);
         assertCommandBehavior(
-        		"add wrong args wrong args d/ e/", expectedMessage);
+        		"add wrong args wrong args d/ t/", expectedMessage);
         assertCommandBehavior(
-        		"add wrong args wrong args d/         /e", expectedMessage);
+        		"add wrong args wrong args d/         /t", expectedMessage);
         assertCommandBehavior(
-        		"add d/         /e", expectedMessage);
+        		"add d/         /t", expectedMessage);
+        assertCommandBehavior(
+                "add hi d/hello dl/asd", expectedMessage);
+        assertCommandBehavior(
+                "add hi d/hello st/asd", AddCommand.INVALID_TASK_TYPE_MESSAGE);
     }
 
     @Test

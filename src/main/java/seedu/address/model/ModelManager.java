@@ -1,13 +1,13 @@
 package seedu.address.model;
 
-import java.util.Set;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.Deque;
-import java.util.LinkedHashMap;
-
+import java.util.LinkedList;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import javafx.collections.transformation.FilteredList;
+import javafx.util.Pair;
 import seedu.address.commons.core.ComponentManager;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.core.UnmodifiableObservableList;
@@ -18,6 +18,7 @@ import seedu.address.model.task.ReadOnlyTask;
 import seedu.address.model.task.Task;
 import seedu.address.model.task.UniqueTaskList;
 import seedu.address.model.task.UniqueTaskList.TaskNotFoundException;
+
 /**
  * Represents the in-memory model of the address book data.
  * All changes to any model should be synchronized.
@@ -27,7 +28,8 @@ public class ModelManager extends ComponentManager implements Model {
 
     private final TaskForce taskForce;
     private final FilteredList<Task> filteredTasks;
-//    public final Deque<LinkedHashMap<String,LinkedList<ReadOnlyTask>>> taskHistory;
+    private final Deque<Pair<String, ArrayList<Task>>> taskHistory;
+    
 
     /**
      * Initializes a ModelManager with the given TaskForce
@@ -42,6 +44,7 @@ public class ModelManager extends ComponentManager implements Model {
 
         taskForce = new TaskForce(src);
         filteredTasks = new FilteredList<>(taskForce.getTasks());
+        taskHistory = new LinkedList<Pair<String, ArrayList<Task>>>();
     }
 
     public ModelManager() {
@@ -51,6 +54,7 @@ public class ModelManager extends ComponentManager implements Model {
     public ModelManager(ReadOnlyTaskForce initialData, UserPrefs userPrefs) {
         taskForce = new TaskForce(initialData);
         filteredTasks = new FilteredList<>(taskForce.getTasks());
+        taskHistory = new LinkedList<Pair<String, ArrayList<Task>>>();
     }
 
     @Override
@@ -86,6 +90,19 @@ public class ModelManager extends ComponentManager implements Model {
         updateFilteredListToShowAll();
         indicateTaskForceChanged();
     }
+    
+    //=========== Undo Task History Accessors ===============================================================
+
+	@Override
+	public void recordTask(String COMMAND_WORD, ArrayList<Task> taskList) {
+		taskHistory.push(new Pair<String, ArrayList<Task>>(COMMAND_WORD, taskList));		
+	}
+
+	@Override
+	public Pair<String, ArrayList<Task>> getPreviousTask() {
+		return taskHistory.pop();
+	}
+
 
     //=========== Filtered Task List Accessors ===============================================================
 
@@ -159,5 +176,5 @@ public class ModelManager extends ComponentManager implements Model {
             return "name=" + String.join(", ", nameKeyWords);
         }
     }
-
+    
 }

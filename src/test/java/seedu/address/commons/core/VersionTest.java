@@ -38,15 +38,15 @@ public class VersionTest {
     public void versionToString_validVersion_correctStringRepresentation() {
         // boundary at 0
         Version version = new Version(0, 0, 0, true);
-        assertEquals("V0.0.0ea", version.toString());
+        assertEquals("v0.0ea", version.toString());
 
         // normal values
         version = new Version(4, 10, 5, false);
-        assertEquals("V4.10.5", version.toString());
+        assertEquals("v10.5", version.toString());
 
         // big numbers
         version = new Version(100, 100, 100, true);
-        assertEquals("V100.100.100ea", version.toString());
+        assertEquals("v100.100ea", version.toString());
     }
 
     @Test

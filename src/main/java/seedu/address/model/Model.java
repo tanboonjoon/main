@@ -6,7 +6,10 @@ import seedu.address.model.task.Task;
 import seedu.address.model.task.ReadOnlyTask;
 import seedu.address.model.task.UniqueTaskList;
 
+import java.util.ArrayList;
 import java.util.Set;
+
+import javafx.util.Pair;
 
 /**
  * The API of the Model component.
@@ -35,5 +38,11 @@ public interface Model {
     
     /** Raises the given event to the event handler **/
     void raiseEvent(BaseEvent event) ;
+    
+	/* a method to store a new task into the task history */
+	public void recordTask(String COMMAND_WORD, ArrayList<Task> taskList);
+	
+	/* a method to pop out the latest task from history so as to update it */
+	public Pair<String, ArrayList<Task>> getPreviousTask();
 
 }
