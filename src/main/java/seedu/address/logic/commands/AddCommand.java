@@ -37,8 +37,7 @@ public class AddCommand extends Command {
     public static final String MESSAGE_DUPLICATE_TASK = "This task already exists in the address book";
     public static final String INVALID_TASK_TYPE_MESSAGE = "Please make sure you follow the correct add format";
     public static final String INVALID_END_DATE_MESSAGE = "Please make sure your end date is later than start date";
-    //the boolean variable represent that end date > start date
-    public static final boolean IS_INVALID_END_DATE = true;
+
     private Task toAdd;
 
     /**
@@ -72,7 +71,7 @@ public class AddCommand extends Command {
 	        LocalDateTime event_endDate = DateUtil.parseStringIntoDateTime(endDate).isPresent() ?
 	                DateUtil.parseStringIntoDateTime(endDate).get() : DateUtil.END_OF_TODAY ;
         	
-        	if (event_endDate.isBefore(event_startDate) == IS_INVALID_END_DATE ) {
+        	if (event_endDate.isBefore(event_startDate)) {
         		throw new IllegalValueException(INVALID_END_DATE_MESSAGE);
         	}
         	
