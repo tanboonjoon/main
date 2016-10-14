@@ -194,8 +194,8 @@ public class ModelManager extends ComponentManager implements Model {
             
             ReadOnlyTaskForce item = undoTaskForceHistory.pollFirst();
             redoTaskForceHistory.offerFirst(new TaskForce(taskForce));
-            this.resetData(item);
-            updateFilteredListToShowAll();
+            this.taskForce.resetData(item);
+            indicateTaskForceChanged();
         }else{
             return false;
         }
@@ -219,8 +219,8 @@ public class ModelManager extends ComponentManager implements Model {
           if(redoTaskForceHistory.peekFirst() != null) {
               ReadOnlyTaskForce item = redoTaskForceHistory.pollFirst();
               undoTaskForceHistory.offerFirst(new TaskForce(taskForce));
-              this.resetData(item);
-              updateFilteredListToShowAll();
+              this.taskForce.resetData(item);
+              indicateTaskForceChanged();
           }else{
               return false;
           }
