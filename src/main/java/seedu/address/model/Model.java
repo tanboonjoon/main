@@ -7,6 +7,9 @@ import seedu.address.model.task.ReadOnlyTask;
 import seedu.address.model.task.UniqueTaskList;
 
 import java.util.ArrayList;
+import java.util.Deque;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.Set;
 
 import javafx.util.Pair;
@@ -15,6 +18,8 @@ import javafx.util.Pair;
  * The API of the Model component.
  */
 public interface Model {
+
+
     /** Clears existing backing model and replaces with the provided new data. */
     void resetData(ReadOnlyTaskForce newData);
 
@@ -27,6 +32,9 @@ public interface Model {
     /** Adds the given task */
     void addTask(Task task) throws UniqueTaskList.DuplicateTaskException;
 
+    /** Update the given task */
+    void updateTask(ReadOnlyTask from, Task to) throws UniqueTaskList.TaskNotFoundException ,UniqueTaskList.DuplicateTaskException;
+    
     /** Returns the filtered task list as an {@code UnmodifiableObservableList<ReadOnlyTask>} */
     UnmodifiableObservableList<ReadOnlyTask> getFilteredTaskList();
 
@@ -39,10 +47,16 @@ public interface Model {
     /** Raises the given event to the event handler **/
     void raiseEvent(BaseEvent event) ;
     
-	/* a method to store a new task into the task history */
-	public void recordTask(String COMMAND_WORD, ArrayList<Task> taskList);
+    /** Revert Task Force to previous state by one step. Use in conjunction with recordTaskForce. */
+    boolean revertTaskForce();
+    
+    /** restore Task Force by one step. Use in conjunction with recordTaskForce */
+    boolean restoreTaskForce();
+    
+    /* a method to store a new task into the task history */
+    public void recordTaskForce(ReadOnlyTaskForce taskForce);
 	
-	/* a method to pop out the latest task from history so as to update it */
-	public Pair<String, ArrayList<Task>> getPreviousTask();
+//	/* a method to pop out the latest task from history so as to update it */
+//	public Pair<String, ArrayList<Task>> getPreviousTask();
 
 }
