@@ -1,6 +1,10 @@
 package seedu.address.model;
 
 import java.util.Set;
+import java.util.LinkedList;
+import java.util.Deque;
+import java.util.LinkedHashMap;
+
 import java.util.logging.Logger;
 
 import javafx.collections.transformation.FilteredList;
@@ -14,7 +18,6 @@ import seedu.address.model.task.ReadOnlyTask;
 import seedu.address.model.task.Task;
 import seedu.address.model.task.UniqueTaskList;
 import seedu.address.model.task.UniqueTaskList.TaskNotFoundException;
-
 /**
  * Represents the in-memory model of the address book data.
  * All changes to any model should be synchronized.
@@ -24,6 +27,7 @@ public class ModelManager extends ComponentManager implements Model {
 
     private final TaskForce taskForce;
     private final FilteredList<Task> filteredTasks;
+//    public final Deque<LinkedHashMap<String,LinkedList<ReadOnlyTask>>> taskHistory;
 
     /**
      * Initializes a ModelManager with the given TaskForce
