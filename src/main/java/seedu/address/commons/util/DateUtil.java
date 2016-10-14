@@ -17,6 +17,11 @@ public final class DateUtil {
 	public static final LocalDateTime END_OF_TODAY = parseStringIntoDateTime("today 2359").get() ;
 	
 	public static Optional<LocalDateTime> parseStringIntoDateTime (String rawString) {
+	    
+	    if (rawString == null) {
+	        return Optional.empty() ;
+	    }
+	    
 		Parser dateParser = new Parser() ;
 		
 		List<DateGroup> dates = dateParser.parse(rawString) ;
