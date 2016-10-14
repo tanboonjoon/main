@@ -84,7 +84,6 @@ public class TaskCard extends UiPart{
 
         }
         
-        circle.getStyleClass().remove("circle_low") ;
         circle.getStyleClass().add("circle_high") ;
     }
 

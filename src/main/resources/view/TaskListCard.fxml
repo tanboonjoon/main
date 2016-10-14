@@ -13,7 +13,7 @@
       <AnchorPane prefHeight="88.0" prefWidth="104.0">
          <children>
             <Circle fx:id="circle" layoutX="52.0" layoutY="46.0" radius="23.0" stroke="BLACK" strokeType="INSIDE" styleClass="circle_low" AnchorPane.bottomAnchor="24.0" AnchorPane.leftAnchor="29.0" AnchorPane.rightAnchor="29.0" AnchorPane.topAnchor="23.0" />
-            <Label fx:id="id" layoutX="47.0" layoutY="36.0" text="Label" AnchorPane.bottomAnchor="36.0" AnchorPane.leftAnchor="47.0" AnchorPane.rightAnchor="22.0" AnchorPane.topAnchor="36.0" />
+            <Label fx:id="id" layoutX="46.0" layoutY="36.0" prefHeight="21.0" prefWidth="20.0" styleClass="task_id" text="Label" textAlignment="CENTER" AnchorPane.bottomAnchor="36.0" AnchorPane.leftAnchor="46.0" AnchorPane.rightAnchor="38.0" AnchorPane.topAnchor="36.0" />
          </children>
       </AnchorPane>
       <AnchorPane prefHeight="93.0" prefWidth="1099.0">
