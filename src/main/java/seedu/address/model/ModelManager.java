@@ -194,7 +194,7 @@ public class ModelManager extends ComponentManager implements Model {
             
             ReadOnlyTaskForce item = undoTaskForceHistory.pollFirst();
             redoTaskForceHistory.offerFirst(new TaskForce(taskForce));
-            this.taskForce.resetData(item);
+            this.resetData(item);
             updateFilteredListToShowAll();
         }else{
             return false;
@@ -219,7 +219,7 @@ public class ModelManager extends ComponentManager implements Model {
           if(redoTaskForceHistory.peekFirst() != null) {
               ReadOnlyTaskForce item = redoTaskForceHistory.pollFirst();
               undoTaskForceHistory.offerFirst(new TaskForce(taskForce));
-              this.taskForce.resetData(item);
+              this.resetData(item);
               updateFilteredListToShowAll();
           }else{
               return false;
@@ -231,8 +231,8 @@ public class ModelManager extends ComponentManager implements Model {
     @Override
     public void updateTask(ReadOnlyTask from, Task to) throws UniqueTaskList.TaskNotFoundException, UniqueTaskList.DuplicateTaskException{
         recordTaskForce(taskForce);
-        taskForce.removeTask(from);
-        taskForce.addTask(to);
+        this.deleteTask(from);
+        this.addTask(to);
     }
 
 }
