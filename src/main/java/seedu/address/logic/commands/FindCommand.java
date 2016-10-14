@@ -1,5 +1,7 @@
 package seedu.address.logic.commands;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import seedu.address.commons.exceptions.IllegalValueException;
@@ -19,6 +21,7 @@ public class FindCommand extends Command {
     private final String INVALID_FIND_DATE_MESSAGE = "Please enter valid number when search by day/week";
     private final String FIND_TYPE_ALL = "ALL";
     private final int VALID_NO_OF_DATES_ARGS = 1;
+    private final int INTEGER_ARGS_INDEX = 0;
     private final Set<String> keywords;
     private final String findType;
 
@@ -38,9 +41,9 @@ public class FindCommand extends Command {
     	if(keywords.size() != VALID_NO_OF_DATES_ARGS) {
     		return false;
     	}
-    	
+    	List<String> getNumList = new ArrayList(keywords);   	
     	try {
-    		Integer.parseInt(keywords.toString());
+    		Integer.parseInt(getNumList.get(INTEGER_ARGS_INDEX));
     	}catch (NumberFormatException e ) {
     		return false;
     	}

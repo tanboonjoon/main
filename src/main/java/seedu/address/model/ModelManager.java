@@ -1,6 +1,11 @@
 package seedu.address.model;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
@@ -11,6 +16,8 @@ import seedu.address.commons.core.UnmodifiableObservableList;
 import seedu.address.commons.events.BaseEvent;
 import seedu.address.commons.events.model.TaskForceChangedEvent;
 import seedu.address.commons.util.StringUtil;
+import seedu.address.model.task.Deadline;
+import seedu.address.model.task.Event;
 import seedu.address.model.task.ReadOnlyTask;
 import seedu.address.model.task.Task;
 import seedu.address.model.task.UniqueTaskList;
@@ -139,7 +146,9 @@ public class ModelManager extends ComponentManager implements Model {
     private class NameQualifier implements Qualifier {
         private Set<String> nameKeyWords;
         private String findType;
-
+        private String formattedDateForCompare;
+        private String formattedTaskDate;
+        private final int SAME_DAY_INDEX = 0;
         NameQualifier(Set<String> nameKeyWords, String findType) {
             this.nameKeyWords = nameKeyWords;
             this.findType = findType;
@@ -147,19 +156,45 @@ public class ModelManager extends ComponentManager implements Model {
 
         @Override
         public boolean run(ReadOnlyTask task) {
-        	LocalDateTime dateToday = LocalDateTime.now();
+
         	if(findType.equals("ALL")) {
                 return nameKeyWords.stream()
                         .filter(keyword ->                     
                         StringUtil.containsIgnoreCase(task.getName(), keyword))
                         .findAny()
                         .isPresent();
-        	}else if(findType.equals("WEEK")) {
-        		
-        	}else if(findType.equals("DAY")) {
-        	
         	}
-			return false;
+        	
+        	LocalDateTime dateToday = LocalDateTime.now();
+        	DateTimeFormatter format_exclude_time = DateTimeFormatter.ofPattern("ddMMyyyy");
+        	LocalDateTime dateForCompare = dateToday;
+        	List<String> getTimeList = new ArrayList(nameKeyWords);
+        	Long timeToAdd = Long.parseLong(getTimeList.get(0));
+        	System.out.println("timeToAdd :" + timeToAdd);
+        	if(findType.equals("WEEK")) {
+        		dateForCompare = dateToday.plusWeeks(timeToAdd); 
+
+        	}else if(findType.equals("DAY")) {
+            	System.out.println("hey this is a day");
+        		dateForCompare = dateToday.plusDays(timeToAdd);
+        	}
+        	
+        	formattedDateForCompare = dateForCompare.format(format_exclude_time);
+        	
+        	if (task instanceof Deadline ) {
+        		LocalDateTime taskDate = ((Deadline)task).getEndDate();
+        		formattedTaskDate = taskDate.format(format_exclude_time);
+        		System.out.println(formattedTaskDate);
+        		System.out.println(formattedDateForCompare);
+        		return formattedDateForCompare.compareTo(formattedTaskDate) == SAME_DAY_INDEX ;
+        	}
+        	if (task instanceof Event) {
+        		LocalDateTime taskDate = ((Event)task).getEndDate();
+        		formattedTaskDate = taskDate.format(format_exclude_time);
+        		return formattedDateForCompare.compareTo(formattedTaskDate) == SAME_DAY_INDEX ;
+        	}
+        	
+        	return true;
  
         }
 
