@@ -26,45 +26,11 @@ public class UndoCommand extends Command {
 
     @Override
     public CommandResult execute() {
-
-//        Set<Model> models = this.history.keySet();
-//        this.model = Iterables.getLast(models, null);
-//        String command = this.history.get(this.model);
-       final ListIterator<String> it = this.commandHistory.listIterator(this.commandHistory.size());
-       LinkedList<ReadOnlyTask> taskList = this.taskHistory.get(it.previous());
-       ListIterator<ReadOnlyTask> taskIt = taskList.listIterator(taskList.size());
-       if(it.hasPrevious()) {
-           if(it.equals("add")){
-              
-               try {
-                   model.deleteTask(taskIt.previous());
-               } catch (TaskNotFoundException e) {
-                   return new CommandResult("Nothing to undo!");
-               }
-           }
-           else if(it.equals("delete")){
-               try {
-                   Task task = new Task(taskIt.previous());
-                   model.addTask(task);
-               } catch (NoSuchElementException e) {
-                   return new CommandResult("Nothing to undo!");
-               } catch (DuplicateTaskException e) {
-                   return new CommandResult(AddCommand.MESSAGE_DUPLICATE_TASK);
-            }
-           }
-           else {// edit 
-               
-           }
-       }
-       
-        
-        
-        return new CommandResult(MESSAGE_SUCCESS);
-    }
     
-    @Override
-    public boolean isUndoableCommand(){
-        return true;
+        if(!model.revertTaskForce()){
+            return new CommandResult("Execuse me, you want undo till where?");
+        }
+        return new CommandResult(MESSAGE_SUCCESS);
     }
 
 }
