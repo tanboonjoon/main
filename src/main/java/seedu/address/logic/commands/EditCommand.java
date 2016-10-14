@@ -28,6 +28,7 @@ public class EditCommand extends Command {
     
     public static final int INVALID_VALUE_LENGTH = 0;
     public static final String DEFAULT_COMMAND_WORD = COMMAND_WORD[0] ;
+    public static final String NOTHING_CHANGED = "Nothing Changed!" ;
 
     public static final String MESSAGE_USAGE = DEFAULT_COMMAND_WORD
             + ": Edits the task identified by the index number used in the last task listing.\n"
@@ -112,7 +113,7 @@ public class EditCommand extends Command {
         determineDateTimeOfNewTask (taskToEdit) ;
         
         if(!hasChanged){
-            return new CommandResult("Nothing changed!");
+            return new CommandResult(NOTHING_CHANGED);
         }
        
         Task newTask = createNewTask (newName, newDescription, newTagSet, dateMap.get(START_DATE), dateMap.get(END_DATE));
