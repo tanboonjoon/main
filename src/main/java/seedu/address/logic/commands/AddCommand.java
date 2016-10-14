@@ -64,9 +64,11 @@ public class AddCommand extends Command {
         	
         	LocalDateTime event_startDate = DateUtil.parseStringIntoDateTime(startDate) ;
         	LocalDateTime event_endDate = DateUtil.parseStringIntoDateTime(endDate) ;
+        	
         	if (event_endDate.isBefore(event_startDate) == IS_INVALID_END_DATE ) {
         		throw new IllegalValueException(INVALID_END_DATE_MESSAGE);
         	}
+        	
         	this.toAdd = new Event(name, description, event_startDate, event_endDate, new UniqueTagList(tagSet));
         	
         } else {
