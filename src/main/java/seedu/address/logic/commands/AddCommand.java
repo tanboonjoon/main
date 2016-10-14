@@ -55,13 +55,18 @@ public class AddCommand extends Command {
         	
         } else if (startDate == null && endDate != null) {
         	
-        	LocalDateTime deadline_endDate = DateUtil.parseStringIntoDateTime(endDate) ;
+        	LocalDateTime deadline_endDate = DateUtil.parseStringIntoDateTime(endDate).isPresent() ?
+        	        DateUtil.parseStringIntoDateTime(endDate).get() : DateUtil.END_OF_TODAY ;
+        	
         	this.toAdd = new Deadline(name, description, deadline_endDate, new UniqueTagList(tagSet));
         	
-        } else if (startDate !=null && endDate != null) {
+        } else if (startDate !=null) {
         	
-        	LocalDateTime event_startDate = DateUtil.parseStringIntoDateTime(startDate) ;
-        	LocalDateTime event_endDate = DateUtil.parseStringIntoDateTime(endDate) ;
+        	LocalDateTime event_startDate = DateUtil.parseStringIntoDateTime(startDate).isPresent() ?
+        	        DateUtil.parseStringIntoDateTime(startDate).get() : LocalDateTime.now() ;
+        	        
+	        LocalDateTime event_endDate = DateUtil.parseStringIntoDateTime(endDate).isPresent() ?
+	                DateUtil.parseStringIntoDateTime(endDate).get() : DateUtil.END_OF_TODAY ;
         	
         	this.toAdd = new Event(name, description, event_startDate, event_endDate, new UniqueTagList(tagSet));
         	
