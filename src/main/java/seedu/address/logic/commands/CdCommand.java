@@ -6,7 +6,12 @@ package seedu.address.logic.commands;
  */
 public class CdCommand extends Command{
 	
-	public final String COMMAND_WORD = "cd";
+	public final static String COMMAND_WORD = "cd";
+	public final static String MESSAGE_USAGE = COMMAND_WORD + ": change the filestorage saving location. \n"
+			+ "Parameters : FILEPATH (must be a valid path) \n"
+			+ "Example : cd /destkop/important_folder";
+	
+
 	private String filepath;
 	
 	public CdCommand(String filepath) {
