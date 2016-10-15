@@ -1,5 +1,6 @@
 package seedu.address.logic.commands;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -9,7 +10,7 @@ import seedu.address.commons.core.Config;
 import seedu.address.commons.events.storage.TaskForceStorageChangedEvent;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.storage.StorageManager;
-
+import org.json.simple.JSONObject;
 
 /*
  * 
@@ -23,9 +24,9 @@ public class CdCommand extends Command {
 			+ "Parameters : FILEPATH (must be a valid path) \n" + "Example : cd destkop/important_folder/saveData.xml";
 	public final static String MESSAGE_SUCCESS = "file has been saved to the location successfully in ";
 	public final static String MESSAGE_FAILURE = "please enter a valid filepath";
-
+	
 	private final String newStoragePath;
-
+	private final String CONFIG_JSON_PATH = "config.json";
 	private final String originalJsonPath;
 	private Config config;
 
@@ -51,11 +52,12 @@ public class CdCommand extends Command {
 			}
 		
 			config.setTaskForceFilePath(this.newStoragePath);
-			model.raiseEvent(new TaskForceStorageChangedEvent(config));
+			saveToConfigJSON(config);
+			model.raiseEvent(new TaskForceStorageChangedEvent(storageManager, config));
 
 			
-	
-			return new CommandResult(String.format(MESSAGE_SUCCESS, newStoragePath));
+			
+			return new CommandResult(MESSAGE_SUCCESS + this.newStoragePath);
 
 		} catch (IOException e) {
 			return new CommandResult(MESSAGE_FAILURE);
@@ -63,9 +65,17 @@ public class CdCommand extends Command {
 
 	}
 
+	private void saveToConfigJSON(Config config) {
+		// TODO Auto-generated method stub
+	
+		File oldConfigFile = new File(CONFIG_JSON_PATH);
+		String path = oldConfigFile.getAbsolutePath();
+		JSONObject = new JSONObject(config.toString());
+		
+	}
+
 	public boolean checkFileLocation(String filepath) {
 		Path path = Paths.get(filepath);
-		System.out.println("hey" + Files.exists(path));
 		return Files.exists(path);
 
 	}
