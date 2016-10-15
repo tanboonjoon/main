@@ -2,13 +2,14 @@ package guitests;
 
 import org.junit.Test;
 
+import seedu.address.logic.commands.RedoCommand;
 import seedu.address.logic.commands.UndoCommand;
 import seedu.address.testutil.TestTask;
 import seedu.address.testutil.TestUtil;
 import seedu.address.testutil.TypicalTestTasks;
 import seedu.address.ui.CommandBox;
 
-public class UndoCommandTest extends TaskForceGuiTest {
+public class UndoAndRedoCommandTest extends TaskForceGuiTest {
 
     @Test
     public void undo(){
@@ -43,6 +44,30 @@ public class UndoCommandTest extends TaskForceGuiTest {
         commandBox.runCommand("undo");
         assertResultMessage(UndoCommand.MESSAGE_NO_MORE_ACTION);
         
+        
+        commandBox.runCommand("redo");
+        assertResultMessage(RedoCommand.MESSAGE_SUCCESS);
+
+        commandBox.runCommand("redo");
+        commandBox.runCommand("redo");
+        commandBox.runCommand("redo");
+        commandBox.runCommand("redo");
+        commandBox.runCommand("redo");
+        commandBox.runCommand("redo");
+        commandBox.runCommand("redo");
+        commandBox.runCommand("redo");
+        commandBox.runCommand("redo");
+        commandBox.runCommand("redo");
+        assertResultMessage(RedoCommand.MESSAGE_NO_MORE_ACTION);
+
+        
+        commandBox.runCommand("add test redo");
+        commandBox.runCommand("add test redo clear");
+        
+        commandBox.runCommand("undo");
+        commandBox.runCommand("add test redo clear clear");
+        commandBox.runCommand("redo");
+        assertResultMessage(RedoCommand.MESSAGE_NO_MORE_ACTION);
         //clear taskForce 
         commandBox.runCommand("clear");
     }
