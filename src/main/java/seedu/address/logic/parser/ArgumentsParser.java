@@ -15,10 +15,11 @@ import com.google.common.collect.Sets;
 import seedu.address.commons.exceptions.IncorrectCommandException;
 
 /**
+ * @@author A0135768R
+ *  
  * Given a command string with arguments, this class will extract the values from the string
  * for easy retrieval
  * 
- * @author Jeremy Goh
  *
  */
 public class ArgumentsParser {
@@ -37,7 +38,7 @@ public class ArgumentsParser {
 		argumentValuesMap = ArrayListMultimap.create();
 		flags = Maps.newHashMap() ;
 		
-		noFlagArgument = null ;
+		this.addNoFlagArg(CommandArgs.NULL_ARG) ;
 	}
 	
 	private void addFlag (CommandArgs arg) {
@@ -168,7 +169,7 @@ public class ArgumentsParser {
 			CommandArgs nextArg = flags.get(extractFlagFromString(charStack)) ;
 			String value = extractArgValueFromString(charStack) ;
 			
-			if(value.length() == INVALID_VALUE_LENGTH) {
+			if(thisArg != CommandArgs.NULL_ARG && value.length() == INVALID_VALUE_LENGTH) {
 				throw new IncorrectCommandException() ;
 			}
 			

@@ -4,9 +4,10 @@ import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import com.google.common.collect.Sets;
 
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.commons.exceptions.IncorrectCommandException;
@@ -31,7 +32,7 @@ public class FindCommandParser extends CommandParser {
     public Command prepareCommand(String args) {
         ArgumentsParser parser = new ArgumentsParser() ;
         
-        parser.addNoFlagArg(CommandArgs.NAME)
+        parser
         .addOptionalArg(CommandArgs.FIND_ALL)
         .addOptionalArg(CommandArgs.FIND_WEEK)
         .addOptionalArg(CommandArgs.FIND_DAY);
@@ -39,26 +40,23 @@ public class FindCommandParser extends CommandParser {
         try {	
 
             parser.parse(args);
+            
             final String find_type = prepareFindTypes(
             		parser.getArgValue(CommandArgs.FIND_ALL).isPresent() ? "ALL"  : "",
             		parser.getArgValue(CommandArgs.FIND_WEEK).isPresent() ? "WEEK"  : "",
             		parser.getArgValue(CommandArgs.FIND_DAY).isPresent() ? "DAY" : ""
             		);
-            //To be edited, current parser must accept a addNoFlagArg
-            String noFlag = parser.getArgValue(CommandArgs.NAME).get();
-            if(!noFlag.equals("task")) {
-            	return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
-                        FindCommand.MESSAGE_USAGE));
-            }
-            //end of noFlag
             
             final String[] keywords = getKeywords(find_type, parser);
-            final Set<String> keywordSet = new HashSet<>(Arrays.asList(keywords));
+            final Set<String> keywordSet = Sets.newHashSet(Arrays.asList(keywords));
+            
             keywordSet.remove(EMPTY_STRING);
             return new FindCommand(keywordSet, find_type);
+            
         } catch (IncorrectCommandException e) {
              return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
                      FindCommand.MESSAGE_USAGE));
+        
         } catch (IllegalValueException e) {
 			// TODO Auto-generated catch block
         	return new IncorrectCommand(e.getMessage());

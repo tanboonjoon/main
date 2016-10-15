@@ -70,7 +70,6 @@ public class TaskListPanel extends UiPart {
         taskList.addListener(new ListChangeListener<ReadOnlyTask>() {
             @Override
             public void onChanged(ListChangeListener.Change change) {
-                System.out.println(change.getList().size()) ;
                 raise(new TaskForceTaskListChangedEvent(change.getList().size())) ;
             }
         });
