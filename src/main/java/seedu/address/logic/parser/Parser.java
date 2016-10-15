@@ -27,6 +27,7 @@ import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.commons.exceptions.IncorrectCommandException;
 import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.commands.AddCommand;
+import seedu.address.logic.commands.CdCommand;
 import seedu.address.logic.commands.ClearCommand;
 import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.DeleteCommand;
@@ -73,7 +74,7 @@ public class Parser {
         registerCommand (ListCommandParser.class, ListCommand.COMMAND_WORD);
         registerCommand (ExitCommandParser.class, ExitCommand.COMMAND_WORD);
         registerCommand (EditCommandParser.class, EditCommand.COMMAND_WORD) ;
-        
+        registerCommand (CdCommandParser.class, CdCommand.COMMAND_WORD);
     }
     
     /**
