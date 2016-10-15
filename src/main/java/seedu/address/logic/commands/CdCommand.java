@@ -1,16 +1,19 @@
 package seedu.address.logic.commands;
 
-import java.io.File;
+
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+
+
 import seedu.address.commons.core.Config;
-import seedu.address.commons.events.storage.TaskForceStorageChangedEvent;
 import seedu.address.commons.exceptions.IllegalValueException;
+import seedu.address.commons.util.ConfigUtil;
 import seedu.address.storage.StorageManager;
-import org.json.simple.JSONObject;
+
 
 /*
  * 
@@ -52,11 +55,8 @@ public class CdCommand extends Command {
 			}
 		
 			config.setTaskForceFilePath(this.newStoragePath);
-			saveToConfigJSON(config);
-			model.raiseEvent(new TaskForceStorageChangedEvent(storageManager, config));
-
-			
-			
+			ConfigUtil.saveConfig(config, CONFIG_JSON_PATH);
+	
 			return new CommandResult(MESSAGE_SUCCESS + this.newStoragePath);
 
 		} catch (IOException e) {
@@ -65,14 +65,7 @@ public class CdCommand extends Command {
 
 	}
 
-	private void saveToConfigJSON(Config config) {
-		// TODO Auto-generated method stub
-	
-		File oldConfigFile = new File(CONFIG_JSON_PATH);
-		String path = oldConfigFile.getAbsolutePath();
-		JSONObject = new JSONObject(config.toString());
-		
-	}
+
 
 	public boolean checkFileLocation(String filepath) {
 		Path path = Paths.get(filepath);
