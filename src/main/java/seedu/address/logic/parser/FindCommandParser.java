@@ -28,6 +28,7 @@ public class FindCommandParser extends CommandParser {
 	public static String EMPTY_STRING = "";
     public static int VALID_FIND_TYPE_NUMBER = 1;
     public static int FIND_TYPE_INDEX = 0;
+    public static String NULL_STRING = null;
     @Override
     public Command prepareCommand(String args) {
         ArgumentsParser parser = new ArgumentsParser() ;
@@ -70,7 +71,7 @@ public class FindCommandParser extends CommandParser {
     
     public String prepareFindTypes(String...args ) throws IncorrectCommandException {
     	List<String> find_type = new ArrayList<String> (Arrays.asList(args));
-    	find_type.removeAll(Arrays.asList("" , null));
+    	find_type.removeAll(Arrays.asList(EMPTY_STRING , NULL_STRING));
     	
         if(find_type.size() != VALID_FIND_TYPE_NUMBER) {
         	throw new IncorrectCommandException() ;
@@ -87,10 +88,9 @@ public class FindCommandParser extends CommandParser {
     public String[] getKeywords(String find_type, ArgumentsParser parser) throws IncorrectCommandException {
   
     	
-    	switch(find_type) {
+    	switch (find_type) {
     	case "ALL":
     		return parser.getArgValue(CommandArgs.FIND_ALL).get().split("\\s+");
-
     	case "WEEK":
     		return parser.getArgValue(CommandArgs.FIND_WEEK).get().split("\\s+"); 		
     	case "DAY":
