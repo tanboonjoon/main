@@ -161,6 +161,13 @@ Format: `freetime [d/DAYS_FROM_TODAY]`
 Undo the last command that was successfully executed. <br>
 Format: `undo`
 
+### Changing FileStorage location : `cd`
+Changing the saveData into another location <br>
+Format: `cd FILEPATH\FILENAME.xml`
+Examples:
+* `cd C:\Users\Boon\Desktop\newName.xml`
+* `cd C:\Users\Boon\newSaveName.xml`
+
 #### Clearing all entries : `clear`
 Clears **ALL** entries from the task list. This command **CANNOT** be undone! <br>
 Format: `clear`  
@@ -191,6 +198,7 @@ Delete | `delete INDEX`
 Edit | `edit INDEX [NAME] [s/START_DATE] [e/END_DATE] ...`
 Freetime | `freetime [d/DAYS_FROM_TODAY]`
 Find | `find KEYWORD [MORE_KEYWORDS]`
+cd   | `cd FILEPATH/FILENAME.xml`
 Undo | `undo`
 Help | `help`
 Exit | `exit`
