@@ -7,8 +7,10 @@ import java.util.Set;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
+import seedu.address.commons.core.EventsCenter;
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.UnmodifiableObservableList;
+import seedu.address.commons.events.ui.JumpToListRequestEvent;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.tag.UniqueTagList;
@@ -103,7 +105,12 @@ public class EditCommand extends Command {
             newDescription = taskToEdit.getDescription();
         }
         
-        newTagSet = new UniqueTagList(editOrDeleteTags(taskToEdit.getTags(), tagSet)) ;
+        if(!tagSet.isEmpty()) {
+            newTagSet = new UniqueTagList(tagSet);
+            hasChanged = true ;
+        }else{
+            newTagSet = taskToEdit.getTags();
+        }
         
         determineDateTimeOfNewTask (taskToEdit) ;
         
@@ -114,27 +121,37 @@ public class EditCommand extends Command {
         Task newTask = createNewTask (newName, newDescription, newTagSet, dateMap.get(START_DATE), dateMap.get(END_DATE));
 
         try {
-            model.addTask(newTask);
-           
-            try{
-                model.deleteTask(taskToEdit);
-            } catch (TaskNotFoundException pnfe) {
-                assert false : "The target task cannot be missing";
-            }
-
+            model.updateTask(taskToEdit, newTask);
+            
+            EventsCenter.getInstance().post(new JumpToListRequestEvent(lastShownList.size() - 1));
             return new CommandResult(String.format(MESSAGE_EDIT_SUCCESS, newTask));
-  
+
+        } catch (TaskNotFoundException pnfe) {
+            return new CommandResult("The target task cannot be missing");
         } catch (UniqueTaskList.DuplicateTaskException e) {
-           
             return new CommandResult(MESSAGE_DUPLICATE_TASK);
         }
        
     }
     
+    /**
+     * Check if string is valid.
+     * @param s string input
+     * @return true if the specified string is valid.
+     */
     private boolean isValidString (String s) {
         return s.length() > INVALID_VALUE_LENGTH ;
     }
     
+    /**
+     * Refactored function to create Task object from given params.
+     * @param name
+     * @param description
+     * @param tag
+     * @param startTime
+     * @param endTime
+     * @return Task object to the caller.
+     */
     private Task createNewTask (String name, String description, UniqueTagList tag, LocalDateTime startTime, LocalDateTime endTime) {
         
         if (startTime != null && endTime != null) {
@@ -150,6 +167,10 @@ public class EditCommand extends Command {
         return new Task (name, description, tag) ;
     }
     
+    /**
+     * 
+     * @param taskToEdit
+     */
     private void determineDateTimeOfNewTask (ReadOnlyTask taskToEdit) {
         if (taskToEdit instanceof Event) {
 
@@ -175,25 +196,6 @@ public class EditCommand extends Command {
                 hasChanged = true ;
             }
         }
-    }
-    
-    private Set<Tag> editOrDeleteTags(UniqueTagList currentTags, Set<Tag> tagSet) {
-        
-        Set<Tag> newTaskTags = Sets.newHashSet(currentTags) ;
-        
-        for (Tag tag : tagSet) {
-            if (!currentTags.contains(tag)) {
-                newTaskTags.add(tag) ;
-                hasChanged = true ;
-                
-            } else {
-                newTaskTags.remove(tag) ;
-                hasChanged = true ;
-            }
-            
-        }
-        
-        return newTaskTags ;
     }
 
 }
