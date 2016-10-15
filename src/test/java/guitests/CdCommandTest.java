@@ -38,13 +38,16 @@ public class CdCommandTest extends TaskForceGuiTest {
         commandBox.runCommand("cd asd.xml");
         assertResultMessage(INVALID_FILE_PATH_MESSAGE);
 	}
-	/*
+	
 	@Test 
 	public void valid_filePath() {
-        commandBox.runCommand("cd C:\\Users\\Boon\\Desktop\\hey.xml");
-        assertResultMessage( (CdCommand.MESSAGE_SUCCESS + "C:\\Users\\Boon\\Desktop\\hey.xml") );
+		StringBuilder sb = new StringBuilder();
+		String newPath = System.getProperty("user.dir");
+		sb.append(newPath).append("\\hey.xml");
+        commandBox.runCommand(("cd " + sb.toString()));
+        assertResultMessage( (CdCommand.MESSAGE_SUCCESS + sb.toString()) );
 	}
-	*/
+	
 	@After
 	public void clear() {
 		commandBox.runCommand("clear");
