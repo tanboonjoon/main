@@ -55,7 +55,7 @@ public class CdCommand extends Command{
 			
 			config.setTaskForceFilePath(this.newStoragePath);
 			storageManager.setTaskForceDirectory(this.newStoragePath);
-			storageManager.updateStorageDirectory(config);
+			
 			
 			return new CommandResult(("MESSAGE_SUCCESS " + newStoragePath));
 			
