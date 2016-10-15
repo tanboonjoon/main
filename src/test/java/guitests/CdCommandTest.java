@@ -1,5 +1,6 @@
 package guitests;
 
+import org.junit.After;
 import org.junit.Test;
 
 import seedu.address.logic.commands.CdCommand;
@@ -32,14 +33,21 @@ public class CdCommandTest extends TaskForceGuiTest {
         		.toString();
 		
 		commandBox.runCommand("cd C:\\Userads\\BoFDSon\\DessadkDFFDtop\\noType.xml");
+		
         assertResultMessage(INVALID_FILE_PATH_MESSAGE);
-        
+        commandBox.runCommand("cd asd.xml");
+        assertResultMessage(INVALID_FILE_PATH_MESSAGE);
 	}
 	
 	@Test 
 	public void valid_filePath() {
         commandBox.runCommand("cd C:\\Users\\Boon\\Desktop\\hey.xml");
         assertResultMessage( (CdCommand.MESSAGE_SUCCESS + "C:\\Users\\Boon\\Desktop\\hey.xml") );
+	}
+	
+	@After
+	public void clear() {
+		commandBox.runCommand("clear");
 	}
 	
 	

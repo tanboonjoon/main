@@ -30,12 +30,13 @@ public class CdCommand extends Command {
 	public final static String MESSAGE_SUCCESS = "file has been saved to the location successfully in ";
 	public final static String MESSAGE_FAILURE_FILE_TYPE = "please end the the filename with .xml ";
 	public final static String MESSAGE_FAILURE_FILE_PATH = "please enter valid file path";
-
+	
+	private final String INVALID_FILE_PATH = null;
 	private final String CONFIG_JSON_PATH = "config.json";
 	private final String newStoragePath;
 	private final String originalJsonPath;
 	private Config config;
-
+	
 	private StorageManager storageManager;
 
 
@@ -78,7 +79,11 @@ public class CdCommand extends Command {
 
 	private boolean isValidPath(String filepath) {
 		File file = new File(filepath);
+		if (file.getParent() == INVALID_FILE_PATH) {
+			return false;
+		}
 		File fileDir = new File(file.getParent());
+		
 		return fileDir.exists();
 	}
 
