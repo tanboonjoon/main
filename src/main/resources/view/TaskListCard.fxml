@@ -8,7 +8,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.shape.Rectangle?>
 
-<HBox id="cardPane" fx:id="cardPane" maxHeight="93.0" maxWidth="750.0" prefHeight="93.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1">
+<HBox id="cardPane" fx:id="cardPane" maxHeight="93.0" maxWidth="750.0" prefHeight="93.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
     <children>
       <AnchorPane prefHeight="88.0" prefWidth="104.0">
          <children>
@@ -18,7 +18,7 @@
       </AnchorPane>
       <AnchorPane prefHeight="93.0" prefWidth="1099.0">
          <children>
-                     <Label fx:id="name" layoutY="7.0" styleClass="cell_big_label" text="\$first" AnchorPane.leftAnchor="2.0" AnchorPane.topAnchor="7.0" />
+                     <Label fx:id="name" layoutX="14.0" layoutY="7.0" styleClass="cell_big_label" text="\$first" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="7.0" />
             <AnchorPane layoutX="2.0" layoutY="27.0" prefHeight="64.0" prefWidth="549.0">
                <children>
                         <Label fx:id="description" layoutX="12.0" layoutY="1.0" prefHeight="21.0" prefWidth="537.0" styleClass="cell_small_label" text="\$description" AnchorPane.leftAnchor="12.0" AnchorPane.topAnchor="1.0" />
@@ -31,6 +31,11 @@
                   <Label fx:id="startline" layoutX="22.0" layoutY="27.0" styleClass="cell_small_label" text="\$startline" AnchorPane.leftAnchor="22.0" AnchorPane.topAnchor="27.0" />
                </children></AnchorPane>
                     <Label fx:id="tags" layoutX="502.0" layoutY="2.0" style="-fx-border-color: FFFF;" styleClass="cell_small_label" text="\$tags" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="2.0" />
+            <ImageView fx:id="isDone" fitHeight="16.0" fitWidth="12.0" layoutX="-1.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/mark.jpg" />
+               </image>
+            </ImageView>
          </children>
       </AnchorPane>
     </children>
