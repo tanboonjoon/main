@@ -31,6 +31,9 @@ public class FindCommandTest extends TaskForceGuiTest {
     	commandBox.runCommand("find all/");
     	String expectedMessage = String.format(Messages.MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE);
     	assertResultMessage(expectedMessage);
+    	commandBox.runCommand("find asdf day/123" );
+    	assertResultMessage(expectedMessage);
+
     }
 
     @Test
