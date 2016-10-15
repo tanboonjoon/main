@@ -9,6 +9,7 @@ import org.junit.Test;
 import com.google.common.collect.Lists;
 
 import seedu.address.commons.core.Messages;
+import seedu.address.commons.util.DateUtil;
 import seedu.address.logic.commands.FindCommand;
 import seedu.address.testutil.TestTask;
 
@@ -47,13 +48,28 @@ public class FindCommandTest extends TaskForceGuiTest {
         List<TestTask> list = populateTestData() ;
         
         for (TestTask task : list) {
-            commandBox.runCommand("add " + task.getName());
+            StringBuilder sb = new StringBuilder() ;
+            
+            sb.append("add " + task.getName()) ;
+            
+            if (task.getEndDate() != null) {
+                sb.append(" et/" + task.getEndDate().toString()) ;
+            }
+            
+            if (task.getStartDate() != null) {
+                sb.append(" st/" + task.getStartDate().toString()) ;
+            }
+            
+            commandBox.runCommand(sb.toString());
         }
         
         TestTask[] array = new TestTask[list.size()] ;
         
         assertFindResult("find all/john", list.toArray(array));
-        commandBox.runCommand("find day/0");
+        
+        assertFindResult("find day/0", list.get(0), list.get(1), list.get(2));
+        assertFindResult("find day/1", list.get(3));
+        assertFindResult("find week/1", list.get(4));
     }
 
 
@@ -71,6 +87,16 @@ public class FindCommandTest extends TaskForceGuiTest {
         for (int i = 0; i < 5; i ++) {
             TestTask task = new TestTask () ;
             task.setName("john " + i);
+            
+            if (i < 3) {
+                task.setEndDate(DateUtil.END_OF_TODAY);
+            
+            } else if (i >= 3 && i < 4) {
+                task.setEndDate(DateUtil.parseStringIntoDateTime("tomorrow").get());
+            
+            } else {
+                task.setEndDate(DateUtil.parseStringIntoDateTime("next week").get());
+            }
             
             list.add(task) ;
         }
