@@ -59,6 +59,11 @@ public class Task implements ReadOnlyTask {
     public UniqueTagList getTags() {
         return new UniqueTagList(tags);
     }
+    
+	@Override
+	public boolean getDoneStatus() {
+		return doneStatus;
+	}
 
     /**
      * Replaces this task's tags with the tags in the argument tag list.
@@ -85,14 +90,5 @@ public class Task implements ReadOnlyTask {
         return getAsText();
     }
 
-	@Override
-	public boolean getDoneStatus() {
-		return doneStatus;
-	}
-	
-	public void markDone() {
-		// flips the switch on doneStatus
-		doneStatus = !doneStatus;
-	}
 
 }
