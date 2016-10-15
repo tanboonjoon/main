@@ -17,27 +17,26 @@ public class FindCommandTest extends TaskForceGuiTest {
        
     @Test
     public void find_validCommand_pass() {
-    	commandBox.runCommand("find task all/taskName");
-    	commandBox.runCommand("find task day/0");
-    	commandBox.runCommand("find task week/0");
+    	commandBox.runCommand("find all/taskName");
+    	commandBox.runCommand("find day/0");
+    	commandBox.runCommand("find week/0");
     }
     
     @Test
     public void find_invalidCommand_fail() {
-    	commandBox.runCommand("find task day/123 sdf");
+    	commandBox.runCommand("find day/123 sdf");
     	assertResultMessage(FindCommand.INVALID_FIND_DATE_MESSAGE);
-    	commandBox.runCommand("find task week/thisIsNotNumber");
+    	commandBox.runCommand("find week/thisIsNotNumber");
     	assertResultMessage(FindCommand.INVALID_FIND_DATE_MESSAGE);
-    	commandBox.runCommand("find task all/");
+    	commandBox.runCommand("find all/");
     	String expectedMessage = String.format(Messages.MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE);
-
     	assertResultMessage(expectedMessage);
     }
 
     @Test
     public void find_emptyList(){
         commandBox.runCommand("clear");
-        assertFindResult("find task all/Jean"); //no results
+        assertFindResult("find all/Jean"); //no results
     }
     
     @Test
