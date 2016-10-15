@@ -54,14 +54,14 @@ public class AddCommand extends Command {
         
         if (startDate == null && endDate == null) {
 
-        	this.toAdd = new Task(name, description, new UniqueTagList(tagSet), false);
+        	this.toAdd = new Task(name, description, new UniqueTagList(tagSet));
         	
         } else if (startDate == null && endDate != null) {
         	
         	LocalDateTime deadline_endDate = DateUtil.parseStringIntoDateTime(endDate).isPresent() ?
         	        DateUtil.parseStringIntoDateTime(endDate).get() : DateUtil.END_OF_TODAY ;
         	
-        	this.toAdd = new Deadline(name, description, deadline_endDate, new UniqueTagList(tagSet), false);
+        	this.toAdd = new Deadline(name, description, deadline_endDate, new UniqueTagList(tagSet));
         	
         } else if (startDate !=null) {
         	
@@ -75,7 +75,7 @@ public class AddCommand extends Command {
         		throw new IllegalValueException(INVALID_END_DATE_MESSAGE);
         	}
         	
-        	this.toAdd = new Event(name, description, event_startDate, event_endDate, new UniqueTagList(tagSet), false);
+        	this.toAdd = new Event(name, description, event_startDate, event_endDate, new UniqueTagList(tagSet));
         	
         } else {
         	throw new IllegalValueException(INVALID_TASK_TYPE_MESSAGE);
