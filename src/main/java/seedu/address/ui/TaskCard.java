@@ -63,6 +63,8 @@ public class TaskCard extends UiPart{
     	
     	if (task.getDoneStatus()) {
     		isDone.setVisible(true);
+    		name.getStyleClass().remove("cell_big_label") ;
+    		name.getStyleClass().add("cell_big_label_done") ;
     	}
         
     	name.setText(task.getName());
