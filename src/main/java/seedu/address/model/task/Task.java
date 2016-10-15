@@ -20,6 +20,8 @@ public class Task implements ReadOnlyTask {
     /**
      * Every field must be present and not null. 
      */
+    
+    
     public Task(String name, String description, UniqueTagList tags, boolean doneStatus) {
         assert !CollectionUtil.isAnyNull(name, tags);
         this.name = name;
@@ -28,8 +30,12 @@ public class Task implements ReadOnlyTask {
         this.doneStatus = doneStatus;
     }
     
+    public Task(String name, String description, UniqueTagList tags) {
+        this (name, description, tags, false);
+    }
+    
     public Task(String name, UniqueTagList tags) {
-    	this (name, "", tags, false) ;
+    	this (name, "", tags) ;
     }
 
     /**

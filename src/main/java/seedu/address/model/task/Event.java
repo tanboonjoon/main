@@ -19,6 +19,11 @@ public class Event extends Task {
 		this.endDate = endDate;
 	}
 	
+	public Event(String name, String description,LocalDateTime startDate, LocalDateTime endDate, UniqueTagList tags) {
+		this (name, description, startDate, endDate, tags, false);
+	}
+	
+	
 	public LocalDateTime getStartDate() {
 		return startDate;
 	}

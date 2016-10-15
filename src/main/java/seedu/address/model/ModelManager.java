@@ -86,9 +86,7 @@ public class ModelManager extends ComponentManager implements Model {
 	@Override
 	public void markTask(ReadOnlyTask target) throws TaskNotFoundException {
 		taskForce.markTask(target);
-        updateFilteredListToShowAll();
 		indicateTaskForceChanged();
-		
 	}
 
     //=========== Filtered Task List Accessors ===============================================================

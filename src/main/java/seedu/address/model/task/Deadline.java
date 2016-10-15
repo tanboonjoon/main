@@ -17,6 +17,10 @@ public class Deadline extends Task {
 		this.endDate = endDate;
 	}
 	
+	public Deadline(String name, String description, LocalDateTime endDate, UniqueTagList tags) {
+		this(name, description, endDate, tags, false);
+	}
+	
 	public LocalDateTime getEndDate() {
 		return endDate;
 	}
