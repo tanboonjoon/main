@@ -43,6 +43,7 @@ public class EditCommand extends Command {
     private final int targetIndex;
     private final String name;
     private final String description;
+    private boolean doneStatus;
     private final Set<Tag> tagSet;
     private final Map<String, LocalDateTime> dateMap ;
     
@@ -89,6 +90,7 @@ public class EditCommand extends Command {
         }
         
         ReadOnlyTask taskToEdit = lastShownList.get(targetIndex - 1);  
+        doneStatus = taskToEdit.getDoneStatus();
        
         if(isValidString(name)) {
             newName = name;
@@ -143,16 +145,16 @@ public class EditCommand extends Command {
     private Task createNewTask (String name, String description, UniqueTagList tag, LocalDateTime startTime, LocalDateTime endTime) {
         
         if (startTime != null && endTime != null) {
-            return new Event (name, description, startTime, endTime, tag) ;
+            return new Event (name, description, startTime, endTime, tag, doneStatus) ;
         
         } 
         
         if (endTime != null && startTime == null) {
-            return new Deadline (name, description, endTime, tag) ;
+            return new Deadline (name, description, endTime, tag, doneStatus) ;
         
         } 
         
-        return new Task (name, description, tag) ;
+        return new Task (name, description, tag, doneStatus) ;
     }
     
     private void determineDateTimeOfNewTask (ReadOnlyTask taskToEdit) {

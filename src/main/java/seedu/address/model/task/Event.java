@@ -13,8 +13,8 @@ public class Event extends Task {
 	private final LocalDateTime startDate;
 	private final LocalDateTime endDate;
 	
-	public Event(String name, String description,LocalDateTime startDate, LocalDateTime endDate, UniqueTagList tags) {
-		super(name,description,tags);
+	public Event(String name, String description,LocalDateTime startDate, LocalDateTime endDate, UniqueTagList tags, boolean doneStatus) {
+		super(name,description,tags, doneStatus);
 		this.startDate = startDate;
 		this.endDate = endDate;
 	}
