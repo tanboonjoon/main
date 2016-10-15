@@ -16,7 +16,9 @@ public class HelpWindowTest extends TaskForceGuiTest {
 //
 //        assertHelpWindowOpen(mainMenu.openHelpWindowUsingMenu());
 //
-//        assertHelpWindowOpen(commandBox.runHelpCommand());
+    	assertHelpWindowOpen(commandBox.runHelpCommand());
+
+        
 
     }
 

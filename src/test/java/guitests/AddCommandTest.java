@@ -37,6 +37,10 @@ public class AddCommandTest extends TaskForceGuiTest {
         //invalid command
         commandBox.runCommand("adds Johnny");
         assertResultMessage(Messages.MESSAGE_UNKNOWN_COMMAND);
+        
+        //add a event that has endDate > startDate
+        commandBox.runCommand("add testEvent st/today 6pm et/yesterday 6pm");
+        assertResultMessage(AddCommand.INVALID_END_DATE_MESSAGE);
     }
 
     private void assertAddSuccess(TestTask taskToAdd, TestTask... currentList) {

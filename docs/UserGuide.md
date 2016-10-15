@@ -100,16 +100,15 @@ Examples:
 
 #### Searching for (a) specific task(s): `find`
 Finds tasks of a specific time, or whose names contain any of the given keywords.  
-Format: `find METHOD DETAILS `
+Format: `find TYPE/KEYWORDS `
+KEYWORDS for TYPE 'all' is a word that is contain/part of a task name
+KEYWORDS for TYPE 'day' and 'week' is a integer number.
 
 Method | Explanation | Example
 -------- | :-------- | :---------
-`d/` | List all events a number of days after today | `find d/ -1` (yesterday)
-`w/` | List all events in a week, after current week | `find w/ 0` (current week)
-`e/` | List all events with word appearing in name | `find e/ ceremony`
-`dl/` | List all deadlines with word appearing in name | `find dl/ homework`
-`r/` | List all reminders with word appearing in name | `find r/ shine`
-`a/` | List all events with word appearing in name | `find a/ shoes`
+`day/` | List all events a number of days after today | `find d/-1` (yesterday)
+`week/` | List all events in a week, after current week | `find w/0` (current week)
+`all/` | List all events with word appearing in name | `find a/ shoes`
 
 
 > * The search is not case sensitive. e.g `hans` will match `Hans`

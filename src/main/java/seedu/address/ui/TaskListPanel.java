@@ -3,6 +3,7 @@ package seedu.address.ui;
 import java.util.logging.Logger;
 
 import javafx.application.Platform;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -13,6 +14,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import seedu.address.commons.core.LogsCenter;
+import seedu.address.commons.events.model.TaskForceTaskListChangedEvent;
 import seedu.address.commons.events.ui.TaskPanelSelectionChangedEvent;
 import seedu.address.model.task.ReadOnlyTask;
 
@@ -64,6 +66,14 @@ public class TaskListPanel extends UiPart {
         taskListView.setItems(taskList);
         taskListView.setCellFactory(listView -> new TaskListViewCell());
         setEventHandlerForSelectionChangeEvent();
+        
+        taskList.addListener(new ListChangeListener<ReadOnlyTask>() {
+            @Override
+            public void onChanged(ListChangeListener.Change change) {
+                System.out.println(change.getList().size()) ;
+                raise(new TaskForceTaskListChangedEvent(change.getList().size())) ;
+            }
+        });
     }
 
     private void addToPlaceholder() {
@@ -100,7 +110,8 @@ public class TaskListPanel extends UiPart {
                 setGraphic(null);
                 setText(null);
             } else {
-                setGraphic(TaskCard.load(task, getIndex() + 1).getLayout());
+                TaskCard newCard = TaskCard.load(task, getIndex() + 1) ;
+                setGraphic(newCard.getLayout());
             }
         }
     }

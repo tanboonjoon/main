@@ -103,12 +103,7 @@ public class EditCommand extends Command {
             newDescription = taskToEdit.getDescription();
         }
         
-        if(!tagSet.isEmpty()) {
-            newTagSet = new UniqueTagList(tagSet);
-            hasChanged = true ;
-        }else{
-            newTagSet = taskToEdit.getTags();
-        }
+        newTagSet = new UniqueTagList(editOrDeleteTags(taskToEdit.getTags(), tagSet)) ;
         
         determineDateTimeOfNewTask (taskToEdit) ;
         
@@ -176,6 +171,25 @@ public class EditCommand extends Command {
                 hasChanged = true ;
             }
         }
+    }
+    
+    private Set<Tag> editOrDeleteTags(UniqueTagList currentTags, Set<Tag> tagSet) {
+        
+        Set<Tag> newTaskTags = Sets.newHashSet(currentTags) ;
+        
+        for (Tag tag : tagSet) {
+            if (!currentTags.contains(tag)) {
+                newTaskTags.add(tag) ;
+                hasChanged = true ;
+                
+            } else {
+                newTaskTags.remove(tag) ;
+                hasChanged = true ;
+            }
+            
+        }
+        
+        return newTaskTags ;
     }
 
 }
