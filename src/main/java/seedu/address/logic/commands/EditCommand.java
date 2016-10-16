@@ -116,18 +116,14 @@ public class EditCommand extends Command {
         Task newTask = createNewTask (newName, newDescription, newTagSet, dateMap.get(START_DATE), dateMap.get(END_DATE));
 
         try {
-            model.addTask(newTask);
-           
-            try{
-                model.deleteTask(taskToEdit);
-            } catch (TaskNotFoundException pnfe) {
-                assert false : "The target task cannot be missing";
-            }
+
+            model.updateTask(taskToEdit, newTask);
             EventsCenter.getInstance().post(new JumpToListRequestEvent(lastShownList.size() - 1));
             return new CommandResult(String.format(MESSAGE_EDIT_SUCCESS, newTask));
-  
+
+        } catch (TaskNotFoundException pnfe) {
+            return new CommandResult("The target task cannot be missing");
         } catch (UniqueTaskList.DuplicateTaskException e) {
-           
             return new CommandResult(MESSAGE_DUPLICATE_TASK);
         }
        

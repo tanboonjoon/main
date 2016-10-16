@@ -1,5 +1,6 @@
 package seedu.address.logic.commands;
 
+
 import seedu.address.commons.core.EventsCenter;
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.events.ui.IncorrectCommandAttemptedEvent;
@@ -10,7 +11,7 @@ import seedu.address.model.Model;
  */
 public abstract class Command {
     protected Model model;
-
+    
     /**
      * Constructs a feedback message to summarise an operation that displayed a listing of task.
      *
@@ -37,6 +38,7 @@ public abstract class Command {
         this.model = model;
     }
 
+    
     /**
      * Raises an event to indicate an attempt to execute an incorrect command
      */

@@ -1,6 +1,11 @@
 package seedu.address.logic;
 
+
+import java.util.LinkedHashMap;
+
+import java.util.Map;
 import java.util.logging.Logger;
+
 
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.ComponentManager;
@@ -12,6 +17,7 @@ import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.parser.Parser;
 import seedu.address.model.Model;
 import seedu.address.model.task.ReadOnlyTask;
+import seedu.address.model.task.Task;
 import seedu.address.storage.Storage;
 
 /**
@@ -19,23 +25,22 @@ import seedu.address.storage.Storage;
  */
 public class LogicManager extends ComponentManager implements Logic {
     private final Logger logger = LogsCenter.getLogger(LogicManager.class);
-
     private final Model model;
     private final Parser parser;
-
     public LogicManager(Model model, Storage storage) {
         this.model = model;
         this.parser = new Parser();
     }
 
     @Override
-    public CommandResult execute(String commandText) {
+    public CommandResult invoke(String commandText) {
         logger.info("----------------[USER COMMAND][" + commandText + "]");
         Command command = parser.parseCommand(commandText);
         command.setData(model);
+        CommandResult result = null;
+  
+        result = command.execute();
 
-        CommandResult result = command.execute();
-        
         BaseEvent commandExecuted = new TaskForceCommandExecutedEvent(command.getClass(), commandText, result) ;
         
         model.raiseEvent(commandExecuted) ;

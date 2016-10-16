@@ -2,6 +2,7 @@ package seedu.address.logic.commands;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Set;
 import com.google.common.collect.Sets;
 
@@ -91,11 +92,13 @@ public class AddCommand extends Command {
         assert model != null;
         try {
             model.addTask(toAdd);
+            ArrayList<Task> taskList = new ArrayList<Task>();
+            taskList.add(toAdd);
             return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
         } catch (UniqueTaskList.DuplicateTaskException e) {
             return new CommandResult(MESSAGE_DUPLICATE_TASK);
         }
-
     }
+
 
 }
