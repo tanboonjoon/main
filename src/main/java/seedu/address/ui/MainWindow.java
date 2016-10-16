@@ -108,12 +108,17 @@ public class MainWindow extends UiPart {
         
         scene = new Scene(rootLayout);
         
-        // Loads the Open sans custom truetype font
-        Font.loadFont(this.getClass().getResourceAsStream("/images/OpenSans-Light.ttf"), 12) ;
+        loadCustomTrueTypeFonts();
         
         primaryStage.setScene(scene);
 
         setAccelerators();
+    }
+
+    private void loadCustomTrueTypeFonts() {
+        // Loads the Open sans custom truetype font
+        Font.loadFont(this.getClass().getResourceAsStream("/images/OpenSans-Light.ttf"), 12) ;
+        Font.loadFont(this.getClass().getResourceAsStream("/images/OpenSans-Semibold.ttf"), 12) ;
     }
 
     private void setAccelerators() {
