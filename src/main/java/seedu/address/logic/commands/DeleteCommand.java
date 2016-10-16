@@ -27,7 +27,7 @@ public class DeleteCommand extends Command {
 
     public final List<Integer> targetIndexes;
 
-    public DeleteCommand(int... targetIndex) {
+    public DeleteCommand(Integer... targetIndex) {
         this.targetIndexes = Lists.newLinkedList() ;
         
         for (int index : targetIndex) {
