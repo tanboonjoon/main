@@ -35,8 +35,6 @@ public class DeleteCommandTest extends TaskForceGuiTest {
         assertDeleteSuccess(currentList, 1, 3);
         currentList = TestUtil.removeTaskFromList(currentList, 1);
         currentList = TestUtil.removeTaskFromList(currentList, 2);
-        
-        
 
         //invalid index
         commandBox.runCommand("delete " + currentList.length + 1);
@@ -45,6 +43,14 @@ public class DeleteCommandTest extends TaskForceGuiTest {
         commandBox.runCommand("delete 1, aaaa");
         assertResultMessage(String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE));
 
+    }
+    
+    @Test
+    public void deleteValidIndexWithInvalid() {
+
+        TestTask[] currentList = td.getTypicalTasks();
+        int targetIndex = 1;
+        assertDeleteSuccess(currentList, targetIndex, 2, 100000);
     }
 
     /**
@@ -77,11 +83,16 @@ public class DeleteCommandTest extends TaskForceGuiTest {
         DeleteMessageBuilder builder = new DeleteMessageBuilder() ;
         
         for (int i = 0; i < targetIndexOneIndexed.length; i++) {
-            TestTask taskToDelete = currentList[targetIndexOneIndexed[i] - 1]; //-1 because array uses zero indexing
-            expectedRemainder = TestUtil.removeTaskFromList(expectedRemainder, targetIndexOneIndexed[i] - i);
+            
+            if (targetIndexOneIndexed[i] <= currentList.length) {
+                TestTask taskToDelete = currentList[targetIndexOneIndexed[i] - 1]; //-1 because array uses zero indexing
+                expectedRemainder = TestUtil.removeTaskFromList(expectedRemainder, targetIndexOneIndexed[i] - i);
+                builder.addDeletedTaskDetails(taskToDelete.getName());
+            } else {
+                builder.addIgnoredIndex(targetIndexOneIndexed[i]);
+            }
             
             sb.append(targetIndexOneIndexed[i] + ", ") ;
-            builder.addDeletedTaskDetails(taskToDelete.getName());
         }
         
         String indexes = sb.toString() ;
@@ -91,7 +102,7 @@ public class DeleteCommandTest extends TaskForceGuiTest {
         assertTrue(taskListPanel.isListMatching(expectedRemainder));
 
         //confirm the result message is correct
-        assertResultMessage(String.format(MESSAGE_DELETE_TASK_SUCCESS, builder.getDeletedTasks()));
+        assertResultMessage(builder.getDeleteCommandResultString());
     }
 
 }
