@@ -11,13 +11,6 @@ public class UndoCommandParser extends CommandParser {
 
     @Override
     public Command prepareCommand(String args) {
-        ArgumentsParser parser = new ArgumentsParser();
-                
-//        try {
-//            parser.parse(args);
-//        } catch (IncorrectCommandException e) {
-//            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, UndoCommand.MESSAGE_USAGE));
-//        }
         
         return new UndoCommand();
     }
