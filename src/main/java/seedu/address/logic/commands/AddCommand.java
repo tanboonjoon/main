@@ -91,8 +91,6 @@ public class AddCommand extends Command {
         assert model != null;
         try {
             model.addTask(toAdd);
-            UnmodifiableObservableList<ReadOnlyTask> lastShownList = model.getFilteredTaskList();
-            EventsCenter.getInstance().post(new JumpToListRequestEvent(lastShownList.size() - 1));
             return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
         } catch (UniqueTaskList.DuplicateTaskException e) {
             return new CommandResult(MESSAGE_DUPLICATE_TASK);
