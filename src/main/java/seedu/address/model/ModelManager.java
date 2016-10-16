@@ -55,10 +55,6 @@ public class ModelManager extends ComponentManager implements Model {
 
         taskForce = new TaskForce(src);
         filteredTasks = new FilteredList<>(taskForce.getTasks());
-//        taskHistory = new LinkedList<Pair<String, ArrayList<Task>>>();
-//        taskHistory = new LinkedList<LinkedHashMap<String,ArrayList<ReadOnlyTask>>>();
-//        undoHistory = new LinkedList<LinkedHashMap<String,ArrayList<ReadOnlyTask>>>();
-
     }
 
     public ModelManager() {
@@ -68,7 +64,6 @@ public class ModelManager extends ComponentManager implements Model {
     public ModelManager(ReadOnlyTaskForce initialData, UserPrefs userPrefs) {
         taskForce = new TaskForce(initialData);
         filteredTasks = new FilteredList<>(taskForce.getTasks());
-//        taskHistory = new LinkedList<Pair<String, ArrayList<Task>>>();
     }
 
     @Override
@@ -108,18 +103,6 @@ public class ModelManager extends ComponentManager implements Model {
         indicateTaskForceChanged();
     }
     
-    //=========== Undo Task History Accessors ===============================================================
-//
-//	@Override
-//	public void recordTask(String COMMAND_WORD, ArrayList<Task> taskList) {
-//		taskHistory.push(new Pair<String, ArrayList<Task>>(COMMAND_WORD, taskList));		
-//	}
-//
-//	@Override
-//	public Pair<String, ArrayList<Task>> getPreviousTask() {
-//		return taskHistory.pop();
-//	}
-
 
     //=========== Filtered Task List Accessors ===============================================================
 
