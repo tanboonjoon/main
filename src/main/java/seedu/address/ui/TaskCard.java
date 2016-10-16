@@ -63,12 +63,13 @@ public class TaskCard extends UiPart{
         
         setDescriptionText();
         
-        tags.setText(task.tagsString());
+        displayTagString();
         
         displayStartAndEndDates();
         
         circle.getStyleClass().add("circle_med") ;
     }
+
 
     public HBox getLayout() {
         return cardPane;
@@ -121,6 +122,16 @@ public class TaskCard extends UiPart{
             String text = ((Event) task).getStartDate().format(FORMATTER).toString() + " to " + ((Event) task).getEndDate().format(FORMATTER).toString() ;
             startline.setText(text);
 
+        }
+    }
+    
+    private void displayTagString() {
+        String tagString = task.tagsString() ;
+        
+        tags.setText(tagString);
+        
+        if (tagString.length() == 0) {
+            tags.setVisible(false);
         }
     }
     
