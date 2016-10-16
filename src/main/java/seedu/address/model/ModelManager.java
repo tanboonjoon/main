@@ -163,7 +163,9 @@ public class ModelManager extends ComponentManager implements Model {
         private String formattedTaskDate;
         private final int SAME_DAY_INDEX = 0;
         private final int DATE_ARGS_INDEX = 0;
+        private DateTimeFormatter format_exclude_time;
         NameQualifier(Set<String> nameKeyWords, String findType) {
+        	this.format_exclude_time = DateTimeFormatter.ofPattern("ddMMyyyy");
             this.nameKeyWords = nameKeyWords;
             this.findType = findType;
         }
@@ -180,16 +182,14 @@ public class ModelManager extends ComponentManager implements Model {
         	}
         	
         	LocalDateTime dateToday = LocalDateTime.now();
-        	DateTimeFormatter format_exclude_time = DateTimeFormatter.ofPattern("ddMMyyyy");
         	LocalDateTime dateForCompare = dateToday;
-        	List<String> getTimeList = new ArrayList(nameKeyWords);
-        	Long timeToAdd = Long.parseLong(getTimeList.get(DATE_ARGS_INDEX));
+        
+        	Long timeToAdd = parseTimeToLong(nameKeyWords);
         	
-        	if(findType.equals("WEEK")) {
+        	if (findType.equals("WEEK")) {
         		dateForCompare = dateToday.plusWeeks(timeToAdd); 
 
-        	}else if(findType.equals("DAY")) {
-            	System.out.println("hey this is a day");
+        	}else if (findType.equals("DAY")) {
         		dateForCompare = dateToday.plusDays(timeToAdd);
         	}
         	
@@ -209,6 +209,13 @@ public class ModelManager extends ComponentManager implements Model {
         	return true;
  
         }
+        public Long parseTimeToLong(Set<String> nameKeyWords) {
+        	List<String> getTimeList = new ArrayList<String>(nameKeyWords);
+        	return Long.parseLong(getTimeList.get(DATE_ARGS_INDEX));
+        }
+        
+
+  
 
         @Override
         public String toString() {

@@ -43,7 +43,7 @@ public class FindCommand extends Command {
     	if(keywords.size() != VALID_NO_OF_DATES_ARGS) {
     		return false;
     	}
-    	List<String> getNumList = new ArrayList(keywords);   	
+    	List<String> getNumList = new ArrayList<String>(keywords);   	
     	try {
     		Integer.parseInt(getNumList.get(INTEGER_ARGS_INDEX));
     	}catch (NumberFormatException e ) {

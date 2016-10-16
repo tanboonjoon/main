@@ -2,6 +2,7 @@ package seedu.address.storage;
 
 import com.google.common.eventbus.Subscribe;
 import seedu.address.commons.core.ComponentManager;
+import seedu.address.commons.core.Config;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.model.TaskForceChangedEvent;
 import seedu.address.commons.events.storage.DataSavingExceptionEvent;
@@ -75,6 +76,12 @@ public class StorageManager extends ComponentManager implements Storage {
         logger.fine("Attempting to write to data file: " + filePath);
         taskForceStorage.saveTaskForce(taskForce, filePath);
     }
+    
+    
+    public void setTaskForceDirectory(String newTaskForcePath) {
+        this.taskForceStorage = new XmlTaskForceStorage(newTaskForcePath);
+
+    }
 
 
     @Override
@@ -87,5 +94,7 @@ public class StorageManager extends ComponentManager implements Storage {
             raise(new DataSavingExceptionEvent(e));
         }
     }
+
+
 
 }

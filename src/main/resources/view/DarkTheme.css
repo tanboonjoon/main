@@ -112,6 +112,13 @@
     -fx-text-fill: #010504;
 }
 
+.cell_big_label_overdue {
+	-fx-font-family: "Open Sans Semibold";
+    -fx-font-size: 16px;
+    -fx-font-weight: bold ;
+    -fx-text-fill: #f46060 !important;
+}
+
 .cell_small_label {
 	-fx-font-family: "Open Sans Light";
     -fx-font-size: 10pt;

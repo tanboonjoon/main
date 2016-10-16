@@ -8,12 +8,12 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.shape.Rectangle?>
 
-<HBox id="cardPane" fx:id="cardPane" maxHeight="93.0" maxWidth="750.0" prefHeight="93.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1">
+<HBox id="cardPane" fx:id="cardPane" maxHeight="93.0" maxWidth="760.0" prefHeight="93.0" prefWidth="760.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1">
     <children>
       <AnchorPane prefHeight="88.0" prefWidth="104.0">
          <children>
             <Circle fx:id="circle" layoutX="52.0" layoutY="46.0" radius="23.0" stroke="BLACK" strokeType="INSIDE" styleClass="circle_low" AnchorPane.bottomAnchor="24.0" AnchorPane.leftAnchor="29.0" AnchorPane.rightAnchor="29.0" AnchorPane.topAnchor="23.0" />
-            <Label fx:id="id" layoutX="46.0" layoutY="36.0" prefHeight="21.0" prefWidth="20.0" styleClass="task_id" text="Label" textAlignment="CENTER" AnchorPane.bottomAnchor="36.0" AnchorPane.leftAnchor="46.0" AnchorPane.rightAnchor="38.0" AnchorPane.topAnchor="36.0" />
+            <Label fx:id="id" layoutX="46.0" layoutY="36.0" prefHeight="21.0" prefWidth="27.0" styleClass="task_id" text="Label" textAlignment="CENTER" AnchorPane.bottomAnchor="36.0" AnchorPane.leftAnchor="46.0" AnchorPane.rightAnchor="31.0" AnchorPane.topAnchor="36.0" />
          </children>
       </AnchorPane>
       <AnchorPane prefHeight="93.0" prefWidth="1099.0">
