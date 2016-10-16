@@ -7,8 +7,10 @@ import java.util.Set;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
+import seedu.address.commons.core.EventsCenter;
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.UnmodifiableObservableList;
+import seedu.address.commons.events.ui.JumpToListRequestEvent;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.tag.UniqueTagList;
@@ -114,9 +116,9 @@ public class EditCommand extends Command {
         Task newTask = createNewTask (newName, newDescription, newTagSet, dateMap.get(START_DATE), dateMap.get(END_DATE));
 
         try {
-//            model.addTask(newTask);
+
             model.updateTask(taskToEdit, newTask);
-//                model.deleteTask(taskToEdit);
+            EventsCenter.getInstance().post(new JumpToListRequestEvent(lastShownList.size() - 1));
             return new CommandResult(String.format(MESSAGE_EDIT_SUCCESS, newTask));
 
         } catch (TaskNotFoundException pnfe) {
