@@ -21,7 +21,9 @@ public class DeleteCommand extends Command {
             + "Parameters: INDEX (must be a positive integer)\n"
             + "Example: " + COMMAND_WORD + " 1";
 
-    public static final String MESSAGE_DELETE_TASK_SUCCESS = "Deleted Task: %1$s";
+    public static final String MESSAGE_DELETE_TASK_SUCCESS = "Deleted Task(s): %1$s ";
+    public static final String MESSAGE_DELETE_TASK_NOT_FOUND = "Task(s) not found: %1$s ";
+    public static final String MESSAGE_DELETE_TASK_IGNORED = "The following indexes are invalid and ignored: %1$s ";
 
     public final List<Integer> targetIndexes;
 
@@ -39,14 +41,15 @@ public class DeleteCommand extends Command {
 
         UnmodifiableObservableList<ReadOnlyTask> lastShownList = model.getFilteredTaskList();
         
-        List<Integer> tasksToDelete = Lists.newLinkedList() ;
-        List<Integer> taskNotDeleted = Lists.newLinkedList() ;
+        List<ReadOnlyTask> tasksToDelete = Lists.newLinkedList() ;
+        
+        DeleteMessageBuilder messageBuilder = new DeleteMessageBuilder() ;
         
         for (int targetIndex : targetIndexes) {
             if (lastShownList.size() < targetIndex) {
-                taskNotDeleted.add(targetIndex) ;
+                messageBuilder.addIgnoredIndex(targetIndex) ;
             } else {
-                tasksToDelete.add(targetIndex) ;
+                tasksToDelete.add(lastShownList.get(targetIndex - 1)) ;
             }
         }
         
@@ -55,17 +58,98 @@ public class DeleteCommand extends Command {
             return new CommandResult(Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
         }
         
-        for (int targetIndex : tasksToDelete) {
-            ReadOnlyTask taskToDelete = lastShownList.get(targetIndex - 1);
+        
+        for (ReadOnlyTask task : tasksToDelete) {
     
             try {
-                model.deleteTask(taskToDelete);
+                model.deleteTask(task);
+                
+                messageBuilder.addDeletedTaskDetails(task.getName()) ;
             } catch (TaskNotFoundException pnfe) {
-                assert false : "The target task cannot be missing";
+                messageBuilder.addTaskNotFound(task.getName());
             }
         }
+        
+        
+        return new CommandResult(messageBuilder.getDeleteCommandResultString());
+    }
+    
+    /**
+     * 
+     * A specialized class to build the success/failure message for the delete command
+     *
+     */
+    private class DeleteMessageBuilder {
+        
+        private StringBuilder deletedTask ;
+        private StringBuilder ignoredIndexes ;
+        private StringBuilder tasksNotFound ;
+        
+        public DeleteMessageBuilder () {
+            this.deletedTask = new StringBuilder () ;
+            this.ignoredIndexes = new StringBuilder () ;
+            this.tasksNotFound = new StringBuilder () ;
+        }
+        
+        public void addDeletedTaskDetails (String taskName) {
+            deletedTask.append(taskName + " and ") ;
+        }
+        
+        public void addIgnoredIndex (int index) {
+            ignoredIndexes.append(index) ;
+        }
+        
+        public void addTaskNotFound (String taskName) {
+            tasksNotFound.append(taskName + " and ") ;
+        }
+        
+        public String getDeletedTasks () {
+            String result = deletedTask.toString() ;
+            
+            if (result.length() > 0) {
+                return result.substring(0, result.length() - 5) ;
+            }
+            
+            return "" ;
+        }
+        
+        public String getIgnoredIndexes () {
+            return ignoredIndexes.toString() ;
+        }
+        
+        public String getTasksNotFound () {
+            String result = tasksNotFound.toString() ;
+            
+            if (result.length() > 0) {
+                return result.substring(0, result.length() - 5) ; 
+            }
+            
+            return "" ;
+        }
+        
+        public String getDeleteCommandResultString () {
+            StringBuilder sb = new StringBuilder() ;
+            
+            String taskNotFound = getTasksNotFound() ;
+            String indexesIgnored = getIgnoredIndexes() ;
+            String deletedTasks = getDeletedTasks() ;
+            
+            if (deletedTasks.length() > 0) {
+                sb.append(String.format(MESSAGE_DELETE_TASK_SUCCESS, deletedTasks)) ;
+            }
 
-        return new CommandResult(String.format(MESSAGE_DELETE_TASK_SUCCESS));
+            if (taskNotFound.length() > 0) {
+                sb.append("\n") ;
+                sb.append(String.format(MESSAGE_DELETE_TASK_NOT_FOUND, taskNotFound)) ;
+            }
+            
+            if (indexesIgnored.length() > 0) {
+                sb.append("\n") ;
+                sb.append(String.format(MESSAGE_DELETE_TASK_IGNORED, indexesIgnored)) ;
+            }
+            
+            return sb.toString() ;
+        }
     }
 
 }
