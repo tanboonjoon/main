@@ -79,7 +79,7 @@ public class DeleteCommand extends Command {
      * A specialized class to build the success/failure message for the delete command
      *
      */
-    private class DeleteMessageBuilder {
+    public static class DeleteMessageBuilder {
         
         private StringBuilder deletedTask ;
         private StringBuilder ignoredIndexes ;
