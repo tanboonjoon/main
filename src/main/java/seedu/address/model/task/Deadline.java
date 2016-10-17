@@ -12,8 +12,8 @@ public class Deadline extends Task {
 	
 	private final LocalDateTime endDate;
 
-	public Deadline(String name, String description, LocalDateTime endDate, UniqueTagList tags) {
-		super(name,description,tags);
+	public Deadline(int taskId, String name, String description, LocalDateTime endDate, UniqueTagList tags) {
+		super(taskId, name, description, tags);
 		this.endDate = endDate;
 	}
 	

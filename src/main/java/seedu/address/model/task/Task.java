@@ -13,28 +13,30 @@ public class Task implements ReadOnlyTask {
 
     private final String name;
     private final String description ;
+    private final int taskId ;
 
     private UniqueTagList tags;
 
     /**
      * Every field must be present and not null. 
      */
-    public Task(String name, String description, UniqueTagList tags) {
+    public Task(int taskId, String name, String description, UniqueTagList tags) {
         assert !CollectionUtil.isAnyNull(name, tags);
         this.name = name;
         this.description = description ;
+        this.taskId = taskId ;
         this.tags = new UniqueTagList(tags); // protect internal tags from changes in the arg list
     }
     
-    public Task(String name, UniqueTagList tags) {
-    	this (name, "", tags) ;
+    public Task(int taskId, String name, UniqueTagList tags) {
+    	this (taskId, name, "", tags) ;
     }
 
     /**
      * Copy constructor.
      */
     public Task(ReadOnlyTask source) {
-        this(source.getName(), source.getDescription(), source.getTags());
+        this(source.getTaskId(), source.getName(), source.getDescription(), source.getTags());
     }
 
     @Override
@@ -63,7 +65,7 @@ public class Task implements ReadOnlyTask {
     public boolean equals(Object other) {
         return other == this // short circuit if same object
                 || (other instanceof ReadOnlyTask // instanceof handles nulls
-                && this.isSameStateAs((ReadOnlyTask) other));
+                && this.isSameStateAs((ReadOnlyTask) other)) ;
     }
 
     @Override
@@ -75,6 +77,11 @@ public class Task implements ReadOnlyTask {
     @Override
     public String toString() {
         return getAsText();
+    }
+
+    @Override
+    public int getTaskId() {
+        return taskId ;
     }
 
 }

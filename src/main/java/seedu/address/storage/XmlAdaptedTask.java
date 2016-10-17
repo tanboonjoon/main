@@ -15,7 +15,9 @@ import java.util.List;
  * JAXB-friendly version of the Task.
  */
 public class XmlAdaptedTask {
-
+    
+    @XmlElement(required = true)
+    private int taskId ;
     @XmlElement(required = true)
     private String name;
     @XmlElement(required = true)
@@ -42,6 +44,7 @@ public class XmlAdaptedTask {
     public XmlAdaptedTask(ReadOnlyTask source) {
         name = source.getName();
         description = source.getDescription() ;
+        taskId = source.getTaskId() ;
         tagged = new ArrayList<>();
         
         for (Tag tag : source.getTags()) {
@@ -75,6 +78,7 @@ public class XmlAdaptedTask {
         
         final String name = this.name ;
         final String description = this.description ;
+        final int id = this.taskId ;
         final UniqueTagList tags = new UniqueTagList(taskTags);
         
         if (this.startDateTime != null) {
@@ -86,13 +90,13 @@ public class XmlAdaptedTask {
         }
         
         if (start != null && end != null) {
-            task = new Event (name, description, start, end, tags) ; 
+            task = new Event (id, name, description, start, end, tags) ; 
         
         } else if (start == null && end != null) {
-            task = new Deadline (name, description, end, tags) ;
+            task = new Deadline (id, name, description, end, tags) ;
         
         } else {
-            task = new Task(name, description, tags);
+            task = new Task(id, name, description, tags);
         }
         
         return task ;

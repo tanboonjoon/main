@@ -82,12 +82,12 @@ public class XmlTaskForceStorageTest {
         assertEquals(original, new TaskForce(readBack));
         
         //Modify data, overwrite exiting file, and read back
-        original.addTask(new Deadline(TypicalTestTasks.hoon.getName(),TypicalTestTasks.hoon.getDescription(), LocalDateTime.now(), TypicalTestTasks.hoon.getTags()));
+        original.addTask(new Deadline(0,TypicalTestTasks.hoon.getName(),TypicalTestTasks.hoon.getDescription(), LocalDateTime.now(), TypicalTestTasks.hoon.getTags()));
         xmlTaskForceStorage.saveTaskForce(original, filePath);
         readBack = xmlTaskForceStorage.readTaskForce(filePath).get();
         assertEquals(original, new TaskForce(readBack));
         
-        original.addTask(new Event(TypicalTestTasks.hoon.getName(),TypicalTestTasks.hoon.getDescription(), LocalDateTime.now(), LocalDateTime.now(), TypicalTestTasks.hoon.getTags()));
+        original.addTask(new Event(0,TypicalTestTasks.hoon.getName(),TypicalTestTasks.hoon.getDescription(), LocalDateTime.now(), LocalDateTime.now(), TypicalTestTasks.hoon.getTags()));
         xmlTaskForceStorage.saveTaskForce(original, filePath);
         readBack = xmlTaskForceStorage.readTaskForce(filePath).get();
         assertEquals(original, new TaskForce(readBack));

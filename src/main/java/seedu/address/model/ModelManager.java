@@ -70,6 +70,11 @@ public class ModelManager extends ComponentManager implements Model {
 	public ReadOnlyTaskForce getTaskForce() {
 		return taskForce;
 	}
+	
+	@Override
+	public int getNextTaskId() {
+	    return taskForce.getNextTagId();
+	}
 
 	/** Raises an event to indicate the model has changed */
 	private void indicateTaskForceChanged() {

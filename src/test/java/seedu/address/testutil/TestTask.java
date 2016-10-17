@@ -79,4 +79,9 @@ public class TestTask implements ReadOnlyTask {
         this.getTags().getInternalList().stream().forEach(s -> sb.append("e/ " + s.tagName + " "));
         return sb.toString();
     }
+
+    @Override
+    public int getTaskId() {
+        return 0;
+    }
 }

@@ -17,6 +17,11 @@ public interface ReadOnlyTask {
      * changes on the returned list will not affect the task's internal tags.
      */
     public UniqueTagList getTags();
+    
+    /**
+     * Gets the unique Task ID associated to this task.
+     */
+    public int getTaskId () ;
 
     /**
      * Returns true if both have the same state. (interfaces cannot override .equals)
@@ -25,7 +30,8 @@ public interface ReadOnlyTask {
         return other == this // short circuit if same object
                 || (other != null // this is first to avoid NPE below
                 && other.getName().equals(this.getName()) // state checks here onwards
-                && other.getDescription().equals(this.getDescription()));
+                && other.getDescription().equals(this.getDescription()))
+                && other.getTaskId() == this.getTaskId() ;
     }
 
     /**

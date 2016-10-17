@@ -433,30 +433,30 @@ public class LogicManagerTest {
             Tag tag1 = new Tag("tag1");
             Tag tag2 = new Tag("tag2");
             UniqueTagList tags = new UniqueTagList(tag1, tag2);
-            return new Task(name, " " , tags);
+            return new Task(0, name, " " , tags);
         }
         
         Task john() throws Exception {
-        	return new Task ("John's Birthday party", "at his house", new UniqueTagList(new Tag("friendsParty") )) ;
+        	return new Task (0, "John's Birthday party", "at his house", new UniqueTagList(new Tag("friendsParty"))) ;
         }
         
         Task johnny() throws Exception {
-        	return new Task ("Johnny's Birthday party", "at his house", new UniqueTagList() ) ;
+        	return new Task (0, "Johnny's Birthday party", "at his house", new UniqueTagList() ) ;
         }
         
 
         Task test_deadline() throws Exception {
-        	return new Deadline("deadline", "this is a deadline", DateUtil.parseStringIntoDateTime("13 Aug 16 1300").get(), new UniqueTagList() );
+        	return new Deadline(0, "deadline", "this is a deadline", DateUtil.parseStringIntoDateTime("13 Aug 16 1300").get(), new UniqueTagList() );
         }
         
         Task test_eventWithoutEndDate() throws Exception {
-            return new Event("eventWithoutStartTime", "", DateUtil.parseStringIntoDateTime("today 3pm").get(), DateUtil.END_OF_TODAY, new UniqueTagList() );
+            return new Event(0, "eventWithoutStartTime", "", DateUtil.parseStringIntoDateTime("today 3pm").get(), DateUtil.END_OF_TODAY, new UniqueTagList() );
         }
         
         Task test_event() throws Exception {
         	LocalDateTime startDate = DateUtil.parseStringIntoDateTime("13022016 1300").get() ;
         	LocalDateTime endDate = DateUtil.parseStringIntoDateTime("13022016 1300").get();
-        	return new Event("event", "this is a event", startDate, endDate, new UniqueTagList() );
+        	return new Event(0, "event", "this is a event", startDate, endDate, new UniqueTagList() );
 
         }
 
@@ -468,7 +468,7 @@ public class LogicManagerTest {
          * @param seed used to generate the person data field values
          */
         Task generateTask(int seed) throws Exception {
-            return new Task(
+            return new Task(0,
                     "Task " + seed,
                     "description " + seed,
                     new UniqueTagList(new Tag("tag" + Math.abs(seed)), new Tag("tag" + Math.abs(seed + 1)))
@@ -563,10 +563,11 @@ public class LogicManagerTest {
          * Generates a Task object with given name. Other fields will have some dummy values.
          */
         Task generatePersonWithName(String name) throws Exception {
-            return new Task(
+            return new Task(0,
                     name,
                     "description ...",
                     new UniqueTagList(new Tag("tag"))
+                    
             );
         }
     }
