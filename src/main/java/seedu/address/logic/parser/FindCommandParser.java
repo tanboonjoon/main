@@ -17,6 +17,7 @@ import seedu.address.logic.commands.IncorrectCommand;
 /*
  * parsing arguments and prepare them for find command
  */
+//@@author A0139942W
 public class FindCommandParser extends CommandParser {
 
     /**
