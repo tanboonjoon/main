@@ -1,9 +1,7 @@
 package seedu.address.logic;
 
 
-import java.util.LinkedHashMap;
 
-import java.util.Map;
 import java.util.logging.Logger;
 
 
@@ -17,7 +15,6 @@ import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.parser.Parser;
 import seedu.address.model.Model;
 import seedu.address.model.task.ReadOnlyTask;
-import seedu.address.model.task.Task;
 import seedu.address.storage.Storage;
 
 /**
