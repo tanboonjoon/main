@@ -15,7 +15,6 @@ import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.core.UnmodifiableObservableList;
 import seedu.address.commons.events.BaseEvent;
 import seedu.address.commons.events.model.TaskForceChangedEvent;
-import seedu.address.commons.util.StringUtil;
 import seedu.address.model.task.Deadline;
 import seedu.address.model.task.Event;
 import seedu.address.model.task.ReadOnlyTask;
@@ -158,18 +157,17 @@ public class ModelManager extends ComponentManager implements Model {
 		private Set<String> nameKeyWords;
 		private String findType;
 		private DateTimeFormatter format_exclude_time;
-		
+
 		private final boolean TASK_NOT_FOUND = false;
 		private final boolean TASK_FOUND = true;
-		
+
 		private final int START_DAY_INDEX = 0;
 		private final int LAST_DAY_INDEX = 7;
-		
-		private final int SAME_DAY_VALUE =  0;
+
+		private final int SAME_DAY_VALUE = 0;
 		private final int DATE_ARGS_INDEX = 0;
 		private final int FORMATTED_DATE_INDEX = 0;
 		private final int GET_TO_MONDAY_INDEX = 1;
-
 
 		private ArrayList<String> formattedDateList;
 		private ArrayList<LocalDateTime> dateToCompareList;
@@ -183,13 +181,13 @@ public class ModelManager extends ComponentManager implements Model {
 			this.findType = findType;
 		}
 
-
 		@Override
 		public boolean run(ReadOnlyTask task) {
 
 			if (findType.equals("ALL")) {
-				return nameKeyWords.stream().filter(keyword -> StringUtil.containsIgnoreCase(task.getName(), keyword))
-						.findAny().isPresent();
+				String taskName = task.getName().toLowerCase();
+				return filterByKeyWord(taskName);
+
 			}
 
 			getDateForCompare();
@@ -208,6 +206,18 @@ public class ModelManager extends ComponentManager implements Model {
 
 			return TASK_FOUND;
 
+		}
+
+		private boolean filterByKeyWord(String taskName) {
+			// TODO Auto-generated method stub
+			List<String> keywordList = new ArrayList<String>(nameKeyWords);
+			for (int keyword_index = 0; keyword_index < keywordList.size(); keyword_index++) {
+				String keyword = keywordList.get(keyword_index).toLowerCase();
+				if (taskName.contains(keyword)) {
+					return TASK_FOUND;
+				}
+			}
+			return TASK_NOT_FOUND;
 		}
 
 		public boolean filterDeadLine(String taskStartDate) {
@@ -235,7 +245,7 @@ public class ModelManager extends ComponentManager implements Model {
 			for (int day_index = 0; day_index < LAST_DAY_INDEX; day_index++) {
 				String formattedDate = formattedDateList.get(day_index);
 				if (formattedDate.compareTo(taskStartDate) == SAME_DAY_VALUE
-						||formattedDate.compareTo(taskEndDate) == SAME_DAY_VALUE) {
+						|| formattedDate.compareTo(taskEndDate) == SAME_DAY_VALUE) {
 					return TASK_FOUND;
 				}
 
@@ -245,10 +255,9 @@ public class ModelManager extends ComponentManager implements Model {
 		}
 
 		private void getFormattedDate() {
-			for (int i = 0; i < dateToCompareList.size(); i ++) {
+			for (int i = 0; i < dateToCompareList.size(); i++) {
 				formattedDateList.add(dateToCompareList.get(i).format(format_exclude_time));
 			}
-
 
 		}
 
@@ -257,25 +266,21 @@ public class ModelManager extends ComponentManager implements Model {
 			LocalDateTime dateForCompare = dateToday;
 			Long timeToAdd = parseTimeToLong(nameKeyWords);
 
-
-			
 			if (findType.equals("DAY")) {
 				dateForCompare = dateToday.plusDays(timeToAdd);
 				dateToCompareList.add(dateForCompare);
 				return;
 			}
-			
+
 			LocalDateTime dateOfThatWeek = dateToday.plusWeeks(timeToAdd);
 			int dayOfThatWeek = dateOfThatWeek.getDayOfWeek().getValue();
 			LocalDateTime previousWeek = dateOfThatWeek.minusDays(dayOfThatWeek);
 			LocalDateTime startOfTheWeek = previousWeek.plusDays(GET_TO_MONDAY_INDEX);
-			
+
 			for (int day_index = START_DAY_INDEX; day_index < LAST_DAY_INDEX; day_index++) {
 				dateForCompare = startOfTheWeek.plusDays(day_index);
 				dateToCompareList.add(dateForCompare);
 			}
-			
-			
 
 		}
 
