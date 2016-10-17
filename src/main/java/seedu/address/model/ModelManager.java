@@ -2,19 +2,14 @@ package seedu.address.model;
 
 import java.util.ArrayList;
 import java.util.Deque;
-import java.util.LinkedHashMap;
 import java.util.LinkedList;
-import java.util.ListIterator;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
 import javafx.collections.transformation.FilteredList;
-import javafx.util.Pair;
 import seedu.address.commons.core.ComponentManager;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.core.UnmodifiableObservableList;
@@ -26,7 +21,6 @@ import seedu.address.model.task.Event;
 import seedu.address.model.task.ReadOnlyTask;
 import seedu.address.model.task.Task;
 import seedu.address.model.task.UniqueTaskList;
-import seedu.address.model.task.UniqueTaskList.DuplicateTaskException;
 import seedu.address.model.task.UniqueTaskList.TaskNotFoundException;
 
 /**
@@ -158,13 +152,23 @@ public class ModelManager extends ComponentManager implements Model {
 
     private class NameQualifier implements Qualifier {
         private Set<String> nameKeyWords;
-        private String findType;
-        private String formattedDateForCompare;
+        private String findType;  
         private String formattedTaskDate;
-        private final int SAME_DAY_INDEX = 0;
-        private final int DATE_ARGS_INDEX = 0;
+        
+        private final String FLOATING_TASK = null;
         private DateTimeFormatter format_exclude_time;
+        
+        private final int SAME_DAY_VALUE = 0;
+        private final int DATE_ARGS_INDEX = 0;
+        private final int START_DATE_INDEX = 1;
+        private final int END_DATE_INDEX = 0;
+        
+        private ArrayList<String> formattedDateList;
+        private ArrayList<LocalDateTime> dateToCompareList;
+        
         NameQualifier(Set<String> nameKeyWords, String findType) {
+        	this.formattedDateList = new ArrayList<String> ();
+        	this.dateToCompareList = new ArrayList<LocalDateTime> ();
         	this.format_exclude_time = DateTimeFormatter.ofPattern("ddMMyyyy");
             this.nameKeyWords = nameKeyWords;
             this.findType = findType;
@@ -173,7 +177,7 @@ public class ModelManager extends ComponentManager implements Model {
         @Override
         public boolean run(ReadOnlyTask task) {
 
-        	if(findType.equals("ALL")) {
+        	if (findType.equals("ALL")) {
                 return nameKeyWords.stream()
                         .filter(keyword ->                     
                         StringUtil.containsIgnoreCase(task.getName(), keyword))
@@ -181,33 +185,61 @@ public class ModelManager extends ComponentManager implements Model {
                         .isPresent();
         	}
         	
+        	getDateForCompare();
+        	getFormattedDate();
+        	formattedTaskDate = getFomattedTaskDate(task);
+        	
+        	//if a task is not a floating task or a deadline, then it must be a event
+        	if (formattedTaskDate == FLOATING_TASK) {
+        		return true;
+        	}else if (task instanceof Deadline) {
+        		return formattedDateList.get(END_DATE_INDEX).compareTo(formattedTaskDate) == SAME_DAY_VALUE ;
+        	}else {
+        		return formattedDateList.get(END_DATE_INDEX).compareTo(formattedTaskDate) == SAME_DAY_VALUE 
+        				|| formattedDateList.get(START_DATE_INDEX).compareTo(formattedTaskDate) == SAME_DAY_VALUE ;
+        	}
+        	
+
+ 
+        }
+        private String getFomattedTaskDate(ReadOnlyTask task) {
+			// TODO Auto-generated method stub
+        	String formattedDate = null;
+        	if (task instanceof Deadline) {
+        		LocalDateTime taskDate = ((Deadline)task).getEndDate();
+        		formattedDate = taskDate.format(format_exclude_time);		
+        	} 	
+        	if (task instanceof  Event) {
+        		LocalDateTime taskDate = ((Event)task).getEndDate();
+        		formattedDate = taskDate.format(format_exclude_time);
+        	}
+			return formattedDate;
+		}
+
+		private void getFormattedDate() {
+        	formattedDateList.add(dateToCompareList.get(END_DATE_INDEX).format(format_exclude_time));
+        	formattedDateList.add(dateToCompareList.get(START_DATE_INDEX).format(format_exclude_time));
+			
+		}
+
+		public void getDateForCompare () {
         	LocalDateTime dateToday = LocalDateTime.now();
-        	LocalDateTime dateForCompare = dateToday;
-        
+        	LocalDateTime endDateForCompare = dateToday;
+        	LocalDateTime startDateForCompare = dateToday;
+        	
         	Long timeToAdd = parseTimeToLong(nameKeyWords);
         	
         	if (findType.equals("WEEK")) {
-        		dateForCompare = dateToday.plusWeeks(timeToAdd); 
-
+        		endDateForCompare = dateToday.plusWeeks(timeToAdd); 
+        		startDateForCompare = dateToday.plusWeeks(timeToAdd);
         	}else if (findType.equals("DAY")) {
-        		dateForCompare = dateToday.plusDays(timeToAdd);
+        		endDateForCompare = dateToday.plusDays(timeToAdd);
+        		startDateForCompare = dateToday.plusDays(timeToAdd);
         	}
+        	dateToCompareList.add(endDateForCompare);
+        	dateToCompareList.add(startDateForCompare);
         	
-        	formattedDateForCompare = dateForCompare.format(format_exclude_time);
         	
-        	if (task instanceof Deadline ) {
-        		LocalDateTime taskDate = ((Deadline)task).getEndDate();
-        		formattedTaskDate = taskDate.format(format_exclude_time);
-        		return formattedDateForCompare.compareTo(formattedTaskDate) == SAME_DAY_INDEX ;
-        	}
-        	if (task instanceof Event) {
-        		LocalDateTime taskDate = ((Event)task).getEndDate();
-        		formattedTaskDate = taskDate.format(format_exclude_time);
-        		return formattedDateForCompare.compareTo(formattedTaskDate) == SAME_DAY_INDEX ;
-        	}
-        	
-        	return true;
- 
         }
         public Long parseTimeToLong(Set<String> nameKeyWords) {
         	List<String> getTimeList = new ArrayList<String>(nameKeyWords);

@@ -20,7 +20,7 @@ import seedu.address.logic.commands.IncorrectCommand;
 public class FindCommandParser extends CommandParser {
 
     /**
-     * Parses arguments in the context of the add task command.
+     * Parses arguments in the context of the find task command.
      *
      * @param args full command args string
      * @return the prepared command
@@ -74,6 +74,8 @@ public class FindCommandParser extends CommandParser {
 
     }
     
+    //To check that users does not enter anything between find command and search type
+    //eg. find abcd all/KEYWORDS
     private boolean isValidArgs(String find_type, String args) {
 		// TODO Auto-generated method stub
     	int compareCharAt ;

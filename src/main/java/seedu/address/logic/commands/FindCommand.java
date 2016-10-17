@@ -29,18 +29,19 @@ public class FindCommand extends Command {
 
     public FindCommand(Set<String> keywords, String findType) throws IllegalValueException {
 
-    	if(!checkKeyWord(keywords, findType)) {
+    	if (!checkKeyWord(keywords, findType)) {
         	throw new IllegalValueException(INVALID_FIND_DATE_MESSAGE);
         }
     	this.keywords = keywords;
         this.findType = findType;
     }
     
+    //This method ensure that keyword for type 'day' and 'week' contain only a integer number
     public boolean checkKeyWord(Set<String> keywords, String findType) {
-    	if(findType.equals(FIND_TYPE_ALL)) {
+    	if (findType.equals(FIND_TYPE_ALL)) {
     		return true;
     	}
-    	if(keywords.size() != VALID_NO_OF_DATES_ARGS) {
+    	if (keywords.size() != VALID_NO_OF_DATES_ARGS) {
     		return false;
     	}
     	List<String> getNumList = new ArrayList<String>(keywords);   	
