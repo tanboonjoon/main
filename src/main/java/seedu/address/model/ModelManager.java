@@ -157,13 +157,15 @@ public class ModelManager extends ComponentManager implements Model {
 	private class NameQualifier implements Qualifier {
 		private Set<String> nameKeyWords;
 		private String findType;
-
 		private DateTimeFormatter format_exclude_time;
+		
 		private final boolean TASK_NOT_FOUND = false;
 		private final boolean TASK_FOUND = true;
+		
 		private final int START_DAY_INDEX = 0;
 		private final int LAST_DAY_INDEX = 7;
-		private final int SAME_DAY_VALUE = 0;
+		
+		private final int SAME_DAY_VALUE =  0;
 		private final int DATE_ARGS_INDEX = 0;
 		private final int FORMATTED_DATE_INDEX = 0;
 		private final int GET_TO_MONDAY_INDEX = 1;
@@ -173,17 +175,14 @@ public class ModelManager extends ComponentManager implements Model {
 		private ArrayList<LocalDateTime> dateToCompareList;
 
 		NameQualifier(Set<String> nameKeyWords, String findType) {
-			initializeData();
 
+			this.formattedDateList = new ArrayList<String>();
+			this.dateToCompareList = new ArrayList<LocalDateTime>();
 			this.format_exclude_time = DateTimeFormatter.ofPattern("ddMMyyyy");
 			this.nameKeyWords = nameKeyWords;
 			this.findType = findType;
 		}
 
-		public void initializeData() {
-			this.formattedDateList = new ArrayList<String>();
-			this.dateToCompareList = new ArrayList<LocalDateTime>();
-		}
 
 		@Override
 		public boolean run(ReadOnlyTask task) {
@@ -235,12 +234,11 @@ public class ModelManager extends ComponentManager implements Model {
 
 			for (int day_index = 0; day_index < LAST_DAY_INDEX; day_index++) {
 				String formattedDate = formattedDateList.get(day_index);
-				if (formattedDate.compareTo(taskStartDate) == SAME_DAY_VALUE) {
+				if (formattedDate.compareTo(taskStartDate) == SAME_DAY_VALUE
+						||formattedDate.compareTo(taskEndDate) == SAME_DAY_VALUE) {
 					return TASK_FOUND;
 				}
-				if (formattedDate.compareTo(taskEndDate) == SAME_DAY_VALUE) {
-					return TASK_FOUND;
-				}
+
 			}
 
 			return TASK_NOT_FOUND;
@@ -269,12 +267,11 @@ public class ModelManager extends ComponentManager implements Model {
 			
 			LocalDateTime dateOfThatWeek = dateToday.plusWeeks(timeToAdd);
 			int dayOfThatWeek = dateOfThatWeek.getDayOfWeek().getValue();
-			dateOfThatWeek = dateOfThatWeek.minusDays(dayOfThatWeek);
-			dateOfThatWeek = dateOfThatWeek.plusDays(GET_TO_MONDAY_INDEX);
+			LocalDateTime previousWeek = dateOfThatWeek.minusDays(dayOfThatWeek);
+			LocalDateTime startOfTheWeek = previousWeek.plusDays(GET_TO_MONDAY_INDEX);
 			
 			for (int day_index = START_DAY_INDEX; day_index < LAST_DAY_INDEX; day_index++) {
-				dateForCompare = dateOfThatWeek.plusDays(day_index);
-				System.out.println(dateForCompare + " " + dateForCompare.getDayOfWeek());
+				dateForCompare = startOfTheWeek.plusDays(day_index);
 				dateToCompareList.add(dateForCompare);
 			}
 			
