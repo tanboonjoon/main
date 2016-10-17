@@ -13,7 +13,7 @@ public class TestTask implements ReadOnlyTask {
     private String name;
     private String description ;
     private UniqueTagList tags;
-    private boolean doneStatus;
+    private boolean doneStatus = false;
     private LocalDateTime[] dates ;
 
     public TestTask() {
@@ -58,6 +58,10 @@ public class TestTask implements ReadOnlyTask {
     @Override
     public UniqueTagList getTags() {
         return tags;
+    }
+    
+    public boolean markAsDone() {
+        return doneStatus = !doneStatus;
     }
 
     @Override
