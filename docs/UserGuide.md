@@ -42,9 +42,9 @@ implementation of blocks - events with no name (placeholders).
 
 > **Command Format**
 > * Words in `UPPER_CASE` are the parameters.
-> * Items in `SQUARE_BRACKETS` are optional.
+> * Items in `[SQUARE_BRACKETS]` are optional.
 > * Items with `...` after them can have multiple instances.
-> * The order of parameters is fixed.
+> * The order of parameters are not fixed.
 
 #### Viewing help : `help`
 Displays information on how to use commands.  
@@ -52,7 +52,7 @@ Format: `help [COMMAND]`
 
 > - If a `COMMAND` is given, help is displayed for that command only.  
 > - If no `COMMAND` is given, help is displayed for all commands available.   
-> - Help is not shown if you enter an incorrect command e.g. `abcd`
+> - Help is not shown if you enter an incorrect command e.g. `help abcd`
 
 #### Adding a task: `add`
 Adds a task to the task list.  
@@ -62,9 +62,10 @@ Deadline: `add TASKNAME  [d/DESCRIPTION] [et/END_DATE] [t/TAG]...`
 Event: `add TASKNAME  [d/DESCRIPTION]  [st/START_DATE] [et/END_DATE] [t/TAG]...`  
 
 > - Tasks can have any number of tags (including 0)  
-> - Date format is MM-DD-YYY HH:MM (24 hour Format)
+> - Date format is MM-DD-YYYY HHMM (24 hour Format) e.g. `st/ 10-22-2016 1500`
 > 	- The command also supports natural language dates such as `today 6pm`
 > - If no time is specified, the time will be assumed to be the time right now.
+> - If no start date is specified, it is assumed to be today.
 > - If start date/time is specified but end date/time is not specified, the end date/time will be the same day on 2359.
 
 Examples:
@@ -72,28 +73,34 @@ Examples:
 * `report d/school report et/130116 2200 t/important`<br>
   Add the task into the ToDoList using `add` command.
 
-#### Blocking out time: `block`  
-Blocks out time for a potential event, or to indicate unavailability to others <br>
+#### Blocking out time: `block`
+Blocks out time for a potential event, or to indicate unavailability to others.  
+This command can block multiple timeslots at once, all for one specific event.  
+If multiple timeslots were blocked, when one timeslot is confirmed, all other timeslots are released (further explained in the <kbd>confirm</kbd> command)      
+
 Format: `block NAME st/START_DATE et/END_DATE [st/START_DATE et/END_DATE]...`
 
-> - Blocked out time is only blocked and cannot be tagged.<br>
-> - Date format is MM-DD-YYY HH:MM (24 hour Format)
+> - Blocked out time is only blocked and cannot be tagged.  
+> - Each st/ and et/ is a pair, and you can have unlimited pairs
+> - Date format is MM-DD-YYYY HHMM (24 hour Format) e.g. `st/ 10-22-2016 1500`
 > 	- The command also supports natural language dates such as `today 6pm`
-> - If no time is specified, the time will be assumed to be the time right now.
-> - If no end date is specified, the end date/time will be the same day on 2359.
+> - If no start time is specified, the time will be assumed to be the time right now.
+> - If no start date is specified, it is assumed to be today.
+> - If no end date/time is specified, the end date/time will be the same day on 2359.
+> - You must have the `st/` & `et/` tag even if you use default for both date and time
 
 Examples:
-* `block meeting with boss st/1400 et/1600 st/tommorrow 1400 et/tommorrow 1600`
-* `block compliance audits st/1300 et/180`
+* `block meeting with boss st/1400 et/1600 st/tommorrow 1400 et/1600`
+* `block study period st/1300 et/1800 st/tomorrow 2000 et/`
 
-#### Blocking out time: `confirm`  
-Confirms a blocked out time and converts it into an event <br>
-Format: `confirm NAME st/START_DATE et/END_DATE`
+#### Confirming previously blocked time: `confirm`  
+Confirms a blocked out time and converts it into an event  
+Deletes all other blocked timeslots for the same event
 
-> - All other times associated to the previously blocked out event will be released.<br>
-> - Date format is MM-DD-YYY HH:MM (24 hour Format)
-> 	- The command also supports natural language dates such as `today 6pm`
-> - **Date and time must be previously be blocked by a block of the same name**
+Format: `confirm INDEX`
+> - To use this function, you must first list the desired timelot, by either going to the right date to view it, or finding it through keywords
+> - Following which, you can use this command the confirm the desired slot you would like.
+> - All other times associated to the previously blocked out event will be released, even if they are not in the current view.
 
 Examples:
 * `confirm meeting with boss st/1400 et/1600`
@@ -101,15 +108,15 @@ Examples:
 
 #### Searching for (a) specific task(s): `find`
 Finds tasks of a specific time, or whose names contain any of the given keywords.  
-Format: `find TYPE/KEYWORDS `
+Format: `find METHOD/ KEYWORDS`
 KEYWORDS for TYPE 'all' is a word that is contain/part of a task name
 KEYWORDS for TYPE 'day' and 'week' is a integer number.
 
 Method | Explanation | Example
 -------- | :-------- | :---------
-`day/` | List all events a number of days after today | `find d/-1` (yesterday)
-`week/` | List all events in a week, after current week | `find w/0` (current week)
-`all/` | List all events with word appearing in name | `find a/ shoes`
+`day/` | List all events a number of days after today | `find day/ -1` (yesterday)
+`week/` | List all events in a week, after current week | `find week/ 0` (current week)
+`all/` | List all events with word appearing in name | `find all/ shoes`
 
 
 > * The search is not case sensitive. e.g `hans` will match `Hans`
@@ -130,7 +137,7 @@ Format: `delete INDEX[, INDEX,...]`
 > - The index **must be a positive integer** 1, 2, 3, ...
 
 Examples:
-* `find a/Meeting`<br>
+* `find all/ Meeting`<br>
   `delete 1`<br>
   Deletes the 1st task in the results of the `find` command.
 
@@ -200,7 +207,7 @@ Clear | `clear`
 Delete | `delete INDEX`
 Edit | `edit INDEX [NAME] [s/START_DATE] [e/END_DATE] ...`
 Freetime | `freetime [d/DAYS_FROM_TODAY]`
-Find | `find KEYWORD [MORE_KEYWORDS]`
+Find | `find METHOD/ KEYWORD [MORE_KEYWORDS_FOR_ALL_METHOD]`
 cd   | `cd FILEPATH/FILENAME.xml`
 Undo | `undo`
 Help | `help`
