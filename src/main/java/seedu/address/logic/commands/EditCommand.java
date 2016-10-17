@@ -120,7 +120,7 @@ public class EditCommand extends Command {
         try {
 
             model.updateTask(taskToEdit, newTask);
-            EventsCenter.getInstance().post(new JumpToListRequestEvent(lastShownList.size() - 1));
+            
             return new CommandResult(String.format(MESSAGE_EDIT_SUCCESS, newTask));
 
         } catch (TaskNotFoundException pnfe) {

@@ -96,6 +96,55 @@ public class ModelManager extends ComponentManager implements Model {
         updateFilteredListToShowAll();
         indicateTaskForceChanged();
     }
+    
+    @Override
+    public synchronized boolean revertTaskForce() {
+        
+        if(undoTaskForceHistory.peekFirst() != null) {
+            
+            ReadOnlyTaskForce item = undoTaskForceHistory.pollFirst();
+            redoTaskForceHistory.offerFirst(new TaskForce(taskForce));
+            this.taskForce.resetData(item);
+            indicateTaskForceChanged();
+        }else{
+            return false;
+        }
+
+        
+        return true;
+    }
+
+    @Override
+    public void recordTaskForce(ReadOnlyTaskForce taskForce) {
+        undoTaskForceHistory.addFirst(new TaskForce(taskForce));
+        if(undoTaskForceHistory.size() > 10 ) {
+            undoTaskForceHistory.removeLast();
+        }
+        
+        redoTaskForceHistory.clear();
+        
+    }
+    @Override
+    public synchronized boolean restoreTaskForce() {
+          if(redoTaskForceHistory.peekFirst() != null) {
+              ReadOnlyTaskForce item = redoTaskForceHistory.pollFirst();
+              undoTaskForceHistory.offerFirst(new TaskForce(taskForce));
+              this.taskForce.resetData(item);
+              indicateTaskForceChanged();
+          }else{
+              return false;
+          }
+      
+      return true;
+    }
+    
+    @Override
+    public void updateTask(ReadOnlyTask from, Task to) throws UniqueTaskList.TaskNotFoundException, UniqueTaskList.DuplicateTaskException{
+        recordTaskForce(taskForce);
+        this.taskForce.removeTask(from);
+        this.taskForce.addTask(to);
+        indicateTaskForceChanged();
+    }
 
     //=========== Filtered Task List Accessors ===============================================================
 
@@ -245,61 +294,10 @@ public class ModelManager extends ComponentManager implements Model {
         	return Long.parseLong(getTimeList.get(DATE_ARGS_INDEX));
         }
         
-
-  
-
         @Override
         public String toString() {
             return "name=" + String.join(", ", nameKeyWords);
         }
     }
 
-    @Override
-    public synchronized boolean revertTaskForce() {
-        
-        if(undoTaskForceHistory.peekFirst() != null) {
-            
-            ReadOnlyTaskForce item = undoTaskForceHistory.pollFirst();
-            redoTaskForceHistory.offerFirst(new TaskForce(taskForce));
-            this.taskForce.resetData(item);
-            indicateTaskForceChanged();
-        }else{
-            return false;
-        }
-
-        
-        return true;
-    }
-
-    @Override
-    public void recordTaskForce(ReadOnlyTaskForce taskForce) {
-        undoTaskForceHistory.addFirst(new TaskForce(taskForce));
-        if(undoTaskForceHistory.size() > 10 ) {
-            undoTaskForceHistory.removeLast();
-        }
-        
-        redoTaskForceHistory.clear();
-        
-    }
-    @Override
-    public synchronized boolean restoreTaskForce() {
-          if(redoTaskForceHistory.peekFirst() != null) {
-              ReadOnlyTaskForce item = redoTaskForceHistory.pollFirst();
-              undoTaskForceHistory.offerFirst(new TaskForce(taskForce));
-              this.taskForce.resetData(item);
-              indicateTaskForceChanged();
-          }else{
-              return false;
-          }
-      
-      return true;
-    }
-    
-    @Override
-    public void updateTask(ReadOnlyTask from, Task to) throws UniqueTaskList.TaskNotFoundException, UniqueTaskList.DuplicateTaskException{
-        recordTaskForce(taskForce);
-        this.taskForce.removeTask(from);
-        this.taskForce.addTask(to);
-        indicateTaskForceChanged();
-    }
 }
