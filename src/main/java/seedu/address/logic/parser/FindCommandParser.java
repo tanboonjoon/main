@@ -87,6 +87,7 @@ public class FindCommandParser extends CommandParser {
     			return false;
     		}
     	}
+    	
 		int seperatorIndex = compareCharAt++;
 		return args.startsWith(SEPERATOR, seperatorIndex);
 	}
