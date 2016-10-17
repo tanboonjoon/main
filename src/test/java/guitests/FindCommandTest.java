@@ -14,12 +14,15 @@ import seedu.address.logic.commands.FindCommand;
 import seedu.address.testutil.TestTask;
 
 public class FindCommandTest extends TaskForceGuiTest {
-       
+
     @Test
     public void find_validCommand_pass() {
     	commandBox.runCommand("find all/taskName");
     	commandBox.runCommand("find day/0");
     	commandBox.runCommand("find week/0");
+    	commandBox.runCommand("add task123 st/next week 4pm et/next month 5pm");
+    	commandBox.runCommand("add task123 st/today 4pm et/next week 5pm");
+    	commandBox.runCommand("find week/1");
     }
     
     @Test
@@ -33,6 +36,7 @@ public class FindCommandTest extends TaskForceGuiTest {
     	assertResultMessage(expectedMessage);
     	commandBox.runCommand("find asdf day/123" );
     	assertResultMessage(expectedMessage);
+
 
     }
 
