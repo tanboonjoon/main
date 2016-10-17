@@ -3,6 +3,8 @@ package seedu.address.commons.core;
 import java.util.Objects;
 import java.util.logging.Level;
 
+
+
 /**
  * Config values used by the app
  */
@@ -51,6 +53,7 @@ public class Config {
 
     public void setTaskForceFilePath(String taskForceFilePath) {
         this.taskForceDataFilePath = taskForceFilePath;
+        
     }
 
     public String getTaskForceName() {

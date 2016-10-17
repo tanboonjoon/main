@@ -1,44 +1,30 @@
 package seedu.address.logic.parser;
 
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.address.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
 
-import static seedu.address.commons.core.Messages.MESSAGE_INVALID_DATE_FORMAT;
-
-import java.lang.reflect.Field;
-import java.time.format.DateTimeParseException;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 
-import seedu.address.MainApp;
 import seedu.address.commons.core.LogsCenter;
-import seedu.address.commons.exceptions.IllegalValueException;
-import seedu.address.commons.exceptions.IncorrectCommandException;
-import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.commands.AddCommand;
+import seedu.address.logic.commands.CdCommand;
 import seedu.address.logic.commands.ClearCommand;
 import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.DeleteCommand;
 import seedu.address.logic.commands.EditCommand;
-
 import seedu.address.logic.commands.ExitCommand;
 import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.IncorrectCommand;
 import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.commands.MarkCommand;
+import seedu.address.logic.commands.RedoCommand;
 import seedu.address.logic.commands.SelectCommand;
+import seedu.address.logic.commands.UndoCommand;
 
 /**
  * Parses user input.
@@ -75,7 +61,10 @@ public class Parser {
         registerCommand (ExitCommandParser.class, ExitCommand.COMMAND_WORD);
         registerCommand (EditCommandParser.class, EditCommand.COMMAND_WORD);
         registerCommand (MarkCommandParser.class, MarkCommand.COMMAND_WORD);
-        
+        registerCommand (UndoCommandParser.class, UndoCommand.COMMAND_WORD);
+        registerCommand (RedoCommandParser.class, RedoCommand.COMMAND_WORD);
+        registerCommand (CdCommandParser.class, CdCommand.COMMAND_WORD);
+
     }
     
     /**

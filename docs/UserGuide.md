@@ -50,9 +50,9 @@ implementation of blocks - events with no name (placeholders).
 Displays information on how to use commands.  
 Format: `help [COMMAND]`
 
-> If a `COMMAND` is given, help is displayed for that command only.  
-> If no `COMMAND` is given, help is displayed for all commands available.   
-> Help is not shown if you enter an incorrect command e.g. `abcd`
+> - If a `COMMAND` is given, help is displayed for that command only.  
+> - If no `COMMAND` is given, help is displayed for all commands available.   
+> - Help is not shown if you enter an incorrect command e.g. `abcd`
 
 #### Adding a task: `add`
 Adds a task to the task list.  
@@ -61,11 +61,11 @@ Reminder: `add TASKNAME  [d/DESCRIPTION] [t/TAG]...`
 Deadline: `add TASKNAME  [d/DESCRIPTION] [et/END_DATE] [t/TAG]...`  
 Event: `add TASKNAME  [d/DESCRIPTION]  [st/START_DATE] [et/END_DATE] [t/TAG]...`  
 
-> Tasks can have any number of tags (including 0)  
-> Date format is MMDDYYY HH:MM (24 hour Format)
-> If no date is specified, it is taken as today/tomorrow by default (depending on whether
-the time has passed at present today)  
-> If no time is specified, it is taken as whole day (start 0000, end 2359) by default
+> - Tasks can have any number of tags (including 0)  
+> - Date format is MM-DD-YYY HH:MM (24 hour Format)
+> 	- The command also supports natural language dates such as `today 6pm`
+> - If no time is specified, the time will be assumed to be the time right now.
+> - If start date/time is specified but end date/time is not specified, the end date/time will be the same day on 2359.
 
 Examples:
 * `add housework d/to get pocket money t/important`<br>
@@ -76,11 +76,11 @@ Examples:
 Blocks out time for a potential event, or to indicate unavailability to others <br>
 Format: `block NAME st/START_DATE et/END_DATE [st/START_DATE et/END_DATE]...`
 
-> Blocked out time is only blocked and cannot be tagged.<br>
-> Date format is MMDDYYY HH:MM (24 hour Format)<br>
-> If no date is specified, it is taken as today/tomorrow by default (depending on whether
-the time has passed at present today)  <br>
-> If no time is specified, it is taken as whole day (start 0000, end 2359) by default
+> - Blocked out time is only blocked and cannot be tagged.<br>
+> - Date format is MM-DD-YYY HH:MM (24 hour Format)
+> 	- The command also supports natural language dates such as `today 6pm`
+> - If no time is specified, the time will be assumed to be the time right now.
+> - If no end date is specified, the end date/time will be the same day on 2359.
 
 Examples:
 * `block meeting with boss st/1400 et/1600 st/tommorrow 1400 et/tommorrow 1600`
@@ -90,9 +90,10 @@ Examples:
 Confirms a blocked out time and converts it into an event <br>
 Format: `confirm NAME st/START_DATE et/END_DATE`
 
-> All other times associated to the previously blocked out event will be released.<br>
-> Date format is MMDDYYY HH:MM (24 hour Format)<br>
-> Date and time must be previously be blocked by a block of the same name<br>
+> - All other times associated to the previously blocked out event will be released.<br>
+> - Date format is MM-DD-YYY HH:MM (24 hour Format)
+> 	- The command also supports natural language dates such as `today 6pm`
+> - **Date and time must be previously be blocked by a block of the same name**
 
 Examples:
 * `confirm meeting with boss st/1400 et/1600`
@@ -100,16 +101,15 @@ Examples:
 
 #### Searching for (a) specific task(s): `find`
 Finds tasks of a specific time, or whose names contain any of the given keywords.  
-Format: `find METHOD DETAILS `
+Format: `find TYPE/KEYWORDS `
+KEYWORDS for TYPE 'all' is a word that is contain/part of a task name
+KEYWORDS for TYPE 'day' and 'week' is a integer number.
 
 Method | Explanation | Example
 -------- | :-------- | :---------
-`d/` | List all events a number of days after today | `find d/ -1` (yesterday)
-`w/` | List all events in a week, after current week | `find w/ 0` (current week)
-`e/` | List all events with word appearing in name | `find e/ ceremony`
-`dl/` | List all deadlines with word appearing in name | `find dl/ homework`
-`r/` | List all reminders with word appearing in name | `find r/ shine`
-`a/` | List all events with word appearing in name | `find a/ shoes`
+`day/` | List all events a number of days after today | `find d/-1` (yesterday)
+`week/` | List all events in a week, after current week | `find w/0` (current week)
+`all/` | List all events with word appearing in name | `find a/ shoes`
 
 
 > * The search is not case sensitive. e.g `hans` will match `Hans`
@@ -122,11 +122,12 @@ Method | Explanation | Example
 
 #### Deleting a task : `delete`
 Deletes the specified task from the task list. Irreversible.  
-Format: `delete INDEX`
+Format: `delete INDEX[, INDEX,...]`
 
-> Delete the task at the specified `INDEX`.
-  The index refers to the index number shown in the most recent listing.<br>
-  The index **must be a positive integer** 1, 2, 3, ...
+> - Delete the task at the specified `INDEX`.
+> - To delete more than one task, seperate the tasks indexes with commas.
+> - The index refers to the index number shown in the most recent listing.<br>
+> - The index **must be a positive integer** 1, 2, 3, ...
 
 Examples:
 * `find a/Meeting`<br>
@@ -135,17 +136,18 @@ Examples:
 
 #### Editing a task: `edit`  
 Edits a task in the task list.  
-Format: `edit INDEX [NAME] [d/DESCRIPTION] [s/START_DATE] [e/END_DATE]`   
+Format: `edit INDEX [NAME] [d/DESCRIPTION] [st/START_DATE] [et/END_DATE] [t/TAGS]`   
 
-> Follows index format of delete - The index refers to the index number shown in the most recent listing.  
-> The index **must be a positive integer** 1, 2, 3, ...  
+> - Follows index format of delete - The index refers to the index number shown in the most recent listing.
+> - Only enter in the details you want to edit. Details not specified in this command will not be changed.  
+> - The index **must be a positive integer** 1, 2, 3, ...  
+> - You can modify a reminder into a deadline/event by adding start & end dates:  
+> 	 * `edit INDEX st/1700 et/1900`    
+> - For tags, the edit command follows the following rules:
+> 	- If the task does not have a tag specified in the edit command, the edit command shall add that tag to the task.
+> 	- If the task does have a tag specified in the edit command, the edit command will remove that tag from the task.
+> 	- If the task posesses some tags not specified in the edit command, they will be left unchanged by this command.
 
-> You can modify a reminder into a deadline/event by adding start & end dates:  
-> * `edit INDEX st/1700 et/1900`    
-
-> You can modify an event into a deadline by using `edit INDEX s/` (leaving empty)  
-> You can modify an event into a block by using `edit INDEX n/`  
-> Basically, it allows you to morph events as long as they satisfy the structure
 Examples:
 * `edit 1 schoolwork d/change deadline et/220506 2200`
 * `edit 4 dinner d/change location t/important`
@@ -153,14 +155,21 @@ Examples:
 #### Finding free time in a specific day: `freetime`  
 Gives you all the free time blocks in a specific day
 Format: `freetime [d/DAYS_FROM_TODAY]`  
-> By default, freetime gives you today's free time  
-> You can adjust days by using the d/ option  
-> For example, for yesterday's free time, `freetime d/-1`  
-> DAYS_FROM_TODAY **must be an integer**
+> - By default, freetime gives you today's free time  
+> - You can adjust days by using the d/ option  
+> - For example, for yesterday's free time, `freetime d/-1`  
+> - DAYS_FROM_TODAY **must be an integer**
 
 #### Undo the previous command : `undo`
 Undo the last command that was successfully executed. <br>
 Format: `undo`
+
+#### Changing FileStorage location : `cd`
+Changing the saveData into another location <br>
+Format: `cd FILEPATH\FILENAME.xml`
+Examples:
+* `cd C:\Users\Boon\Desktop\newName.xml`
+* `cd C:\Users\Boon\newSaveName.xml`
 
 #### Clearing all entries : `clear`
 Clears **ALL** entries from the task list. This command **CANNOT** be undone! <br>
@@ -192,7 +201,7 @@ Delete | `delete INDEX`
 Edit | `edit INDEX [NAME] [s/START_DATE] [e/END_DATE] ...`
 Freetime | `freetime [d/DAYS_FROM_TODAY]`
 Find | `find KEYWORD [MORE_KEYWORDS]`
+cd   | `cd FILEPATH/FILENAME.xml`
 Undo | `undo`
 Help | `help`
 Exit | `exit`
-

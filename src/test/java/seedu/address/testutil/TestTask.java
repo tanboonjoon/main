@@ -1,10 +1,12 @@
 package seedu.address.testutil;
 
+import java.time.LocalDateTime;
+
 import seedu.address.model.tag.UniqueTagList;
-import seedu.address.model.task.*;
+import seedu.address.model.task.ReadOnlyTask;
 
 /**
- * A mutable person object. For testing only.
+ * A mutable task object. For testing only.
  */
 public class TestTask implements ReadOnlyTask {
 
@@ -12,9 +14,11 @@ public class TestTask implements ReadOnlyTask {
     private String description ;
     private UniqueTagList tags;
     private boolean doneStatus;
+    private LocalDateTime[] dates ;
 
     public TestTask() {
         tags = new UniqueTagList();
+        dates = new LocalDateTime[2] ;
     }
 
     public void setName(String name) {
@@ -23,6 +27,22 @@ public class TestTask implements ReadOnlyTask {
     
     public void setDescription (String des) {
     	this.description = des ;
+    }
+    
+    public void setStartDate (LocalDateTime date) {
+        dates[0] = date ;
+    }
+    
+    public void setEndDate (LocalDateTime date) {
+        dates[1] = date ;
+    }
+    
+    public LocalDateTime getStartDate () {
+        return dates[0] ;
+    }
+    
+    public LocalDateTime getEndDate () {
+        return dates[1] ;
     }
 
     @Override

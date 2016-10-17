@@ -15,6 +15,7 @@ public final class DateUtil {
 	
 	public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm a");
 	public static final LocalDateTime END_OF_TODAY = parseStringIntoDateTime("today 2359").get() ;
+	public static final LocalDateTime NOW = LocalDateTime.now() ;
 	
 	public static Optional<LocalDateTime> parseStringIntoDateTime (String rawString) {
 	    
@@ -37,7 +38,8 @@ public final class DateUtil {
 	}
 	
 	public static String parseLocalDateTimeIntoString (LocalDateTime datetime) {
+	    assert datetime != null ;
+	    
 		return datetime.format(FORMATTER) ;
 	}
-	
 }

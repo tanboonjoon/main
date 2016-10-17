@@ -67,34 +67,18 @@ public class TaskCard extends UiPart{
     		name.getStyleClass().add("cell_big_label_done") ;
     	}
         
-    	name.setText(task.getName());
+    	setTaskTitle();
         id.setText(displayedIndex + ". ");
         
-        description.setText(task.getDescription());
+        setDescriptionText();
         
-        if (task.getDescription().length() == 0) {
-            descBar.setVisible(false);
-        }
+        displayTagString();
         
-        tags.setText(task.tagsString());
+        displayStartAndEndDates();
         
-        if(task instanceof Deadline) {
-            clock.setVisible(true);
-            startline.setVisible(true);
-            startline.setText( ((Deadline) task).getEndDate().format(FORMATTER).toString());
-        }
-        
-        if(task instanceof Event) {
-        	startline.setVisible(true);
-        	clock.setVisible(true);
-        	
-        	String text = ((Event) task).getStartDate().format(FORMATTER).toString() + " to " + ((Event) task).getEndDate().format(FORMATTER).toString() ;
-        	startline.setText(text);
-
-        }
-        
-        circle.getStyleClass().add("circle_high") ;
+        circle.getStyleClass().add("circle_med") ;
     }
+
 
     public HBox getLayout() {
         return cardPane;
@@ -109,4 +93,55 @@ public class TaskCard extends UiPart{
     public String getFxmlPath() {
         return FXML;
     }
+    
+    private void setTaskTitle() {
+        name.setText(task.getName());
+        
+        if (task instanceof Deadline) {
+            Deadline deadline = (Deadline) task ;
+            
+            if (deadline.isDeadlineOverdue()) {
+                name.getStyleClass().remove("cell_big_label");
+                name.getStyleClass().add("cell_big_label_overdue") ;
+                
+                circle.getStyleClass().add("circle_high") ;
+            }
+        }
+    }
+    
+    private void setDescriptionText () {
+        description.setText(task.getDescription());
+        
+        if (task.getDescription().length() == 0) {
+            descBar.setVisible(false);
+        }
+    }
+    
+    private void displayStartAndEndDates() {
+        if(task instanceof Deadline) {
+            clock.setVisible(true);
+            startline.setVisible(true);
+            startline.setText( ((Deadline) task).getEndDate().format(FORMATTER).toString());
+        }
+        
+        if(task instanceof Event) {
+            startline.setVisible(true);
+            clock.setVisible(true);
+            
+            String text = ((Event) task).getStartDate().format(FORMATTER).toString() + " to " + ((Event) task).getEndDate().format(FORMATTER).toString() ;
+            startline.setText(text);
+
+        }
+    }
+    
+    private void displayTagString() {
+        String tagString = task.tagsString() ;
+        
+        tags.setText(tagString);
+        
+        if (tagString.length() == 0) {
+            tags.setVisible(false);
+        }
+    }
+    
 }

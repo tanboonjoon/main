@@ -25,6 +25,10 @@ public class Deadline extends Task {
 		return endDate;
 	}
 	
+	public boolean isDeadlineOverdue () {
+	    return DateUtil.NOW.isAfter(endDate) ;
+	}
+	
 	@Override
 	public boolean isSameStateAs(ReadOnlyTask other) {
 		return super.isSameStateAs(other) 

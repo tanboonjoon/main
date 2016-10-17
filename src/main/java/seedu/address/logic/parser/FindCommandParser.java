@@ -1,9 +1,15 @@
 package seedu.address.logic.parser;
 
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+
+import com.google.common.collect.Sets;
+
+import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.commons.exceptions.IncorrectCommandException;
 import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.FindCommand;
@@ -14,29 +20,113 @@ import seedu.address.logic.commands.IncorrectCommand;
 public class FindCommandParser extends CommandParser {
 
     /**
-     * Parses arguments in the context of the add task command.
+     * Parses arguments in the context of the find task command.
      *
      * @param args full command args string
      * @return the prepared command
      */
-    
+	public static String EMPTY_STRING = "";
+    public static int VALID_FIND_TYPE_NUMBER = 1;
+    public static int FIND_TYPE_INDEX = 0;
+    public static String NULL_STRING = null;
+    public static String SEPERATOR = "/";
     @Override
     public Command prepareCommand(String args) {
         ArgumentsParser parser = new ArgumentsParser() ;
         
-        parser.addNoFlagArg(CommandArgs.NAME) ;
-        
-        try {
+        parser
+        .addOptionalArg(CommandArgs.FIND_ALL)
+        .addOptionalArg(CommandArgs.FIND_WEEK)
+        .addOptionalArg(CommandArgs.FIND_DAY);
+
+        try {	
+
             parser.parse(args);
+            
+            final String find_type = prepareFindTypes(
+            		parser.getArgValue(CommandArgs.FIND_ALL).isPresent() ? "ALL"  : "",
+            		parser.getArgValue(CommandArgs.FIND_WEEK).isPresent() ? "WEEK"  : "",
+            		parser.getArgValue(CommandArgs.FIND_DAY).isPresent() ? "DAY" : ""
+            		);
+            if (!isValidArgs(find_type, args.trim())) {
+                return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                        FindCommand.MESSAGE_USAGE));
+            }
+            
+            final String[] keywords = getKeywords(find_type, parser);
+            final Set<String> keywordSet = Sets.newHashSet(Arrays.asList(keywords));
+            
+            keywordSet.remove(EMPTY_STRING);
+            return new FindCommand(keywordSet, find_type);
+            
         } catch (IncorrectCommandException e) {
              return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
                      FindCommand.MESSAGE_USAGE));
-        }
-
+        
+        } catch (IllegalValueException e) {
+			// TODO Auto-generated catch block
+        	return new IncorrectCommand(e.getMessage());
+		}
+        
         // keywords delimited by whitespace
-        final String[] keywords = parser.getArgValue(CommandArgs.NAME).get().split("\\s+");
-        final Set<String> keywordSet = new HashSet<>(Arrays.asList(keywords));
-        return new FindCommand(keywordSet);
+
+
+
     }
+    
+    //To check that users does not enter anything between find command and search type
+    //eg. find abcd all/KEYWORDS
+    private boolean isValidArgs(String find_type, String args) {
+		// TODO Auto-generated method stub
+    	int compareCharAt ;
+    	for (compareCharAt = 0 ; compareCharAt < find_type.length() ; compareCharAt++) {
+    		char findType_char = find_type.toLowerCase().charAt(compareCharAt);
+    		char args_char = args.toLowerCase().charAt(compareCharAt);
+ 
+    		if (findType_char != args_char) {
+    			return false;
+    		}
+    	}
+    	
+		int seperatorIndex = compareCharAt++;
+		return args.startsWith(SEPERATOR, seperatorIndex);
+	}
+
+	public String prepareFindTypes(String...args ) throws IncorrectCommandException {
+    	List<String> find_type = new ArrayList<String> (Arrays.asList(args));
+    	find_type.removeAll(Arrays.asList(EMPTY_STRING , NULL_STRING));
+    	
+        if(find_type.size() != VALID_FIND_TYPE_NUMBER) {
+        	throw new IncorrectCommandException() ;
+        }
+        
+        return find_type.get(FIND_TYPE_INDEX);
+    	
+    }
+    
+
+
+    
+
+    public String[] getKeywords(String find_type, ArgumentsParser parser) throws IncorrectCommandException {
+  
+    	
+    	switch (find_type) {
+    	case "ALL":
+    		return parser.getArgValue(CommandArgs.FIND_ALL).get().split("\\s+");
+    	case "WEEK":
+    		return parser.getArgValue(CommandArgs.FIND_WEEK).get().split("\\s+"); 		
+    	case "DAY":
+    		return parser.getArgValue(CommandArgs.FIND_DAY).get().split("\\s+");
+    	default:
+    		throw new IncorrectCommandException() ;
+    	}
+ 
+
+
+    
+
+    }
+    
 
 }
