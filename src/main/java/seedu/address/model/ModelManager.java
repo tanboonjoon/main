@@ -28,6 +28,9 @@ import seedu.address.model.task.UniqueTaskList.TaskNotFoundException;
  * All changes to any model should be synchronized.
  */
 public class ModelManager extends ComponentManager implements Model {
+    
+    public static final int MAX_UNDO_REDOS = 10 ;
+    
     private static final Logger logger = LogsCenter.getLogger(ModelManager.class);
 
     private final TaskForce taskForce;
@@ -117,7 +120,7 @@ public class ModelManager extends ComponentManager implements Model {
     @Override
     public void recordTaskForce(ReadOnlyTaskForce taskForce) {
         undoTaskForceHistory.addFirst(new TaskForce(taskForce));
-        if(undoTaskForceHistory.size() > 10 ) {
+        if(undoTaskForceHistory.size() > MAX_UNDO_REDOS ) {
             undoTaskForceHistory.removeLast();
         }
         
