@@ -8,6 +8,7 @@ import java.util.Optional;
 
 import com.google.common.collect.Lists;
 
+import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.commons.exceptions.IncorrectCommandException;
 import seedu.address.commons.util.DateUtil;
 import seedu.address.logic.commands.BlockCommand;
@@ -35,7 +36,15 @@ public class BlockCommandParser extends CommandParser{
         List<LocalDateTime> startDateTimes = convertArgsToDateTime (parser, CommandArgs.START_DATETIME) ;
         List<LocalDateTime> endDateTimes = convertArgsToDateTime (parser, CommandArgs.END_DATETIME) ;
         
-        return new BlockCommand(parser.getArgValue(CommandArgs.NAME).get(), startDateTimes, endDateTimes) ;
+        if (startDateTimes.size() != endDateTimes.size()) {
+            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, BlockCommand.MESSAGE_USAGE));
+        }
+        
+        try {
+            return new BlockCommand(parser.getArgValue(CommandArgs.NAME).get(), startDateTimes, endDateTimes) ;
+        } catch (IllegalValueException e) {
+            return new IncorrectCommand(e.getMessage());
+        }
     }
     
     private List<LocalDateTime> convertArgsToDateTime (ArgumentsParser parser, CommandArgs date) {
