@@ -7,6 +7,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
@@ -33,12 +34,25 @@ public class ArgumentsParser {
 	private Map<String, CommandArgs> flags ;
 	
 	public ArgumentsParser() {
-		requiredArguments = Sets.newHashSet() ;
-		optionalArguments = Sets.newHashSet() ;
-		argumentValuesMap = ArrayListMultimap.create();
-		flags = Maps.newHashMap() ;
+		this (false) ;
 		
-		this.addNoFlagArg(CommandArgs.NULL_ARG) ;
+	}
+	
+	public ArgumentsParser (boolean maintainOrdering) {
+	    requiredArguments = Sets.newHashSet() ;
+        optionalArguments = Sets.newHashSet() ;
+        
+        if (!maintainOrdering) {
+            argumentValuesMap = ArrayListMultimap.create();
+            
+        } else {
+            argumentValuesMap = LinkedListMultimap.create() ;
+            
+        }
+        
+        flags = Maps.newHashMap() ;
+        
+        this.addNoFlagArg(CommandArgs.NULL_ARG) ;
 	}
 	
 	private void addFlag (CommandArgs arg) {

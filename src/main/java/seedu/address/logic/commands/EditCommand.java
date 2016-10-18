@@ -137,17 +137,20 @@ public class EditCommand extends Command {
     
     private Task createNewTask (String name, String description, UniqueTagList tag, LocalDateTime startTime, LocalDateTime endTime) {
         
+        int id = model.getNextTaskId() ;
+        
         if (startTime != null && endTime != null) {
-            return new Event (name, description, startTime, endTime, tag, doneStatus) ;
+            return new Event (id, name, description, startTime, endTime, tag, doneStatus) ;
         
         } 
         
         if (endTime != null && startTime == null) {
-            return new Deadline (name, description, endTime, tag, doneStatus) ;
+            return new Deadline (id, name, description, endTime, tag, doneStatus) ;
         
         } 
         
-        return new Task (name, description, tag, doneStatus) ;
+        return new Task (id, name, description, tag, doneStatus) ;
+
     }
     
     private void determineDateTimeOfNewTask (ReadOnlyTask taskToEdit) {

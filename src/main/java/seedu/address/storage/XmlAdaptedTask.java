@@ -15,7 +15,9 @@ import java.util.List;
  * JAXB-friendly version of the Task.
  */
 public class XmlAdaptedTask {
-
+    
+    @XmlElement(required = true)
+    private int taskId ;
     @XmlElement(required = true)
     private String name;
     @XmlElement(required = true)
@@ -44,6 +46,7 @@ public class XmlAdaptedTask {
     public XmlAdaptedTask(ReadOnlyTask source) {
         name = source.getName();
         description = source.getDescription() ;
+        taskId = source.getTaskId() ;
         doneStatus = source.getDoneStatus();
         tagged = new ArrayList<>();
         
@@ -67,6 +70,7 @@ public class XmlAdaptedTask {
      * @throws IllegalValueException if there were any data constraints violated in the adapted task
      */
     public Task toModelType() throws IllegalValueException {
+        
         Task task ;
         LocalDateTime start = null ;
         LocalDateTime end = null ;
@@ -78,8 +82,9 @@ public class XmlAdaptedTask {
         
         final String name = this.name ;
         final String description = this.description ;
-        boolean doneStatus = this.doneStatus;
+        final boolean doneStatus = this.doneStatus;
         final UniqueTagList tags = new UniqueTagList(taskTags);
+        final int id = this.taskId ;
         
         if (this.startDateTime != null) {
             start = LocalDateTime.parse(this.startDateTime) ;
@@ -90,13 +95,13 @@ public class XmlAdaptedTask {
         }
         
         if (start != null && end != null) {
-            task = new Event (name, description, start, end, tags, doneStatus) ; 
+            task = new Event (id, name, description, start, end, tags, doneStatus) ; 
         
         } else if (start == null && end != null) {
-            task = new Deadline (name, description, end, tags, doneStatus) ;
+            task = new Deadline (id, name, description, end, tags, doneStatus) ;
         
         } else {
-            task = new Task(name, description, tags, doneStatus);
+            task = new Task(id, name, description, tags, doneStatus);
         }
         
         return task ;

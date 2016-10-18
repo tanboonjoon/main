@@ -3,6 +3,7 @@ package seedu.address.model;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -63,6 +64,7 @@ public class TaskForce implements ReadOnlyTaskForce {
 
     public void setTasks(List<Task> tasks) {
         this.tasks.getInternalList().setAll(tasks);
+        this.tasks.getInternalList().sort(new TaskIdentificationCompartor());
     }
 
     public void setTags(Collection<Tag> tags) {
@@ -76,22 +78,27 @@ public class TaskForce implements ReadOnlyTaskForce {
         for (ReadOnlyTask thisTask : newTasks) {
             String name = thisTask.getName() ;
             String description = thisTask.getDescription() ;
+            
+            int id = thisTask.getTaskId() ;
+            
             boolean doneStatus = thisTask.getDoneStatus();
+            
             UniqueTagList tags = thisTask.getTags() ;
             
             if (thisTask instanceof Deadline) {
                 LocalDateTime end = ((Deadline) thisTask).getEndDate() ;
                 
-                tasks.add(new Deadline (name, description, end, tags, doneStatus)) ;
+                tasks.add(new Deadline (id, name, description, end, tags, doneStatus)) ;
             
             } else if (thisTask instanceof Event) {
                 LocalDateTime start = ((Event) thisTask).getStartDate() ;
                 LocalDateTime end = ((Event) thisTask).getEndDate() ;
                 
-                tasks.add(new Event (name, description, start, end, tags, doneStatus)) ;
+                tasks.add(new Event (id, name, description, start, end, tags, doneStatus)) ;
             
             } else {
-                tasks.add(new Task (name, description, tags, doneStatus)) ;
+                tasks.add(new Task (id, name, description, tags, doneStatus)) ;
+
             }
         }
         
@@ -195,5 +202,37 @@ public class TaskForce implements ReadOnlyTaskForce {
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
         return Objects.hash(tasks, tags);
+    }
+    
+    public int getNextTagId() {
+        if (!this.tasks.getInternalList().isEmpty()) {
+            int size = this.tasks.getInternalList().size() ;
+            int id = this.tasks.getInternalList().get(size - 1).getTaskId() ;
+            
+            return id + 1 ;
+        }
+        
+        return 0 ;
+    }
+    
+    /*
+     * Comparator for Tasks Id sorting
+     */
+    
+    private static class TaskIdentificationCompartor implements Comparator<ReadOnlyTask> {
+
+        @Override
+        public int compare(ReadOnlyTask o1, ReadOnlyTask o2) {
+            if (o1.getTaskId() < o2.getTaskId()) {
+                return -1 ;
+            }
+            
+            if (o1.getTaskId() > o2.getTaskId()) {
+                return 1 ;
+            }
+            
+            return 0 ;
+        }
+        
     }
 }

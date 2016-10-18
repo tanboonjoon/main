@@ -50,6 +50,9 @@ public interface Model {
     
     /* a method to store a new task into the task history */
     public void recordTaskForce(ReadOnlyTaskForce taskForce);
+    
+    /** Gets the next available Task ID */
+    public int getNextTaskId() ;
 	
 
 }

@@ -85,8 +85,14 @@ public class TestTask implements ReadOnlyTask {
         return sb.toString();
     }
 
+    @Override
+    public int getTaskId() {
+        return 0;
+    }
+    
 	@Override
 	public boolean getDoneStatus() {
 		return doneStatus;
 	}
+
 }

@@ -65,15 +65,15 @@ public class TestUtil {
     private static Task[] getSampleTaskData() {
         try {
             return new Task[]{
-                    new Task("Ali Muster", new UniqueTagList()),
-                    new Task("Boris Mueller", new UniqueTagList()),
-                    new Task("Carl Kurz", new UniqueTagList()),
-                    new Task("Daniel Meier", new UniqueTagList()),
-                    new Task("Elle Meyer", new UniqueTagList()),
-                    new Task("Fiona Kunz", new UniqueTagList()),
-                    new Task("George Best", new UniqueTagList()),
-                    new Task("Hoon Meier", new UniqueTagList()),
-                    new Task("Ida Mueller", new UniqueTagList())
+                    new Task(0,"Ali Muster", new UniqueTagList()),
+                    new Task(0,"Boris Mueller", new UniqueTagList()),
+                    new Task(0,"Carl Kurz", new UniqueTagList()),
+                    new Task(0,"Daniel Meier", new UniqueTagList()),
+                    new Task(0,"Elle Meyer", new UniqueTagList()),
+                    new Task(0,"Fiona Kunz", new UniqueTagList()),
+                    new Task(0,"George Best", new UniqueTagList()),
+                    new Task(0,"Hoon Meier", new UniqueTagList()),
+                    new Task(0,"Ida Mueller", new UniqueTagList())
             };
         } catch (Exception e) {
             assert false;

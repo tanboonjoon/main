@@ -42,8 +42,12 @@ public class AddCommand extends Command {
     public static final String MESSAGE_DUPLICATE_TASK = "This task already exists in the address book";
     public static final String INVALID_TASK_TYPE_MESSAGE = "Please make sure you follow the correct add format";
     public static final String INVALID_END_DATE_MESSAGE = "Please make sure your end date is later than start date";
-
-    private Task toAdd;
+    
+    private String name ;
+    private String description ;
+    private LocalDateTime startDate ;
+    private LocalDateTime endDate ;
+    private UniqueTagList tagList ;
 
     /**
      * Convenience constructor using raw values.
@@ -51,6 +55,7 @@ public class AddCommand extends Command {
      * @throws IllegalValueException if any of the raw values are invalid
      */
     public AddCommand(String name, String description,String startDate,String endDate, Set<String> tags) throws IllegalValueException {
+        
         final Set<Tag> tagSet = Sets.newHashSet() ;
 
         for (String tagName : tags) {
@@ -59,14 +64,14 @@ public class AddCommand extends Command {
         
         if (startDate == null && endDate == null) {
 
-        	this.toAdd = new Task(name, description, new UniqueTagList(tagSet));
+            setNewTaskWithDetails(name, description, new UniqueTagList(tagSet));
         	
         } else if (startDate == null && endDate != null) {
         	
         	LocalDateTime deadline_endDate = DateUtil.parseStringIntoDateTime(endDate).isPresent() ?
         	        DateUtil.parseStringIntoDateTime(endDate).get() : DateUtil.END_OF_TODAY ;
         	
-        	this.toAdd = new Deadline(name, description, deadline_endDate, new UniqueTagList(tagSet));
+	        setNewTaskWithDetails(name, description, deadline_endDate, new UniqueTagList(tagSet));
         	
         } else if (startDate !=null) {
         	
@@ -80,7 +85,7 @@ public class AddCommand extends Command {
         		throw new IllegalValueException(INVALID_END_DATE_MESSAGE);
         	}
         	
-        	this.toAdd = new Event(name, description, event_startDate, event_endDate, new UniqueTagList(tagSet));
+        	setNewTaskWithDetails (name, description, event_startDate, event_endDate, new UniqueTagList(tagSet));
         	
         } else {
         	throw new IllegalValueException(INVALID_TASK_TYPE_MESSAGE);
@@ -90,6 +95,9 @@ public class AddCommand extends Command {
     @Override
     public CommandResult execute() {
         assert model != null;
+        
+        Task toAdd = getNewTask() ;
+        
         try {
             model.addTask(toAdd);
             ArrayList<Task> taskList = new ArrayList<Task>();
@@ -99,6 +107,38 @@ public class AddCommand extends Command {
             return new CommandResult(MESSAGE_DUPLICATE_TASK);
         }
     }
-
+    
+    private void setNewTaskWithDetails (String name, String description, LocalDateTime startDate, LocalDateTime endDate, UniqueTagList tags) {
+        this.name = name ;
+        this.description = description ;
+        this.startDate = startDate ;
+        this.endDate = endDate ;
+        this.tagList = tags ;
+    }
+    
+    private void setNewTaskWithDetails (String name, String description, LocalDateTime endDate, UniqueTagList tags) {
+        setNewTaskWithDetails(name, description, null, endDate, tags) ;
+    }
+    
+    private void setNewTaskWithDetails (String name, String description, UniqueTagList tags) {
+        setNewTaskWithDetails(name, description, null, null, tags) ;
+    }
+    
+    private Task getNewTask () {
+        
+        assert model != null ;
+        
+        int id = model.getNextTaskId() ;
+        
+        if (startDate == null && endDate != null) {
+            return new Deadline (id, name, description, endDate, tagList) ;
+        }
+        
+        if (startDate != null && endDate != null) {
+            return new Event (id, name, description, startDate, endDate, tagList) ;
+        }
+        
+        return new Task (id, name, description, tagList) ;
+    }
 
 }

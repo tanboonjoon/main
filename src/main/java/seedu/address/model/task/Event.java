@@ -13,14 +13,14 @@ public class Event extends Task {
 	private final LocalDateTime startDate;
 	private final LocalDateTime endDate;
 	
-	public Event(String name, String description,LocalDateTime startDate, LocalDateTime endDate, UniqueTagList tags, boolean doneStatus) {
-		super(name,description,tags, doneStatus);
+	public Event(int taskId, String name, String description,LocalDateTime startDate, LocalDateTime endDate, UniqueTagList tags, boolean doneStatus) {
+		super(taskId, name,description,tags, doneStatus);
 		this.startDate = startDate;
 		this.endDate = endDate;
 	}
 	
-	public Event(String name, String description,LocalDateTime startDate, LocalDateTime endDate, UniqueTagList tags) {
-		this (name, description, startDate, endDate, tags, false);
+	public Event(int taskId, String name, String description,LocalDateTime startDate, LocalDateTime endDate, UniqueTagList tags) {
+		this (taskId, name, description, startDate, endDate, tags, false);
 	}
 	
 	
@@ -37,7 +37,7 @@ public class Event extends Task {
 		return super.isSameStateAs(other) 
 				&& other instanceof Event
 				&& this.getStartDate().equals( ((Event) other).getStartDate() )
-				&& this.getEndDate().equals( ((Event) other).getStartDate() ) ;
+				&& this.getEndDate().equals( ((Event) other).getStartDate() );
 	}
 	
 	@Override
