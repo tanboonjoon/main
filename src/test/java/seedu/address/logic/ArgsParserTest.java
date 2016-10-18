@@ -71,7 +71,7 @@ public class ArgsParserTest {
         for (Pair<LocalDateTime, LocalDateTime> pair : startEndPairs) {
             sb.append("st/" + pair.key.toString() + " et/" + pair.value.toString() + " ") ;
         }
-        System.out.println(sb.toString());
+
         parser.parse(sb.toString());
         
         List<String> start = parser.getArgValues(CommandArgs.START_DATETIME).get() ;
