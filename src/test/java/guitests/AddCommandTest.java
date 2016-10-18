@@ -25,10 +25,10 @@ public class AddCommandTest extends TaskForceGuiTest {
         assertAddSuccess(taskToAdd, currentList);
         currentList = TestUtil.addTasksToList(currentList, taskToAdd);
 
-        //add duplicate task
-        commandBox.runCommand(TypicalTestTasks.hoon.getAddCommand());
-        assertResultMessage(AddCommand.MESSAGE_DUPLICATE_TASK);
-        assertTrue(taskListPanel.isListMatching(currentList));
+        //add duplicate task (disabled; not possible to have duplicate tasks due to task ID)
+//        commandBox.runCommand(TypicalTestTasks.hoon.getAddCommand());
+//        assertResultMessage(AddCommand.MESSAGE_DUPLICATE_TASK);
+//        assertTrue(taskListPanel.isListMatching(currentList));
 
         //add to empty list
         commandBox.runCommand("clear");

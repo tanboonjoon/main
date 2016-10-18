@@ -52,8 +52,8 @@ public class EditCommandTest extends TaskForceGuiTest {
         assertResultMessage(EditCommand.MESSAGE_EDIT_SUCCESS);
         
         //Edit duplicate task
-        commandBox.runCommand(TypicalTestTasks.fiona.getEditCommand(3));
-        assertResultMessage(EditCommand.MESSAGE_DUPLICATE_TASK);
+//       commandBox.runCommand(TypicalTestTasks.fiona.getEditCommand(3));
+//       assertResultMessage(EditCommand.MESSAGE_DUPLICATE_TASK);
 
         //Edit invalid index
         commandBox.runCommand("edit 4000 "+TypicalTestTasks.alice);
