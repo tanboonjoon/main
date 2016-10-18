@@ -15,7 +15,7 @@ import seedu.address.model.task.UniqueTaskList.TaskNotFoundException;
 public class MarkCommand extends Command {
 
 	public static final String COMMAND_WORD = "mark";
-
+	
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Mark the task identified by the index number used in the last task listing as done.\n"
             + "Parameters: INDEX (must be a positive integer)\n"
@@ -34,14 +34,18 @@ public class MarkCommand extends Command {
     public CommandResult execute() {
 
         UnmodifiableObservableList<ReadOnlyTask> lastShownList = model.getFilteredTaskList();
-
-        if (lastShownList.size() < targetIndex || targetIndex < 1) {
+        
+        ReadOnlyTask taskToMark ;
+        
+        try {
+            taskToMark = lastShownList.get(targetIndex - 1) ; // List is 0-indexed
+        
+        } catch (IndexOutOfBoundsException e) {
+            
             indicateAttemptToExecuteIncorrectCommand();
             return new CommandResult(Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
         }
-        
-        ReadOnlyTask taskToMark = lastShownList.get(targetIndex - 1);  
-        
+       
         Task newTask = createNewTask (taskToMark.getName(), taskToMark.getDescription(), taskToMark.getTags(), 
         							  getStartDate(taskToMark), getEndDate(taskToMark), !taskToMark.getDoneStatus());
 
@@ -85,18 +89,18 @@ public class MarkCommand extends Command {
     private LocalDateTime getStartDate (ReadOnlyTask taskToEdit) {
         if (taskToEdit instanceof Event) {
         	return ((Event) taskToEdit).getStartDate();
-        } else {
-        	return null;
         }
+
+        return null ;
     }
     
     private LocalDateTime getEndDate (ReadOnlyTask taskToEdit) {
 
         if (taskToEdit instanceof Deadline) {
         	return ((Deadline) taskToEdit).getEndDate();
-        } else {
-        	return null;
-        }
+        } 
+
+        return null ;
     }
 
 }
