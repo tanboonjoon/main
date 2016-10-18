@@ -323,52 +323,197 @@ Use case ends.
 Use case ends.
 
 **Extensions:**
-
-1a. User enters a date and name term
-> The system will display all tasks with that name, within a date period.
-
-Use case ends.
-
-2a. User did not enter a search term
->The system will display an error along with the suggested format for the search command.
-
-Use case ends.
-
-2b. Search term entered by the user did not match any task
->The system will display a message informing the user that the search did not yield any results.
-
-Use case ends.
-
-### Use case :  Deleting or marking a task as done (might need to split)
+### Use case : add command - adding a task
 
 **MSS:**
 
-1. User *searches for the task (UC: Searching of tasks)*  or *views task that are due in the near future (UC: View tasks that are due in the near future)*
-2. System will display the list of tasks available for deletion.
-3. User enters the delete command along with the index of the task to delete.
-4. System will display that the task has been marked as done/deleted.
+1. User enters the add command in the CLI along with the details for the task.
+2. System will display that "New task added: " along with the information of the added task.
 
-Use case ends.
+Use case ends
 
 **Extensions:**
 
-3a. Index provided by user is not valid
->The system will display an error message along with the suggested format for the delete command
+1a. Add command syntax entered by the user is incorrect.
+>The system will display an "Invalid command format!" along with the format of Addcommand.
 
-Use case ends.
+1b. User enter a endDate bigger than startDate
+>The System will display "Please make sure your end date is later than start date". 
 
-### Use case :  Editing the details of a task
+Use case ends
+
+### Use case : delete command - one entry
 
 **MSS:**
 
-1. User searches for specific tasks
-2. System will display the list of tasks available for edits.
-3. User will enter the index of the tasks and the new information to replace it.
-4. System will display 'Old Task ....' has  been changed to 'New Task...'.
+1. User will enter the index of the task to be deleted using CLI.
+2. System will display "Deleted Task(s) : TASKNAME".
 
-Use case ends.
+Use case ends
 
 **Extensions:**
+
+1a. User enter a non-integer value.
+> The System will display "Invalid command format!" along with the format of Deletecommand
+### Use case :  Search task by time
+
+Use case ends
+
+### Use case : delete command - multiple entries
+
+**MSS:**
+
+1. User will enter mutiple indexs of tasks to be deleted using CLI
+2. System will display "Deleted Task(s): INDEXES"
+
+Use case ends
+
+**Extensions:**
+
+1a. User enter a non-integer value.
+> The System will display "Invalid command format!" along with the format of Deletecommand
+### Use case :  Search task by time
+
+1b. User enter an invalid index.
+> System will display 'the following indexes are invalid and ignore: INDEXES' and proceed to delete the valid index found.
+
+Use case ends
+
+
+### Use case : edit command - editing a task
+
+**MSS:**
+
+1. User will enter the index of the tasks to be edited along with new data.
+2. System will display "Edit saved!".
+
+Use case ends
+
+**Extensions:**
+
+1a. Edit command syntax entered by the user is incorrect.
+>The system will display an "Invalid command format!" along with the format of Edit command.
+
+Use case ends
+
+### Use case : clear command 
+
+**MSS:**
+
+1. User will enter clear to clear the save data.
+2. The system will display 'TaskForce has been cleared'.
+
+Use case ends
+
+### Use case : cd command - changing saving data location
+
+**MSS:**
+
+1. User will enter a new path to store and save the saveData.
+2. The system will display 'file has been saved to location successfully in PATH'.
+
+Use case ends
+
+**Extension:**
+
+1a. User enter the wrong format of savedata
+> The System will display "please end filename with .xml" along with the format of cd command
+1b. User enter an invalid path
+> The System will display "please enter valid file path" along with the format of cd command
+
+Use case ends
+
+### Use case: exit command
+
+**MSS:**
+
+1. User will enter the exit command using CLI.
+2. The System window will close down automatically.
+
+Use case ends
+
+### use case: help command 
+
+**MSS:**
+
+1. User will enter help command using CLI.
+2. The system will pop up a new window that display the list of commandFormat.
+
+Use case ends
+
+### Use case: find command - filter by keyword
+
+**MSS:**
+
+1. User will enter the keyword that he want to search for
+2. The system will display a list of tasks that contain the keyword.
+
+Use case ends
+
+**Extension:**
+
+1a. User will enter the wrong syntax for find command.
+> The system will display "Invalid command format" along with the format of findCommand.
+
+Use case ends
+
+### Use case: find command - filter by day/week
+
+**MSS:**
+
+1. User will enter the day/week he want to look at using CLI.
+2. The System will display a list of tasks that are related(start/due on) to the day/week.
+
+Use case ends
+
+**Extension:**
+
+1a. User enter a input that is that a number
+> The System will display "please enter a valid number when search by day/week".
+1b. User will enter the wrong syntax for find command
+> The system will display "Invalid command format" along with the format of findCommand.
+
+Use case ends
+
+### Use case : select command - select a task
+
+**MSS:**
+
+1. User will enter the index of the task he want to select.
+2. System will highlight the task that is selected.
+
+Use case ends
+
+**Extension:**
+
+1a. User enter an invalid index
+> The System will display "The task index provided is invalid".
+
+### Use case : Mark command - marking/unmarking a task
+
+1. User will enter the index of the task he want to mark/unmark.
+2. The system will display a marked icon(mark) OR remove the marked icon(unmark) on the task card.
+
+Use case ends
+
+**Extension:**
+
+1a. User enter an invalid index
+> The System will display "The task index provided is invalid".
+1b User will enter a input that is not a number
+> The System will display "Invalid command format!" along with the format of markCommand.
+
+Use case ends
+
+
+### Use case : undo/reo command - undoing or redoing the previous action
+
+1. User will enter either undo or redo using CLI
+2. The system will display "Undid the most recent command" along with the updated list for display.
+
+Use case ends
+
+
 
 3a. Index provided by user is not valid
 >The system will display an error message along with the suggested format for the edit command
@@ -389,7 +534,7 @@ Use case ends.
 ## Appendix C : Non Functional Requirements
 
 1. Should work on any [mainstream OS](#mainstream-os) as long as it has Java `1.8.0_60` or higher installed.
-2. Should be able to hold up to 1000 persons.
+2. Should be able to hold up to 1000 tasks.
 3. Should come with automated unit tests and open source code.
 4. Should favor DOS style commands over Unix-style commands.
 5. Should not take more than 5 seconds when executing find command
