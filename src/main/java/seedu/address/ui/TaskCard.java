@@ -38,6 +38,8 @@ public class TaskCard extends UiPart{
     private Rectangle descBar ;
     @FXML
     private ImageView clock ;
+    @FXML
+    private ImageView isDone;
 
     private ReadOnlyTask task;
     private int displayedIndex;
@@ -57,6 +59,13 @@ public class TaskCard extends UiPart{
     public void initialize() {
     	startline.setVisible(false);
     	clock.setVisible(false);
+    	isDone.setVisible(false);
+    	
+    	if (task.getDoneStatus()) {
+    		isDone.setVisible(true);
+    		name.getStyleClass().remove("cell_big_label") ;
+    		name.getStyleClass().add("cell_big_label_done") ;
+    	}
         
     	setTaskTitle();
         id.setText(displayedIndex + ". ");

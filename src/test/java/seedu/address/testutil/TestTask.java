@@ -13,6 +13,7 @@ public class TestTask implements ReadOnlyTask {
     private String name;
     private String description ;
     private UniqueTagList tags;
+    private boolean doneStatus = false;
     private LocalDateTime[] dates ;
 
     public TestTask() {
@@ -58,6 +59,10 @@ public class TestTask implements ReadOnlyTask {
     public UniqueTagList getTags() {
         return tags;
     }
+    
+    public boolean markAsDone() {
+        return doneStatus = !doneStatus;
+    }
 
     @Override
     public String toString() {
@@ -79,4 +84,9 @@ public class TestTask implements ReadOnlyTask {
         this.getTags().getInternalList().stream().forEach(s -> sb.append("e/ " + s.tagName + " "));
         return sb.toString();
     }
+
+	@Override
+	public boolean getDoneStatus() {
+		return doneStatus;
+	}
 }

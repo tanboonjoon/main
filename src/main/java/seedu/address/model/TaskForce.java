@@ -76,21 +76,22 @@ public class TaskForce implements ReadOnlyTaskForce {
         for (ReadOnlyTask thisTask : newTasks) {
             String name = thisTask.getName() ;
             String description = thisTask.getDescription() ;
+            boolean doneStatus = thisTask.getDoneStatus();
             UniqueTagList tags = thisTask.getTags() ;
             
             if (thisTask instanceof Deadline) {
                 LocalDateTime end = ((Deadline) thisTask).getEndDate() ;
                 
-                tasks.add(new Deadline (name, description, end, tags)) ;
+                tasks.add(new Deadline (name, description, end, tags, doneStatus)) ;
             
             } else if (thisTask instanceof Event) {
                 LocalDateTime start = ((Event) thisTask).getStartDate() ;
                 LocalDateTime end = ((Event) thisTask).getEndDate() ;
                 
-                tasks.add(new Event (name, description, start, end, tags)) ;
+                tasks.add(new Event (name, description, start, end, tags, doneStatus)) ;
             
             } else {
-                tasks.add(new Task (name, description, tags)) ;
+                tasks.add(new Task (name, description, tags, doneStatus)) ;
             }
         }
         
@@ -146,7 +147,7 @@ public class TaskForce implements ReadOnlyTaskForce {
             throw new UniqueTaskList.TaskNotFoundException();
         }
     }
-
+    
 //// tag-level operations
 
     public void addTag(Tag t) throws UniqueTagList.DuplicateTagException {

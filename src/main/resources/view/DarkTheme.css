@@ -112,6 +112,12 @@
     -fx-text-fill: #010504;
 }
 
+.cell_big_label_done .text {
+	-fx-strikethrough: true ;
+	-fx-font-size: 16px;
+    -fx-text-fill: #010504;
+}
+
 .cell_big_label_overdue {
 	-fx-font-family: "Open Sans Semibold";
     -fx-font-size: 16px;
@@ -319,14 +325,14 @@
 }
 
 .circle_low {
-	-fx-fill: derive(#0325dd, 25%);
+	-fx-fill: derive(#4b8bf5, 0%);
 }
 
 .circle_med {
-	-fx-fill: derive(#8cc35e, 25%);
+	-fx-fill: derive(#ffce43, 0%);
 }
 .circle_high {
-	-fx-fill: derive(#de5347, 25%);
+	-fx-fill: derive(#de5347, 0%);
 }
 
 #cardPane {
