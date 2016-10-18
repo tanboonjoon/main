@@ -1,42 +1,49 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <taskForceData>
     <tasks>
+        <id>0</id>
         <name>CS2103 v0.3</name>
         <description></description>
         <endDateTime>2016-10-21T19:24:10.476</endDateTime>
         <doneStatus>false</doneStatus>
     </tasks>
     <tasks>
+        <id>1</id>
         <name>CS2103 v0.4</name>
         <description></description>
         <endDateTime>2016-10-28T19:24:55.718</endDateTime>
         <doneStatus>false</doneStatus>
     </tasks>
     <tasks>
+        <id>2</id>
         <name>CS2103 v0.5</name>
         <description></description>
         <endDateTime>2016-11-04T19:25:20.870</endDateTime>
         <doneStatus>false</doneStatus>
     </tasks>
     <tasks>
+        <id>3</id>
         <name>CS2105 assignment 2</name>
         <description></description>
         <endDateTime>2016-10-14T13:00</endDateTime>
         <doneStatus>false</doneStatus>
     </tasks>
     <tasks>
+        <id>5</id>
         <name>LAJ2203 HM L28 K U28-29(1)</name>
         <description></description>
         <endDateTime>2016-10-25T19:27:39.125</endDateTime>
         <doneStatus>false</doneStatus>
     </tasks>
     <tasks>
+        <id>4</id>
         <name>read CS2103 notes</name>
         <description>to learna bout technical stuff</description>
         <doneStatus>false</doneStatus>
         <tagged>important</tagged>
     </tasks>
     <tasks>
+        <id>6</id>
         <name>CS2102 project</name>
         <description>diccuss with teammate</description>
         <doneStatus>false</doneStatus>
@@ -45,6 +52,7 @@
         <tagged>project</tagged>
     </tasks>
     <tasks>
+        <id>7</id>
         <name>the flash S03E04</name>
         <description>must download and watch</description>
         <startDateTime>2016-10-19T18:00</startDateTime>
@@ -53,6 +61,7 @@
         <tagged>tvSeries</tagged>
     </tasks>
     <tasks>
+        <id>8</id>
         <name>the flash S03E05</name>
         <description>must download and watch</description>
         <startDateTime>2016-10-26T19:33:06.798</startDateTime>
@@ -61,18 +70,21 @@
         <tagged>tvSeries</tagged>
     </tasks>
     <tasks>
+        <id>9</id>
         <name>CS2103 v0.2</name>
         <description></description>
         <endDateTime>2016-10-14T10:00</endDateTime>
         <doneStatus>false</doneStatus>
     </tasks>
     <tasks>
+        <id>10</id>
         <name>CS2103 v0.1</name>
         <description></description>
         <endDateTime>2016-10-07T10:00</endDateTime>
         <doneStatus>false</doneStatus>
     </tasks>
     <tasks>
+        <id>11</id>
         <name>LAJ2203 oral exam</name>
         <description>must practice with partner</description>
         <startDateTime>2016-11-02T19:35:10.764</startDateTime>
@@ -81,6 +93,7 @@
         <tagged>important</tagged>
     </tasks>
     <tasks>
+        <id>12</id>
         <name>LAJ2203 final exam</name>
         <description>EXAM!!!</description>
         <startDateTime>2016-11-09T19:36:13.293</startDateTime>
@@ -89,6 +102,7 @@
         <tagged>VERYIMPORTANT</tagged>
     </tasks>
     <tasks>
+        <id>13</id>
         <name>own friend money</name>
         <description>he brought me coffee</description>
         <doneStatus>false</doneStatus>
@@ -96,6 +110,7 @@
         <tagged>friend</tagged>
     </tasks>
     <tasks>
+        <id>14</id>
         <name>CS2102 report</name>
         <description>database project report</description>
         <endDateTime>2016-10-31T19:39:11.412</endDateTime>
