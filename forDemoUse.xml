@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<taskForceData>
+    <tasks>
+        <name>CS2103 v0.3</name>
+        <description></description>
+        <endDateTime>2016-10-21T19:24:10.476</endDateTime>
+        <doneStatus>false</doneStatus>
+    </tasks>
+    <tasks>
+        <name>CS2103 v0.4</name>
+        <description></description>
+        <endDateTime>2016-10-28T19:24:55.718</endDateTime>
+        <doneStatus>false</doneStatus>
+    </tasks>
+    <tasks>
+        <name>CS2103 v0.5</name>
+        <description></description>
+        <endDateTime>2016-11-04T19:25:20.870</endDateTime>
+        <doneStatus>false</doneStatus>
+    </tasks>
+    <tasks>
+        <name>CS2105 assignment 2</name>
+        <description></description>
+        <endDateTime>2016-10-14T13:00</endDateTime>
+        <doneStatus>false</doneStatus>
+    </tasks>
+    <tasks>
+        <name>LAJ2203 HM L28 K U28-29(1)</name>
+        <description></description>
+        <endDateTime>2016-10-25T19:27:39.125</endDateTime>
+        <doneStatus>false</doneStatus>
+    </tasks>
+    <tasks>
+        <name>read CS2103 notes</name>
+        <description>to learna bout technical stuff</description>
+        <doneStatus>false</doneStatus>
+        <tagged>important</tagged>
+    </tasks>
+    <tasks>
+        <name>CS2102 project</name>
+        <description>diccuss with teammate</description>
+        <doneStatus>false</doneStatus>
+        <tagged>important</tagged>
+        <tagged>schoolwork</tagged>
+        <tagged>project</tagged>
+    </tasks>
+    <tasks>
+        <name>the flash S03E04</name>
+        <description>must download and watch</description>
+        <startDateTime>2016-10-19T18:00</startDateTime>
+        <endDateTime>2016-10-19T19:00</endDateTime>
+        <doneStatus>false</doneStatus>
+        <tagged>tvSeries</tagged>
+    </tasks>
+    <tasks>
+        <name>the flash S03E05</name>
+        <description>must download and watch</description>
+        <startDateTime>2016-10-26T19:33:06.798</startDateTime>
+        <endDateTime>2016-10-26T19:33:06.800</endDateTime>
+        <doneStatus>false</doneStatus>
+        <tagged>tvSeries</tagged>
+    </tasks>
+    <tasks>
+        <name>CS2103 v0.2</name>
+        <description></description>
+        <endDateTime>2016-10-14T10:00</endDateTime>
+        <doneStatus>false</doneStatus>
+    </tasks>
+    <tasks>
+        <name>CS2103 v0.1</name>
+        <description></description>
+        <endDateTime>2016-10-07T10:00</endDateTime>
+        <doneStatus>false</doneStatus>
+    </tasks>
+    <tasks>
+        <name>LAJ2203 oral exam</name>
+        <description>must practice with partner</description>
+        <startDateTime>2016-11-02T19:35:10.764</startDateTime>
+        <endDateTime>2016-11-02T19:35:10.766</endDateTime>
+        <doneStatus>false</doneStatus>
+        <tagged>important</tagged>
+    </tasks>
+    <tasks>
+        <name>LAJ2203 final exam</name>
+        <description>EXAM!!!</description>
+        <startDateTime>2016-11-09T19:36:13.293</startDateTime>
+        <endDateTime>2016-11-09T19:36:13.294</endDateTime>
+        <doneStatus>false</doneStatus>
+        <tagged>VERYIMPORTANT</tagged>
+    </tasks>
+    <tasks>
+        <name>own friend money</name>
+        <description>he brought me coffee</description>
+        <doneStatus>false</doneStatus>
+        <tagged>money</tagged>
+        <tagged>friend</tagged>
+    </tasks>
+    <tasks>
+        <name>CS2102 report</name>
+        <description>database project report</description>
+        <endDateTime>2016-10-31T19:39:11.412</endDateTime>
+        <doneStatus>false</doneStatus>
+        <tagged>important</tagged>
+        <tagged>project</tagged>
+    </tasks>
+    <tags>
+        <tagName>important</tagName>
+    </tags>
+    <tags>
+        <tagName>schoolwork</tagName>
+    </tags>
+    <tags>
+        <tagName>project</tagName>
+    </tags>
+    <tags>
+        <tagName>tvSeries</tagName>
+    </tags>
+    <tags>
+        <tagName>VERYIMPORTANT</tagName>
+    </tags>
+    <tags>
+        <tagName>money</tagName>
+    </tags>
+    <tags>
+        <tagName>friend</tagName>
+    </tags>
+</taskForceData>
