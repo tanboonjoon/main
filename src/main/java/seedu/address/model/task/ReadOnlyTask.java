@@ -11,6 +11,8 @@ public interface ReadOnlyTask {
     public String getName()  ;
     
     public String getDescription() ;
+    
+    public boolean getDoneStatus();
 
     /**
      * The returned TagList is a deep copy of the internal TagList,
@@ -31,7 +33,8 @@ public interface ReadOnlyTask {
                 || (other != null // this is first to avoid NPE below
                 && other.getName().equals(this.getName()) // state checks here onwards
                 && other.getDescription().equals(this.getDescription()))
-                && other.getTaskId() == this.getTaskId() ;
+                && other.getTaskId() == this.getTaskId()
+                && other.getDoneStatus() == this.getDoneStatus()  ;
     }
 
     /**

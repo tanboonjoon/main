@@ -18,7 +18,7 @@
       </AnchorPane>
       <AnchorPane prefHeight="93.0" prefWidth="1099.0">
          <children>
-                     <Label fx:id="name" layoutY="7.0" styleClass="cell_big_label" text="\$first" AnchorPane.leftAnchor="2.0" AnchorPane.topAnchor="7.0" />
+                     <Label fx:id="name" layoutX="2.0" layoutY="7.0" styleClass="cell_big_label" text="\$first" AnchorPane.leftAnchor="2.0" AnchorPane.topAnchor="7.0" />
             <AnchorPane layoutX="2.0" layoutY="27.0" prefHeight="64.0" prefWidth="549.0">
                <children>
                         <Label fx:id="description" layoutX="12.0" layoutY="1.0" prefHeight="21.0" prefWidth="537.0" styleClass="cell_small_label" text="\$description" AnchorPane.leftAnchor="12.0" AnchorPane.topAnchor="1.0" />
@@ -31,6 +31,11 @@
                   <Label fx:id="startline" layoutX="22.0" layoutY="27.0" styleClass="cell_small_label" text="\$startline" AnchorPane.leftAnchor="22.0" AnchorPane.topAnchor="27.0" />
                </children></AnchorPane>
                     <Label fx:id="tags" layoutX="502.0" layoutY="2.0" style="-fx-border-color: FFFF;" styleClass="cell_small_label" text="\$tags" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="2.0" />
+            <ImageView fx:id="isDone" fitHeight="28.0" fitWidth="25.0" layoutX="600.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="600.0" AnchorPane.topAnchor="40.0">
+               <image>
+                  <Image url="@../images/mark.png" />
+               </image>
+            </ImageView>
          </children>
       </AnchorPane>
     </children>

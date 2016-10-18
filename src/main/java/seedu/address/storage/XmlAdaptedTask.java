@@ -26,6 +26,8 @@ public class XmlAdaptedTask {
     private String startDateTime;
     @XmlElement
     private String endDateTime;
+    @XmlElement
+    private boolean doneStatus;
 
     @XmlElement
     private List<XmlAdaptedTag> tagged = new ArrayList<>();
@@ -45,6 +47,7 @@ public class XmlAdaptedTask {
         name = source.getName();
         description = source.getDescription() ;
         taskId = source.getTaskId() ;
+        doneStatus = source.getDoneStatus();
         tagged = new ArrayList<>();
         
         for (Tag tag : source.getTags()) {
@@ -67,6 +70,7 @@ public class XmlAdaptedTask {
      * @throws IllegalValueException if there were any data constraints violated in the adapted task
      */
     public Task toModelType() throws IllegalValueException {
+        
         Task task ;
         LocalDateTime start = null ;
         LocalDateTime end = null ;
@@ -78,8 +82,9 @@ public class XmlAdaptedTask {
         
         final String name = this.name ;
         final String description = this.description ;
-        final int id = this.taskId ;
+        final boolean doneStatus = this.doneStatus;
         final UniqueTagList tags = new UniqueTagList(taskTags);
+        final int id = this.taskId ;
         
         if (this.startDateTime != null) {
             start = LocalDateTime.parse(this.startDateTime) ;
@@ -90,13 +95,13 @@ public class XmlAdaptedTask {
         }
         
         if (start != null && end != null) {
-            task = new Event (id, name, description, start, end, tags) ; 
+            task = new Event (id, name, description, start, end, tags, doneStatus) ; 
         
         } else if (start == null && end != null) {
-            task = new Deadline (id, name, description, end, tags) ;
+            task = new Deadline (id, name, description, end, tags, doneStatus) ;
         
         } else {
-            task = new Task(id, name, description, tags);
+            task = new Task(id, name, description, tags, doneStatus);
         }
         
         return task ;

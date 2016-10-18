@@ -14,18 +14,23 @@ public class Task implements ReadOnlyTask {
     private final String name;
     private final String description ;
     private final int taskId ;
-
+    private boolean doneStatus;
     private UniqueTagList tags;
 
     /**
      * Every field must be present and not null. 
-     */
-    public Task(int taskId, String name, String description, UniqueTagList tags) {
+     */      
+    public Task(int taskId, String name, String description, UniqueTagList tags, boolean doneStatus) {
         assert !CollectionUtil.isAnyNull(name, tags);
         this.name = name;
         this.description = description ;
         this.taskId = taskId ;
         this.tags = new UniqueTagList(tags); // protect internal tags from changes in the arg list
+        this.doneStatus = doneStatus;
+    }
+    
+    public Task(int taskId, String name, String description, UniqueTagList tags) {
+        this (taskId, name, description, tags, false);
     }
     
     public Task(int taskId, String name, UniqueTagList tags) {
@@ -36,7 +41,7 @@ public class Task implements ReadOnlyTask {
      * Copy constructor.
      */
     public Task(ReadOnlyTask source) {
-        this(source.getTaskId(), source.getName(), source.getDescription(), source.getTags());
+        this(source.getTaskId(), source.getName(), source.getDescription(), source.getTags(), source.getDoneStatus());
     }
 
     @Override
@@ -53,6 +58,11 @@ public class Task implements ReadOnlyTask {
     public UniqueTagList getTags() {
         return new UniqueTagList(tags);
     }
+    
+	@Override
+	public boolean getDoneStatus() {
+		return doneStatus;
+	}
 
     /**
      * Replaces this task's tags with the tags in the argument tag list.
@@ -83,5 +93,4 @@ public class Task implements ReadOnlyTask {
     public int getTaskId() {
         return taskId ;
     }
-
 }

@@ -45,6 +45,7 @@ public class EditCommand extends Command {
     private final int targetIndex;
     private final String name;
     private final String description;
+    private boolean doneStatus;
     private final Set<Tag> tagSet;
     private final Map<String, LocalDateTime> dateMap ;
     
@@ -91,6 +92,7 @@ public class EditCommand extends Command {
         }
         
         ReadOnlyTask taskToEdit = lastShownList.get(targetIndex - 1);  
+        doneStatus = taskToEdit.getDoneStatus();
        
         if(isValidString(name)) {
             newName = name;
@@ -118,7 +120,7 @@ public class EditCommand extends Command {
         try {
 
             model.updateTask(taskToEdit, newTask);
-            EventsCenter.getInstance().post(new JumpToListRequestEvent(lastShownList.size() - 1));
+            
             return new CommandResult(String.format(MESSAGE_EDIT_SUCCESS, newTask));
 
         } catch (TaskNotFoundException pnfe) {
@@ -138,16 +140,17 @@ public class EditCommand extends Command {
         int id = model.getNextTaskId() ;
         
         if (startTime != null && endTime != null) {
-            return new Event (id, name, description, startTime, endTime, tag) ;
+            return new Event (id, name, description, startTime, endTime, tag, doneStatus) ;
         
         } 
         
         if (endTime != null && startTime == null) {
-            return new Deadline (id, name, description, endTime, tag) ;
+            return new Deadline (id, name, description, endTime, tag, doneStatus) ;
         
         } 
         
-        return new Task (id, name, description, tag) ;
+        return new Task (id, name, description, tag, doneStatus) ;
+
     }
     
     private void determineDateTimeOfNewTask (ReadOnlyTask taskToEdit) {
