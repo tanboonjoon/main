@@ -28,6 +28,8 @@ public class XmlAdaptedTask {
     private String endDateTime;
     @XmlElement
     private boolean doneStatus;
+    @XmlElement
+    private boolean isBlock ;
 
     @XmlElement
     private List<XmlAdaptedTag> tagged = new ArrayList<>();
@@ -62,6 +64,10 @@ public class XmlAdaptedTask {
             startDateTime = ((Event) source).getStartDate().toString() ;
             endDateTime = ((Event) source).getEndDate().toString() ;
         }
+        
+        if (source instanceof Block) {
+            isBlock = true ;
+        }
     }
 
     /**
@@ -83,6 +89,7 @@ public class XmlAdaptedTask {
         final String name = this.name ;
         final String description = this.description ;
         final boolean doneStatus = this.doneStatus;
+        final boolean isBlock = this.isBlock ;
         final UniqueTagList tags = new UniqueTagList(taskTags);
         final int id = this.taskId ;
         
@@ -94,7 +101,10 @@ public class XmlAdaptedTask {
             end = LocalDateTime.parse(this.endDateTime) ;
         }
         
-        if (start != null && end != null) {
+        if (isBlock) {
+            task = new Block(id, name, start, end) ;
+        
+        } else if (start != null && end != null) {
             task = new Event (id, name, description, start, end, tags, doneStatus) ; 
         
         } else if (start == null && end != null) {
