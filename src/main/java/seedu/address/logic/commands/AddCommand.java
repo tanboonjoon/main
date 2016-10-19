@@ -222,16 +222,18 @@ public class AddCommand extends Command {
 
 
     private void setRepeat(String repeat) throws IllegalValueException {
-        if(StringUtil.isParsable(repeat) && StringUtil.isUnsignedInteger(repeat)){
-            int temp = Integer.parseInt(repeat);
-            if(temp <= MAX_NUMBER_OF_RECURRENCE && temp >= MIN_NUMBER_OF_RECURRENCE){
-                this.repeat = Integer.parseInt(repeat);
-            }else{
+        if(repeat != null){
+            if(StringUtil.isParsable(repeat) && StringUtil.isUnsignedInteger(repeat)){
+                int temp = Integer.parseInt(repeat);
+                if(temp <= MAX_NUMBER_OF_RECURRENCE && temp >= MIN_NUMBER_OF_RECURRENCE){
+                    this.repeat = Integer.parseInt(repeat);
+                }else{
+                    throw new IllegalValueException(REPEAT_ARGUMENT_MESSAGE);
+                }
+            }
+            else{
                 throw new IllegalValueException(REPEAT_ARGUMENT_MESSAGE);
             }
-        }
-        else{
-            throw new IllegalValueException(REPEAT_ARGUMENT_MESSAGE);
         }
     }
 
