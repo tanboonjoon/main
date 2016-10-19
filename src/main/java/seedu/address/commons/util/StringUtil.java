@@ -33,4 +33,20 @@ public class StringUtil {
     public static boolean isUnsignedInteger(String s){
         return s != null && s.matches("^0*[1-9]\\d*$");
     }
+    
+    /**
+     * Return true if input string is parsable to int value. 
+     * 
+     * @param input
+     * @return
+     */
+    public static boolean isParsable(String input){
+        boolean parsable = true;
+        try{
+            Integer.parseInt(input);
+        }catch(NumberFormatException e){
+            parsable = false;
+        }
+        return parsable;
+    }
 }

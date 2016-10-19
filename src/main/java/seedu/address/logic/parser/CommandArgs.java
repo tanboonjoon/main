@@ -6,7 +6,11 @@ public enum CommandArgs {
     TAGS("t/"),
     START_DATETIME ("st/"),
     END_DATETIME ("et/"),
-
+    
+    
+    RECURRING("recurring/"),
+    REPETITION("repeat/"),
+    
     //Arguments for find command to parse
     FIND_DAY ("day/"),
     FIND_WEEK ("week/"),

@@ -36,7 +36,14 @@ public class AddCommandParser extends CommandParser {
 		.addOptionalArg(CommandArgs.DESC)
 		.addOptionalArg(CommandArgs.TAGS) 
 		.addOptionalArg(CommandArgs.START_DATETIME)
-		.addOptionalArg(CommandArgs.END_DATETIME);
+		.addOptionalArg(CommandArgs.END_DATETIME)
+		.addOptionalArg(CommandArgs.RECURRING)
+		.addOptionalArg(CommandArgs.REPETITION)
+		
+		
+		
+		;
+		
 
 		try {
 			parser.parse(args);
@@ -50,8 +57,10 @@ public class AddCommandParser extends CommandParser {
 					parser.getArgValue(CommandArgs.DESC).isPresent() ? parser.getArgValue(CommandArgs.DESC).get() : "",
 					parser.getArgValue(CommandArgs.START_DATETIME).isPresent() ? parser.getArgValue(CommandArgs.START_DATETIME).get() : null,
 					parser.getArgValue(CommandArgs.END_DATETIME).isPresent() ? parser.getArgValue(CommandArgs.END_DATETIME).get() : null,
-					parser.getArgValues(CommandArgs.TAGS).isPresent() ? Sets.newHashSet(parser.getArgValues(CommandArgs.TAGS).get()) : Collections.emptySet()
-					) ;
+					parser.getArgValues(CommandArgs.TAGS).isPresent() ? Sets.newHashSet(parser.getArgValues(CommandArgs.TAGS).get()) : Collections.emptySet(),
+					parser.getArgValue(CommandArgs.RECURRING).isPresent() ? parser.getArgValue(CommandArgs.RECURRING).get().toLowerCase():null,
+					parser.getArgValue(CommandArgs.REPETITION).isPresent()?parser.getArgValue(CommandArgs.REPETITION).get():null
+			        ) ;
 		} catch (IllegalValueException e) {
 			return new IncorrectCommand(e.getMessage());
 		} catch (DateTimeParseException e) {

@@ -11,6 +11,7 @@ import seedu.address.commons.core.UnmodifiableObservableList;
 import seedu.address.commons.events.ui.JumpToListRequestEvent;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.commons.util.DateUtil;
+import seedu.address.commons.util.StringUtil;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.tag.UniqueTagList;
 import seedu.address.model.task.Deadline;
@@ -26,15 +27,17 @@ public class AddCommand extends Command {
 
     public static final String[] COMMAND_WORD = {
             "add",
-            "schedule"
+            "schedule",
+            "remind"
     };
     
     public static final String DEFAULT_COMMAND_WORD = COMMAND_WORD[0] ;
 
-    public static final String MESSAGE_USAGE = DEFAULT_COMMAND_WORD + ": Adds a person to the address book. \n"
-    		+ "Format : Task : [TASKNAME] [d/DESCIPRTION] [t/TAG] ...\n" 
-            + "Deadline : [TASKNAME] [d/DESCIPRTION] [et/END_DATE] [t/TAG] ...\n" 
-    		+ "Event : [d/DESCRIPTION] [st/START_DATE] [et/END_DATE] [t/TAG] ...\n" 
+    public static final String MESSAGE_USAGE = DEFAULT_COMMAND_WORD + ": Adds a person to the Task Force. \n"
+    		+ "Format : Task : TASKNAME [d/DESCIPRTION] [t/TAG...]\n" 
+                + "Deadline : TASKNAME [d/DESCIPRTION] et/END_DATE [t/TAG...]\n" 
+    		+ "Event : EVENTNAME [d/DESCRIPTION] st/START_DATE et/END_DATE [t/TAG...]\n" 
+                + "Recurring Event : EVENTNAME [d/DESCRIPTION] st/START_DATE et/END_DATE recurring/weekly repeat/12 [t/TAG...]\n"
             + "Example: " + DEFAULT_COMMAND_WORD
             + " Homework d/CS2103 hw t/veryImportant t/urgent";
 
@@ -42,21 +45,40 @@ public class AddCommand extends Command {
     public static final String MESSAGE_DUPLICATE_TASK = "This task already exists in the address book";
     public static final String INVALID_TASK_TYPE_MESSAGE = "Please make sure you follow the correct add format";
     public static final String INVALID_END_DATE_MESSAGE = "Please make sure your end date is later than start date";
+    public static final String MISSING_NUMBER_OF_RECURRENCE_MESSAGE = "Please indicate the number of recurring by using 'repeat/NUMBER (more than zero)'";
     
     private String name ;
     private String description ;
     private LocalDateTime startDate ;
     private LocalDateTime endDate ;
     private UniqueTagList tagList ;
+    private String recurringFrequency;
+    private int repeat;
+    private int id;
+    
+    private ArrayList<Task> taskList = new ArrayList<Task>();
 
     /**
      * Convenience constructor using raw values.
      *
      * @throws IllegalValueException if any of the raw values are invalid
      */
-    public AddCommand(String name, String description,String startDate,String endDate, Set<String> tags) throws IllegalValueException {
-        
+
+    public AddCommand(String name, String description,String startDate,String endDate, Set<String> tags, String recurring, String repeat) throws IllegalValueException {
         final Set<Tag> tagSet = Sets.newHashSet() ;
+        
+        if(recurring != null && repeat == null){
+            throw new IllegalValueException(MISSING_NUMBER_OF_RECURRENCE_MESSAGE);
+        }else if(recurring == null && repeat != null){
+            throw new IllegalValueException(MESSAGE_USAGE);
+        }
+        
+        this.recurringFrequency = recurring;
+
+        if(StringUtil.isParsable(repeat)){
+            this.repeat = Integer.parseInt(repeat);   
+        }
+
 
         for (String tagName : tags) {
             tagSet.add(new Tag(tagName));
@@ -71,14 +93,14 @@ public class AddCommand extends Command {
         	LocalDateTime deadline_endDate = DateUtil.parseStringIntoDateTime(endDate).isPresent() ?
         	        DateUtil.parseStringIntoDateTime(endDate).get() : DateUtil.END_OF_TODAY ;
         	
-	        setNewTaskWithDetails(name, description, deadline_endDate, new UniqueTagList(tagSet));
-        	
+	        setNewTaskWithDetails(name, description, deadline_endDate, new UniqueTagList(tagSet));     	
+
         } else if (startDate !=null) {
         	
-        	LocalDateTime event_startDate = DateUtil.parseStringIntoDateTime(startDate).isPresent() ?
+            LocalDateTime event_startDate = DateUtil.parseStringIntoDateTime(startDate).isPresent() ?
         	        DateUtil.parseStringIntoDateTime(startDate).get() : LocalDateTime.now() ;
         	        
-	        LocalDateTime event_endDate = DateUtil.parseStringIntoDateTime(endDate).isPresent() ?
+	    LocalDateTime event_endDate = DateUtil.parseStringIntoDateTime(endDate).isPresent() ?
 	                DateUtil.parseStringIntoDateTime(endDate).get() : DateUtil.END_OF_TODAY ;
         	
         	if (event_endDate.isBefore(event_startDate)) {
@@ -92,17 +114,29 @@ public class AddCommand extends Command {
         }
     }
 
+  
     @Override
     public CommandResult execute() {
         assert model != null;
+        this.id = model.getNextTaskId();
         
-        Task toAdd = getNewTask() ;
+        if(recurringFrequency != null && repeat == 0) {
+            return new CommandResult(MISSING_NUMBER_OF_RECURRENCE_MESSAGE);
+        }else if(recurringFrequency != null && repeat > 0){
+                try {
+                    this.createRecurringEvent(recurringFrequency, repeat);
+                } catch (IllegalValueException e) {
+                    return new CommandResult(e.getMessage());
+                }
+        }else{
+            this.taskList.add(getNewTask());
+        }
         
         try {
-            model.addTask(toAdd);
-            ArrayList<Task> taskList = new ArrayList<Task>();
-            taskList.add(toAdd);
-            return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
+            for(Task e: taskList){
+                model.addTask(e);
+            }
+            return new CommandResult(String.format(MESSAGE_SUCCESS, taskList.get(0)));
         } catch (UniqueTaskList.DuplicateTaskException e) {
             return new CommandResult(MESSAGE_DUPLICATE_TASK);
         }
@@ -125,10 +159,7 @@ public class AddCommand extends Command {
     }
     
     private Task getNewTask () {
-        
-        assert model != null ;
-        
-        int id = model.getNextTaskId() ;
+
         
         if (startDate == null && endDate != null) {
             return new Deadline (id, name, description, endDate, tagList) ;
@@ -139,6 +170,36 @@ public class AddCommand extends Command {
         }
         
         return new Task (id, name, description, tagList) ;
+    }
+    
+    private void createRecurringEvent(String recurring, int repeat) throws IllegalValueException {
+        if(repeat > 0){
+            this.taskList.add(getNewTask());
+            this.startDate = this.parseFrequency(startDate, recurring);
+            this.endDate = this.parseFrequency(endDate, recurring);
+            this.createRecurringEvent(recurring,repeat-1);
+        }
+            
+    }
+    
+    private LocalDateTime parseFrequency(LocalDateTime date, String recurring) throws IllegalValueException {
+        if(date != null) {
+            switch(recurring){
+            case "daily":
+                return date.plusDays(1);
+            case "weekly":
+                return date.plusWeeks(1);
+            case "monthly":
+                return date.plusMonths(1);
+            case "yearly":
+                return date.plusYears(1);
+            default:
+                throw new IllegalValueException("Wrong usage of recurring argument. There are 4 options: daily, weekly, monthly and yearly.");
+            }
+        }else{
+            return date;
+        }
+        
     }
 
 }
