@@ -97,11 +97,9 @@ public class AddCommand extends Command {
         assert model != null;
         
         Task toAdd = getNewTask() ;
-        
+        model.recordTaskForce();
         try {
             model.addTask(toAdd);
-            ArrayList<Task> taskList = new ArrayList<Task>();
-            taskList.add(toAdd);
             return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
         } catch (UniqueTaskList.DuplicateTaskException e) {
             return new CommandResult(MESSAGE_DUPLICATE_TASK);

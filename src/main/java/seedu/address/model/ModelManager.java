@@ -2,6 +2,7 @@ package seedu.address.model;
 
 import java.util.Deque;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
@@ -86,20 +87,19 @@ public class ModelManager extends ComponentManager implements Model {
 
     @Override
     public synchronized void deleteTask(ReadOnlyTask target) throws TaskNotFoundException {
-
-        recordTaskForce(taskForce);
         taskForce.removeTask(target);
         indicateTaskForceChanged();
     }
-
+    
     @Override
     public synchronized void addTask(Task task) throws UniqueTaskList.DuplicateTaskException {
-        recordTaskForce(taskForce);
+        recordTaskForce();
         taskForce.addTask(task);
         updateFilteredListToShowAll();
         indicateTaskForceChanged();
     }
     
+  
     @Override
     public synchronized boolean revertTaskForce() {
 
@@ -117,7 +117,7 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     @Override
-    public void recordTaskForce(ReadOnlyTaskForce taskForce) {
+    public void recordTaskForce() {
         undoTaskForceHistory.addFirst(new TaskForce(taskForce));
         if (undoTaskForceHistory.size() > MAX_UNDOS_REDOS) {
             undoTaskForceHistory.removeLast();
@@ -144,7 +144,7 @@ public class ModelManager extends ComponentManager implements Model {
     @Override
     public void updateTask(ReadOnlyTask from, Task to)
             throws UniqueTaskList.TaskNotFoundException, UniqueTaskList.DuplicateTaskException {
-        recordTaskForce(taskForce);
+        recordTaskForce();
         this.taskForce.removeTask(from);
         this.taskForce.addTask(to);
         indicateTaskForceChanged();
@@ -172,5 +172,8 @@ public class ModelManager extends ComponentManager implements Model {
     public void updateFilteredTaskList(Expression expression) {
         filteredTasks.setPredicate(expression::satisfies);
     }
+    
+  
+
 }
 

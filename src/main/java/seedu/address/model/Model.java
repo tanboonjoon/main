@@ -7,7 +7,7 @@ import seedu.address.model.task.Task;
 import seedu.address.model.task.ReadOnlyTask;
 import seedu.address.model.task.UniqueTaskList;
 
-
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -24,11 +24,11 @@ public interface Model {
 
     /** Deletes the given task. */
     void deleteTask(ReadOnlyTask target) throws UniqueTaskList.TaskNotFoundException;
-
+    
     /** Adds the given task */
     void addTask(Task task) throws UniqueTaskList.DuplicateTaskException;
 
-    /** Update the given task */
+     /** Update the given task */
     void updateTask(ReadOnlyTask from, Task to) throws UniqueTaskList.TaskNotFoundException ,UniqueTaskList.DuplicateTaskException;
     
     /** Returns the filtered task list as an {@code UnmodifiableObservableList<ReadOnlyTask>} */
@@ -50,7 +50,7 @@ public interface Model {
     boolean restoreTaskForce();
     
     /* a method to store a new task into the task history */
-    public void recordTaskForce(ReadOnlyTaskForce taskForce);
+    public void recordTaskForce();
     
     /** Gets the next available Task ID */
     public int getNextTaskId() ;
