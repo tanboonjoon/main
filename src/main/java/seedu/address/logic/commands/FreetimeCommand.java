@@ -14,16 +14,18 @@ public class FreetimeCommand extends Command{
 			+ "Example: " + COMMAND_WORD + " day/1\n"
 	        + COMMAND_WORD + " day/-2";
 	
+	public static final String INVALID_FREETIME_ARGS = "Please enter a valid number eg. freetime day/5";
 	public final String searchedDay;
 	
 	public FreetimeCommand(String searchedDay) {
+		System.out.println("hey u reach this command");
 		this.searchedDay = searchedDay;
 	}
 
 	@Override
 	public CommandResult execute() {
 		// TODO Auto-generated method stub
-		return null;
+		return new CommandResult("you are free!");
 	}
 
 }
