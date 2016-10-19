@@ -69,7 +69,6 @@ public class FreetimeCommandParser extends CommandParser {
 	}
 
 	public boolean checkValidInt(String parsedArg) {
-		System.out.println(parsedArg);
 		try {
 			int getInteger = Integer.parseInt(parsedArg);
 		} catch(NumberFormatException e) {
