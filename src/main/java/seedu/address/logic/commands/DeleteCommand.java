@@ -58,6 +58,7 @@ public class DeleteCommand extends Command {
             return new CommandResult(Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
         }
         
+        model.recordTaskForce();
         
         for (ReadOnlyTask task : tasksToDelete) {
     
@@ -70,7 +71,7 @@ public class DeleteCommand extends Command {
             }
         }
         
-        
+     
         return new CommandResult(messageBuilder.getDeleteCommandResultString());
     }
     

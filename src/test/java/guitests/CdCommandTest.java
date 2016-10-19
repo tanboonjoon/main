@@ -1,8 +1,13 @@
 package guitests;
 
+import java.io.File;
+import java.io.IOException;
+
 import org.junit.After;
 import org.junit.Test;
 
+import seedu.address.commons.core.Config;
+import seedu.address.commons.util.ConfigUtil;
 import seedu.address.logic.commands.CdCommand;
 
 
@@ -37,20 +42,39 @@ public class CdCommandTest extends TaskForceGuiTest {
         assertResultMessage(INVALID_FILE_PATH_MESSAGE);
         commandBox.runCommand("cd asd.xml");
         assertResultMessage(INVALID_FILE_PATH_MESSAGE);
+        
+        
 	}
 	
 	@Test 
-	public void valid_filePath() {
+	public void valid_filePath() throws IOException {
 		StringBuilder sb = new StringBuilder();
 		String newPath = System.getProperty("user.dir");
-		sb.append(newPath).append("\\hey.xml");
+		sb.append(newPath).append("\\src\\test\\java\\guitests\\forTesting.xml");
+		System.out.println(sb.toString());
         commandBox.runCommand(("cd " + sb.toString()));
         assertResultMessage( (CdCommand.MESSAGE_SUCCESS + sb.toString()) );
+        
+        File file = new File("forTesting.xml");
+
+        file.delete() ;
+        
+        File forDemoUse = new File("forDemoUse.xml");
+        String forDemoUsePath = forDemoUse.getAbsolutePath();
+        setUpOriginalPath(forDemoUsePath);
+ 
 	}
 	
 	@After
 	public void clear() {
 		commandBox.runCommand("clear");
+	}
+	
+	public void setUpOriginalPath(String path) throws IOException {
+		Config config = new Config();
+		config.setTaskForceFilePath(path);
+		ConfigUtil.saveConfig(config, "config.json");
+		
 	}
 	
 	

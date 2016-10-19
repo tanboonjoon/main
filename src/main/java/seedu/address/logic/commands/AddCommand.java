@@ -43,13 +43,14 @@ public class AddCommand extends Command {
     		+ "Recurring Deadline : TASKNAME [d/DESCRIPTION] et/END_DATE [t/TAG...] recurring/FREQUENCY (daily, weekly..., alternate day, alternate week) repeat/REPETITION (between 1 - 20)\n"
     		+ "Event : EVENTNAME [d/DESCRIPTION] st/START_DATE et/END_DATE [t/TAG...]\n" 
                 + "Recurring Event : EVENTNAME [d/DESCRIPTION] st/START_DATE et/END_DATE recurring/FREQUENCY (daily, weekly..., alternate day, alternate week...) repeat/REPETITION (between 1 - 20) [t/TAG...]\n"
+
             + "Example: " + DEFAULT_COMMAND_WORD
             + " Homework d/CS2103 hw t/veryImportant t/urgent"
             + " Finish report d/physic lab report et/130116 2200 t/important"
             + " Weekly meeting d/progress update st/thursday 3pm et/thursday 4pm recurring/weekly repeat/20";
 
     public static final String MESSAGE_SUCCESS = "New task added: %1$s";
-    public static final String MESSAGE_DUPLICATE_TASK = "This task already exists in the address book";
+    public static final String MESSAGE_DUPLICATE_TASK = "This task already exists in the ToDo list!";
     public static final String INVALID_TASK_TYPE_MESSAGE = "Please make sure you follow the correct add format";
     public static final String INVALID_END_DATE_MESSAGE = "Please make sure your end date is later than start date";
     public static final String MISSING_NUMBER_OF_RECURRENCE_MESSAGE = "Please indicate the number of recurring by using 'repeat/NUMBER (between 1 - 20)'";
@@ -130,9 +131,13 @@ public class AddCommand extends Command {
             this.taskList.add(getNewTask());
         }
         
+        model.recordTaskForce();
+
         try {
-            model.addTasks(taskList);
-            return new CommandResult(String.format(MESSAGE_SUCCESS, taskList.get(0)));
+            for(Task task: taskList) {
+                model.addTask(task);
+            }            return new CommandResult(String.format(MESSAGE_SUCCESS, taskList.get(0)));
+
         } catch (UniqueTaskList.DuplicateTaskException e) {
             return new CommandResult(MESSAGE_DUPLICATE_TASK);
         }

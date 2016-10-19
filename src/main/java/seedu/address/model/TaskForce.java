@@ -16,6 +16,7 @@ import com.google.common.collect.Lists;
 import javafx.collections.ObservableList;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.tag.UniqueTagList;
+import seedu.address.model.task.Block;
 import seedu.address.model.task.Deadline;
 import seedu.address.model.task.Event;
 import seedu.address.model.task.ReadOnlyTask;
@@ -85,7 +86,13 @@ public class TaskForce implements ReadOnlyTaskForce {
             
             UniqueTagList tags = thisTask.getTags() ;
             
-            if (thisTask instanceof Deadline) {
+            if (thisTask instanceof Block) {
+                LocalDateTime start = ((Block) thisTask).getStartDate() ;
+                LocalDateTime end = ((Block) thisTask).getEndDate() ;
+                
+                tasks.add(new Block (id, name, start, end)) ;
+                        
+            } else if (thisTask instanceof Deadline) {
                 LocalDateTime end = ((Deadline) thisTask).getEndDate() ;
                 
                 tasks.add(new Deadline (id, name, description, end, tags, doneStatus)) ;

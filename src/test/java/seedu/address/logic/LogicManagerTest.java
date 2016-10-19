@@ -114,8 +114,8 @@ public class LogicManagerTest {
         assertEquals(expectedMessage, result.feedbackToUser);
         assertEquals(expectedShownList, model.getFilteredTaskList());
 //        //Confirm the state of data (saved and in-memory) is as expected
-//        assertEquals(expectedTodoList, model.getTaskForce());
-//        assertEquals(expectedTodoList, latestSavedAddressBook);
+        assertEquals(expectedTodoList, model.getTaskForce());
+        assertEquals(expectedTodoList, latestSavedAddressBook);
     }
 
 
@@ -432,6 +432,26 @@ public class LogicManagerTest {
                 expectedList);
     }
     */
+    
+    @Test
+    public void execute_invalid_block_command() throws Exception {
+        TaskForce expectedAB = new TaskForce();
+        
+        assertCommandBehavior("block st/sadsd et/dasdad",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, BlockCommand.MESSAGE_USAGE),
+                expectedAB,
+                expectedAB.getTaskList() ) ;
+    }
+    
+    @Test
+    public void execute_invalidDates_block_command() throws Exception {
+        TaskForce expectedAB = new TaskForce();
+        
+        assertCommandBehavior("block name st/sadsd et/today 5pm",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, BlockCommand.MESSAGE_USAGE),
+                expectedAB,
+                expectedAB.getTaskList() ) ;
+    }
 
     /**
      * A utility class to generate test data.

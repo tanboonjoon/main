@@ -11,9 +11,11 @@ import com.google.common.collect.Maps;
 
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.logic.commands.AddCommand;
+import seedu.address.logic.commands.BlockCommand;
 import seedu.address.logic.commands.CdCommand;
 import seedu.address.logic.commands.ClearCommand;
 import seedu.address.logic.commands.Command;
+import seedu.address.logic.commands.ConfirmCommand;
 import seedu.address.logic.commands.DeleteCommand;
 import seedu.address.logic.commands.EditCommand;
 import seedu.address.logic.commands.ExitCommand;
@@ -64,6 +66,8 @@ public class Parser {
         registerCommand (UndoCommandParser.class, UndoCommand.COMMAND_WORD);
         registerCommand (RedoCommandParser.class, RedoCommand.COMMAND_WORD);
         registerCommand (CdCommandParser.class, CdCommand.COMMAND_WORD);
+        registerCommand (BlockCommandParser.class, BlockCommand.COMMAND_WORD);
+        registerCommand (ConfirmCommandParser.class, ConfirmCommand.COMMAND_WORD);
 
     }
     
