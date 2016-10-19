@@ -39,7 +39,7 @@ public class AddCommand extends Command {
             + " Homework d/CS2103 hw t/veryImportant t/urgent";
 
     public static final String MESSAGE_SUCCESS = "New task added: %1$s";
-    public static final String MESSAGE_DUPLICATE_TASK = "This task already exists in the address book";
+    public static final String MESSAGE_DUPLICATE_TASK = "This task already exists in the ToDo list!";
     public static final String INVALID_TASK_TYPE_MESSAGE = "Please make sure you follow the correct add format";
     public static final String INVALID_END_DATE_MESSAGE = "Please make sure your end date is later than start date";
     
