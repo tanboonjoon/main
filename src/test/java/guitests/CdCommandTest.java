@@ -50,17 +50,19 @@ public class CdCommandTest extends TaskForceGuiTest {
 	public void valid_filePath() throws IOException {
 		StringBuilder sb = new StringBuilder();
 		String newPath = System.getProperty("user.dir");
-		sb.append(newPath).append("\\forTesting.xml");
+		sb.append(newPath).append("\\src\\test\\java\\guitests\\forTesting.xml");
 		System.out.println(sb.toString());
         commandBox.runCommand(("cd " + sb.toString()));
         assertResultMessage( (CdCommand.MESSAGE_SUCCESS + sb.toString()) );
         
         File file = new File("forTesting.xml");
-        System.out.println(file.delete() + " " + file.exists());
+
+        file.delete() ;
         
         File forDemoUse = new File("forDemoUse.xml");
         String forDemoUsePath = forDemoUse.getAbsolutePath();
         setUpOriginalPath(forDemoUsePath);
+ 
 	}
 	
 	@After
