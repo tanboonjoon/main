@@ -32,11 +32,11 @@ public class ConfirmCommandParser extends CommandParser {
         try {
             parser.parse(args);
         } catch (IncorrectCommandException e) {
-            return new IncorrectCommand(e.getMessage());
+            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, ConfirmCommand.MESSAGE_USAGE));
         }
         
         if (!parser.getArgValue(CommandArgs.INDEX).isPresent()) {
-            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE));
+            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, ConfirmCommand.MESSAGE_USAGE));
         }
         
         int targetIndex = 0 ;
@@ -44,14 +44,14 @@ public class ConfirmCommandParser extends CommandParser {
         try {
             targetIndex= Integer.parseInt(parser.getArgValue(CommandArgs.INDEX).get()) ;
         } catch (NumberFormatException e) {
-            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE));
+            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, ConfirmCommand.MESSAGE_USAGE));
         }
         
         LocalDateTime startDate = convertArgStringIntoDate(parser.getArgValue(CommandArgs.START_DATETIME).get()) ;
         LocalDateTime endDate = convertArgStringIntoDate(parser.getArgValue(CommandArgs.END_DATETIME).get()) ;
         
         if (startDate == null || endDate == null) {
-            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE)); 
+            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, ConfirmCommand.MESSAGE_USAGE)); 
         }
 
         try {
