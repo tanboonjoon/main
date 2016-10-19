@@ -1,6 +1,7 @@
 package seedu.address.logic.commands;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -102,10 +103,13 @@ public class ConfirmCommand extends Command {
     private void findAndDeleteOtherBlocks (Block task) {
         List<ReadOnlyTask> list = findAllOtherBlocks (task) ;
         
+        System.out.println(list.size());
+
         for (ReadOnlyTask taskToDelete : list) {
             try {
                 model.deleteTask(taskToDelete) ;
             } catch (TaskNotFoundException e) {
+
                 continue ;
             }
         }
@@ -119,8 +123,8 @@ public class ConfirmCommand extends Command {
 
         Expression filterByID = new PredicateExpression(new TaskIdentifierNumberQualifier(taskId)) ;
         model.updateFilteredTaskList(filterByID);
-        
-        return model.getFilteredTaskList() ;
+
+        return new ArrayList<>(model.getFilteredTaskList()) ;
     }
 
 }
