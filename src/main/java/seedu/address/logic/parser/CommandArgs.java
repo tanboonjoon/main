@@ -2,6 +2,7 @@ package seedu.address.logic.parser;
 
 public enum CommandArgs {
     NAME(""),
+    INDEX(""),
     DESC("d/"),
     TAGS("t/"),
     START_DATETIME ("st/"),
