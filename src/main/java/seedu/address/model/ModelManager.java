@@ -167,8 +167,10 @@ public class ModelManager extends ComponentManager implements Model {
     public void updateFilteredTaskList(Set<String> keywords, String findType) {
         updateFilteredTaskList(new PredicateExpression(new NameQualifier(keywords, findType)));
     }
-
-    private void updateFilteredTaskList(Expression expression) {
+    
+    @Override
+    public void updateFilteredTaskList(Expression expression) {
         filteredTasks.setPredicate(expression::satisfies);
     }
 }
+

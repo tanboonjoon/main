@@ -2,6 +2,7 @@ package seedu.address.model;
 
 import seedu.address.commons.core.UnmodifiableObservableList;
 import seedu.address.commons.events.BaseEvent;
+import seedu.address.logic.filters.Expression;
 import seedu.address.model.task.Task;
 import seedu.address.model.task.ReadOnlyTask;
 import seedu.address.model.task.UniqueTaskList;
@@ -54,5 +55,7 @@ public interface Model {
     /** Gets the next available Task ID */
     public int getNextTaskId() ;
 	
+    /** Filters the task list with the given expression */
+    public void updateFilteredTaskList(Expression expression) ;
 
 }
