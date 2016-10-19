@@ -18,6 +18,7 @@ import seedu.address.logic.commands.DeleteCommand;
 import seedu.address.logic.commands.EditCommand;
 import seedu.address.logic.commands.ExitCommand;
 import seedu.address.logic.commands.FindCommand;
+import seedu.address.logic.commands.FreetimeCommand;
 import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.IncorrectCommand;
 import seedu.address.logic.commands.ListCommand;
@@ -64,7 +65,7 @@ public class Parser {
         registerCommand (UndoCommandParser.class, UndoCommand.COMMAND_WORD);
         registerCommand (RedoCommandParser.class, RedoCommand.COMMAND_WORD);
         registerCommand (CdCommandParser.class, CdCommand.COMMAND_WORD);
-
+        registerCommand (FreetimeCommandParser.class, FreetimeCommand.COMMAND_WORD);
     }
     
     /**
