@@ -54,8 +54,8 @@ public class AddCommand extends Command {
     public static final String INVALID_TASK_TYPE_MESSAGE = "Please make sure you follow the correct add format";
     public static final String INVALID_END_DATE_MESSAGE = "Please make sure your end date is later than start date";
     public static final String MISSING_NUMBER_OF_RECURRENCE_MESSAGE = "Please indicate the number of recurring by using 'repeat/NUMBER (between 1 - 20)'";
-    private static final String REPEAT_ARGUMENT_MESSAGE = "repeat argument must be positive integer between 1 and 20.";
-    private static final String WRONG_RECURRING_ARGUMENTS_MESSAGE = "Wrong usage of recurring argument. There are 8 options: daily, weekly, monthly, yearly, alternate day, alternate week, alternate month and alternate year.";
+    public static final String REPEAT_ARGUMENT_MESSAGE = "repeat argument must be positive integer between 1 and 20.";
+    public static final String WRONG_RECURRING_ARGUMENTS_MESSAGE = "Wrong usage of recurring argument. There are 8 options: daily, weekly, monthly, yearly, alternate day, alternate week, alternate month and alternate year.";
 
     private String name ;
     private String description ;
@@ -197,12 +197,12 @@ public class AddCommand extends Command {
                 return date.plusYears(RECURRENCE_INCREMENT_STEP);
             case "alternate day":
                 return date.plusDays(RECURRENCE_ALTERNATE_INCREMENT_STEP);
-	        case "fortnightly":
-		        return date.plusDays(RECURRENCE_ALTERNATE_INCREMENT_STEP);	    
+	    case "fortnightly":
+		return date.plusDays(RECURRENCE_ALTERNATE_INCREMENT_STEP);	    
             case "alternate week":
                 return date.plusWeeks(RECURRENCE_ALTERNATE_INCREMENT_STEP);
-		    case "biweekly":
-			    return date.plusWeeks(RECURRENCE_ALTERNATE_INCREMENT_STEP);
+            case "biweekly":
+                return date.plusWeeks(RECURRENCE_ALTERNATE_INCREMENT_STEP);
             case "alternate month":
                 return date.plusMonths(RECURRENCE_ALTERNATE_INCREMENT_STEP);
             case "bimonthly":
