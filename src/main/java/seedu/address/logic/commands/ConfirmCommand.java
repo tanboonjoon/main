@@ -2,6 +2,9 @@ package seedu.address.logic.commands;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
+
+import com.google.common.collect.Sets;
 
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.UnmodifiableObservableList;
@@ -9,6 +12,7 @@ import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.logic.filters.Expression;
 import seedu.address.logic.filters.PredicateExpression;
 import seedu.address.logic.filters.TaskIdentifierNumberQualifier;
+import seedu.address.model.tag.Tag;
 import seedu.address.model.tag.UniqueTagList;
 import seedu.address.model.task.Block;
 import seedu.address.model.task.Event;
@@ -43,17 +47,23 @@ public class ConfirmCommand extends Command {
     private final String description ;
     private final UniqueTagList taglist ;
 
-    public ConfirmCommand (int targetIndex, String description, LocalDateTime startDate, LocalDateTime endDate, UniqueTagList tags) throws IllegalValueException {
+    public ConfirmCommand (int targetIndex, String description, LocalDateTime startDate, LocalDateTime endDate, Set<String> tags) throws IllegalValueException {
         
         if (startDate == null || endDate == null) {
             throw new IllegalValueException(MESSAGE_DATES_NOT_NULL) ;
+        }
+        
+        final Set<Tag> tagSet = Sets.newHashSet() ;
+
+        for (String tagName : tags) {
+            tagSet.add(new Tag(tagName));
         }
         
         this.targetIndex = targetIndex ;
         this.startDate = startDate ;
         this.endDate = endDate ;
         this.description = description ;
-        this.taglist = tags ;
+        this.taglist = new UniqueTagList(tagSet) ;
     }
 
     @Override
