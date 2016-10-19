@@ -41,12 +41,11 @@ public class StringUtil {
      * @return
      */
     public static boolean isParsable(String input){
-        boolean parsable = true;
         try{
             Integer.parseInt(input);
         }catch(NumberFormatException e){
-            parsable = false;
+            return false;
         }
-        return parsable;
+        return true;
     }
 }
