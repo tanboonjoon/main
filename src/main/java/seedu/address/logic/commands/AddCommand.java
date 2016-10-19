@@ -39,11 +39,14 @@ public class AddCommand extends Command {
 
     public static final String MESSAGE_USAGE = DEFAULT_COMMAND_WORD + ": Adds a person to the Task Force. \n"
     		+ "Format : Task : TASKNAME [d/DESCIPRTION] [t/TAG...]\n" 
-                + "Deadline : TASKNAME [d/DESCIPRTION] et/END_DATE [t/TAG...]\n" 
+                + "Deadline : TASKNAME [d/DESCIPRTION] et/END_DATE [t/TAG...]\n"
+    		+ "Recurring Deadline : TASKNAME [d/DESCRIPTION] et/END_DATE [t/TAG...] recurring/FREQUENCY (daily, weekly..., alternate day, alternate week) repeat/REPETITION (between 1 - 20)\n"
     		+ "Event : EVENTNAME [d/DESCRIPTION] st/START_DATE et/END_DATE [t/TAG...]\n" 
-                + "Recurring Event : EVENTNAME [d/DESCRIPTION] st/START_DATE et/END_DATE recurring/weekly repeat/12 [t/TAG...]\n"
+                + "Recurring Event : EVENTNAME [d/DESCRIPTION] st/START_DATE et/END_DATE recurring/FREQUENCY (daily, weekly..., alternate day, alternate week...) repeat/REPETITION (between 1 - 20) [t/TAG...]\n"
             + "Example: " + DEFAULT_COMMAND_WORD
-            + " Homework d/CS2103 hw t/veryImportant t/urgent";
+            + " Homework d/CS2103 hw t/veryImportant t/urgent"
+            + " Finish report d/physic lab report et/130116 2200 t/important"
+            + " Weekly meeting d/progress update st/thursday 3pm et/thursday 4pm recurring/weekly repeat/20";
 
     public static final String MESSAGE_SUCCESS = "New task added: %1$s";
     public static final String MESSAGE_DUPLICATE_TASK = "This task already exists in the address book";
