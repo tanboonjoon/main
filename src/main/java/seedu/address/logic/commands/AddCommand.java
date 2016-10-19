@@ -192,12 +192,20 @@ public class AddCommand extends Command {
                 return date.plusYears(RECURRENCE_INCREMENT_STEP);
             case "alternate day":
                 return date.plusDays(RECURRENCE_ALTERNATE_INCREMENT_STEP);
+	        case "fortnightly":
+		        return date.plusDays(RECURRENCE_ALTERNATE_INCREMENT_STEP);	    
             case "alternate week":
                 return date.plusWeeks(RECURRENCE_ALTERNATE_INCREMENT_STEP);
+		    case "biweekly":
+			    return date.plusWeeks(RECURRENCE_ALTERNATE_INCREMENT_STEP);
             case "alternate month":
+                return date.plusMonths(RECURRENCE_ALTERNATE_INCREMENT_STEP);
+            case "bimonthly":
                 return date.plusMonths(RECURRENCE_ALTERNATE_INCREMENT_STEP);
             case "alternate year":
                 return date.plusYears(RECURRENCE_ALTERNATE_INCREMENT_STEP);
+            case "biyearly":
+                return date.plusYears(RECURRENCE_ALTERNATE_INCREMENT_STEP);        
             default:
                 throw new IllegalValueException(WRONG_RECURRING_ARGUMENTS_MESSAGE);
             }
