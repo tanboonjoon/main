@@ -74,6 +74,7 @@ For example, the `Logic` component (see the class diagram given below) defines i
 interface and exposes its functionality using the `LogicManager.java` class.<br>
 <img src="images/LogicClassDiagram.png" width="800"><br>
 
+
 The _Sequence Diagram_ below shows how the components interact for the scenario where the user issues the
 command `delete 3`.
 
@@ -338,7 +339,7 @@ Use case ends
 >The system will display an "Invalid command format!" along with the format of Addcommand.
 
 1b. User enter a endDate bigger than startDate
->The System will display "Please make sure your end date is later than start date". 
+>The System will display "Please make sure your end date is later than start date".
 
 Use case ends
 
@@ -396,7 +397,7 @@ Use case ends
 
 Use case ends
 
-### Use case : clear command 
+### Use case : clear command
 
 **MSS:**
 
@@ -432,7 +433,7 @@ Use case ends
 
 Use case ends
 
-### use case: help command 
+### use case: help command
 
 **MSS:**
 
