@@ -26,17 +26,9 @@ import seedu.address.model.task.UniqueTaskList;
 public class AddCommand extends Command {
 
     private static final int RECURRENCE_ALTERNATE_INCREMENT_STEP = 2;
-
     private static final int RECURRENCE_INCREMENT_STEP = 1;
-
-    private static final String REPEAT_ARGUMENT_MESSAGE = "repeat argument must be positive integer between 1 and 20.";
-
-    private static final String WRONG_RECURRING_ARGUMENTS_MESSAGE = "Wrong usage of recurring argument. There are 4 options: daily, weekly, monthly and yearly.";
-
     private static final int MIN_NUMBER_OF_RECURRENCE = 1;
-
     private static final int MAX_NUMBER_OF_RECURRENCE = 20;
-
     public static final String[] COMMAND_WORD = {
             "add",
             "schedule",
@@ -58,7 +50,9 @@ public class AddCommand extends Command {
     public static final String INVALID_TASK_TYPE_MESSAGE = "Please make sure you follow the correct add format";
     public static final String INVALID_END_DATE_MESSAGE = "Please make sure your end date is later than start date";
     public static final String MISSING_NUMBER_OF_RECURRENCE_MESSAGE = "Please indicate the number of recurring by using 'repeat/NUMBER (between 1 - 20)'";
-    
+    private static final String REPEAT_ARGUMENT_MESSAGE = "repeat argument must be positive integer between 1 and 20.";
+    private static final String WRONG_RECURRING_ARGUMENTS_MESSAGE = "Wrong usage of recurring argument. There are 4 options: daily, weekly, monthly and yearly.";
+
     private String name ;
     private String description ;
     private LocalDateTime startDate ;
@@ -116,8 +110,6 @@ public class AddCommand extends Command {
     }
 
 
-
-  
     @Override
     public CommandResult execute() {
         assert model != null;
@@ -125,7 +117,7 @@ public class AddCommand extends Command {
         
         if(recurringFrequency != null && repeat == 0) {
             return new CommandResult(MISSING_NUMBER_OF_RECURRENCE_MESSAGE);
-        }else if(recurringFrequency != null && repeat > 0){
+        }else if(recurringFrequency != null && repeat >= MIN_NUMBER_OF_RECURRENCE){
                 try {
                     this.createRecurringEvent(recurringFrequency, repeat);
                 } catch (IllegalValueException e) {
@@ -177,7 +169,7 @@ public class AddCommand extends Command {
 // @@author A0140037W    
     
     private void createRecurringEvent(String recurring, int repeat) throws IllegalValueException {
-        if(repeat > 0){
+        if(repeat >= MIN_NUMBER_OF_RECURRENCE){
             this.taskList.add(getNewTask());
             this.startDate = this.parseFrequency(startDate, recurring);
             this.endDate = this.parseFrequency(endDate, recurring);
