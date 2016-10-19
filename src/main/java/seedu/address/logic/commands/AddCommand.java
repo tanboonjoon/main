@@ -221,10 +221,9 @@ public class AddCommand extends Command {
             throw new IllegalValueException(MISSING_NUMBER_OF_RECURRENCE_MESSAGE);
         }else if(recurring == null && repeat != null){
             throw new IllegalValueException(MESSAGE_USAGE);
-        }else if(recurring != null){
-            this.recurringFrequency = recurring;
-        }
+	}
         
+	this.recurringFrequency = recurring;
 
         setRepeat(repeat);
     }
