@@ -106,6 +106,15 @@ public class ModelManager extends ComponentManager implements Model {
         indicateTaskForceChanged();
     }
     
+    public synchronized void addTasks(List<Task> tasks) throws UniqueTaskList.DuplicateTaskException {
+        recordTaskForce(taskForce);
+        for(Task task: tasks) {
+            taskForce.addTask(task);
+        }
+        updateFilteredListToShowAll();
+        indicateTaskForceChanged();
+    }
+    
     @Override
     public synchronized boolean revertTaskForce() {
 

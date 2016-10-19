@@ -131,9 +131,7 @@ public class AddCommand extends Command {
         }
         
         try {
-            for(Task e: taskList){
-                model.addTask(e);
-            }
+            model.addTasks(taskList);
             return new CommandResult(String.format(MESSAGE_SUCCESS, taskList.get(0)));
         } catch (UniqueTaskList.DuplicateTaskException e) {
             return new CommandResult(MESSAGE_DUPLICATE_TASK);

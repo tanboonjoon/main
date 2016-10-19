@@ -6,7 +6,7 @@ import seedu.address.model.task.Task;
 import seedu.address.model.task.ReadOnlyTask;
 import seedu.address.model.task.UniqueTaskList;
 
-
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -53,6 +53,10 @@ public interface Model {
     
     /** Gets the next available Task ID */
     public int getNextTaskId() ;
+    
+    /** Add list of task */
+    
+    void addTasks(List<Task> tasks) throws UniqueTaskList.DuplicateTaskException;
 	
 
 }
