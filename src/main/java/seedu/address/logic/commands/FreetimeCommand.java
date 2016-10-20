@@ -78,14 +78,15 @@ public class FreetimeCommand extends Command{
 		LocalDateTime newDateTime = dateTime.minusMinutes(minutes);
 		return newDateTime;
 	}
+	
 	private void sortEventList() {
 		Collections.sort(timeList, new Comparator<Pair<LocalDateTime , LocalDateTime>>() 
-				{
-			 public int compare(Pair<LocalDateTime, LocalDateTime> dateTimeOne, Pair<LocalDateTime, LocalDateTime> dateTimeTwo) {
-				 return dateTimeOne.getKey().compareTo(dateTimeTwo.getKey());
-			 }
-			
-				});
+		{
+			public int compare(Pair<LocalDateTime, LocalDateTime> dateTimeOne, Pair<LocalDateTime, LocalDateTime> dateTimeTwo) {
+				return dateTimeOne.getKey().compareTo(dateTimeTwo.getKey());
+			}
+
+		});
 	}
 
 }
