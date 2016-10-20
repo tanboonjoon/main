@@ -9,6 +9,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+import seedu.address.commons.util.FxViewUtil;
+import seedu.address.model.task.Block;
 import seedu.address.model.task.Deadline;
 import seedu.address.model.task.Event;
 import seedu.address.model.task.ReadOnlyTask;
@@ -17,6 +19,7 @@ public class TaskCard extends UiPart{
 
     private static final String FXML = "TaskListCard.fxml";
     
+    public static final String DEFAULT_CELL_CLASS = "circle_med" ;
     public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("d MMM h:mm a");
 
     @FXML
@@ -57,26 +60,21 @@ public class TaskCard extends UiPart{
 
     @FXML
     public void initialize() {
-    	startline.setVisible(false);
-    	clock.setVisible(false);
-    	isDone.setVisible(false);
+        setDefaultStyle() ;
     	
     	if (task.getDoneStatus()) {
     		isDone.setVisible(true);
-    		name.getStyleClass().remove("cell_big_label") ;
-    		name.getStyleClass().add("cell_big_label_done") ;
+    		FxViewUtil.removeAndAddCssClass(name, "cell_big_label_overdue", "cell_big_label_done") ;
     	}
         
     	setTaskTitle();
-        id.setText(displayedIndex + ". ");
+        id.setText(displayedIndex + ".");
         
         setDescriptionText();
         
         displayTagString();
         
         displayStartAndEndDates();
-        
-        circle.getStyleClass().add("circle_med") ;
     }
 
 
@@ -94,6 +92,14 @@ public class TaskCard extends UiPart{
         return FXML;
     }
     
+    private void setDefaultStyle () {
+        startline.setVisible(false);
+        clock.setVisible(false);
+        isDone.setVisible(false);
+        
+        circle.getStyleClass().add(DEFAULT_CELL_CLASS) ;
+    }
+    
     private void setTaskTitle() {
         name.setText(task.getName());
         
@@ -101,11 +107,14 @@ public class TaskCard extends UiPart{
             Deadline deadline = (Deadline) task ;
             
             if (deadline.isDeadlineOverdue()) {
-                name.getStyleClass().remove("cell_big_label");
-                name.getStyleClass().add("cell_big_label_overdue") ;
-                
-                circle.getStyleClass().add("circle_high") ;
+                FxViewUtil.removeAndAddCssClass(name, "cell_big_label", "cell_big_label_overdue") ;
+                FxViewUtil.removeAndAddCssClass(circle, DEFAULT_CELL_CLASS, "circle_high") ;
             }
+        }
+        
+        if (task instanceof Block) {
+            FxViewUtil.removeAndAddCssClass(name, "cell_big_label", "cell_big_label_block") ;
+            FxViewUtil.removeAndAddCssClass(circle, DEFAULT_CELL_CLASS, "circle_block") ;
         }
     }
     

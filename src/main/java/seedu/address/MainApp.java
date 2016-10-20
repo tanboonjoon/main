@@ -32,7 +32,7 @@ import java.util.logging.Logger;
 public class MainApp extends Application {
     private static final Logger logger = LogsCenter.getLogger(MainApp.class);
 
-    public static final Version VERSION = new Version(0, 0, 2, false);
+    public static final Version VERSION = new Version(0, 0, 3, false);
 
     protected Ui ui;
     protected Logic logic;

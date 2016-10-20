@@ -114,13 +114,15 @@ public class MainWindow extends UiPart {
 
         setAccelerators();
     }
-
+    
+    // @@author A0135768R
     private void loadCustomTrueTypeFonts() {
         // Loads the Open sans custom truetype font
         Font.loadFont(this.getClass().getResourceAsStream("/images/OpenSans-Light.ttf"), 12) ;
         Font.loadFont(this.getClass().getResourceAsStream("/images/OpenSans-Semibold.ttf"), 12) ;
     }
-
+    
+    // @@author reused
     private void setAccelerators() {
         //helpMenuItem.setAccelerator(KeyCombination.valueOf("F1"));
     }

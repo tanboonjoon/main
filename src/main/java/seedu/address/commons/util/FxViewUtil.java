@@ -14,4 +14,10 @@ public class FxViewUtil {
         AnchorPane.setRightAnchor(node, right);
         AnchorPane.setTopAnchor(node, top);
     }
+    
+    // @@author A0135768R
+    public static void removeAndAddCssClass (Node node, String classToRemove, String classToAdd) {
+        node.getStyleClass().remove(classToRemove) ;
+        node.getStyleClass().add(classToAdd) ;
+    }
 }
