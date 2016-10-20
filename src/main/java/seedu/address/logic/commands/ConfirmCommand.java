@@ -25,7 +25,7 @@ import seedu.address.model.task.UniqueTaskList.TaskNotFoundException;
 
 /**
  * @@author A0135768R
- * 
+ *
  * A command to confirm a previously blocked out timeslot(s)
  *
  */
@@ -37,7 +37,7 @@ public class ConfirmCommand extends Command {
     public static final String MESSAGE_CONFIRM_SUCCESS = "The following event is successfully confirmed: %1$s" ;
     public static final String MESSAGE_DATES_NOT_NULL = "Please enter in a pair of valid start and end dates/times!" ;
     public static final String MESSAGE_ONLY_BLOCKS = "You can only confirm an unconfirmed event!" ;
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Confirms a previously blocked timeslot into an event. \n" 
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Confirms a previously blocked timeslot into an event. \n"
             + "The start and end date provided is the confirmed dates. \n"
             + "Format: confirm INDEX st/START TIME et/END TIME [d/DESCRIPTION] [t/tag...] \n"
             + "Example: confirm meeting with boss st/today 2pm et/today 4pm" ;
@@ -49,17 +49,17 @@ public class ConfirmCommand extends Command {
     private final UniqueTagList taglist ;
 
     public ConfirmCommand (int targetIndex, String description, LocalDateTime startDate, LocalDateTime endDate, Set<String> tags) throws IllegalValueException {
-        
+
         if (startDate == null || endDate == null) {
             throw new IllegalValueException(MESSAGE_DATES_NOT_NULL) ;
         }
-        
+
         final Set<Tag> tagSet = Sets.newHashSet() ;
 
         for (String tagName : tags) {
             tagSet.add(new Tag(tagName));
         }
-        
+
         this.targetIndex = targetIndex ;
         this.startDate = startDate ;
         this.endDate = endDate ;
@@ -76,33 +76,33 @@ public class ConfirmCommand extends Command {
             return new CommandResult(Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
         }
 
-        ReadOnlyTask blockToConfirm = lastShownList.get(targetIndex - 1);  
+        ReadOnlyTask blockToConfirm = lastShownList.get(targetIndex - 1);
         int id = model.getNextTaskId() ;
 
         if (!(blockToConfirm instanceof Block) ) {
 
             return new CommandResult(MESSAGE_ONLY_BLOCKS) ;
         }
-        
+
         findAndDeleteOtherBlocks( (Block) blockToConfirm) ;
-        
+
         String name = blockToConfirm.getName() ;
-        
+
         Task newEvent = new Event(id, name, description, startDate, endDate, taglist) ;
-        
+
         try {
             model.addTask(newEvent);
-        
-        } catch (DuplicateTaskException e) {         
+
+        } catch (DuplicateTaskException e) {
             return new CommandResult(MESSAGE_DUPLICATE_TASK) ;
         }
 
         return new CommandResult(String.format(MESSAGE_CONFIRM_SUCCESS, newEvent)) ;
     }
-    
+
     private void findAndDeleteOtherBlocks (Block task) {
         List<ReadOnlyTask> list = findAllOtherBlocks (task) ;
-        
+
         System.out.println(list.size());
 
         for (ReadOnlyTask taskToDelete : list) {
@@ -116,7 +116,7 @@ public class ConfirmCommand extends Command {
     }
 
     private List<ReadOnlyTask> findAllOtherBlocks (Block task) {
-        
+
         assert model != null ;
 
         int taskId = task.getTaskId() ;
@@ -128,4 +128,3 @@ public class ConfirmCommand extends Command {
     }
 
 }
-
