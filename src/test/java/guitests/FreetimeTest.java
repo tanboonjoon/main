@@ -38,11 +38,11 @@ public class FreetimeTest extends TaskForceGuiTest{
 	
 	@Test
 	public void valid_command_one_event() {
-		commandBox.runCommand("add event st/10-20-2016 1700 et/10-20-2016 2100");
+		commandBox.runCommand("add event st/10-20-2016 1711 et/10-20-2016 2100");
 		StringBuilder sb = new StringBuilder();
 		commandBox.runCommand("freetime day/0");
 		sb.append(String.format(FreetimeCommand.DEFAULT_STARTING_MESSAGE,"20/10/2016"))
-		.append(String.format(FreetimeCommand.FIRST_EVENT_MESSAGE, "1700"))
+		.append(String.format(FreetimeCommand.FIRST_EVENT_MESSAGE, "1730"))
 		.append(String.format(FreetimeCommand.LAST_EVENT_MESSAGE, "2100"));
 		assertResultMessage(sb.toString());
 	}
@@ -60,8 +60,10 @@ public class FreetimeTest extends TaskForceGuiTest{
 	@Test
 	public void valid_command_multiple_event() {
 		commandBox.runCommand("add event st/10-21-2016 1300 et/10-21-2016 1400");
+		commandBox.runCommand("add event st/10-21-2016 1330 et/10-21-2016 1340");
 		commandBox.runCommand("add event2 st/10-21-2016 1500 et/10-21-2016 1700");
-		
+		commandBox.runCommand("add event3 st/10-21-2016 1520 et/10-21-2016 1730 ");
+		commandBox.runCommand("mark 3");
 		StringBuilder sb = new StringBuilder();
 		commandBox.runCommand("freetime day/1");
 		sb.append(String.format(FreetimeCommand.DEFAULT_STARTING_MESSAGE,"21/10/2016"))
