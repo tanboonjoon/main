@@ -31,7 +31,7 @@ public class FreetimeCommand extends Command{
 	
 	public static final String INVALID_FREETIME_ARGS = "Please enter a valid number eg. freetime day/5";
 	private final String SEARCH_TYPE = "DAY";
-	private final String DEFAULT_STARTING_TIME = "0000";
+
 	
 	private final int ZERO_EVENT_ON_THAT_DAY = 0;
 	private final int ONE_EVENT_ON_THAT_DAY = 1;
@@ -50,7 +50,7 @@ public class FreetimeCommand extends Command{
 		this.searchSet = new HashSet<String>();
 		this.searchSet.add(searchedDay);
 		timeList = new  ArrayList<Pair<LocalDateTime, LocalDateTime>> ();
-		dateFormat = DateTimeFormatter.ofPattern("ddMMyyyy");
+		dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		hourFormat = DateTimeFormatter.ofPattern("HHmm");
 	}
 
@@ -97,28 +97,37 @@ public class FreetimeCommand extends Command{
 			sb.append("And After ").append(endTime.format(hourFormat));
 			return sb.toString();
 		}
-		
+		System.out.println("current day is " + day);
 		LocalDateTime currEndTime = timeList.get(0).getValue();
+		sb.append("Before ").append(timeList.get(0).getKey().format(hourFormat)).append("\n");
 		for (int time_index = 1 ;  time_index < timeList.size(); time_index++) {
 			LocalDateTime nextStartTime = timeList.get(time_index).getKey();
+			LocalDateTime nextEndTime = timeList.get(time_index).getValue();
+			
+			if (nextEndTime.getDayOfMonth() != day) {
+				return sb.toString();
+			}
+			
 			if (currEndTime.isAfter(nextStartTime) || currEndTime.isEqual(nextStartTime)) {
 				currEndTime = timeList.get(time_index).getValue();
 				continue;
 			}
-			LocalDateTime nextEndTime = timeList.get(time_index).getValue();
+		
+	
 			sb.append(currEndTime.format(hourFormat)).append(" to ").append(nextStartTime.format(hourFormat)).append("\n");
-			if (nextEndTime.getDayOfMonth() != day) {
-				break;
-			}
+
+	
 			currEndTime = nextEndTime;
 			
 			if (time_index == (timeList.size()- 1)) {
 				if (currEndTime.getDayOfMonth() != day) {
-					break;
+					return sb.toString();
 				}
 				sb.append("And After ").append(currEndTime.format(hourFormat));
 			}
 		}
+		
+		
 		
 		return sb.toString();
 	}
