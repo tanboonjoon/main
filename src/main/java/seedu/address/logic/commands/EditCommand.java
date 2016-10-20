@@ -107,6 +107,10 @@ public class EditCommand extends Command {
             newDescription = taskToEdit.getDescription();
         }
         
+        if (dateMap.size() > 0) {
+        	hasChanged = true;
+        }
+        
         newTagSet = new UniqueTagList(editOrDeleteTags(taskToEdit.getTags(), tagSet)) ;
         
         determineDateTimeOfNewTask (taskToEdit) ;
