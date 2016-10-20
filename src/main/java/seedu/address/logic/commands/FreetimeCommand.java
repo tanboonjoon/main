@@ -158,7 +158,7 @@ public class FreetimeCommand extends Command{
 		return currentEndTime.getDayOfMonth() != same_day ? sb.toString() :
 			sb.append(String.format(LAST_EVENT_MESSAGE, currentEndTime.format(hourFormat))).toString();
 	}
-
+	
 	private String freetimeForOneEvent(LocalDateTime startTime, LocalDateTime endTime, int same_day, StringBuilder sb) {
 		int startTimeDay = startTime.getDayOfMonth();
 		int endTimeDay = endTime.getDayOfMonth();
