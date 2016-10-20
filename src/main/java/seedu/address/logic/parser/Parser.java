@@ -20,6 +20,7 @@ import seedu.address.logic.commands.DeleteCommand;
 import seedu.address.logic.commands.EditCommand;
 import seedu.address.logic.commands.ExitCommand;
 import seedu.address.logic.commands.FindCommand;
+import seedu.address.logic.commands.FreetimeCommand;
 import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.IncorrectCommand;
 import seedu.address.logic.commands.ListCommand;
@@ -68,6 +69,7 @@ public class Parser {
         registerCommand (CdCommandParser.class, CdCommand.COMMAND_WORD);
         registerCommand (BlockCommandParser.class, BlockCommand.COMMAND_WORD);
         registerCommand (ConfirmCommandParser.class, ConfirmCommand.COMMAND_WORD);
+        registerCommand (FreetimeCommandParser.class, FreetimeCommand.COMMAND_WORD);
 
     }
     
