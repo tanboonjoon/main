@@ -83,6 +83,8 @@ public class ConfirmCommand extends Command {
 
             return new CommandResult(MESSAGE_ONLY_BLOCKS) ;
         }
+        
+        model.recordTaskForce();
 
         findAndDeleteOtherBlocks( (Block) blockToConfirm) ;
 
@@ -90,7 +92,7 @@ public class ConfirmCommand extends Command {
 
         Task newEvent = new Event(id, name, description, startDate, endDate, taglist) ;
         
-        model.recordTaskForce();
+
 
         try {
             model.addTask(newEvent);
