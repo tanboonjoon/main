@@ -37,11 +37,12 @@ public class FreetimeCommand extends Command{
 	public static final String BETWEEN_EVENT_MESSAGE = "%1$s to %2$s \n";
 	private final String SEARCH_TYPE = "DAY";
 ;
-	private final int FIRST_EVENT_INDEX = 1;
+
 	private final int ZERO_EVENT_ON_THAT_DAY = 0;
 	private final int ONE_EVENT_ON_THAT_DAY = 1;
 	private final int SEARCHED_DAY_INDEX = 0;
 	private final int HALF_AN_HOUR = 30;
+	private final int EXACT_AN_HOUR = 00;
 	
 	private ArrayList<Pair<LocalDateTime, LocalDateTime>> timeList;
 	private final Set<String> searchSet;
@@ -154,6 +155,9 @@ public class FreetimeCommand extends Command{
 	
 	private LocalDateTime roundUpTime(LocalDateTime dateTime) {
 		int minutes = dateTime.getMinute();
+		if (minutes == 00) {
+			return dateTime;
+		}
 		return dateTime.plusMinutes(HALF_AN_HOUR - minutes);
 	
 	}
