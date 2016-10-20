@@ -113,10 +113,7 @@ public class FreetimeCommand extends Command{
 			LocalDateTime nextStartTime = timeList.get(time_index).getKey();
 			LocalDateTime nextEndTime = timeList.get(time_index).getValue();
 			
-			if (nextEndTime.getDayOfMonth() != same_day) {
-				return sb.toString();
-			}
-			
+
 			if (currEndTime.isAfter(nextStartTime) || currEndTime.isEqual(nextStartTime)) {
 				currEndTime = timeList.get(time_index).getValue();
 				continue;
@@ -124,6 +121,10 @@ public class FreetimeCommand extends Command{
 		
 			sb.append(String.format(BETWEEN_EVENT_MESSAGE, currEndTime.format(hourFormat), nextStartTime.format(hourFormat)));
 			currEndTime = nextEndTime;
+			
+			if (nextEndTime.getDayOfMonth() != same_day) {
+				return sb.toString();
+			}
 			
 			if (time_index == (timeList.size()- 1)) {
 				if (currEndTime.getDayOfMonth() != same_day) {
