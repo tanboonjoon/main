@@ -59,6 +59,8 @@ public class BlockCommand extends Command {
         assert endDates.size() == startDates.size() ;
         assert model != null ;
         
+        model.recordTaskForce();
+        
         int id = model.getNextTaskId() ;
         
         List<Block> blocksToAdd = new ArrayList<>(endDates.size()) ;
