@@ -533,10 +533,6 @@ Use case ends
 
 > Windows, Linux, Unix, OS-X
 
-##### Private Contact Detail
-
-> A contact detail that is not meant to be shared with others
-
 ## Appendix E : Product Survey
 
 Product Name | Strengths | Weakness
