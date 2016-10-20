@@ -164,8 +164,8 @@ public class FreetimeCommand extends Command{
 		if (minutes == EXACT_AN_HOUR) {
 			return dateTime;
 		}
-		
-		return dateTime.plusMinutes(HALF_AN_HOUR - minutes);
+
+		return dateTime.plusMinutes( Math.abs(HALF_AN_HOUR - minutes));
 	
 	}
 	
