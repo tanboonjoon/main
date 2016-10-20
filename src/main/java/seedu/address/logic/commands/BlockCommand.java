@@ -59,6 +59,8 @@ public class BlockCommand extends Command {
         assert endDates.size() == startDates.size() ;
         assert model != null ;
         
+        model.recordTaskForce();
+        
         int id = model.getNextTaskId() ;
         
         List<Block> blocksToAdd = new ArrayList<>(endDates.size()) ;
@@ -88,8 +90,10 @@ public class BlockCommand extends Command {
             }
         }
         
+        
         // Remove the last " and " 
         sb.delete(sb.length() - 5, sb.length()) ;
+        
         
         return new CommandResult(String.format(MESSAGE_SUCCESS, name, sb.toString())) ;
     }
