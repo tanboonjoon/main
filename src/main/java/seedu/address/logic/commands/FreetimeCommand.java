@@ -120,7 +120,7 @@ public class FreetimeCommand extends Command{
 			}
 		}
 		
-		return currEndTime.toString();
+		return sb.toString();
 	}
 
 	private void getAllEvent(List<ReadOnlyTask> filteredList) {
