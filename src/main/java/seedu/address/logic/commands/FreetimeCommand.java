@@ -30,8 +30,10 @@ public class FreetimeCommand extends Command{
 	        + COMMAND_WORD + " day/-2";
 	
 	public static final String INVALID_FREETIME_ARGS = "Please enter a valid number eg. freetime day/5";
+	public static final String ZERO_EVENT_MESSAGE = "You are free for the day, trying clearing some reminders.";
+	public static final String DEFAULT_STARTING_MESSAGE ="for %1$s you are free on: \n";
 	private final String SEARCH_TYPE = "DAY";
-
+;
 	
 	private final int ZERO_EVENT_ON_THAT_DAY = 0;
 	private final int ONE_EVENT_ON_THAT_DAY = 1;
@@ -81,10 +83,10 @@ public class FreetimeCommand extends Command{
 
 		int day = onThatDay.getDayOfMonth();
 		StringBuilder sb = new StringBuilder();
-		sb.append("for ").append(onThatDay.format(dateFormat)).append(", you are free on :\n");
+		sb.append(String.format(DEFAULT_STARTING_MESSAGE, onThatDay.format(dateFormat)));
 		if (timeList.size() == ZERO_EVENT_ON_THAT_DAY) {
 			sb.append("free for the whole day, you can start clearing some reminders");
-			return sb.toString();
+			return ZERO_EVENT_MESSAGE;
 		}
 		
 		if (timeList.size() == ONE_EVENT_ON_THAT_DAY) {
