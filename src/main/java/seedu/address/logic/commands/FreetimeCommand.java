@@ -35,6 +35,8 @@ public class FreetimeCommand extends Command{
 	public static final String FIRST_EVENT_MESSAGE = "before %1$s \n";
 	public static final String LAST_EVENT_MESSAGE = "after %1$s \n";
 	public static final String BETWEEN_EVENT_MESSAGE = "%1$s to %2$s \n";
+	public static final String ONGOING_EVENT_MESSAGE = "You are not free because you have a ongoing from %1$s to %2$s \n";
+	
 	private final String SEARCH_TYPE = "DAY";
 ;
 	private final boolean DONE = true;
@@ -99,7 +101,12 @@ public class FreetimeCommand extends Command{
 		if (timeList.size() == ONE_EVENT_ON_THAT_DAY) {
 			currStartTime = timeList.get(FIRST_EVENT_INDEX).getKey();
 		    currEndTime = timeList.get(FIRST_EVENT_INDEX).getValue();
-			
+			if (currStartTime.getDayOfMonth() != same_day) {
+				return currEndTime.getDayOfMonth() != same_day ? 
+						sb.append(String.format(ONGOING_EVENT_MESSAGE, currStartTime.toString(), currEndTime.toString()))
+						.toString() :
+					sb.append(String.format(LAST_EVENT_MESSAGE, currEndTime.format(hourFormat))).toString();
+			}
 			sb.append(String.format(FIRST_EVENT_MESSAGE, currStartTime.format(hourFormat)));
 			
 			return currEndTime.getDayOfMonth() != same_day ? sb.toString() :
@@ -110,7 +117,12 @@ public class FreetimeCommand extends Command{
 		currStartTime = timeList.get(FIRST_EVENT_INDEX).getKey();
 		currEndTime = timeList.get(FIRST_EVENT_INDEX).getValue();
 		
-		sb.append(String.format(FIRST_EVENT_MESSAGE, currStartTime.format(hourFormat)));
+		if (currStartTime.isBefore(onThatDay) && currEndTime.isAfter(onThatDay)) {
+			return sb.append(String.format(ONGOING_EVENT_MESSAGE, currStartTime.toString(), currEndTime.toString())).toString();
+		}
+		if (currStartTime.getDayOfMonth() == same_day) {
+			sb.append(String.format(FIRST_EVENT_MESSAGE, currStartTime.format(hourFormat)));
+		}
 		
 		if	(currEndTime.getDayOfMonth() != same_day) {
 			return sb.toString();
