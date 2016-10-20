@@ -28,6 +28,7 @@ public class FreetimeCommand extends Command{
 	
 	public static final String INVALID_FREETIME_ARGS = "Please enter a valid number eg. freetime day/5";
 	private final String SEARCH_TYPE = "DAY";
+	private final int HALF_AN_HOUR = 30;
 	public final String searchedDay;
 	private final Set<String> searchSet;
 	private ArrayList<Pair<LocalDateTime, LocalDateTime>> timeList;
@@ -59,10 +60,20 @@ public class FreetimeCommand extends Command{
 				continue;
 			}
 			Event event = (Event) filteredList.get(list_index);
-			Pair<LocalDateTime, LocalDateTime> datePair = 
-					new Pair<LocalDateTime, LocalDateTime>(event.getStartDate() ,event.getEndDate());
+			LocalDateTime startDate = roundUpTime(event.getStartDate());
+			LocalDateTime endDate = roundUpTime(event.getEndDate());
+			Pair<LocalDateTime, LocalDateTime> datePair = new Pair<LocalDateTime, LocalDateTime> (startDate, endDate);
 			timeList.add(datePair);
 		}
+	}
+	private LocalDateTime roundUpTime(LocalDateTime dateTime) {
+		int minutes = dateTime.getMinute();
+		if (minutes > HALF_AN_HOUR) {
+			LocalDateTime newDateTime = dateTime.plusMinutes(HALF_AN_HOUR - minutes);
+			return newDateTime;
+		}
+		LocalDateTime newDateTime = dateTime.minusMinutes(minutes);
+		return newDateTime;
 	}
 
 }
