@@ -49,6 +49,8 @@ public class MarkCommand extends Command {
         Task newTask = createNewTask (taskToMark.getName(), taskToMark.getDescription(), taskToMark.getTags(), 
         							  getStartDate(taskToMark), getEndDate(taskToMark), !taskToMark.getDoneStatus());
 
+        model.recordTaskForce();
+        
         try {
             model.addTask(newTask);
            
