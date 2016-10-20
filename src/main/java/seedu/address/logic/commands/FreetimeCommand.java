@@ -34,6 +34,7 @@ public class FreetimeCommand extends Command{
 	private final String DEFAULT_STARTING_TIME = "0000";
 	
 	private final int ZERO_EVENT_ON_THAT_DAY = 0;
+	private final int ONE_EVENT_ON_THAT_DAY = 1;
 	private final int SEARCHED_DAY_INDEX = 0;
 	private final int HALF_AN_HOUR = 30;
 	
@@ -63,7 +64,7 @@ public class FreetimeCommand extends Command{
 		getAllEvent(filteredList);
 		sortEventList();
 		String freeTime = getFreeTime(onThatDay);
-		return new CommandResult("you are free!");
+		return new CommandResult(freeTime);
 	}
 	
 
@@ -86,8 +87,40 @@ public class FreetimeCommand extends Command{
 			return sb.toString();
 		}
 		
+		if (timeList.size() == ONE_EVENT_ON_THAT_DAY) {
+			LocalDateTime startTime = timeList.get(0).getKey();
+			LocalDateTime endTime = timeList.get(0).getValue();
+			sb.append("Before ").append(startTime.format(hourFormat)).append("\n");
+			if (endTime.getDayOfMonth() != day) {
+				return sb.toString();
+			}
+			sb.append("And After ").append(endTime.format(hourFormat));
+			return sb.toString();
+		}
 		
-		return null;
+		LocalDateTime currEndTime = timeList.get(0).getValue();
+		for (int time_index = 1 ;  time_index < timeList.size(); time_index++) {
+			LocalDateTime nextStartTime = timeList.get(time_index).getKey();
+			if (currEndTime.isAfter(nextStartTime) || currEndTime.isEqual(nextStartTime)) {
+				currEndTime = timeList.get(time_index).getValue();
+				continue;
+			}
+			LocalDateTime nextEndTime = timeList.get(time_index).getValue();
+			sb.append(currEndTime.format(hourFormat)).append(" to ").append(nextStartTime.format(hourFormat)).append("\n");
+			if (nextEndTime.getDayOfMonth() != day) {
+				break;
+			}
+			currEndTime = nextEndTime;
+			
+			if (time_index == (timeList.size()- 1)) {
+				if (currEndTime.getDayOfMonth() != day) {
+					break;
+				}
+				sb.append("And After ").append(currEndTime.format(hourFormat));
+			}
+		}
+		
+		return currEndTime.toString();
 	}
 
 	private void getAllEvent(List<ReadOnlyTask> filteredList) {
@@ -104,6 +137,7 @@ public class FreetimeCommand extends Command{
 			timeList.add(datePair);
 		}
 	}
+	
 	private LocalDateTime roundUpTime(LocalDateTime dateTime) {
 		int minutes = dateTime.getMinute();
 		return dateTime.plusMinutes(HALF_AN_HOUR - minutes);
