@@ -97,14 +97,13 @@ Examples:
 Confirms a blocked out time and converts it into an event  
 Deletes all other blocked timeslots for the same event
 
-Format: `confirm INDEX`
+Format: `confirm INDEX st/STARTTIME et/ENDTIME`
 > - To use this function, you must first list the desired timelot, by either going to the right date to view it, or finding it through keywords
 > - Following which, you can use this command the confirm the desired slot you would like.
 > - All other times associated to the previously blocked out event will be released, even if they are not in the current view.
 
 Examples:
-* `confirm meeting with boss st/1400 et/1600`
-* `confirm compliance audits st/1300 et/1800`
+* `confirm 5 st/6pm et/8pm`
 
 #### Searching for (a) specific task(s): `find`
 Finds tasks of a specific time, or whose names contain any of the given keywords.  
