@@ -1,5 +1,6 @@
 [![Build Status](https://travis-ci.org/CS2103AUG2016-F10-C2/main.svg?branch=master)](https://travis-ci.org/CS2103AUG2016-F10-C2/main)
 [![Coverage Status](https://coveralls.io/repos/github/CS2103AUG2016-F10-C2/main/badge.svg?branch=master)](https://coveralls.io/github/CS2103AUG2016-F10-C2/main?branch=master)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/27c9aca5f1cf4850b42dfa423afe7eff)](https://www.codacy.com/app/gohydj2003/main?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=CS2103AUG2016-F10-C2/main&amp;utm_campaign=Badge_Grade)
 
 # TaskForce - Task Management App for Desktop
 
