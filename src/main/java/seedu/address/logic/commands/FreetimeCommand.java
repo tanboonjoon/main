@@ -83,15 +83,16 @@ public class FreetimeCommand extends Command{
 
 	private String getFreeTime(LocalDateTime onThatDay) {
 		// TODO Auto-generated method stub
+		if (timeList.size() == ZERO_EVENT_ON_THAT_DAY) {
+			return ZERO_EVENT_MESSAGE;
+		}
+		
 		LocalDateTime currStartTime;
 		LocalDateTime currEndTime;
 		int same_day = onThatDay.getDayOfMonth();
 		StringBuilder sb = new StringBuilder();
 		sb.append(String.format(DEFAULT_STARTING_MESSAGE, onThatDay.format(dateFormat)));
-		if (timeList.size() == ZERO_EVENT_ON_THAT_DAY) {
-			return ZERO_EVENT_MESSAGE;
-		}
-		
+	
 		if (timeList.size() == ONE_EVENT_ON_THAT_DAY) {
 			currStartTime = timeList.get(0).getKey();
 		    currEndTime = timeList.get(0).getValue();
