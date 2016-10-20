@@ -32,9 +32,12 @@ public class FreetimeCommand extends Command{
 	public static final String INVALID_FREETIME_ARGS = "Please enter a valid number eg. freetime day/5";
 	public static final String ZERO_EVENT_MESSAGE = "You are free for the day, trying clearing some reminders.";
 	public static final String DEFAULT_STARTING_MESSAGE ="for %1$s you are free on: \n";
+	public static final String FIRST_EVENT_MESSAGE = "before %1$s \n";
+	public static final String LAST_EVENT_MESSAGE = "after %1$s \n";
+	public static final String BETWEEN_EVENT_MESSAGE = "%1$s to %2$s \n";
 	private final String SEARCH_TYPE = "DAY";
 ;
-	
+	private final int FIRST_EVENT_INDEX = 1;
 	private final int ZERO_EVENT_ON_THAT_DAY = 0;
 	private final int ONE_EVENT_ON_THAT_DAY = 1;
 	private final int SEARCHED_DAY_INDEX = 0;
@@ -80,33 +83,35 @@ public class FreetimeCommand extends Command{
 
 	private String getFreeTime(LocalDateTime onThatDay) {
 		// TODO Auto-generated method stub
-
-		int day = onThatDay.getDayOfMonth();
+		LocalDateTime currStartTime;
+		LocalDateTime currEndTime;
+		int same_day = onThatDay.getDayOfMonth();
 		StringBuilder sb = new StringBuilder();
 		sb.append(String.format(DEFAULT_STARTING_MESSAGE, onThatDay.format(dateFormat)));
 		if (timeList.size() == ZERO_EVENT_ON_THAT_DAY) {
-			sb.append("free for the whole day, you can start clearing some reminders");
 			return ZERO_EVENT_MESSAGE;
 		}
 		
 		if (timeList.size() == ONE_EVENT_ON_THAT_DAY) {
-			LocalDateTime startTime = timeList.get(0).getKey();
-			LocalDateTime endTime = timeList.get(0).getValue();
-			sb.append("Before ").append(startTime.format(hourFormat)).append("\n");
-			if (endTime.getDayOfMonth() != day) {
+			currStartTime = timeList.get(0).getKey();
+		    currEndTime = timeList.get(0).getValue();
+			
+			sb.append(String.format(FIRST_EVENT_MESSAGE, currStartTime.format(hourFormat)));
+			if (currEndTime.getDayOfMonth() != same_day) {
 				return sb.toString();
 			}
-			sb.append("And After ").append(endTime.format(hourFormat));
-			return sb.toString();
+			return sb.append(String.format(LAST_EVENT_MESSAGE, currEndTime.format(hourFormat))).toString();
+	
 		}
-		System.out.println("current day is " + day);
-		LocalDateTime currEndTime = timeList.get(0).getValue();
-		sb.append("Before ").append(timeList.get(0).getKey().format(hourFormat)).append("\n");
+		currStartTime = timeList.get(0).getKey();
+		currEndTime = timeList.get(0).getValue();
+		
+		sb.append(String.format(FIRST_EVENT_MESSAGE, currStartTime.format(hourFormat)));
 		for (int time_index = 1 ;  time_index < timeList.size(); time_index++) {
 			LocalDateTime nextStartTime = timeList.get(time_index).getKey();
 			LocalDateTime nextEndTime = timeList.get(time_index).getValue();
 			
-			if (nextEndTime.getDayOfMonth() != day) {
+			if (nextEndTime.getDayOfMonth() != same_day) {
 				return sb.toString();
 			}
 			
@@ -115,17 +120,14 @@ public class FreetimeCommand extends Command{
 				continue;
 			}
 		
-	
-			sb.append(currEndTime.format(hourFormat)).append(" to ").append(nextStartTime.format(hourFormat)).append("\n");
-
-	
+			sb.append(String.format(BETWEEN_EVENT_MESSAGE, currEndTime.format(hourFormat), nextStartTime.format(hourFormat)));
 			currEndTime = nextEndTime;
 			
 			if (time_index == (timeList.size()- 1)) {
-				if (currEndTime.getDayOfMonth() != day) {
+				if (currEndTime.getDayOfMonth() != same_day) {
 					return sb.toString();
 				}
-				sb.append("And After ").append(currEndTime.format(hourFormat));
+				sb.append(String.format(LAST_EVENT_MESSAGE, currEndTime.format(hourFormat)));
 			}
 		}
 		
