@@ -2,10 +2,12 @@ package seedu.address.logic.commands;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import edu.emory.mathcs.backport.java.util.Collections;
 import javafx.util.Pair;
 import seedu.address.model.task.Event;
 import seedu.address.model.task.ReadOnlyTask;
@@ -48,6 +50,7 @@ public class FreetimeCommand extends Command{
 
 		
 		getAllEvent(filteredList);
+		sortEventList();
 		return new CommandResult("you are free!");
 	}
 	
@@ -74,6 +77,15 @@ public class FreetimeCommand extends Command{
 		}
 		LocalDateTime newDateTime = dateTime.minusMinutes(minutes);
 		return newDateTime;
+	}
+	private void sortEventList() {
+		Collections.sort(timeList, new Comparator<Pair<LocalDateTime , LocalDateTime>>() 
+				{
+			 public int compare(Pair<LocalDateTime, LocalDateTime> dateTimeOne, Pair<LocalDateTime, LocalDateTime> dateTimeTwo) {
+				 return dateTimeOne.getKey().compareTo(dateTimeTwo.getKey());
+			 }
+			
+				});
 	}
 
 }
