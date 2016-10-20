@@ -14,6 +14,7 @@ import seedu.address.commons.events.ui.JumpToListRequestEvent;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.tag.UniqueTagList;
+import seedu.address.model.task.Block;
 import seedu.address.model.task.Deadline;
 import seedu.address.model.task.Event;
 import seedu.address.model.task.ReadOnlyTask;
@@ -38,6 +39,7 @@ public class EditCommand extends Command {
             + "Example: " + DEFAULT_COMMAND_WORD + " 1 d/download How I Met Your Mother season 1" ;
     public static final String MESSAGE_EDIT_SUCCESS = "Edit saved!";
     public static final String MESSAGE_DUPLICATE_TASK = "This task already exists in the address book";
+    public static final String MESSAGE_BLOCK_CANNOT_EDIT = "The target is a block, and cannot be edited.";
     
     private static final String START_DATE = "startDate" ;
     private static final String END_DATE = "endDate" ;
@@ -92,6 +94,16 @@ public class EditCommand extends Command {
         }
         
         ReadOnlyTask taskToEdit = lastShownList.get(targetIndex - 1);  
+        
+        
+        /* temporary measure - I can't make a block because current approach edits IDs
+         * Actually, we don't have to reassign a new ID, right?
+         * By using the existing ID, block and recurring structure can hold.
+         */
+        if (taskToEdit instanceof Block) {
+        	return new CommandResult(MESSAGE_BLOCK_CANNOT_EDIT);
+        }
+        
         doneStatus = taskToEdit.getDoneStatus();
        
         if(isValidString(name)) {
@@ -105,6 +117,10 @@ public class EditCommand extends Command {
             hasChanged = true ;
         }else{
             newDescription = taskToEdit.getDescription();
+        }
+        
+        if (dateMap.size() > 0) {
+        	hasChanged = true;
         }
         
         newTagSet = new UniqueTagList(editOrDeleteTags(taskToEdit.getTags(), tagSet)) ;
