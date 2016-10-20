@@ -51,6 +51,11 @@ public class FreetimeCommand extends Command{
 		
 		getAllEvent(filteredList);
 		sortEventList();
+		for(int i = 0; i < timeList.size() ; i++) {
+			LocalDateTime hey = timeList.get(i).getKey();
+			LocalDateTime lol = timeList.get(i).getValue();
+			System.out.println(hey + " to " + lol);
+		}
 		return new CommandResult("you are free!");
 	}
 	
@@ -71,12 +76,8 @@ public class FreetimeCommand extends Command{
 	}
 	private LocalDateTime roundUpTime(LocalDateTime dateTime) {
 		int minutes = dateTime.getMinute();
-		if (minutes > HALF_AN_HOUR) {
-			LocalDateTime newDateTime = dateTime.plusMinutes(HALF_AN_HOUR - minutes);
-			return newDateTime;
-		}
-		LocalDateTime newDateTime = dateTime.minusMinutes(minutes);
-		return newDateTime;
+		return dateTime.plusMinutes(HALF_AN_HOUR - minutes);
+	
 	}
 	
 	private void sortEventList() {
