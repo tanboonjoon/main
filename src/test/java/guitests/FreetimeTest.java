@@ -47,6 +47,16 @@ public class FreetimeTest extends TaskForceGuiTest{
 		assertResultMessage(sb.toString());
 	}
 	
+	@Test
+	public void valid_command_one_long_event() {
+		commandBox.runCommand("add event st/10-21-2016 1700 et/10-22-2016 2100");
+		StringBuilder sb = new StringBuilder();
+		commandBox.runCommand("freetime day/1");
+		sb.append(String.format(FreetimeCommand.DEFAULT_STARTING_MESSAGE,"21/10/2016"))
+		.append(String.format(FreetimeCommand.FIRST_EVENT_MESSAGE, "1700"));
+		assertResultMessage(sb.toString());
+	}
+	
 	@After
 	public void clear() {
 		commandBox.runCommand("clear");
