@@ -15,7 +15,25 @@ public class TestTask implements ReadOnlyTask {
     private UniqueTagList tags;
     private boolean doneStatus = false;
     private LocalDateTime[] dates ;
+    private String recurring;
+    private int repeat;
 
+    public String getRecurring() {
+        return recurring;
+    }
+
+    public void setRecurring(String recurring) {
+        this.recurring = recurring;
+    }
+
+    public int getRepeat() {
+        return repeat;
+    }
+
+    public void setRepeat(int repeat) {
+        this.repeat = repeat;
+    }
+    
     public TestTask() {
         tags = new UniqueTagList();
         dates = new LocalDateTime[2] ;
@@ -74,6 +92,7 @@ public class TestTask implements ReadOnlyTask {
         sb.append("add " + this.getName());
         sb.append(" d/ " + this.getDescription() + " ");
         this.getTags().getInternalList().stream().forEach(s -> sb.append("t/ " + s.tagName + " "));
+        
         return sb.toString();
     }
     
@@ -81,7 +100,7 @@ public class TestTask implements ReadOnlyTask {
         StringBuilder sb = new StringBuilder();
         sb.append("edit "+ index + " " + this.getName());
         sb.append(" d/ " + this.getDescription() + " ");
-        this.getTags().getInternalList().stream().forEach(s -> sb.append("e/ " + s.tagName + " "));
+        this.getTags().getInternalList().stream().forEach(s -> sb.append("t/ " + s.tagName + " "));
         return sb.toString();
     }
 

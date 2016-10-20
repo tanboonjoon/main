@@ -42,6 +42,16 @@ public class TaskBuilder {
         return this;
     }
 
+    public TaskBuilder withRecurring(String recur) throws IllegalValueException {
+        this.task.setRecurring(recur);
+        return this;
+    }
+    
+    public TaskBuilder withRepeat(int rep) throws IllegalValueException {
+        this.task.setRepeat(rep);
+        return this;
+    }
+    
     public TestTask build() {
         return this.task;
     }
