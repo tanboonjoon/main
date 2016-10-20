@@ -90,8 +90,6 @@ public class BlockCommand extends Command {
             }
         }
         
-        // record image of taskForce to undo list
-        model.recordTaskForce();
         
         // Remove the last " and " 
         sb.delete(sb.length() - 5, sb.length()) ;
