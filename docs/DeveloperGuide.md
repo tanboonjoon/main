@@ -76,11 +76,11 @@ interface and exposes its functionality using the `LogicManager.java` class.<br>
 
 
 The _Sequence Diagram_ below shows how the components interact for the scenario where the user issues the
-command `delete 3`.
+command `delete 1`.
 
 <img src="images\SDforDeletePerson.png" width="800">
 
->Note how the `Model` simply raises a `AddressBookChangedEvent` when the Address Book data are changed,
+>Note how the `Model` simply raises a `TaskForceChangedEvent` when the TaskForce app data are changed,
  instead of asking the `Storage` to save the updates to the hard disk.
 
 The diagram below shows how the `EventsCenter` reacts to that event, which eventually results in the updates
@@ -99,8 +99,8 @@ The sections below give more details of each component.
 
 **API** : [`Ui.java`](../src/main/java/seedu/address/ui/Ui.java)
 
-The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `PersonListPanel`,
-`StatusBarFooter`, `BrowserPanel` etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class
+The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `TaskListPanel`,
+`StatusBarFooter` etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class
 and they can be loaded using the `UiPartLoader`.
 
 The `UI` component uses JavaFx UI framework. The layout of these UI parts are defined in matching `.fxml` files
@@ -119,13 +119,14 @@ The `UI` component,
 
 **API** : [`Logic.java`](../src/main/java/seedu/address/logic/Logic.java)
 
-1. `Logic` uses the `Parser` class to parse the user command.
-2. This results in a `Command` object which is executed by the `LogicManager`.
-3. The command execution can affect the `Model` (e.g. adding a person) and/or raise events.
-4. The result of the command execution is encapsulated as a `CommandResult` object which is passed back to the `Ui`.
+1. `Logic` invokes the `Parser` class to parse the user command.
+2. Upon recognizing the command, it sends the arguments to the `CommandParser` class, which recognizes the remaining arguments.
+3. This information is then captured in a `Command` object which is executed by the `LogicManager`.
+4. The command execution can affect the `Model` (e.g. adding a person) and/or raise events.
+5. The result of the command execution is encapsulated as a `CommandResult` object which is passed back to the `Ui`.
 
 Given below is the Sequence Diagram for interactions within the `Logic` component for the `execute("delete 1")`
- API call.<br>
+ API call.  
 <img src="images/DeletePersonSdForLogic.png" width="800"><br>
 
 ### Model component
@@ -136,20 +137,23 @@ Given below is the Sequence Diagram for interactions within the `Logic` componen
 
 The `Model`,
 * stores a `UserPref` object that represents the user's preferences.
-* stores the Address Book data.
-* exposes a `UnmodifiableObservableList<ReadOnlyPerson>` that can be 'observed' e.g. the UI can be bound to this list
+* stores the TaskForce app data.
+* exposes a `UnmodifiableObservableList<ReadOnlyTask>` that can be 'observed' e.g. the UI can be bound to this list
   so that the UI automatically updates when the data in the list change.
 * does not depend on any of the other three components.
+* 3 different classes of tasks implement the `ReadonyTask` interface: `Task`, the most basic form (with only ID, Name and Description), as well as `Deadline` and `Event`, which extends it.
+  * Deadlines contain an endDate, Events contain a StartDate and EndDate.
+* The model also holds a list of `Tags` through a `UniqueTagList`.
 
 ### Storage component
 
-<img src="images/StorageClassDiagram.png" width="800"><br>
+<img src="images/StorageClassDiagram.png" width="800">  
 
 **API** : [`Storage.java`](../src/main/java/seedu/address/storage/Storage.java)
 
 The `Storage` component,
 * can save `UserPref` objects in json format and read it back.
-* can save the Address Book data in xml format and read it back.
+* can save the TaskForce app data in xml format and read it back.
 
 ### Common classes
 
@@ -258,13 +262,15 @@ Priority | As a ... | I want to ... | So that I can...
 -------- | :-------- | :--------- | :-----------
 `* * *` | new user | see usage instructions | refer to instructions when I forget how to use the App
 `* * *` | user | search tasks by day | see what is due or my available on a specific day
+`* * *` | user | search tasks by week | see what is due or my available on a specific week
 `* * *` | user | add a new task | add items to my calendar or task list
 `* * *` | user | mark a task | mark task as done after I have completed it
 `* * *` | user | delete a task | remove tasks that I have completed or give up
 `* * *` | user | find a task by keyword | find all the tasks that contain that keyword
 `* * *` | user | edit a task's information | update/change the detail of a task
 `* * *` | user | specify database location | save the data in my preferred location
-`* * *` | user | to block timeslot | so that i can reserve time for tasks that are not confirmed
+`* * *` | user | to block timeslots | so that i can reserve time for tasks that are not confirmed
+`* * *` | user | to confirm one of the blocked timeslots | so that i can confirm which blocked timeslot I want and release the rest
 `* * *` | user | tag a task | so that I can search by classification or group
 `* *` | user   | find tasks that are overdue | so i can do them as soon as possible
 `* *` | user   | be informed of conflicts | so that I can refrain from assigning 2 things to the same task
@@ -278,7 +284,7 @@ Priority | As a ... | I want to ... | So that I can...
 
 ## Appendix B : Use Cases
 
-(For all use cases below, the **System** is the `ToDoList` and the **Actor** is the `user/Jim`, unless specified otherwise)
+(For all use cases below, the **System** is the `TaskForce` app and the **Actor** is the `user/Jim`, unless specified otherwise)
 
 ### Use case : Adding a new task
 
@@ -296,54 +302,46 @@ Use case ends
 
 >The system will display an error message along with the suggested format of the add command.
 
-Use case ends
-
-### Use case :  Search task by time
-
-**MSS:**
-
-1. User enters the search command by date (`d/ or w/`).
-2. System will display the list of tasks that are due that day/week.
-
-Use case ends
-
-**Extensions:**
-
-1a. User enters a time modifier that is unrecognized by the system
->The system will display an error message along with the suggested format of the view command.
-
-Use case ends.
-
-### Use case :  Searching of tasks by name
-
-**MSS:**
-
-1. User enters the find command along with a search term into the CLI.
-2. The system will display the searched result.
-
-Use case ends.
-
-**Extensions:**
-### Use case : add command - adding a task
-
-**MSS:**
-
-1. User enters the add command in the CLI along with the details for the task.
-2. System will display that "New task added: " along with the information of the added task.
-
-Use case ends
-
-**Extensions:**
-
-1a. Add command syntax entered by the user is incorrect.
->The system will display an "Invalid command format!" along with the format of Addcommand.
-
 1b. User enter a endDate bigger than startDate
 >The System will display "Please make sure your end date is later than start date".
 
 Use case ends
 
-### Use case : delete command - one entry
+### Use case: Find tasks - filter by keyword
+
+**MSS:**
+
+1. User will enter the keyword that he want to search for
+2. The system will display a list of tasks that contain the keyword.
+
+Use case ends
+
+**Extension:**
+
+1a. User enters no keyword.
+> The system will display "Invalid command format" along with the format of findCommand.
+
+Use case ends
+
+### Use case: Find tasks - filter by day/week
+
+**MSS:**
+
+1. User will enter the day/week he want to look at using CLI.
+2. The System will display a list of tasks that are related(start/due on) to the day/week.
+
+Use case ends
+
+**Extension:**
+
+1a. User enter a input that is not a number
+> The System will display "please enter a valid number when search by day/week".
+1b. User will enter the wrong syntax for find command
+> The system will display "Invalid command format" along with the format of findCommand.
+
+Use case ends
+
+### Use case : Delete a task (one entry)
 
 **MSS:**
 
@@ -354,13 +352,15 @@ Use case ends
 
 **Extensions:**
 
-1a. User enter a non-integer value.
-> The System will display "Invalid command format!" along with the format of Deletecommand
-### Use case :  Search task by time
+1a. User enter a non-integer value or invalid number.
+> The System will display "Invalid command format!" along with the format of the delete command
+
+1b. User enter an invalid index.
+> System will display 'the following indexes are invalid and ignore: INDEXES' and proceed to delete the valid index found.
 
 Use case ends
 
-### Use case : delete command - multiple entries
+### Use case : Delete tasks (multiple entries)
 
 **MSS:**
 
@@ -372,8 +372,7 @@ Use case ends
 **Extensions:**
 
 1a. User enter a non-integer value.
-> The System will display "Invalid command format!" along with the format of Deletecommand
-### Use case :  Search task by time
+> The System will display "Invalid command format!" along with the format of the delete command.
 
 1b. User enter an invalid index.
 > System will display 'the following indexes are invalid and ignore: INDEXES' and proceed to delete the valid index found.
@@ -381,7 +380,7 @@ Use case ends
 Use case ends
 
 
-### Use case : edit command - editing a task
+### Use case : Editing a task (edit)
 
 **MSS:**
 
@@ -392,12 +391,23 @@ Use case ends
 
 **Extensions:**
 
-1a. Edit command syntax entered by the user is incorrect.
->The system will display an "Invalid command format!" along with the format of Edit command.
+1a. Index provided by user is not valid
+>The system will display an error message along with the suggested format for the edit command
 
-Use case ends
+Use case ends.
 
-### Use case : clear command
+1b. Not all details are provided by the user.
+>The system will only edit the details of the task the user provides and leave the rest unmodified.
+
+Use case ends.
+
+1c. The user did not enter any new details
+>The system will leave the task unmodified
+
+Use case ends.
+
+
+### Use case : Clear task list (clear)
 
 **MSS:**
 
@@ -406,7 +416,7 @@ Use case ends
 
 Use case ends
 
-### Use case : cd command - changing saving data location
+### Use case : Changing saving data location (cd)
 
 **MSS:**
 
@@ -424,7 +434,7 @@ Use case ends
 
 Use case ends
 
-### Use case: exit command
+### Use case: Exit app
 
 **MSS:**
 
@@ -433,46 +443,12 @@ Use case ends
 
 Use case ends
 
-### use case: help command
+### use case: Help command
 
 **MSS:**
 
 1. User will enter help command using CLI.
 2. The system will pop up a new window that display the list of commandFormat.
-
-Use case ends
-
-### Use case: find command - filter by keyword
-
-**MSS:**
-
-1. User will enter the keyword that he want to search for
-2. The system will display a list of tasks that contain the keyword.
-
-Use case ends
-
-**Extension:**
-
-1a. User will enter the wrong syntax for find command.
-> The system will display "Invalid command format" along with the format of findCommand.
-
-Use case ends
-
-### Use case: find command - filter by day/week
-
-**MSS:**
-
-1. User will enter the day/week he want to look at using CLI.
-2. The System will display a list of tasks that are related(start/due on) to the day/week.
-
-Use case ends
-
-**Extension:**
-
-1a. User enter a input that is that a number
-> The System will display "please enter a valid number when search by day/week".
-1b. User will enter the wrong syntax for find command
-> The system will display "Invalid command format" along with the format of findCommand.
 
 Use case ends
 
@@ -507,29 +483,30 @@ Use case ends
 Use case ends
 
 
-### Use case : undo/reo command - undoing or redoing the previous action
+### Use case : Undoing previous action
 
-1. User will enter either undo or redo using CLI
+1. User will enter undo using CLI
 2. The system will display "Undid the most recent command" along with the updated list for display.
 
 Use case ends
 
+** Extension:**
 
+1a. There is no previous action
+> System will prompt user that there is no previous action to be undone.
 
-3a. Index provided by user is not valid
->The system will display an error message along with the suggested format for the edit command
+### Use case: Redoing previously undone action
 
-Use case ends.
+1. User will enter redo using CLI
+2. The system will display "Redid the most recent undone command" along with the updated list for display.
 
-3b. Not all details are provided by the user.
->The system will only edit the details of the task the user provides and leave the rest unmodified.
+Use case ends
 
-Use case ends.
+** Extension: **
 
-3c. The user did not enter any new details
->The system will leave the task unmodified
+1a. There is no previous undone action
+> System will prompt user that there is no previous undone action to be redone.
 
-Use case ends.
 
 
 ## Appendix C : Non Functional Requirements
@@ -541,9 +518,9 @@ Use case ends.
 5. Should not take more than 5 seconds when executing find command
 
 ### Project Constraints NFR
-6. final product should be a result of morphing using level4 code
-7. software must work on desktop without internet connection
-8. software must be stand-alone with optional extensions
+6. Final product should be a result of morphing using level4 code
+7. Software must work on desktop without internet connection
+8. Software must be stand-alone with optional extensions
 9. CommandLine must be the primary mode of input
 10. Software must not use any form of relational database
 11. Data must be stored locally and human editable
@@ -556,7 +533,7 @@ Use case ends.
 
 > Windows, Linux, Unix, OS-X
 
-##### Private contact detail
+##### Private Contact Detail
 
 > A contact detail that is not meant to be shared with others
 
@@ -570,3 +547,5 @@ Google Keep | Simple to use, lightweigh | Text based with no advanced functional
 Todo.txt | Purely text based, simple and clean. Command line interface for Jim | Lacks advanced functionality. No events
 Remember the Milk | Allows management of large number of tasks | Too complex for a simple user
 Any.do | Simple, clean, easy to use | Cannot make time blocks
+
+In general, most products lack a command line interface, or the customization that Jim needs - the ability to block, the ability to set time properly, etc.
