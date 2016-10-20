@@ -89,6 +89,8 @@ public class ConfirmCommand extends Command {
         String name = blockToConfirm.getName() ;
 
         Task newEvent = new Event(id, name, description, startDate, endDate, taglist) ;
+        
+        model.recordTaskForce();
 
         try {
             model.addTask(newEvent);
