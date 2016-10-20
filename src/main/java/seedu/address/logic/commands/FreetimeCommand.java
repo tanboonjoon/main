@@ -131,13 +131,18 @@ public class FreetimeCommand extends Command{
 			return sb.toString();
 		}
 
+		
 		for (int time_index = 1 ;  time_index < timeList.size(); time_index++) {
 			LocalDateTime nextStartTime = timeList.get(time_index).getKey();
 			LocalDateTime nextEndTime = timeList.get(time_index).getValue();
 			
 
 			if (currentEndTime.isAfter(nextStartTime) || currentEndTime.isEqual(nextStartTime)) {
-				currentEndTime = timeList.get(time_index).getValue();
+				LocalDateTime tempEndTime = timeList.get(time_index).getValue();
+				if (tempEndTime.isAfter(currentEndTime)) {
+					currentEndTime = tempEndTime;
+					continue;
+				}
 				continue;
 			}
 		
