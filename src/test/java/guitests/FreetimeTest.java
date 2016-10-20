@@ -5,8 +5,6 @@ import org.junit.Before;
 import org.junit.Test;
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 import seedu.address.logic.commands.FreetimeCommand;
 

@@ -119,6 +119,7 @@ public class FreetimeCommand extends Command{
 		// TODO Auto-generated method stub
 		LocalDateTime currentStartTime = startTime;
 		LocalDateTime currentEndTime = endTime;
+		
 		if (currentStartTime.isBefore(thatDay) && currentEndTime.isAfter(thatDay)) {
 			sb.append(String.format(ONGOING_EVENT_MESSAGE, currentStartTime.format(datetimeFormat), currentEndTime.format(datetimeFormat)));
 			return sb.toString();
@@ -131,7 +132,13 @@ public class FreetimeCommand extends Command{
 			return sb.toString();
 		}
 
-		
+		return getAllFreeSlot( currentStartTime, currentEndTime, same_day, sb);
+
+	}
+	
+	private String getAllFreeSlot(LocalDateTime currentStartTime, LocalDateTime currentEndTime, int same_day,
+			StringBuilder sb) {
+		// TODO Auto-generated method stub
 		for (int time_index = 1 ;  time_index < timeList.size(); time_index++) {
 			LocalDateTime nextStartTime = timeList.get(time_index).getKey();
 			LocalDateTime nextEndTime = timeList.get(time_index).getValue();
@@ -157,8 +164,9 @@ public class FreetimeCommand extends Command{
 		}
 		return currentEndTime.getDayOfMonth() != same_day ? sb.toString() :
 			sb.append(String.format(LAST_EVENT_MESSAGE, currentEndTime.format(hourFormat))).toString();
+		
 	}
-	
+
 	private String freetimeForOneEvent(LocalDateTime startTime, LocalDateTime endTime, int same_day, StringBuilder sb) {
 		int startTimeDay = startTime.getDayOfMonth();
 		int endTimeDay = endTime.getDayOfMonth();
