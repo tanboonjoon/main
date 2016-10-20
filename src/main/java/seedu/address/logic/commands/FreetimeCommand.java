@@ -120,15 +120,18 @@ public class FreetimeCommand extends Command{
 		LocalDateTime currentStartTime = startTime;
 		LocalDateTime currentEndTime = endTime;
 		
-		if (currentStartTime.isBefore(thatDay) && currentEndTime.isAfter(thatDay)) {
+		int startTimeDate = currentStartTime.getDayOfMonth();
+		int endTimeDate = currentEndTime.getDayOfMonth();
+		
+		if (startTimeDate != same_day && endTimeDate != same_day) {
 			sb.append(String.format(ONGOING_EVENT_MESSAGE, currentStartTime.format(datetimeFormat), currentEndTime.format(datetimeFormat)));
 			return sb.toString();
 		}
-		if (currentStartTime.getDayOfMonth() == same_day) {
+		if (startTimeDate == same_day) {
 			sb.append(String.format(FIRST_EVENT_MESSAGE, currentStartTime.format(hourFormat)));
 		}
 		
-		if	(currentEndTime.getDayOfMonth() != same_day) {
+		if	(endTimeDate != same_day) {
 			return sb.toString();
 		}
 
