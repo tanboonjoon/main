@@ -33,6 +33,8 @@ public class NameQualifier implements Qualifier {
     private final int LAST_DAY_INDEX = 7;
 
     private final int SAME_DAY_VALUE = 0;
+    private final int AFTER_START_DATE = 0;
+    private final int BEFORE_END_DATE = 0;
     private final int DATE_ARGS_INDEX = 0;
     private final int FORMATTED_DATE_INDEX = 0;
     private final int GET_TO_MONDAY_INDEX = 1;
@@ -108,11 +110,19 @@ public class NameQualifier implements Qualifier {
 
         return false;
     }
-
+    /**
+     * filter out event that start or end on that particular date
+     * filter out ongoing event that is happening during that particular date
+     */
     public boolean filterEvent(String taskStartDate, String taskEndDate) {
         if (findType.equals("DAY")) {
-            return formattedDateList.get(FORMATTED_DATE_INDEX).compareTo(taskStartDate) == SAME_DAY_VALUE
-                    || formattedDateList.get(FORMATTED_DATE_INDEX).compareTo(taskEndDate) == SAME_DAY_VALUE;
+        	String formattedDate = formattedDateList.get(FORMATTED_DATE_INDEX);
+        	return formattedDate.compareTo(taskStartDate) == SAME_DAY_VALUE
+        			|| formattedDate.compareTo(taskEndDate) == SAME_DAY_VALUE
+        			|| (formattedDate.compareTo(taskStartDate) >= AFTER_START_DATE &
+        			formattedDate.compareTo(taskEndDate) <= BEFORE_END_DATE);
+
+                   
         }
 
         for (int day_index = STARTING_INDEX; day_index < LAST_DAY_INDEX; day_index++) {
@@ -120,6 +130,10 @@ public class NameQualifier implements Qualifier {
             if (formattedDate.compareTo(taskStartDate) == SAME_DAY_VALUE
                     || formattedDate.compareTo(taskEndDate) == SAME_DAY_VALUE) {
                 return TASK_FOUND;
+            }
+            if (formattedDate.compareTo(taskStartDate) >= AFTER_START_DATE &
+        			formattedDate.compareTo(taskEndDate) <= BEFORE_END_DATE) {
+            	return TASK_FOUND;
             }
 
         }

@@ -35,6 +35,8 @@ public class FreetimeCommand extends Command{
 	public static final String FIRST_EVENT_MESSAGE = "before %1$s \n";
 	public static final String LAST_EVENT_MESSAGE = "after %1$s \n";
 	public static final String BETWEEN_EVENT_MESSAGE = "%1$s to %2$s \n";
+	public static final String ONGOING_EVENT_MESSAGE = "You are not free because you have a ongoing from %1$s to %2$s \n";
+	
 	private final String SEARCH_TYPE = "DAY";
 ;
 	private final boolean DONE = true;
@@ -47,18 +49,19 @@ public class FreetimeCommand extends Command{
 	
 	private ArrayList<Pair<LocalDateTime, LocalDateTime>> timeList;
 	private final Set<String> searchSet;
-	public final String searchedDay;
+
 	
-	DateTimeFormatter dateFormat;
-	DateTimeFormatter hourFormat;
+	private DateTimeFormatter dateFormat;
+	private DateTimeFormatter hourFormat;
+	private DateTimeFormatter datetimeFormat;
 	
 	public FreetimeCommand(String searchedDay) {
-		this.searchedDay = searchedDay;
 		this.searchSet = new HashSet<String>();
 		this.searchSet.add(searchedDay);
 		timeList = new  ArrayList<Pair<LocalDateTime, LocalDateTime>> ();
 		dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		hourFormat = DateTimeFormatter.ofPattern("HHmm");
+		datetimeFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy HHmm");
 	}
 
 	@Override
@@ -99,35 +102,59 @@ public class FreetimeCommand extends Command{
 		if (timeList.size() == ONE_EVENT_ON_THAT_DAY) {
 			currStartTime = timeList.get(FIRST_EVENT_INDEX).getKey();
 		    currEndTime = timeList.get(FIRST_EVENT_INDEX).getValue();
-			
-			sb.append(String.format(FIRST_EVENT_MESSAGE, currStartTime.format(hourFormat)));
-			
-			return currEndTime.getDayOfMonth() != same_day ? sb.toString() :
-				sb.append(String.format(LAST_EVENT_MESSAGE, currEndTime.format(hourFormat))).toString();
+		    return freetimeForOneEvent(currStartTime , currEndTime, same_day, sb);
 	
 		}
 		
 		currStartTime = timeList.get(FIRST_EVENT_INDEX).getKey();
 		currEndTime = timeList.get(FIRST_EVENT_INDEX).getValue();
 		
-		sb.append(String.format(FIRST_EVENT_MESSAGE, currStartTime.format(hourFormat)));
+		return freetimeForMutipleEvents(currStartTime, currEndTime, onThatDay, sb);
+
+
+	}
+	
+	private String freetimeForMutipleEvents(LocalDateTime startTime, LocalDateTime endTime,LocalDateTime thatDay, StringBuilder sb) {
+		int same_day = thatDay.getDayOfMonth();
+		// TODO Auto-generated method stub
+		LocalDateTime currentStartTime = startTime;
+		LocalDateTime currentEndTime = endTime;
 		
-		if	(currEndTime.getDayOfMonth() != same_day) {
+		if (currentStartTime.isBefore(thatDay) && currentEndTime.isAfter(thatDay)) {
+			sb.append(String.format(ONGOING_EVENT_MESSAGE, currentStartTime.format(datetimeFormat), currentEndTime.format(datetimeFormat)));
 			return sb.toString();
 		}
+		if (currentStartTime.getDayOfMonth() == same_day) {
+			sb.append(String.format(FIRST_EVENT_MESSAGE, currentStartTime.format(hourFormat)));
+		}
 		
+		if	(currentEndTime.getDayOfMonth() != same_day) {
+			return sb.toString();
+		}
+
+		return getAllFreeSlot( currentStartTime, currentEndTime, same_day, sb);
+
+	}
+	
+	private String getAllFreeSlot(LocalDateTime currentStartTime, LocalDateTime currentEndTime, int same_day,
+			StringBuilder sb) {
+		// TODO Auto-generated method stub
 		for (int time_index = 1 ;  time_index < timeList.size(); time_index++) {
 			LocalDateTime nextStartTime = timeList.get(time_index).getKey();
 			LocalDateTime nextEndTime = timeList.get(time_index).getValue();
 			
 
-			if (currEndTime.isAfter(nextStartTime) || currEndTime.isEqual(nextStartTime)) {
-				currEndTime = timeList.get(time_index).getValue();
+			if (currentEndTime.isAfter(nextStartTime) || currentEndTime.isEqual(nextStartTime)) {
+				LocalDateTime tempEndTime = timeList.get(time_index).getValue();
+				if (tempEndTime.isAfter(currentEndTime)) {
+					currentEndTime = tempEndTime;
+					continue;
+				}
 				continue;
 			}
 		
-			sb.append(String.format(BETWEEN_EVENT_MESSAGE, currEndTime.format(hourFormat), nextStartTime.format(hourFormat)));
-			currEndTime = nextEndTime;
+			sb.append(String.format(BETWEEN_EVENT_MESSAGE, currentEndTime.format(hourFormat), nextStartTime.format(hourFormat)));
+			currentEndTime = nextEndTime;
 			
 			if (nextEndTime.getDayOfMonth() != same_day) {
 				return sb.toString();
@@ -135,8 +162,30 @@ public class FreetimeCommand extends Command{
 
 
 		}
-		return currEndTime.getDayOfMonth() != same_day ? sb.toString() :
-			sb.append(String.format(LAST_EVENT_MESSAGE, currEndTime.format(hourFormat))).toString();
+		return currentEndTime.getDayOfMonth() != same_day ? sb.toString() :
+			sb.append(String.format(LAST_EVENT_MESSAGE, currentEndTime.format(hourFormat))).toString();
+		
+	}
+
+	private String freetimeForOneEvent(LocalDateTime startTime, LocalDateTime endTime, int same_day, StringBuilder sb) {
+		int startTimeDay = startTime.getDayOfMonth();
+		int endTimeDay = endTime.getDayOfMonth();
+		if (startTimeDay != same_day && endTimeDay != same_day) {
+			sb.append(String.format(ONGOING_EVENT_MESSAGE, startTime.format(datetimeFormat), endTime.format(datetimeFormat)));
+			return sb.toString();
+		}
+		if (startTimeDay != same_day) {
+			sb.append(String.format(LAST_EVENT_MESSAGE, endTime.format(hourFormat)));
+			return sb.toString();
+		}
+		
+		sb.append(String.format(FIRST_EVENT_MESSAGE, startTime.format(hourFormat)));
+		
+		if (endTime.getDayOfMonth() != same_day) {
+			return sb.toString();
+		}
+		
+		return sb.append(String.format(LAST_EVENT_MESSAGE, endTime.format(hourFormat))).toString();
 
 	}
 
