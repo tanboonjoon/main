@@ -1,6 +1,7 @@
 package seedu.address.logic.commands;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -30,16 +31,26 @@ public class FreetimeCommand extends Command{
 	
 	public static final String INVALID_FREETIME_ARGS = "Please enter a valid number eg. freetime day/5";
 	private final String SEARCH_TYPE = "DAY";
+	private final String DEFAULT_STARTING_TIME = "0000";
+	
+	private final int ZERO_EVENT_ON_THAT_DAY = 0;
+	private final int SEARCHED_DAY_INDEX = 0;
 	private final int HALF_AN_HOUR = 30;
-	public final String searchedDay;
-	private final Set<String> searchSet;
+	
 	private ArrayList<Pair<LocalDateTime, LocalDateTime>> timeList;
+	private final Set<String> searchSet;
+	public final String searchedDay;
+	
+	DateTimeFormatter dateFormat;
+	DateTimeFormatter hourFormat;
 	
 	public FreetimeCommand(String searchedDay) {
 		this.searchedDay = searchedDay;
 		this.searchSet = new HashSet<String>();
 		this.searchSet.add(searchedDay);
 		timeList = new  ArrayList<Pair<LocalDateTime, LocalDateTime>> ();
+		dateFormat = DateTimeFormatter.ofPattern("ddMMyyyy");
+		hourFormat = DateTimeFormatter.ofPattern("HHmm");
 	}
 
 	@Override
@@ -48,17 +59,36 @@ public class FreetimeCommand extends Command{
 		model.updateFilteredTaskList(searchSet, SEARCH_TYPE);
 		List<ReadOnlyTask> filteredList = model.getFilteredTaskList();
 
-		
+		LocalDateTime onThatDay = getThatDay();
 		getAllEvent(filteredList);
 		sortEventList();
-		for(int i = 0; i < timeList.size() ; i++) {
-			LocalDateTime hey = timeList.get(i).getKey();
-			LocalDateTime lol = timeList.get(i).getValue();
-			System.out.println(hey + " to " + lol);
-		}
+		String freeTime = getFreeTime(onThatDay);
 		return new CommandResult("you are free!");
 	}
 	
+
+	private LocalDateTime getThatDay() {
+		// TODO Auto-generated method stub
+		List<String> getTimeArg = new ArrayList<String>(searchSet);
+		Long timeToAdd = Long.parseLong(getTimeArg.get(SEARCHED_DAY_INDEX));
+		LocalDateTime dateToday = LocalDateTime.now();
+		return dateToday.plusDays(timeToAdd);
+	}
+
+	private String getFreeTime(LocalDateTime onThatDay) {
+		// TODO Auto-generated method stub
+
+		int day = onThatDay.getDayOfMonth();
+		StringBuilder sb = new StringBuilder();
+		sb.append("for ").append(onThatDay.format(dateFormat)).append(", you are free on :\n");
+		if (timeList.size() == ZERO_EVENT_ON_THAT_DAY) {
+			sb.append("free for the whole day, you can start clearing some reminders");
+			return sb.toString();
+		}
+		
+		
+		return null;
+	}
 
 	private void getAllEvent(List<ReadOnlyTask> filteredList) {
 		// TODO Auto-generated method stub
