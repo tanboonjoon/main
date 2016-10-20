@@ -157,7 +157,7 @@ public class FreetimeCommand extends Command{
 		int startTimeDay = startTime.getDayOfMonth();
 		int endTimeDay = endTime.getDayOfMonth();
 		if (startTimeDay != same_day && endTimeDay != same_day) {
-			sb.append(String.format(ONGOING_EVENT_MESSAGE, startTime.format(hourFormat), endTime.format(hourFormat)));
+			sb.append(String.format(ONGOING_EVENT_MESSAGE, startTime.format(datetimeFormat), endTime.format(datetimeFormat)));
 			return sb.toString();
 		}
 		if (startTimeDay != same_day) {

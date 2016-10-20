@@ -74,6 +74,16 @@ public class FreetimeTest extends TaskForceGuiTest{
 		
 	}
 	
+
+	@Test
+	public void valid_command_ongoing_event() {
+		commandBox.runCommand("add event st/10-17-2016 1300 et/10-23-2016 1400");
+		StringBuilder sb = new StringBuilder();
+		commandBox.runCommand("freetime day/1");
+		sb.append(String.format(FreetimeCommand.ONGOING_EVENT_MESSAGE, "17/10/2016 1300", "23/10/2016 1400"));
+		assertResultMessage(sb.toString());
+	}
+	
 	@Test	
 	public void valid_command_mutiple_event_long() {
 		commandBox.runCommand("add event st/10-21-2016 1300 et/10-21-2016 1400");
