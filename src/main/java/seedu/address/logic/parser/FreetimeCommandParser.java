@@ -29,7 +29,6 @@ public class FreetimeCommandParser extends CommandParser {
 		parser.addRequiredArg(CommandArgs.FIND_DAY);
 		
 		if (!isValidArgs(SEARCH_TYPE, args.trim())) {
-			System.out.println("first");
 			return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
                     FreetimeCommand.MESSAGE_USAGE));
 		}
@@ -38,7 +37,6 @@ public class FreetimeCommandParser extends CommandParser {
 			parser.parse(args);
 					
 		} catch (IncorrectCommandException e) {
-			System.out.println("second error");
 			return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FreetimeCommand.MESSAGE_USAGE));
 		}
 		String parsedArgs = parser.getArgValue(CommandArgs.FIND_DAY).get().trim();
@@ -59,6 +57,7 @@ public class FreetimeCommandParser extends CommandParser {
 		char searchType_char;
 		char args_char;
 		int seperatorIndex = searchType.length();
+		
 		for (compareCharAt = 0; compareCharAt < searchType.length();  compareCharAt++) {
 			searchType_char = searchType.toLowerCase().charAt(compareCharAt);
 			args_char = args.toLowerCase().charAt(compareCharAt);
