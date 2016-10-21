@@ -61,9 +61,9 @@ public class MarkCommand extends Command {
             }
             
             if (newTask.getDoneStatus()) {
-            	return new CommandResult(String.format(MESSAGE_MARK_TASK_SUCCESS_DONE, newTask));
+            	return new CommandResult(String.format(MESSAGE_MARK_TASK_SUCCESS_DONE, newTask), true);
             } else {
-            	return new CommandResult(String.format(MESSAGE_MARK_TASK_SUCCESS_UNDONE, newTask));
+            	return new CommandResult(String.format(MESSAGE_MARK_TASK_SUCCESS_UNDONE, newTask), true);
             }
   
         } catch (UniqueTaskList.DuplicateTaskException e) {

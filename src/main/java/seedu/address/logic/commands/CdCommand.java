@@ -68,7 +68,7 @@ public class CdCommand extends Command {
 			config.setTaskForceFilePath(this.newStoragePath);
 			ConfigUtil.saveConfig(config, CONFIG_JSON_PATH);
 	
-			return new CommandResult(MESSAGE_SUCCESS + this.newStoragePath);
+			return new CommandResult(MESSAGE_SUCCESS + this.newStoragePath, true);
 
 		} catch (IOException e) {
 			return new CommandResult(MESSAGE_FAILURE_FILE_PATH);

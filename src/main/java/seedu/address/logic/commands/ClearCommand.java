@@ -19,7 +19,7 @@ public class ClearCommand extends Command {
         assert model != null;
         model.recordTaskForce();
         model.resetData(TaskForce.getEmptyTaskForce());
-        return new CommandResult(MESSAGE_SUCCESS);
+        return new CommandResult(MESSAGE_SUCCESS, true);
     }
     
 }

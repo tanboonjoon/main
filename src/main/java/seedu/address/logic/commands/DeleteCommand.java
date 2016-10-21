@@ -1,7 +1,9 @@
 package seedu.address.logic.commands;
 
+import java.util.Collections;
 import java.util.List;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 
 import javafx.util.Pair;
@@ -29,9 +31,12 @@ public class DeleteCommand extends Command {
     public static final String MESSAGE_DELETE_TASK_IGNORED = "The following indexes are invalid and ignored: %1$s ";
 
     public final List<Integer> targetIndexes;
+    
+    private final List<ReadOnlyTask> deletedTasks ;
 
     public DeleteCommand(Integer... targetIndex) {
         this.targetIndexes = Lists.newLinkedList() ;
+        this.deletedTasks = Lists.newLinkedList() ;
         
         for (int index : targetIndex) {
             this.targetIndexes.add(index) ;
@@ -67,6 +72,7 @@ public class DeleteCommand extends Command {
     
             try {
                 model.deleteTask(task);
+                deletedTasks.add(task) ;
                 
                 messageBuilder.addDeletedTaskDetails(task.getName()) ;
             } catch (TaskNotFoundException pnfe) {
@@ -75,7 +81,7 @@ public class DeleteCommand extends Command {
         }
         
      
-        return new CommandResult(messageBuilder.getDeleteCommandResultString());
+        return new CommandResult(messageBuilder.getDeleteCommandResultString(), true);
     }
     
     /**
@@ -158,8 +164,7 @@ public class DeleteCommand extends Command {
 
     @Override
     public Pair<List<ReadOnlyTask>, List<ReadOnlyTask>> getCommandChanges() {
-        // TODO Auto-generated method stub
-        return null;
+        return new Pair<List<ReadOnlyTask>, List<ReadOnlyTask>> (Collections.emptyList(), ImmutableList.copyOf(deletedTasks)) ;
     }
     
 

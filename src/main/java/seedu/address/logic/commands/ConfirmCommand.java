@@ -105,7 +105,7 @@ public class ConfirmCommand extends Command {
             return new CommandResult(MESSAGE_DUPLICATE_TASK) ;
         }
 
-        return new CommandResult(String.format(MESSAGE_CONFIRM_SUCCESS, newEvent)) ;
+        return new CommandResult(String.format(MESSAGE_CONFIRM_SUCCESS, newEvent), true) ;
     }
 
     private void findAndDeleteOtherBlocks (Block task) {
