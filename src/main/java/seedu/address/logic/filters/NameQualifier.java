@@ -62,8 +62,7 @@ public class NameQualifier implements Qualifier {
 
         if (isKeywordSearch(findType)) {
             Trie keywordTrie = buildKeyword();
-            return filterByKeyWord(task, keywordTrie);
-
+            return filterByKeyWord(task, keywordTrie, findType);
         }
 
         getDateForCompare();
@@ -140,7 +139,7 @@ public class NameQualifier implements Qualifier {
 
         }
 
-        return false;
+        return TASK_NOT_FOUND;
     }
     /**
      * filter out event that start or end on that particular date
@@ -149,28 +148,34 @@ public class NameQualifier implements Qualifier {
     public boolean filterEvent(String taskStartDate, String taskEndDate) {
         if (findType.equals("DAY")) {
         	String formattedDate = formattedDateList.get(FORMATTED_DATE_INDEX);
-        	return formattedDate.compareTo(taskStartDate) == SAME_DAY_VALUE
-        			|| formattedDate.compareTo(taskEndDate) == SAME_DAY_VALUE
-        			|| (formattedDate.compareTo(taskStartDate) >= AFTER_START_DATE &
-        			formattedDate.compareTo(taskEndDate) <= BEFORE_END_DATE);
-
-                   
+        	return isEventFound(formattedDate, taskStartDate, taskEndDate);
+            
         }
 
         for (int day_index = STARTING_INDEX; day_index < LAST_DAY_INDEX; day_index++) {
             String formattedDate = formattedDateList.get(day_index);
-            if (formattedDate.compareTo(taskStartDate) == SAME_DAY_VALUE
-                    || formattedDate.compareTo(taskEndDate) == SAME_DAY_VALUE) {
-                return TASK_FOUND;
-            }
-            if (formattedDate.compareTo(taskStartDate) >= AFTER_START_DATE &
-        			formattedDate.compareTo(taskEndDate) <= BEFORE_END_DATE) {
+            if (isEventFound(formattedDate, taskStartDate, taskEndDate)) {
             	return TASK_FOUND;
             }
 
         }
 
         return TASK_NOT_FOUND;
+    }
+    
+    private boolean isEventFound(String comparedDate, String startDate, String endDate) {
+    	if (comparedDate.compareTo(startDate) == SAME_DAY_VALUE) {
+    		return TASK_FOUND;
+    	}
+    	
+       	if (comparedDate.compareTo(endDate) == SAME_DAY_VALUE) {
+    		return TASK_FOUND;
+    	}
+       	
+       	if (comparedDate.compareTo(startDate) >= AFTER_START_DATE && comparedDate.compareTo(endDate) <= BEFORE_END_DATE) {
+       		return TASK_FOUND;
+       	}
+    	return TASK_NOT_FOUND;
     }
 
     private void getFormattedDate() {
