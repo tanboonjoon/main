@@ -196,16 +196,21 @@ public class NameQualifier implements Qualifier {
             return;
         }
 
-        LocalDateTime dateOfThatWeek = dateToday.plusWeeks(timeToAdd);
-        int dayOfThatWeek = dateOfThatWeek.getDayOfWeek().getValue();
-        LocalDateTime previousWeek = dateOfThatWeek.minusDays(dayOfThatWeek);
-        LocalDateTime startOfTheWeek = previousWeek.plusDays(GET_TO_MONDAY_INDEX);
+
+        LocalDateTime startOfTheWeek = getToDesiredWeek(timeToAdd, dateToday);
 
         for (int day_index = STARTING_INDEX; day_index < LAST_DAY_INDEX; day_index++) {
             dateForCompare = startOfTheWeek.plusDays(day_index);
             dateToCompareList.add(dateForCompare);
         }
 
+    }
+    
+    public LocalDateTime getToDesiredWeek (Long addedTime, LocalDateTime now ) {
+    	LocalDateTime dateOfThatWeek = now.plusWeeks(addedTime);
+    	int dayOfThatWeek = dateOfThatWeek.getDayOfWeek().getValue();
+        LocalDateTime previousWeek = dateOfThatWeek.minusDays(dayOfThatWeek);
+        return previousWeek.plusDays(GET_TO_MONDAY_INDEX);
     }
 
     public Long parseTimeToLong(Set<String> nameKeyWords) {
