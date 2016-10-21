@@ -33,31 +33,29 @@ public class FindCommandParser extends CommandParser {
     public static String SEPERATOR = "/";
     @Override
     public Command prepareCommand(String args) {
-        ArgumentsParser parser = new ArgumentsParser() ;
         
-        parser
-        .addOptionalArg(CommandArgs.FIND_ALL)
-        .addOptionalArg(CommandArgs.FIND_WEEK)
-        .addOptionalArg(CommandArgs.FIND_DAY);
+    	
+    	ArgumentsParser parser = prepareParser() ;
 
         try {	
 
             parser.parse(args);
             
             final String find_type = prepareFindTypes(
-            		parser.getArgValue(CommandArgs.FIND_ALL).isPresent() ? "ALL"  : "",
-            		parser.getArgValue(CommandArgs.FIND_WEEK).isPresent() ? "WEEK"  : "",
-            		parser.getArgValue(CommandArgs.FIND_DAY).isPresent() ? "DAY" : ""
+            		parser.getArgValue(CommandArgs.FIND_NAME).isPresent() ? "NAME"  : "",
+            		parser.getArgValue(CommandArgs.FIND_WEEK).isPresent() ? "WEEK" : "",
+            		parser.getArgValue(CommandArgs.FIND_DAY).isPresent()  ? "DAY"  : "",
+            		parser.getArgValue(CommandArgs.FIND_DESC).isPresent() ? "DESC" : "",
+            		parser.getArgValue(CommandArgs.FIND_TAG).isPresent()  ? "TAG"  : ""	
             		);
+            
             if (!isValidArgs(find_type, args.trim())) {
                 return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
                         FindCommand.MESSAGE_USAGE));
             }
             
-            final String[] keywords = getKeywords(find_type, parser);
-            final Set<String> keywordSet = Sets.newHashSet(Arrays.asList(keywords));
             
-            keywordSet.remove(EMPTY_STRING);
+            final  Set<String> keywordSet = prepareSets(find_type , parser);
             return new FindCommand(keywordSet, find_type);
             
         } catch (IncorrectCommandException e) {
@@ -75,7 +73,28 @@ public class FindCommandParser extends CommandParser {
 
     }
     
-    //To check that users does not enter anything between find command and search type
+    private Set<String> prepareSets(String find_type, ArgumentsParser parser) throws IncorrectCommandException {
+		// TODO Auto-generated method stub
+    	final String[] keywords = getKeywords(find_type, parser);
+    	final Set<String> preparedKeywordSet = Sets.newHashSet(Arrays.asList(keywords));
+    	preparedKeywordSet.remove(EMPTY_STRING);
+		return preparedKeywordSet;
+	}
+
+	private ArgumentsParser prepareParser() {
+		// TODO Auto-generated method stub
+    	ArgumentsParser prepareParser = new ArgumentsParser();
+    	prepareParser
+    	.addOptionalArg(CommandArgs.FIND_NAME)
+    	.addOptionalArg(CommandArgs.FIND_WEEK)
+    	.addOptionalArg(CommandArgs.FIND_DAY)
+    	.addOptionalArg(CommandArgs.FIND_DESC)
+    	.addOptionalArg(CommandArgs.FIND_TAG);
+    	
+    	return prepareParser;
+	}
+
+	//To check that users does not enter anything between find command and search type
     //eg. find abcd all/KEYWORDS
     private boolean isValidArgs(String find_type, String args) {
 		// TODO Auto-generated method stub
@@ -113,12 +132,16 @@ public class FindCommandParser extends CommandParser {
   
     	
     	switch (find_type) {
-    	case "ALL":
-    		return parser.getArgValue(CommandArgs.FIND_ALL).get().split("\\s+");
+    	case "NAME":
+    		return parser.getArgValue(CommandArgs.FIND_NAME).get().split("\\s+");
     	case "WEEK":
     		return parser.getArgValue(CommandArgs.FIND_WEEK).get().split("\\s+"); 		
     	case "DAY":
     		return parser.getArgValue(CommandArgs.FIND_DAY).get().split("\\s+");
+    	case "DESC":
+    		return parser.getArgValue(CommandArgs.FIND_DESC).get().split("\\s+");
+    	case "TAG":
+    		return parser.getArgValue(CommandArgs.FIND_TAG).get().split("\\s+");
     	default:
     		throw new IncorrectCommandException() ;
     	}
