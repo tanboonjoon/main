@@ -38,7 +38,7 @@ public class LogicManager extends ComponentManager implements Logic {
   
         result = command.execute();
 
-        BaseEvent commandExecuted = new TaskForceCommandExecutedEvent(command.getClass(), commandText, result) ;
+        BaseEvent commandExecuted = new TaskForceCommandExecutedEvent(command, result) ;
         
         model.raiseEvent(commandExecuted) ;
         return result ;
