@@ -83,8 +83,10 @@ public final class DateUtil {
             int hours = endDate.get().getHour() ;
 
             computedEndDate = startDate.get().withHour(hours).withMinute(minutes).withSecond(seconds) ;
-
-            return Optional.of(new Pair<LocalDateTime, LocalDateTime> (computedStartDate, computedEndDate)) ;
+            
+            if (computedStartDate.isBefore(computedEndDate)) {
+                return Optional.of(new Pair<LocalDateTime, LocalDateTime> (computedStartDate, computedEndDate)) ;
+            }
 
         }
 
