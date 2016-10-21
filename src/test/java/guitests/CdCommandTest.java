@@ -89,7 +89,8 @@ public class CdCommandTest extends TaskForceGuiTest {
         commandBox.runCommand("cd " + validPath);
         assertResultMessage( String.format(CdCommand.MESSAGE_SUCCESS_CHANGE, validPath) );
         
-        File file = new File("forTesting.xml");
+       
+        File file = new File("./src/test/java/guitests/forTesting.xml");
         assertTrue(file.exists());
         file.delete() ;
 

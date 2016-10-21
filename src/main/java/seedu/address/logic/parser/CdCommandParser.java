@@ -9,7 +9,7 @@ import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.IncorrectCommand;
 //@@author A0139942W
 public class CdCommandParser extends CommandParser{
-	private String NO_ARGUMENTS = null;
+
 	
 	@Override
 	public Command prepareCommand(String args) {
@@ -26,7 +26,7 @@ public class CdCommandParser extends CommandParser{
 	}
 	
 	public String getType(String args) {
-		if (args.equals(NO_ARGUMENTS)) {
+		if (args.isEmpty()) {
 			return CdCommand.CD_CHECK;
 		}
 		

@@ -46,8 +46,24 @@ public class CdCommand extends Command {
 	private StorageManager storageManager;
 
 
-	public CdCommand(String filepath, String commandType) throws IllegalValueException {
+	public CdCommand(String filepath, String commandType) throws IllegalValueException  {
 		
+		if (commandType.equals(CD_CHANGE)) {
+			checkForInvalidArgs(filepath);
+		}
+
+		
+		this.commandType = commandType;
+		this.config = new Config();
+		this.originalJsonPath = config.getUserPrefsFilePath();
+		this.newStoragePath = filepath;
+		this.storageManager = new StorageManager(this.newStoragePath, originalJsonPath );
+	}
+
+
+
+	private void checkForInvalidArgs(String filepath) throws IllegalValueException {
+		// TODO Auto-generated method stub
 		if (!checkFileType(filepath)) {
 			throw new IllegalValueException(MESSAGE_FAILURE_FILE_TYPE);
 		}
@@ -55,12 +71,6 @@ public class CdCommand extends Command {
 		if (!isValidPath(filepath)) {
 			throw new IllegalValueException(MESSAGE_FAILURE_FILE_PATH);
 		}
-		
-		this.commandType = commandType;
-		this.config = new Config();
-		this.originalJsonPath = config.getUserPrefsFilePath();
-		this.newStoragePath = filepath;
-		this.storageManager = new StorageManager(this.newStoragePath, originalJsonPath );
 	}
 
 
