@@ -2,10 +2,14 @@ package seedu.address.logic.commands;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Sets;
 
+import javafx.util.Pair;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.commons.util.DateUtil;
 import seedu.address.commons.util.StringUtil;
@@ -13,6 +17,7 @@ import seedu.address.model.tag.Tag;
 import seedu.address.model.tag.UniqueTagList;
 import seedu.address.model.task.Deadline;
 import seedu.address.model.task.Event;
+import seedu.address.model.task.ReadOnlyTask;
 import seedu.address.model.task.Task;
 import seedu.address.model.task.UniqueTaskList;
 
@@ -62,14 +67,15 @@ public class AddCommand extends Command {
     private int repeat;
     private int id;
 
-    private ArrayList<Task> taskList = new ArrayList<Task>();
+    private List<Task> taskList = new ArrayList<>();
 
     /**
+     * @@author A0135768R
+     * 
      * Convenience constructor using raw values.
      *
      * @throws IllegalValueException if any of the raw values are invalid
      */
-
     public AddCommand(String name, String description,String startDate,String endDate, Set<String> tags, String recurring, String repeat) throws IllegalValueException {
         final Set<Tag> tagSet = Sets.newHashSet();
 
@@ -126,7 +132,7 @@ public class AddCommand extends Command {
                 return new CommandResult(e.getMessage());
             }
 
-        }else {
+        } else {
             this.taskList.add(getNewTask());
         }
 
@@ -135,11 +141,16 @@ public class AddCommand extends Command {
                 model.addTask(task);
             }            
 
-            return new CommandResult(String.format(MESSAGE_SUCCESS, taskList.get(0)));
+            return new CommandResult(String.format(MESSAGE_SUCCESS, taskList.get(0)), true);
 
         } catch (UniqueTaskList.DuplicateTaskException e) {
             return new CommandResult(MESSAGE_DUPLICATE_TASK);
         }
+    }
+    
+    @Override
+    public Pair<List<ReadOnlyTask>, List<ReadOnlyTask>> getCommandChanges() {
+        return new Pair<List<ReadOnlyTask>, List<ReadOnlyTask>>(ImmutableList.copyOf(taskList), Collections.emptyList()) ;
     }
 
     private void setNewTaskWithDetails (String name, String description, LocalDateTime startDate, LocalDateTime endDate, UniqueTagList tags) {

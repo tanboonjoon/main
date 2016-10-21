@@ -17,5 +17,9 @@ public class CommandResult {
     public CommandResult(String feedbackToUser) {
         this (feedbackToUser, false) ;
     }
+    
+    public boolean isSuccessfulCommand () {
+        return this.commandSuccess ;
+    }
 
 }
