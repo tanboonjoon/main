@@ -130,7 +130,7 @@ public class ModelManager extends ComponentManager implements Model {
     @Override
     public synchronized boolean restoreTaskForce() {
         if (redoTaskForceHistory.peekFirst() != null) {
-            ReadOnlyTaskForce item = redoTaskForceHistory.pollFirst();
+            ReadOnlyTaskForce item = redoTaskForceHistory.removeFirst();
             undoTaskForceHistory.offerFirst(new TaskForce(taskForce));
             this.taskForce.resetData(item);
             indicateTaskForceChanged();

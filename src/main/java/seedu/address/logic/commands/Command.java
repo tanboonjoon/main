@@ -1,10 +1,14 @@
 package seedu.address.logic.commands;
 
 
+import java.util.List;
+
+import javafx.util.Pair;
 import seedu.address.commons.core.EventsCenter;
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.events.ui.IncorrectCommandAttemptedEvent;
 import seedu.address.model.Model;
+import seedu.address.model.task.ReadOnlyTask;
 
 /**
  * Represents a command with hidden internal logic and the ability to be executed.
@@ -37,6 +41,18 @@ public abstract class Command {
     public void setData(Model model) {
         this.model = model;
     }
+    
+    /**
+     * Returns the pair of list detailing the changes made to the TaskForce by this command. <p>
+     * 
+     * The List in the key represents the list of ADDITIONS made by this command. <br>
+     * The List in the value represents the list of DELETIONS made by this command. <p>
+     * 
+     * If no changes are made, an empty list should be returned.
+     * 
+     * @return list of tasks added as the key, and list of tasks removed as the value.
+     */
+    public abstract Pair<List<ReadOnlyTask>, List<ReadOnlyTask>> getCommandChanges() ;
 
     
     /**
