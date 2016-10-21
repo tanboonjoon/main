@@ -28,20 +28,26 @@ public class CdCommand extends Command {
 	public final static String MESSAGE_USAGE = COMMAND_WORD + ": change the filestorage saving location. \n"
 			+ "Parameters : FILEPATH (must be a valid path) \n" 
 			+ "Example :" + COMMAND_WORD + "C:\\Users\\Boon\\Desktop\\saveData.xml";
-	public final static String MESSAGE_SUCCESS = "file has been saved to the location successfully in ";
+	public final static String MESSAGE_SUCCESS_CHANGE = "file has been saved to the location successfully in \n%1$s";
+	public final static String MESSAGE_SUCCESS_CHECK = "Your current saveData is located in \n%1$s ";
 	public final static String MESSAGE_FAILURE_FILE_TYPE = "please end the the filename with .xml ";
 	public final static String MESSAGE_FAILURE_FILE_PATH = "please enter valid file path";
+	public final static String CD_CHANGE = "change";
+	public final static String CD_CHECK = "check";
 	
+	private final boolean INVALID_FILE_ARGS = false;
 	private final String INVALID_FILE_PATH = null;
 	private final String CONFIG_JSON_PATH = "config.json";
 	private final String newStoragePath;
 	private final String originalJsonPath;
+	private final String commandType;
 	private Config config;
 	
 	private StorageManager storageManager;
 
 
-	public CdCommand(String filepath) throws IllegalValueException {
+	public CdCommand(String filepath, String commandType) throws IllegalValueException {
+		
 		if (!checkFileType(filepath)) {
 			throw new IllegalValueException(MESSAGE_FAILURE_FILE_TYPE);
 		}
@@ -50,12 +56,11 @@ public class CdCommand extends Command {
 			throw new IllegalValueException(MESSAGE_FAILURE_FILE_PATH);
 		}
 		
-
-		config = new Config();
-		originalJsonPath = config.getUserPrefsFilePath();
+		this.commandType = commandType;
+		this.config = new Config();
+		this.originalJsonPath = config.getUserPrefsFilePath();
 		this.newStoragePath = filepath;
-
-		storageManager = new StorageManager(this.newStoragePath, originalJsonPath );
+		this.storageManager = new StorageManager(this.newStoragePath, originalJsonPath );
 	}
 
 
@@ -63,6 +68,10 @@ public class CdCommand extends Command {
 	@Override
 	public CommandResult execute() {
 		// TODO Auto-generated method stub
+		if (this.commandType.equals(CD_CHECK)) {
+			return new CommandResult(String.format(MESSAGE_SUCCESS_CHECK, config.getTaskForceFilePath()));
+		}
+		
 		try {
 			storageManager.saveTaskForce(model.getTaskForce());
 
@@ -70,7 +79,7 @@ public class CdCommand extends Command {
 			config.setTaskForceFilePath(this.newStoragePath);
 			ConfigUtil.saveConfig(config, CONFIG_JSON_PATH);
 	
-			return new CommandResult(MESSAGE_SUCCESS + this.newStoragePath);
+			return new CommandResult(String.format(MESSAGE_SUCCESS_CHANGE , this.newStoragePath));
 
 		} catch (IOException e) {
 			return new CommandResult(MESSAGE_FAILURE_FILE_PATH);
@@ -81,7 +90,7 @@ public class CdCommand extends Command {
 	private boolean isValidPath(String filepath) {
 		File file = new File(filepath);
 		if (file.getParent() == INVALID_FILE_PATH) {
-			return false;
+			return INVALID_FILE_ARGS;
 		}
 		File fileDir = new File(file.getParent());
 		
@@ -94,7 +103,7 @@ public class CdCommand extends Command {
 			
 			return path.toString().toLowerCase().endsWith(".xml");
 		}catch (InvalidPathException e) {
-			return false;
+			return INVALID_FILE_ARGS;
 		}
 		
 
