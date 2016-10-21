@@ -36,6 +36,8 @@ public class ArgsParserTest {
         
         parser.parse("hello");
         
+        assert(!parser.getArgValue(CommandArgs.DESC).isPresent()) ;
+        
     }
     
     @Test
