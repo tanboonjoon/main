@@ -73,19 +73,19 @@ public final class DateUtil {
             return Optional.of(new Pair<LocalDateTime, LocalDateTime> (computedStartDate, computedEndDate)) ;
         }
 
-        if (startDate.isPresent() && endDate.isPresent()) {
 
-            if (endDate.get().isBefore(startDate.get()) && isDateComponentSameAsNow(endDate.get())) {
-                computedStartDate = startDate.get() ;
 
-                int seconds = endDate.get().getSecond() ;
-                int minutes = endDate.get().getMinute() ;
-                int hours = endDate.get().getHour() ;
+        if (endDate.get().isBefore(startDate.get()) && isDateComponentSameAsNow(endDate.get())) {
+            computedStartDate = startDate.get() ;
 
-                computedEndDate = startDate.get().withHour(hours).withMinute(minutes).withSecond(seconds) ;
+            int seconds = endDate.get().getSecond() ;
+            int minutes = endDate.get().getMinute() ;
+            int hours = endDate.get().getHour() ;
 
-                return Optional.of(new Pair<LocalDateTime, LocalDateTime> (computedStartDate, computedEndDate)) ;
-            }
+            computedEndDate = startDate.get().withHour(hours).withMinute(minutes).withSecond(seconds) ;
+
+            return Optional.of(new Pair<LocalDateTime, LocalDateTime> (computedStartDate, computedEndDate)) ;
+
         }
 
         return Optional.empty() ;
@@ -119,10 +119,6 @@ public final class DateUtil {
         LocalDate now = LocalDate.now() ;
         LocalDate givenDate = LocalDate.from(dateTime) ;
 
-        if (now.equals(givenDate)) {
-            return true ;
-        }
-
-        return false ;
+        return now.equals(givenDate) ;
     }
 }
