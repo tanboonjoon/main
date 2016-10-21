@@ -3,12 +3,16 @@ package seedu.address.logic.commands;
 
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import seedu.address.commons.core.Config;
 import seedu.address.commons.exceptions.IllegalValueException;
@@ -32,6 +36,7 @@ public class CdCommand extends Command {
 	public final static String MESSAGE_SUCCESS_CHECK = "Your current saveData is located in \n%1$s ";
 	public final static String MESSAGE_FAILURE_FILE_TYPE = "please end the the filename with .xml ";
 	public final static String MESSAGE_FAILURE_FILE_PATH = "please enter valid file path";
+	public final static String MESSAGE_FAILURE_PARSE = "config.json cant be parsed/found, rerun the program to reinitiate the file";
 	public final static String CD_CHANGE = "change";
 	public final static String CD_CHECK = "check";
 	
@@ -40,18 +45,22 @@ public class CdCommand extends Command {
 	private final String CONFIG_JSON_PATH = "config.json";
 	private final String newStoragePath;
 	private final String originalJsonPath;
+	private final String currentSavePath;
 	private final String commandType;
 	private Config config;
 	
 	private StorageManager storageManager;
 
 
-	public CdCommand(String filepath, String commandType) throws IllegalValueException  {
+	public CdCommand(String filepath, String commandType) throws IllegalValueException, ParseException, FileNotFoundException, IOException  {
 		
 		if (commandType.equals(CD_CHANGE)) {
 			checkForInvalidArgs(filepath);
 		}
 
+		if (commandType.equals(CD_CHECK)); {
+			this.currentSavePath = readConfig();
+		}
 		
 		this.commandType = commandType;
 		this.config = new Config();
@@ -62,7 +71,7 @@ public class CdCommand extends Command {
 
 
 
-	private void checkForInvalidArgs(String filepath) throws IllegalValueException {
+	private void checkForInvalidArgs(String filepath) throws IllegalValueException, ParseException {
 		// TODO Auto-generated method stub
 		if (!checkFileType(filepath)) {
 			throw new IllegalValueException(MESSAGE_FAILURE_FILE_TYPE);
@@ -75,11 +84,16 @@ public class CdCommand extends Command {
 
 
 
+
+
+
+
 	@Override
 	public CommandResult execute() {
 		// TODO Auto-generated method stub
 		if (this.commandType.equals(CD_CHECK)) {
-			return new CommandResult(String.format(MESSAGE_SUCCESS_CHECK, config.getTaskForceFilePath()));
+			
+			return new CommandResult(String.format(MESSAGE_SUCCESS_CHECK, this.currentSavePath));
 		}
 		
 		try {
@@ -96,6 +110,19 @@ public class CdCommand extends Command {
 		}
 
 	}
+	private String readConfig() throws FileNotFoundException, IOException, ParseException  {
+		// TODO Auto-generated method stub
+
+		JSONParser parser = new JSONParser();
+		Object obj = parser.parse(new FileReader(CONFIG_JSON_PATH));
+		JSONObject configJson = (JSONObject) obj;
+		
+		String taskForceDataFilePath = (String) configJson.get("taskForceDataFilePath");
+		return taskForceDataFilePath;
+	}
+
+
+
 
 	private boolean isValidPath(String filepath) {
 		File file = new File(filepath);

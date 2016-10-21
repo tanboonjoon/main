@@ -19,16 +19,13 @@ public class CdCommandTest extends TaskForceGuiTest {
 	
 	private String invalidFileType;
 	private String invalidMissingFileType;
-	private String currentStoragePath;
 	private String validPath;
 	private String INVALID_FILE_TYPE_MESSAGE;
 	private String INVALID_FILE_PATH_MESSAGE;
 	@Before
 	
 	public void setUp() {
-		Config config = new Config();
-		
-		currentStoragePath = config.getTaskForceFilePath();
+
 		String userPath = System.getProperty("user.dir");
 		invalidFileType = userPath.concat("\\asd.doc");
 		invalidMissingFileType = userPath.concat("\\asd");
@@ -36,6 +33,8 @@ public class CdCommandTest extends TaskForceGuiTest {
 		validPath = userPath.concat("\\src\\test\\java\\guitests\\forTesting.xml");
 	}
 	
+
+
 	@Before
 	public void setUpInvalidMessagePath() {
 		StringBuilder sb = new StringBuilder();
@@ -77,11 +76,7 @@ public class CdCommandTest extends TaskForceGuiTest {
         
 	}
 	
-	@Test
-	public void valid_getSaveDataLocation() {
-		commandBox.runCommand("cd");
-		assertResultMessage(String.format(CdCommand.MESSAGE_SUCCESS_CHECK, currentStoragePath));
-	}
+
 	
 	@Test 
 	public void valid_filePath() throws IOException {

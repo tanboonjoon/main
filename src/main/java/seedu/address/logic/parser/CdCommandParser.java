@@ -3,6 +3,11 @@ package seedu.address.logic.parser;
 
 
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
+import org.json.simple.parser.ParseException;
+
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.logic.commands.CdCommand;
 import seedu.address.logic.commands.Command;
@@ -20,6 +25,15 @@ public class CdCommandParser extends CommandParser{
 					
 		} catch (IllegalValueException e) {
 			return new IncorrectCommand((e.getMessage() + "\n"  + CdCommand.MESSAGE_USAGE) );
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			return new IncorrectCommand(CdCommand.MESSAGE_FAILURE_PARSE);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			return new IncorrectCommand(CdCommand.MESSAGE_FAILURE_PARSE);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			return new IncorrectCommand(CdCommand.MESSAGE_FAILURE_PARSE);
 		}
 
 	
