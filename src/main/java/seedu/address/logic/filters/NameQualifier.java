@@ -9,6 +9,8 @@ import java.util.Set;
 import org.ahocorasick.trie.Trie;
 import org.ahocorasick.trie.Trie.TrieBuilder;
 
+import seedu.address.model.tag.Tag;
+import seedu.address.model.tag.UniqueTagList;
 import seedu.address.model.task.Deadline;
 import seedu.address.model.task.Event;
 import seedu.address.model.task.ReadOnlyTask;
@@ -25,7 +27,11 @@ public class NameQualifier implements Qualifier {
     private Set<String> nameKeyWords;
     private String findType;
     private DateTimeFormatter format_exclude_time;
-
+    
+    private final String SEARCH_NAME = "NAME";
+    private final String SEARCH_DESC = "DESC";
+    private final String SEARCH_TAG = "TAG";
+    
     private final boolean TASK_NOT_FOUND = false;
     private final boolean TASK_FOUND = true;
 
@@ -54,10 +60,9 @@ public class NameQualifier implements Qualifier {
     @Override
     public boolean run(ReadOnlyTask task) {
 
-        if (findType.equals("ALL")) {
+        if (isKeywordSearch(findType)) {
             Trie keywordTrie = buildKeyword();
-            return filterByKeyWord(task.getName(), keywordTrie);
-
+            return filterByKeyWord(task, keywordTrie, findType);
         }
 
         getDateForCompare();
@@ -77,6 +82,12 @@ public class NameQualifier implements Qualifier {
         return TASK_FOUND;
 
     }
+    
+    private boolean isKeywordSearch(String searchType) {
+    	return  searchType.equals(SEARCH_NAME) ||
+    			searchType.equals(SEARCH_TAG) ||
+    			searchType.equals(SEARCH_DESC);
+    }
 
     private Trie buildKeyword() {
 
@@ -90,12 +101,32 @@ public class NameQualifier implements Qualifier {
         return trie.caseInsensitive().removeOverlaps().build();
     }
 
-    private boolean filterByKeyWord(String taskName, Trie keywordTrie) {
-
-        return keywordTrie.containsMatch(taskName);
+    private boolean filterByKeyWord(ReadOnlyTask task, Trie keywordTrie, String searchType) {
+    	if (searchType.equals(SEARCH_NAME)) {
+    		return keywordTrie.containsMatch(task.getName());
+    	}
+    	
+    	if (searchType.equals(SEARCH_DESC)) {
+    		return keywordTrie.containsMatch(task.getDescription());
+    	}
+    	
+    	return filterByTag(task, keywordTrie);
     }
 
-    public boolean filterDeadLine(String taskStartDate) {
+    private boolean filterByTag(ReadOnlyTask task, Trie keywordTrie) {
+		// TODO Auto-generated method stub
+		UniqueTagList tagList = task.getTags();
+		
+		for	(Tag tag : tagList) {
+			if (keywordTrie.containsMatch(tag.tagName)) {
+				return TASK_FOUND;
+			}
+		}
+		
+		return TASK_NOT_FOUND;
+	}
+
+	public boolean filterDeadLine(String taskStartDate) {
 
         if (findType.equals("DAY")) {
             return formattedDateList.get(FORMATTED_DATE_INDEX).compareTo(taskStartDate) == SAME_DAY_VALUE;
@@ -108,7 +139,7 @@ public class NameQualifier implements Qualifier {
 
         }
 
-        return false;
+        return TASK_NOT_FOUND;
     }
     /**
      * filter out event that start or end on that particular date
@@ -117,28 +148,34 @@ public class NameQualifier implements Qualifier {
     public boolean filterEvent(String taskStartDate, String taskEndDate) {
         if (findType.equals("DAY")) {
         	String formattedDate = formattedDateList.get(FORMATTED_DATE_INDEX);
-        	return formattedDate.compareTo(taskStartDate) == SAME_DAY_VALUE
-        			|| formattedDate.compareTo(taskEndDate) == SAME_DAY_VALUE
-        			|| (formattedDate.compareTo(taskStartDate) >= AFTER_START_DATE &
-        			formattedDate.compareTo(taskEndDate) <= BEFORE_END_DATE);
-
-                   
+        	return isEventFound(formattedDate, taskStartDate, taskEndDate);
+            
         }
 
         for (int day_index = STARTING_INDEX; day_index < LAST_DAY_INDEX; day_index++) {
             String formattedDate = formattedDateList.get(day_index);
-            if (formattedDate.compareTo(taskStartDate) == SAME_DAY_VALUE
-                    || formattedDate.compareTo(taskEndDate) == SAME_DAY_VALUE) {
-                return TASK_FOUND;
-            }
-            if (formattedDate.compareTo(taskStartDate) >= AFTER_START_DATE &
-        			formattedDate.compareTo(taskEndDate) <= BEFORE_END_DATE) {
+            if (isEventFound(formattedDate, taskStartDate, taskEndDate)) {
             	return TASK_FOUND;
             }
 
         }
 
         return TASK_NOT_FOUND;
+    }
+    
+    private boolean isEventFound(String comparedDate, String startDate, String endDate) {
+    	if (comparedDate.compareTo(startDate) == SAME_DAY_VALUE) {
+    		return TASK_FOUND;
+    	}
+    	
+       	if (comparedDate.compareTo(endDate) == SAME_DAY_VALUE) {
+    		return TASK_FOUND;
+    	}
+       	
+       	if (comparedDate.compareTo(startDate) >= AFTER_START_DATE && comparedDate.compareTo(endDate) <= BEFORE_END_DATE) {
+       		return TASK_FOUND;
+       	}
+    	return TASK_NOT_FOUND;
     }
 
     private void getFormattedDate() {
@@ -159,16 +196,21 @@ public class NameQualifier implements Qualifier {
             return;
         }
 
-        LocalDateTime dateOfThatWeek = dateToday.plusWeeks(timeToAdd);
-        int dayOfThatWeek = dateOfThatWeek.getDayOfWeek().getValue();
-        LocalDateTime previousWeek = dateOfThatWeek.minusDays(dayOfThatWeek);
-        LocalDateTime startOfTheWeek = previousWeek.plusDays(GET_TO_MONDAY_INDEX);
+
+        LocalDateTime startOfTheWeek = getToDesiredWeek(timeToAdd, dateToday);
 
         for (int day_index = STARTING_INDEX; day_index < LAST_DAY_INDEX; day_index++) {
             dateForCompare = startOfTheWeek.plusDays(day_index);
             dateToCompareList.add(dateForCompare);
         }
 
+    }
+    
+    public LocalDateTime getToDesiredWeek (Long addedTime, LocalDateTime now ) {
+    	LocalDateTime dateOfThatWeek = now.plusWeeks(addedTime);
+    	int dayOfThatWeek = dateOfThatWeek.getDayOfWeek().getValue();
+        LocalDateTime previousWeek = dateOfThatWeek.minusDays(dayOfThatWeek);
+        return previousWeek.plusDays(GET_TO_MONDAY_INDEX);
     }
 
     public Long parseTimeToLong(Set<String> nameKeyWords) {

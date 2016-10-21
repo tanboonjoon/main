@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import com.google.common.collect.ImmutableList;
@@ -90,26 +91,20 @@ public class AddCommand extends Command {
             setNewTaskWithDetails(name, description, new UniqueTagList(tagSet));
 
         } else if (startDate == null && endDate != null) {
-
-            LocalDateTime deadline_endDate = DateUtil.parseStringIntoDateTime(endDate).isPresent() ?
-                    DateUtil.parseStringIntoDateTime(endDate).get() : DateUtil.END_OF_TODAY ;
-
-                    setNewTaskWithDetails(name, description, deadline_endDate, new UniqueTagList(tagSet));     	
+            
+            Optional<Pair<LocalDateTime, LocalDateTime>> datePair = DateUtil.determineStartAndEndDateTime(null, endDate) ;
+        	
+	        setNewTaskWithDetails(name, description, datePair.get().getValue(), new UniqueTagList(tagSet));     	
 
         } else if (startDate !=null) {
-
-            LocalDateTime event_startDate = DateUtil.parseStringIntoDateTime(startDate).isPresent() ?
-                    DateUtil.parseStringIntoDateTime(startDate).get() : LocalDateTime.now() ;
-
-                    LocalDateTime event_endDate = DateUtil.parseStringIntoDateTime(endDate).isPresent() ?
-                            DateUtil.parseStringIntoDateTime(endDate).get() : DateUtil.END_OF_TODAY ;
-
-                            if (event_endDate.isBefore(event_startDate)) {
-                                throw new IllegalValueException(INVALID_END_DATE_MESSAGE);
-                            }
-
-                            setNewTaskWithDetails (name, description, event_startDate, event_endDate, new UniqueTagList(tagSet));
-
+        	
+        	Optional<Pair<LocalDateTime, LocalDateTime>> datePair = DateUtil.determineStartAndEndDateTime(startDate, endDate) ;
+        	
+        	if (!datePair.isPresent()) {
+                throw new IllegalValueException(INVALID_END_DATE_MESSAGE);
+            }
+        	
+        	setNewTaskWithDetails (name, description, datePair.get().getKey(), datePair.get().getValue(), new UniqueTagList(tagSet)) ;
         } else {
             throw new IllegalValueException(INVALID_TASK_TYPE_MESSAGE);
         }

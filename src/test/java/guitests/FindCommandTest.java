@@ -17,7 +17,9 @@ public class FindCommandTest extends TaskForceGuiTest {
 
     @Test
     public void find_validCommand_pass() {
-    	commandBox.runCommand("find all/taskName");
+    	commandBox.runCommand("find name/taskName");
+    	commandBox.runCommand("find desc/to submit");
+    	commandBox.runCommand("find tag/important");
     	commandBox.runCommand("find day/0");
     	commandBox.runCommand("find week/0");
     	commandBox.runCommand("add task123 st/next week 4pm et/next month 5pm");
@@ -43,7 +45,7 @@ public class FindCommandTest extends TaskForceGuiTest {
     @Test
     public void find_emptyList(){
         commandBox.runCommand("clear");
-        assertFindResult("find all/Jean"); //no results
+        assertFindResult("find name/Jean"); //no results
     }
     
     @Test
@@ -71,7 +73,7 @@ public class FindCommandTest extends TaskForceGuiTest {
         
         TestTask[] array = new TestTask[list.size()] ;
         
-        assertFindResult("find all/john", list.toArray(array));
+        assertFindResult("find name/john", list.toArray(array));
         
         assertFindResult("find day/0", list.get(0), list.get(1), list.get(2));
         assertFindResult("find day/1", list.get(3));

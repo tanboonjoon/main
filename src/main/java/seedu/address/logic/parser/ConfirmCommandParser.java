@@ -47,12 +47,8 @@ public class ConfirmCommandParser extends CommandParser {
             return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, ConfirmCommand.MESSAGE_USAGE));
         }
         
-        LocalDateTime startDate = convertArgStringIntoDate(parser.getArgValue(CommandArgs.START_DATETIME).get()) ;
-        LocalDateTime endDate = convertArgStringIntoDate(parser.getArgValue(CommandArgs.END_DATETIME).get()) ;
-        
-        if (startDate == null || endDate == null) {
-            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, ConfirmCommand.MESSAGE_USAGE)); 
-        }
+        String startDate = parser.getArgValue(CommandArgs.START_DATETIME).get() ;
+        String endDate = parser.getArgValue(CommandArgs.END_DATETIME).get() ;
 
         try {
             
@@ -69,15 +65,4 @@ public class ConfirmCommandParser extends CommandParser {
         }
 
     }
-    
-    private LocalDateTime convertArgStringIntoDate(String dateString) {
-        Optional<LocalDateTime> dateTime = DateUtil.parseStringIntoDateTime(dateString) ;
-        
-        if (dateTime.isPresent()) {
-            return dateTime.get() ;
-        }
-        
-        return null ;
-    }
-
 }

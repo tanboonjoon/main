@@ -15,7 +15,9 @@ public enum CommandArgs {
     //Arguments for find command to parse
     FIND_DAY ("day/"),
     FIND_WEEK ("week/"),
-    FIND_ALL ("all/"),
+    FIND_NAME ("name/"),
+    FIND_DESC ("desc/"),
+    FIND_TAG ("tag/"),
 
     // Special NULL flag to indicate useless arguments
     NULL_ARG("^/")

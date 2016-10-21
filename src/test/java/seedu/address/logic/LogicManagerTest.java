@@ -233,7 +233,7 @@ public class LogicManagerTest {
         Task test_eventWithoutEndDate = helper.test_eventWithoutEndDate() ;
         expectedAB.addTask(test_eventWithoutEndDate);
 
-        CommandResult result = logic.invoke("add event d/this is a event st/13022016 1300 et/13022016 1300");
+        CommandResult result = logic.invoke("add event d/this is a event st/02-13-2016 1300 et/02-13-2016 1310");
         assertEquals(String.format(AddCommand.MESSAGE_SUCCESS, test_event), result.feedbackToUser);
 
         CommandResult result2 = logic.invoke("add deadline d/this is a deadline et/Aug 13 2016 1600");
@@ -485,8 +485,8 @@ public class LogicManagerTest {
         }
         
         Task test_event() throws Exception {
-        	LocalDateTime startDate = DateUtil.parseStringIntoDateTime("13022016 1300").get() ;
-        	LocalDateTime endDate = DateUtil.parseStringIntoDateTime("13022016 1300").get();
+        	LocalDateTime startDate = DateUtil.parseStringIntoDateTime("02-13-2016 1300").get() ;
+        	LocalDateTime endDate = DateUtil.parseStringIntoDateTime("02-13-2016 1310").get();
         	return new Event(0, "event", "this is a event", startDate, endDate, new UniqueTagList() );
 
         }

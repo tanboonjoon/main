@@ -1,8 +1,11 @@
 package seedu.address.logic.commands;
 
+import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import com.google.common.collect.ImmutableList;
@@ -12,6 +15,7 @@ import javafx.util.Pair;
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.UnmodifiableObservableList;
 import seedu.address.commons.exceptions.IllegalValueException;
+import seedu.address.commons.util.DateUtil;
 import seedu.address.logic.filters.Expression;
 import seedu.address.logic.filters.PredicateExpression;
 import seedu.address.logic.filters.TaskIdentifierNumberQualifier;
@@ -45,13 +49,13 @@ public class ConfirmCommand extends Command {
             + "Example: confirm meeting with boss st/today 2pm et/today 4pm" ;
 
     private final int targetIndex ;
-    private final LocalDateTime startDate ;
-    private final LocalDateTime endDate ;
+    private final String startDate ;
+    private final String endDate ;
     private final String description ;
     private final UniqueTagList taglist ;
     private final List<ReadOnlyTask> deletedTask, addedTask ;
 
-    public ConfirmCommand (int targetIndex, String description, LocalDateTime startDate, LocalDateTime endDate, Set<String> tags) throws IllegalValueException {
+    public ConfirmCommand (int targetIndex, String description, String startDate, String endDate, Set<String> tags) throws IllegalValueException {
 
         if (startDate == null || endDate == null) {
             throw new IllegalValueException(MESSAGE_DATES_NOT_NULL) ;
@@ -90,12 +94,17 @@ public class ConfirmCommand extends Command {
             return new CommandResult(MESSAGE_ONLY_BLOCKS) ;
         }
         
+        Optional<Pair<LocalDateTime, LocalDateTime>> datePair = DateUtil.determineStartAndEndDateTime(startDate, endDate) ;
+        
+        if (!datePair.isPresent()) {
+            return new CommandResult(String.format(MESSAGE_INVALID_COMMAND_FORMAT, ConfirmCommand.MESSAGE_USAGE)) ;
+        }
+
         findAndDeleteOtherBlocks( (Block) blockToConfirm) ;
 
         String name = blockToConfirm.getName() ;
 
-        Task newEvent = new Event(id, name, description, startDate, endDate, taglist) ;
-        
+        Task newEvent = new Event(id, name, description, datePair.get().getKey(), datePair.get().getValue(), taglist) ;
 
         try {
             model.addTask(newEvent) ;

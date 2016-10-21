@@ -64,6 +64,7 @@ Event: `add TASKNAME  [d/DESCRIPTION]  [st/START_DATE] [et/END_DATE] [t/TAG]...`
 > - Tasks can have any number of tags (including 0)  
 > - Date format is MM-DD-YYYY HHMM (24 hour Format) e.g. `st/ 10-22-2016 1500`
 > 	- The command also supports natural language dates such as `today 6pm`
+> 	- See the section [On Entering Dates](#On-Entering-Dates) for more details
 > - If no time is specified, the time will be assumed to be the time right now.
 > - If no start date is specified, it is assumed to be today.
 > - If start date/time is specified but end date/time is not specified, the end date/time will be the same day on 2359.
@@ -84,6 +85,7 @@ Format: `block NAME st/START_DATE et/END_DATE [st/START_DATE et/END_DATE]...`
 > - Each st/ and et/ is a pair, and you can have unlimited pairs
 > - Date format is MM-DD-YYYY HHMM (24 hour Format) e.g. `st/ 10-22-2016 1500`
 > 	- The command also supports natural language dates such as `today 6pm`
+> 	- See the section [On Entering Dates](#On-Entering-Dates) for more details
 > - If no start time is specified, the time will be assumed to be the time right now.
 > - If no start date is specified, it is assumed to be today.
 > - If no end date/time is specified, the end date/time will be the same day on 2359.
@@ -108,14 +110,16 @@ Examples:
 #### Searching for (a) specific task(s): `find`
 Finds tasks of a specific time, or whose names contain any of the given keywords.  
 Format: `find METHOD/ KEYWORDS`
-KEYWORDS for TYPE 'all' is a word that is contain/part of a task name
+KEYWORDS for TYPE 'name/' 'desc/' 'tag/' is a word that is contain/part of a task name/description/tag
 KEYWORDS for TYPE 'day' and 'week' is a integer number.
 
 Method | Explanation | Example
 -------- | :-------- | :---------
-`day/` | List all events a number of days after today | `find day/ -1` (yesterday)
-`week/` | List all events in a week, after current week | `find week/ 0` (current week)
-`all/` | List all events with word appearing in name | `find all/ shoes`
+`day/` | List all events/deadline a number of days after today | `find day/ -1` (yesterday)
+`week/` | List all events/deadline in a week, after current week | `find week/ 0` (current week)
+`name/` | List all tasks with taskName containing the keywords | `find name/ shoes`
+`tag/` | List all tasks with taskDescription containing the keywords | `find name/ shoes`
+`desc/` | List all tasks with the tags of task containing the keywords | `find name/ shoes`
 
 
 > * The search is not case sensitive. e.g `hans` will match `Hans`
@@ -160,10 +164,10 @@ Examples:
 
 #### Finding free time in a specific day: `freetime`  
 Gives you all the free time blocks in a specific day
-Format: `freetime [d/DAYS_FROM_TODAY]`  
+Format: `freetime [day/DAYS_FROM_TODAY]`  
 > - By default, freetime gives you today's free time  
-> - You can adjust days by using the d/ option  
-> - For example, for yesterday's free time, `freetime d/-1`  
+> - You can adjust days by using the day/ option  
+> - For example, for yesterday's free time, `freetime day/-1`  
 > - DAYS_FROM_TODAY **must be an integer**
 
 #### Undo the previous command : `undo`
@@ -189,6 +193,25 @@ Format: `exit`
 TaskForce saves data in the hard disk automatically after any command that changes the data.  
 There is no need to save manually.
 
+## On Entering Dates
+
+TaskForce supports flexible date inputs and thus allows many natural variations of dates. The following are three broad categories of dates supported by TaskForce
+
+### Formal Dates
+> Format Dates follow the format MM-DD-YYYY HHMM <br>
+> 	* 03-15-2016 1500
+
+### Relaxed Dates
+> Relaxed dates are dates that expressed months in words instead of numbers. If the year is not provided, it is assumed to be this year
+> 	* Oct 20 2016
+> 	* 16 Aug
+
+### Relative dates
+> Relative dates are the most natural variation of the three and supports inputs that is relative to today <br>
+> 	* today 5pm
+> 	* next thursday 3pm
+> 	* tomorrow 9am
+
 ## FAQ
 
 **Q**: How do I transfer my data to another Computer?<br>
@@ -205,7 +228,7 @@ Confirm | `confirm NAME s/START_DATE e/END_DATE`
 Clear | `clear`
 Delete | `delete INDEX`
 Edit | `edit INDEX [NAME] [s/START_DATE] [e/END_DATE] ...`
-Freetime | `freetime [d/DAYS_FROM_TODAY]`
+Freetime | `freetime [day/DAYS_FROM_TODAY]`
 Find | `find METHOD/ KEYWORD [MORE_KEYWORDS_FOR_ALL_METHOD]`
 cd   | `cd FILEPATH/FILENAME.xml`
 Undo | `undo`
