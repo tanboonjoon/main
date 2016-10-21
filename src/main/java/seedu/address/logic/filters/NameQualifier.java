@@ -9,6 +9,8 @@ import java.util.Set;
 import org.ahocorasick.trie.Trie;
 import org.ahocorasick.trie.Trie.TrieBuilder;
 
+import seedu.address.model.tag.Tag;
+import seedu.address.model.tag.UniqueTagList;
 import seedu.address.model.task.Deadline;
 import seedu.address.model.task.Event;
 import seedu.address.model.task.ReadOnlyTask;
@@ -25,7 +27,11 @@ public class NameQualifier implements Qualifier {
     private Set<String> nameKeyWords;
     private String findType;
     private DateTimeFormatter format_exclude_time;
-
+    
+    private final String SEARCH_NAME = "NAME";
+    private final String SEARCH_DESC = "DESC";
+    private final String SEARCH_TAG = "TAG";
+    
     private final boolean TASK_NOT_FOUND = false;
     private final boolean TASK_FOUND = true;
 
@@ -54,9 +60,9 @@ public class NameQualifier implements Qualifier {
     @Override
     public boolean run(ReadOnlyTask task) {
 
-        if (findType.equals("ALL")) {
+        if (isKeywordSearch(findType)) {
             Trie keywordTrie = buildKeyword();
-            return filterByKeyWord(task.getName(), keywordTrie);
+            return filterByKeyWord(task, keywordTrie);
 
         }
 
@@ -77,6 +83,12 @@ public class NameQualifier implements Qualifier {
         return TASK_FOUND;
 
     }
+    
+    private boolean isKeywordSearch(String searchType) {
+    	return  searchType.equals(SEARCH_NAME) ||
+    			searchType.equals(SEARCH_TAG) ||
+    			searchType.equals(SEARCH_DESC);
+    }
 
     private Trie buildKeyword() {
 
@@ -90,12 +102,32 @@ public class NameQualifier implements Qualifier {
         return trie.caseInsensitive().removeOverlaps().build();
     }
 
-    private boolean filterByKeyWord(String taskName, Trie keywordTrie) {
-
-        return keywordTrie.containsMatch(taskName);
+    private boolean filterByKeyWord(ReadOnlyTask task, Trie keywordTrie, String searchType) {
+    	if (searchType.equals(SEARCH_NAME)) {
+    		return keywordTrie.containsMatch(task.getName());
+    	}
+    	
+    	if (searchType.equals(SEARCH_DESC)) {
+    		return keywordTrie.containsMatch(task.getDescription());
+    	}
+    	
+    	return filterByTag(task, keywordTrie);
     }
 
-    public boolean filterDeadLine(String taskStartDate) {
+    private boolean filterByTag(ReadOnlyTask task, Trie keywordTrie) {
+		// TODO Auto-generated method stub
+		UniqueTagList tagList = task.getTags();
+		
+		for	(Tag tag : tagList) {
+			if (keywordTrie.containsMatch(tag.tagName)) {
+				return TASK_FOUND;
+			}
+		}
+		
+		return TASK_NOT_FOUND;
+	}
+
+	public boolean filterDeadLine(String taskStartDate) {
 
         if (findType.equals("DAY")) {
             return formattedDateList.get(FORMATTED_DATE_INDEX).compareTo(taskStartDate) == SAME_DAY_VALUE;
