@@ -38,7 +38,7 @@ public class AddCommand extends Command {
 
     public static final String DEFAULT_COMMAND_WORD = COMMAND_WORD[0] ;
 
-    public static final String MESSAGE_USAGE = DEFAULT_COMMAND_WORD + ": Adds a person to the Task Force. \n"
+    public static final String MESSAGE_USAGE = DEFAULT_COMMAND_WORD + ": Adds a new task to the Task Force. \n"
             + "Format : Task : TASKNAME [d/DESCIPRTION] [t/TAG...]\n" 
             + "Deadline : TASKNAME [d/DESCIPRTION] et/END_DATE [t/TAG...]\n"
             + "Recurring Deadline : TASKNAME [d/DESCRIPTION] et/END_DATE [t/TAG...] recurring/FREQUENCY (daily, weekly..., alternate day, alternate week) repeat/REPETITION (between 1 - 20)\n"
