@@ -35,7 +35,7 @@ public class EditCommandTest extends TaskForceGuiTest {
         currentList = TestUtil.addTasksToList(currentList, taskToAdd);
         
         // Invalid commands
-        String expectedMessage = String.format(Messages.MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE);
+        String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE);
         commandBox.runCommand("edit") ;
         assertResultMessage(expectedMessage);
         
