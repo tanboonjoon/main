@@ -16,7 +16,7 @@ import seedu.address.testutil.TestTask;
 public class FindCommandTest extends TaskForceGuiTest {
 
     @Test
-    public void find_validCommand_pass() {
+    public void findValidCommandPass() {
     	commandBox.runCommand("find name/taskName");
     	commandBox.runCommand("find desc/to submit");
     	commandBox.runCommand("find tag/important");
@@ -28,7 +28,7 @@ public class FindCommandTest extends TaskForceGuiTest {
     }
     
     @Test
-    public void find_invalidCommand_fail() {
+    public void findInvalidCommandFail() {
     	commandBox.runCommand("find day/123 sdf");
     	assertResultMessage(FindCommand.INVALID_FIND_DATE_MESSAGE);
     	commandBox.runCommand("find week/thisIsNotNumber");

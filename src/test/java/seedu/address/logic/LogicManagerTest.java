@@ -82,7 +82,7 @@ public class LogicManagerTest {
     }
 
     @Test
-    public void execute_invalid() throws Exception {
+    public void executeInvalid() throws Exception {
         String invalidCommand = "       ";
         assertCommandBehavior(invalidCommand,
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, HelpCommand.MESSAGE_USAGE));
@@ -120,24 +120,24 @@ public class LogicManagerTest {
 
 
     @Test
-    public void execute_unknownCommandWord() throws Exception {
+    public void executeUnknownCommandWord() throws Exception {
         String unknownCommand = "uicfhmowqewca";
         assertCommandBehavior(unknownCommand, MESSAGE_UNKNOWN_COMMAND);
     }
 
     @Test
-    public void execute_help() throws Exception {
+    public void executeHelp() throws Exception {
         assertCommandBehavior("help", HelpCommand.SHOWING_HELP_MESSAGE);
         assertTrue(helpShown);
     }
 
     @Test
-    public void execute_exit() throws Exception {
+    public void executeExit() throws Exception {
         assertCommandBehavior("exit", ExitCommand.MESSAGE_EXIT_ACKNOWLEDGEMENT);
     }
 
     @Test
-    public void execute_clear() throws Exception {
+    public void executeClear() throws Exception {
         TestDataHelper helper = new TestDataHelper();
         model.addTask(helper.generateTask(1));
         model.addTask(helper.generateTask(2));
@@ -148,7 +148,7 @@ public class LogicManagerTest {
 
 
     @Test
-    public void execute_add_invalidArgsFormat() throws Exception {
+    public void executeAddInvalidArgsFormat() throws Exception {
         String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE);
         assertCommandBehavior(
                 "add wrong args wrong args /t", expectedMessage);
@@ -167,7 +167,7 @@ public class LogicManagerTest {
     }
 
     @Test
-    public void execute_add_invalidPersonData() throws Exception {
+    public void executeAddInvalidPersonData() throws Exception {
     	// NOT APPLICABLE TO THE CURRENT ADD COMMAND
 //        assertCommandBehavior(
 //                "add []\\[;] p/12345 e/valid@e.mail a/valid, address", Name.MESSAGE_NAME_CONSTRAINTS);
@@ -181,7 +181,7 @@ public class LogicManagerTest {
     }
     
     @Test
-    public void execute_add_order_dont_matter () throws Exception {
+    public void executeAddOrderDontMatter () throws Exception {
         TestDataHelper helper = new TestDataHelper();
         TaskForce expectedAB = new TaskForce();
         
@@ -195,7 +195,7 @@ public class LogicManagerTest {
     }
     
     @Test
-    public void add_command_optional_args() throws Exception {
+    public void addCommandOptionalArgs() throws Exception {
         
         TestDataHelper helper = new TestDataHelper();
         TaskForce expectedAB = new TaskForce();
@@ -210,7 +210,7 @@ public class LogicManagerTest {
     }
 
     @Test
-    public void execute_add_successful() throws Exception {
+    public void executeAddSuccessful() throws Exception {
         // setup expectations
         TestDataHelper helper = new TestDataHelper();
         Task toBeAdded = helper.adam();
@@ -244,7 +244,7 @@ public class LogicManagerTest {
     }
 
     @Test
-    public void execute_addDuplicate_notAllowed() throws Exception {
+    public void executeAddDuplicateNotAllowed() throws Exception {
 //        // setup expectations
 //        TestDataHelper helper = new TestDataHelper();
 //        Task toBeAdded = helper.adam();
@@ -265,7 +265,7 @@ public class LogicManagerTest {
 
 
     @Test
-    public void execute_list_showsAllPersons() throws Exception {
+    public void executeListShowsAllPersons() throws Exception {
         // prepare expectations
         TestDataHelper helper = new TestDataHelper();
         TaskForce expectedAB = helper.generateAddressBook(2);
@@ -314,18 +314,18 @@ public class LogicManagerTest {
     }
 
     @Test
-    public void execute_selectInvalidArgsFormat_errorMessageShown() throws Exception {
+    public void executeSelectInvalidArgsFormatErrorMessageShown() throws Exception {
         String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, SelectCommand.MESSAGE_USAGE);
         assertIncorrectIndexFormatBehaviorForCommand("select", expectedMessage);
     }
 
     @Test
-    public void execute_selectIndexNotFound_errorMessageShown() throws Exception {
+    public void executeSelectIndexNotFoundErrorMessageShown() throws Exception {
         assertIndexNotFoundBehaviorForCommand("select");
     }
 
     @Test
-    public void execute_select_jumpsToCorrectTask() throws Exception {
+    public void executeSelectJumpsToCorrectTask() throws Exception {
         TestDataHelper helper = new TestDataHelper();
         List<Task> threeTasks = helper.generateTaskList(3);
 
@@ -342,7 +342,7 @@ public class LogicManagerTest {
 
 
     @Test
-    public void execute_deleteInvalidArgsFormat_errorMessageShown() throws Exception {
+    public void executeDeleteInvalidArgsFormatErrorMessageShown() throws Exception {
         String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE);
         assertIncorrectIndexFormatBehaviorForCommand("delete", expectedMessage);
     }
@@ -353,7 +353,7 @@ public class LogicManagerTest {
     }
   
     @Test
-    public void execute_delete_removesCorrectTask() throws Exception {
+    public void executeDeleteRemovesCorrectTask() throws Exception {
         TestDataHelper helper = new TestDataHelper();
         List<Task> threeTasks = helper.generateTaskList(3);
 
@@ -434,7 +434,7 @@ public class LogicManagerTest {
     */
     
     @Test
-    public void execute_invalid_block_command() throws Exception {
+    public void executeInvalidBlockCommand() throws Exception {
         TaskForce expectedAB = new TaskForce();
         
         assertCommandBehavior("block st/sadsd et/dasdad",
@@ -444,7 +444,7 @@ public class LogicManagerTest {
     }
     
     @Test
-    public void execute_invalidDates_block_command() throws Exception {
+    public void executeInvalidDatesBlockCommand() throws Exception {
         TaskForce expectedAB = new TaskForce();
         
         assertCommandBehavior("block name st/sadsd et/today 5pm",
