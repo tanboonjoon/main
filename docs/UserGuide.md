@@ -64,6 +64,7 @@ Event: `add TASKNAME  [d/DESCRIPTION]  [st/START_DATE] [et/END_DATE] [t/TAG]...`
 > - Tasks can have any number of tags (including 0)  
 > - Date format is MM-DD-YYYY HHMM (24 hour Format) e.g. `st/ 10-22-2016 1500`
 > 	- The command also supports natural language dates such as `today 6pm`
+> 	- See the section [On Entering Dates](#On-Entering-Dates) for more details
 > - If no time is specified, the time will be assumed to be the time right now.
 > - If no start date is specified, it is assumed to be today.
 > - If start date/time is specified but end date/time is not specified, the end date/time will be the same day on 2359.
@@ -84,6 +85,7 @@ Format: `block NAME st/START_DATE et/END_DATE [st/START_DATE et/END_DATE]...`
 > - Each st/ and et/ is a pair, and you can have unlimited pairs
 > - Date format is MM-DD-YYYY HHMM (24 hour Format) e.g. `st/ 10-22-2016 1500`
 > 	- The command also supports natural language dates such as `today 6pm`
+> 	- See the section [On Entering Dates](#On-Entering-Dates) for more details
 > - If no start time is specified, the time will be assumed to be the time right now.
 > - If no start date is specified, it is assumed to be today.
 > - If no end date/time is specified, the end date/time will be the same day on 2359.
@@ -190,6 +192,25 @@ Format: `exit`
 #### Saving the data
 TaskForce saves data in the hard disk automatically after any command that changes the data.  
 There is no need to save manually.
+
+## On Entering Dates
+
+TaskForce supports flexible date inputs and thus allows many natural variations of dates. The following are three broad categories of dates supported by TaskForce
+
+### Formal Dates
+> Format Dates follow the format MM-DD-YYYY HHMM <br>
+> 	* 03-15-2016 1500
+
+### Relaxed Dates
+> Relaxed dates are dates that expressed months in words instead of numbers. If the year is not provided, it is assumed to be this year
+> 	* Oct 20 2016
+> 	* 16 Aug
+
+### Relative dates
+> Relative dates are the most natural variation of the three and supports inputs that is relative to today <br>
+> 	* today 5pm
+> 	* next thursday 3pm
+> 	* tomorrow 9am
 
 ## FAQ
 
