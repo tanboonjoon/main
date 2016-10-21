@@ -4,12 +4,15 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
+import javafx.util.Pair;
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.UnmodifiableObservableList;
 import seedu.address.model.task.ReadOnlyTask;
 import seedu.address.model.task.UniqueTaskList.TaskNotFoundException;
 
 /**
+ * @@author A0135768R
+ * 
  * Deletes a task identified using it's last displayed index from the taskForce list.
  */
 public class DeleteCommand extends Command {
@@ -151,6 +154,12 @@ public class DeleteCommand extends Command {
             
             return sb.toString() ;
         }
+    }
+
+    @Override
+    public Pair<List<ReadOnlyTask>, List<ReadOnlyTask>> getCommandChanges() {
+        // TODO Auto-generated method stub
+        return null;
     }
     
 

@@ -1,6 +1,7 @@
 package seedu.address.logic.commands;
 
 
+import java.util.Collections;
 import java.util.List;
 
 import javafx.util.Pair;
@@ -52,7 +53,9 @@ public abstract class Command {
      * 
      * @return list of tasks added as the key, and list of tasks removed as the value.
      */
-    public abstract Pair<List<ReadOnlyTask>, List<ReadOnlyTask>> getCommandChanges() ;
+    public Pair<List<ReadOnlyTask>, List<ReadOnlyTask>> getCommandChanges() {
+        return new Pair<List<ReadOnlyTask>, List<ReadOnlyTask>>(Collections.emptyList(), Collections.emptyList()) ; 
+    }
 
     
     /**

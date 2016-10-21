@@ -7,6 +7,7 @@ import java.util.Set;
 
 import com.google.common.collect.Sets;
 
+import javafx.util.Pair;
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.UnmodifiableObservableList;
 import seedu.address.commons.exceptions.IllegalValueException;
@@ -130,5 +131,4 @@ public class ConfirmCommand extends Command {
 
         return new ArrayList<>(model.getFilteredTaskList()) ;
     }
-
 }

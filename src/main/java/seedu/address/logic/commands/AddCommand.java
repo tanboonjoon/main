@@ -1,14 +1,11 @@
 package seedu.address.logic.commands;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Set;
+
 import com.google.common.collect.Sets;
 
-import seedu.address.commons.core.EventsCenter;
-import seedu.address.commons.core.UnmodifiableObservableList;
-import seedu.address.commons.events.ui.JumpToListRequestEvent;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.commons.util.DateUtil;
 import seedu.address.commons.util.StringUtil;
@@ -16,7 +13,6 @@ import seedu.address.model.tag.Tag;
 import seedu.address.model.tag.UniqueTagList;
 import seedu.address.model.task.Deadline;
 import seedu.address.model.task.Event;
-import seedu.address.model.task.ReadOnlyTask;
 import seedu.address.model.task.Task;
 import seedu.address.model.task.UniqueTaskList;
 
@@ -121,17 +117,15 @@ public class AddCommand extends Command {
         
         if(recurringFrequency != null && repeat == 0) {
             return new CommandResult(MISSING_NUMBER_OF_RECURRENCE_MESSAGE);
-        }else if(recurringFrequency != null && repeat >= MIN_NUMBER_OF_RECURRENCE){
+        } else if (recurringFrequency != null && repeat >= MIN_NUMBER_OF_RECURRENCE){
                 try {
                     this.createRecurringEvent(recurringFrequency, repeat);
                 } catch (IllegalValueException e) {
                     return new CommandResult(e.getMessage());
                 }
-        }else{
+        }else {
             this.taskList.add(getNewTask());
         }
-        
-        model.recordTaskForce();
 
         try {
             for(Task task: taskList) {
@@ -249,5 +243,4 @@ public class AddCommand extends Command {
             }
         }
     }
-
 }

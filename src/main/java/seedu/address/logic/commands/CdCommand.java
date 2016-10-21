@@ -8,8 +8,6 @@ import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-
-
 import seedu.address.commons.core.Config;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.commons.util.ConfigUtil;
@@ -99,5 +97,4 @@ public class CdCommand extends Command {
 		
 
 	}
-
 }
