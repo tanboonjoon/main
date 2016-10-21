@@ -235,9 +235,6 @@ public class ArgumentsParser {
 		
 		Set<CommandArgs> argsPresent = argumentValuesMap.keySet() ;
 		
-		if (argsPresent.containsAll(requiredArguments)) {		
-			return true ;
-		} 
-		return false;
+		return argsPresent.containsAll(requiredArguments) ;
 	}
  }
