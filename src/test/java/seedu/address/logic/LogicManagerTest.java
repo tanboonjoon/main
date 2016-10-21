@@ -233,7 +233,7 @@ public class LogicManagerTest {
         Task test_eventWithoutEndDate = helper.test_eventWithoutEndDate() ;
         expectedAB.addTask(test_eventWithoutEndDate);
 
-        CommandResult result = logic.invoke("add event d/this is a event st/13022016 1300 et/13022016 1300");
+        CommandResult result = logic.invoke("add event d/this is a event st/13022016 1300 et/13022016 1310");
         assertEquals(String.format(AddCommand.MESSAGE_SUCCESS, test_event), result.feedbackToUser);
 
         CommandResult result2 = logic.invoke("add deadline d/this is a deadline et/Aug 13 2016 1600");
