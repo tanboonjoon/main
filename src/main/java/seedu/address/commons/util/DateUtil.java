@@ -53,10 +53,7 @@ public final class DateUtil {
         LocalDateTime computedEndDate ;
 
         if (!startDate.isPresent() && !endDate.isPresent()) {
-            computedStartDate = DateUtil.NOW ;
-            computedEndDate = DateUtil.END_OF_TODAY ;
-
-            return Optional.of(new Pair<LocalDateTime, LocalDateTime> (computedStartDate, computedEndDate)) ;
+            return Optional.empty() ;
         }
 
         if (!startDate.isPresent() && endDate.isPresent()) {
@@ -73,8 +70,6 @@ public final class DateUtil {
             return Optional.of(new Pair<LocalDateTime, LocalDateTime> (computedStartDate, computedEndDate)) ;
         }
 
-
-
         if (endDate.get().isBefore(startDate.get()) && isDateComponentSameAsNow(endDate.get())) {
             computedStartDate = startDate.get() ;
 
@@ -88,6 +83,10 @@ public final class DateUtil {
                 return Optional.of(new Pair<LocalDateTime, LocalDateTime> (computedStartDate, computedEndDate)) ;
             }
 
+        } else if (endDate.get().isAfter(startDate.get())) {
+            
+            return Optional.of(new Pair<LocalDateTime, LocalDateTime> (startDate.get(), endDate.get())) ;
+            
         }
 
         return Optional.empty() ;
@@ -98,8 +97,7 @@ public final class DateUtil {
     /**
      * Given one and start and end date, the function will return a corresponding start and end dates following these rules: <p>
      * 
-     * - If startdate and enddate are both empty, this function will return starting date of now and enddate of 2359 later today
-     * <br>
+     * - If both dates are empty, it will return Optional.empty <br>
      * - If only start date is empty, the start date shall assumed to be now.
      * <br>
      * - If only end date is empty, the end date shall be assumed to be on the same day of the start date at 2359
@@ -108,6 +106,7 @@ public final class DateUtil {
      * date on the time provided.
      * <p>
      * If start datetime happens to be after end datetime, this function will return Optional.empty()
+     * <p>
      * 
      * @param startString string that will be parsed by natty
      * @param endString string that will be parsed by natty
