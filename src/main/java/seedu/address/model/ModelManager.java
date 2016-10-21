@@ -2,9 +2,10 @@ package seedu.address.model;
 
 import java.util.Deque;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
+
+import com.google.common.eventbus.Subscribe;
 
 import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.ComponentManager;
@@ -12,13 +13,13 @@ import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.core.UnmodifiableObservableList;
 import seedu.address.commons.events.BaseEvent;
 import seedu.address.commons.events.model.TaskForceChangedEvent;
+import seedu.address.commons.events.model.TaskForceCommandExecutedEvent;
 import seedu.address.logic.filters.Expression;
 import seedu.address.logic.filters.NameQualifier;
 import seedu.address.logic.filters.PredicateExpression;
 import seedu.address.model.task.ReadOnlyTask;
 import seedu.address.model.task.Task;
 import seedu.address.model.task.UniqueTaskList;
-import seedu.address.model.task.UniqueTaskList.DuplicateTaskException;
 import seedu.address.model.task.UniqueTaskList.TaskNotFoundException;
 
 /**
@@ -149,8 +150,9 @@ public class ModelManager extends ComponentManager implements Model {
         this.taskForce.addTask(to);
         indicateTaskForceChanged();
     }
-
-    // =========== Filtered Task List Accessors
+    
+    // ===============================================================
+    // =========== Filtered Task List Accessors ======================
     // ===============================================================
 
     @Override
@@ -171,6 +173,15 @@ public class ModelManager extends ComponentManager implements Model {
     @Override
     public void updateFilteredTaskList(Expression expression) {
         filteredTasks.setPredicate(expression::satisfies);
+    }
+    
+    // ===============================================================
+    // ======================= Event Listeners =======================
+    // ===============================================================
+   
+    @Subscribe
+    public void onCommandExecutedEvent (TaskForceCommandExecutedEvent event) {
+        
     }
 
 
