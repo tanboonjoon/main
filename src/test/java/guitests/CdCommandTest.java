@@ -8,6 +8,7 @@ import java.io.IOException;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import seedu.address.commons.core.Config;
@@ -17,15 +18,22 @@ import seedu.address.logic.commands.CdCommand;
 //@@A0139942W
 public class CdCommandTest extends TaskForceGuiTest {
 	
+	//set to the default save location set by config class
+	@BeforeClass
+	public static void setDefaultSaveLocation() throws IOException {
+		Config config = new Config();
+		ConfigUtil.saveConfig(config, "config.json");
+	}
+	
 	private String invalidFileType;
 	private String invalidMissingFileType;
 	private String validPath;
 	private String INVALID_FILE_TYPE_MESSAGE;
 	private String INVALID_FILE_PATH_MESSAGE;
+	private String originalSavePath;
 	@Before
-	
 	public void setUp() {
-
+		originalSavePath = new Config().getTaskForceFilePath();
 		String userPath = System.getProperty("user.dir");
 		invalidFileType = userPath.concat("\\asd.doc");
 		invalidMissingFileType = userPath.concat("\\asd");
@@ -33,7 +41,7 @@ public class CdCommandTest extends TaskForceGuiTest {
 		validPath = userPath.concat("\\src\\test\\java\\guitests\\forTesting.xml");
 	}
 	
-
+	
 
 	@Before
 	public void setUpInvalidMessagePath() {
@@ -75,8 +83,11 @@ public class CdCommandTest extends TaskForceGuiTest {
         
         
 	}
-	
-
+	@Test
+	public void valid_checkPath() {
+		commandBox.runCommand("cd");
+		assertResultMessage(String.format(CdCommand.MESSAGE_SUCCESS_CHECK, originalSavePath));
+	}
 	
 	@Test 
 	public void valid_filePath() throws IOException {
