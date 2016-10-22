@@ -41,13 +41,7 @@ public class FindCommandParser extends CommandParser {
 
             parser.parse(args);
             
-            final String find_type = prepareFindTypes(
-            		parser.getArgValue(CommandArgs.FIND_NAME).isPresent() ? "NAME"  : "",
-            		parser.getArgValue(CommandArgs.FIND_WEEK).isPresent() ? "WEEK" : "",
-            		parser.getArgValue(CommandArgs.FIND_DAY).isPresent()  ? "DAY"  : "",
-            		parser.getArgValue(CommandArgs.FIND_DESC).isPresent() ? "DESC" : "",
-            		parser.getArgValue(CommandArgs.FIND_TAG).isPresent()  ? "TAG"  : ""	
-            		);
+            final String find_type = prepareFindTypes(parser);
             
             if (!isValidArgs(find_type, args.trim())) {
                 return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
@@ -112,8 +106,20 @@ public class FindCommandParser extends CommandParser {
 		return args.startsWith(SEPERATOR, seperatorIndex);
 	}
 
-	public String prepareFindTypes(String...args ) throws IncorrectCommandException {
-    	List<String> find_type = new ArrayList<String> (Arrays.asList(args));
+	public String prepareFindTypes(ArgumentsParser parser ) throws IncorrectCommandException {
+    	
+		
+		return getFindTypesArgs(parser.getArgValue(CommandArgs.FIND_NAME).isPresent() ? "NAME"  : "",
+            		parser.getArgValue(CommandArgs.FIND_WEEK).isPresent() ? "WEEK" : "",
+            		parser.getArgValue(CommandArgs.FIND_DAY).isPresent()  ? "DAY"  : "",
+            		parser.getArgValue(CommandArgs.FIND_DESC).isPresent() ? "DESC" : "",
+            		parser.getArgValue(CommandArgs.FIND_TAG).isPresent()  ? "TAG"  : ""	);
+
+    	
+    }
+	
+	public String getFindTypesArgs(String... args) throws IncorrectCommandException {
+		List<String> find_type = new ArrayList<String> (Arrays.asList(args));
     	find_type.removeAll(Arrays.asList(EMPTY_STRING , NULL_STRING));
     	
         if(find_type.size() != VALID_FIND_TYPE_NUMBER) {
@@ -121,8 +127,7 @@ public class FindCommandParser extends CommandParser {
         }
         
         return find_type.get(FIND_TYPE_INDEX);
-    	
-    }
+	}
     
 
 
