@@ -35,7 +35,12 @@ implementation of blocks - events with no name (placeholders).
    * **`add`**` wash the toilet ` adds a reminder to wash the toilet to the task list.
    * **`search`**` d/0` searches the task list for all tasks happening today.
    * **`exit`** : exits the app
-6. Refer to the [Features](#features) section below for details of each command.<br>
+6. Many commands requires an `INDEX` which is the number associated to the task in the current list.
+       > <img src = "images/index_example.png" width="600"> <br>
+       > #### The index of a task is the number beside it
+        
+        
+7. Refer to the [Features](#features) section below for details of each command.<br>
 
 
 ## Features
