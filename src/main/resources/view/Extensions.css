@@ -1,4 +1,24 @@
 
+.cell_big_label_done .text {
+	-fx-font-family: "Open Sans Light";
+	-fx-strikethrough: true ;
+	-fx-font-size: 16px;
+    -fx-text-fill: #010504 ;
+}
+
+.cell_big_label_overdue {
+	-fx-font-family: "Open Sans Semibold";
+    -fx-font-size: 16px;
+    -fx-font-weight: bold ;
+    -fx-text-fill: #f46060 !important ;
+}
+
+.cell_big_label_block {
+	-fx-font-family: "Open Sans Light";
+    -fx-font-size: 16px;
+    -fx-text-fill: #dcccc2 ;
+}
+
 .error {
     -fx-background-color: red;
 }
@@ -14,3 +34,19 @@
 .tooltip-text {
     -fx-text-fill: white;
 }
+
+.circle_low {
+	-fx-fill: derive(#4b8bf5, 0%);
+}
+
+.circle_med {
+	-fx-fill: derive(#ffce43, 0%);
+}
+.circle_high {
+	-fx-fill: derive(#de5347, 0%);
+}
+
+.circle_block {
+	-fx-fill: none ;
+}
+

@@ -1,6 +1,5 @@
 
 .background {
-    /**-fx-background-color: derive(#1d1d1d, 20%);*/
     -fx-background-color: derive(#FFFFFF, 20%);
 }
 
@@ -104,33 +103,12 @@
 
 .task_id {
 	-fx-font-family: "Open Sans Light";
-	-fx-text-fill: #000!important ;
+	-fx-text-fill: #000 ;
 }
 
 .cell_big_label {
     -fx-font-size: 16px;
     -fx-text-fill: #010504;
-}
-
-
-.cell_big_label_done .text {
-	-fx-font-family: "Open Sans Light";
-	-fx-strikethrough: true ;
-	-fx-font-size: 16px;
-    -fx-text-fill: #010504 !important;
-}
-
-.cell_big_label_overdue {
-	-fx-font-family: "Open Sans Semibold";
-    -fx-font-size: 16px;
-    -fx-font-weight: bold ;
-    -fx-text-fill: #f46060 !important;
-}
-
-.cell_big_label_block {
-	-fx-font-family: "Open Sans Light";
-    -fx-font-size: 16px;
-    -fx-text-fill: #dcccc2 !important;
 }
 
 .cell_small_label {
@@ -169,14 +147,14 @@
 }
 
 #commandTextField {
-	-fx-text-fill: white !important;
+	-fx-text-fill: white ;
 	-fx-prompt-text-fill: white ;
 }
 
 .result-display {
 	-fx-font-family: "Open Sans Light" ;
 	-fx-font-size: 14pt;
-	-fx-text-fill: #f46060 !important;
+	-fx-text-fill: #f46060 ;
 	-fx-background-insets: 0;
     -fx-background-color: transparent, #ececec, transparent, #ececec;
 }
@@ -186,7 +164,7 @@
 }
 
 .result-display .label {
-    -fx-text-fill: black !important;
+    -fx-text-fill: black ;
 }
 
 .status-bar .label {
@@ -330,21 +308,6 @@
 
 .scroll-bar:horizontal .increment-arrow, .scroll-bar:horizontal .decrement-arrow {
     -fx-padding: 8 1 8 1;
-}
-
-.circle_low {
-	-fx-fill: derive(#4b8bf5, 0%);
-}
-
-.circle_med {
-	-fx-fill: derive(#ffce43, 0%);
-}
-.circle_high {
-	-fx-fill: derive(#de5347, 0%);
-}
-
-.circle_block {
-	-fx-fill: none ;
 }
 
 #cardPane {
