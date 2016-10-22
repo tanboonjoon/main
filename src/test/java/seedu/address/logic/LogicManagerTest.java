@@ -242,26 +242,6 @@ public class LogicManagerTest {
         assertEquals(String.format(AddCommand.MESSAGE_SUCCESS, test_eventWithoutEndDate), result3.feedbackToUser);
     }
 
-    @Test
-    public void executeAddDuplicateNotAllowed() throws Exception {
-//        // setup expectations
-//        TestDataHelper helper = new TestDataHelper();
-//        Task toBeAdded = helper.adam();
-//        TaskForce expectedAB = new TaskForce();
-//        expectedAB.addTask(toBeAdded);
-//
-//        // setup starting state
-//        model.addTask(toBeAdded); // task already in internal address book
-//
-//        // execute command and verify result
-//        assertCommandBehavior(
-//                helper.generateAddCommand(toBeAdded),
-//                AddCommand.MESSAGE_DUPLICATE_TASK,
-//                expectedAB,
-//                expectedAB.getTaskList());
-
-    }
-
 
     @Test
     public void executeListShowsAllPersons() throws Exception {
