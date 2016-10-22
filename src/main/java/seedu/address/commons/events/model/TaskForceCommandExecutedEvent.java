@@ -11,11 +11,11 @@ import seedu.address.logic.commands.CommandResult;
  */
 public class TaskForceCommandExecutedEvent extends BaseEvent {
 	
-	public final Command commandClass ;
+	public final Command commandInstance ;
 	public final CommandResult result ;
 	
-	public TaskForceCommandExecutedEvent (Command commandClass, CommandResult result) {
-		this.commandClass = commandClass ;
+	public TaskForceCommandExecutedEvent (Command commandInstance, CommandResult result) {
+		this.commandInstance = commandInstance ;
 		this.result = result ;
 		
 	}
