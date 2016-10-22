@@ -516,6 +516,7 @@ Use case ends
 3. Should come with automated unit tests and open source code.
 4. Should favor DOS style commands over Unix-style commands.
 5. Should not take more than 5 seconds when executing find command
+6. Should not use too much memory (less than 250 MB)
 
 ### Project Constraints NFR
 6. Final product should be a result of morphing using level4 code
