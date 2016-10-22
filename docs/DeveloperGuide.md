@@ -541,7 +541,7 @@ Todoist | Easily classified todo categories, collaboration, notifications | Labe
 OmniFocus | Allows a large amount of information to be organized | Way too complex for the average, simple user
 Google Keep | Simple to use, lightweigh | Text based with no advanced functionality. No events
 Todo.txt | Purely text based, simple and clean. Command line interface for Jim | Lacks advanced functionality. No events
-Remember the Milk | Allows management of large number of tasks | Too complex for a simple user
+Remember the Milk |  <ul> <li>Allows management of large number of tasks</li> <li> Clean GUI </li> <li> Predefined search terms allows for easy access to tasks that are due in the near future <li> Allows for multiple lists which allows for seperation of tasks according to users perference (such as work-related tasks and personal tasks not in the same list)</li><li>Allows for tranferring of tasks to others using the app which can be used as a collaboration tool in an organisation</li><li>Has a mobile app which allows for usage in multiple devices in different occasions</li> </ul> | <ul> <li>Requires many clicks to add simple deadline that is due on some day not in the near future because of the calendar GUI</li><li>Very confusing for a new user due to functions hidden behind small buttons with icons that are not very intuitive.</li><li>Lots of information is hidden in the UI which requires the user to click on each task individually in order to view them</li><li>Offline mode is only avaliable to paying users</li></ul>
 Any.do | Simple, clean, easy to use | Cannot make time blocks
 
 In general, most products lack a command line interface, or the customization that Jim needs - the ability to block, the ability to set time properly, etc.
