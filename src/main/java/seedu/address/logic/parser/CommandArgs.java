@@ -1,5 +1,7 @@
 package seedu.address.logic.parser;
 
+import com.google.common.collect.ImmutableList;
+
 public enum CommandArgs {
     NAME(""),
     INDEX(""),
@@ -25,14 +27,18 @@ public enum CommandArgs {
     ;
 
 
-    private String commandString ;
+    private String[] commandString ;
 
-    private CommandArgs (String cmd) {
+    private CommandArgs (String... cmd) {
         commandString = cmd ;
     }
 
     @Override
     public String toString() {
-        return commandString ;
+        return commandString[0] ;
+    }
+    
+    public Iterable<String> getAliases() {
+        return ImmutableList.copyOf(commandString) ;
     }
 }

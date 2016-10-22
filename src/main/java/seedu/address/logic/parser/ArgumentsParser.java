@@ -56,12 +56,9 @@ public class ArgumentsParser {
 	}
 	
 	private void addFlag (CommandArgs arg) {
-	    
-	    if (flags.containsKey(arg.toString())) {
-	        return ;
+	    for (String s : arg.getAliases()) {
+	        flags.put(s, arg) ;
 	    }
-	    
-	    flags.put(arg.toString(), arg) ;
 	}
 	
 	/**
@@ -237,4 +234,5 @@ public class ArgumentsParser {
 		
 		return argsPresent.containsAll(requiredArguments) ;
 	}
+	
  }
