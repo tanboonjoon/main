@@ -454,15 +454,15 @@ public class LogicManagerTest {
         	return new Task (0, "Johnny's Birthday party", "at his house", new UniqueTagList() ) ;
         }
         
-        Task testDeadline() throws Exception {
+        private Task testDeadline() throws Exception {
         	return new Deadline(0, "deadline", "this is a deadline", DateUtil.parseStringIntoDateTime("13 Aug 16 1300").get(), new UniqueTagList() );
         }
         
-        Task testEventWithoutEndDate() throws Exception {
+        private Task testEventWithoutEndDate() throws Exception {
             return new Event(0, "eventWithoutStartTime", "", DateUtil.parseStringIntoDateTime("today 3pm").get(), DateUtil.END_OF_TODAY, new UniqueTagList() );
         }
         
-        Task testEvent() throws Exception {
+        private Task testEvent() throws Exception {
         	LocalDateTime startDate = DateUtil.parseStringIntoDateTime("02-13-2016 1300").get() ;
         	LocalDateTime endDate = DateUtil.parseStringIntoDateTime("02-13-2016 1310").get();
         	return new Event(0, "event", "this is a event", startDate, endDate, new UniqueTagList() );
