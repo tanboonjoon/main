@@ -16,8 +16,8 @@ import seedu.address.testutil.TestTask;
 public class ConfirmCommandTest extends TaskForceGuiTest {
 
     @Test
-    public void confirm_test() {
-        setup_confirm_test() ;
+    public void confirmTest() {
+        setupConfirmTest() ;
         
         TestTask[] list = new TestTask[1] ;
         
@@ -31,8 +31,8 @@ public class ConfirmCommandTest extends TaskForceGuiTest {
     }
     
     @Test
-    public void confirm_invalid_test() {
-        setup_confirm_test() ;
+    public void confirmInvalidTest() {
+        setupConfirmTest() ;
         
         commandBox.runCommand("confirm dsadsa st/323232");
         assertResultMessage(String.format(Messages.MESSAGE_INVALID_COMMAND_FORMAT, ConfirmCommand.MESSAGE_USAGE)) ;
@@ -54,7 +54,7 @@ public class ConfirmCommandTest extends TaskForceGuiTest {
     }
     
     @Test
-    public void confirm_onlyBlock_test() {
+    public void confirmOnlyBlockTest() {
         TestTask[] currentList = td.getTypicalTasks();
         commandBox.runCommand(currentList[0].getAddCommand());
         
@@ -66,7 +66,7 @@ public class ConfirmCommandTest extends TaskForceGuiTest {
         
     }
 
-    private void setup_confirm_test () {
+    private void setupConfirmTest () {
 
         commandBox.runCommand("clear");
 

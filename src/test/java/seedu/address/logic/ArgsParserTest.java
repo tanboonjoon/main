@@ -22,7 +22,7 @@ public class ArgsParserTest {
     public ExpectedException thrown = ExpectedException.none();
 
     @Test
-    public void parser_required_args () throws IncorrectCommandException {
+    public void parserRequiredArgs () throws IncorrectCommandException {
         
         thrown.expect(IncorrectCommandException.class);
         
@@ -38,7 +38,7 @@ public class ArgsParserTest {
     }
     
     @Test
-    public void parser_maintain_order () throws IncorrectCommandException {
+    public void parserMaintainOrder () throws IncorrectCommandException {
         ArgumentsParser parser = new ArgumentsParser(true) ;
         
         List<Pair<LocalDateTime, LocalDateTime>> startEndPairs = Lists.newLinkedList() ;

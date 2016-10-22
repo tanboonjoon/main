@@ -16,7 +16,7 @@ public class FreetimeTest extends TaskForceGuiTest{
 		commandBox.runCommand("clear");
 	}
 	@Test
-	public void invalid_command() {
+	public void invalidCommand() {
 		String invalidCommand = String.format(MESSAGE_INVALID_COMMAND_FORMAT , FreetimeCommand.MESSAGE_USAGE);
 		String invalidArgs = String.format(FreetimeCommand.INVALID_FREETIME_ARGS, FreetimeCommand.MESSAGE_USAGE);
 		commandBox.runCommand("freetime assd day/");
@@ -30,7 +30,7 @@ public class FreetimeTest extends TaskForceGuiTest{
 	}
 	
 	@Test
-	public void valid_commnad_no_event() {
+	public void validCommnadNoEvent() {
 		commandBox.runCommand("add floatingTask");
 		commandBox.runCommand("freetime day/0");
 		assertResultMessage(FreetimeCommand.ZERO_EVENT_MESSAGE);
