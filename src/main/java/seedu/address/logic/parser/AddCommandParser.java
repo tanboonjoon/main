@@ -19,7 +19,7 @@ import seedu.address.logic.commands.IncorrectCommand;
  *
  */
 public class AddCommandParser extends CommandParser {
-
+	
     /**
      * Parses arguments in the context of the add task command.
      *
@@ -31,20 +31,8 @@ public class AddCommandParser extends CommandParser {
 	public Command prepareCommand(String args) {
 		ArgumentsParser parser = new ArgumentsParser() ;
 
-		parser
-		.addNoFlagArg(CommandArgs.NAME)
-		.addOptionalArg(CommandArgs.DESC)
-		.addOptionalArg(CommandArgs.TAGS) 
-		.addOptionalArg(CommandArgs.START_DATETIME)
-		.addOptionalArg(CommandArgs.END_DATETIME)
-		.addOptionalArg(CommandArgs.RECURRING)
-		.addOptionalArg(CommandArgs.REPETITION)
+		parser = prepareParser(parser);
 		
-		
-		
-		;
-		
-
 		try {
 			parser.parse(args);
 		} catch (IncorrectCommandException e) {
@@ -52,6 +40,7 @@ public class AddCommandParser extends CommandParser {
 		}
 
 		try {
+
 			return new AddCommand(
 					parser.getArgValue(CommandArgs.NAME).get(),
 					parser.getArgValue(CommandArgs.DESC).isPresent() ? parser.getArgValue(CommandArgs.DESC).get() : "",
@@ -67,5 +56,19 @@ public class AddCommandParser extends CommandParser {
 			return new IncorrectCommand(String.format(MESSAGE_INVALID_DATE_FORMAT, AddCommand.MESSAGE_USAGE));
 		}
 	}
+
+	private ArgumentsParser prepareParser(ArgumentsParser parser) {
+		// TODO Auto-generated method stub
+		parser.addNoFlagArg(CommandArgs.NAME)
+		.addOptionalArg(CommandArgs.DESC)
+		.addOptionalArg(CommandArgs.TAGS) 
+		.addOptionalArg(CommandArgs.START_DATETIME)
+		.addOptionalArg(CommandArgs.END_DATETIME)
+		.addOptionalArg(CommandArgs.RECURRING)
+		.addOptionalArg(CommandArgs.REPETITION);
+		return parser;
+	}
+	
+
 
 }

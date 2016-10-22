@@ -21,7 +21,7 @@ public class UnmodifiableObservableListTest {
     UnmodifiableObservableList<Integer> list;
 
     @Before
-    public void setup() {
+    public void setUp() {
         backing = new ArrayList<>();
         backing.add(10);
         list = new UnmodifiableObservableList<>(FXCollections.observableList(backing));
