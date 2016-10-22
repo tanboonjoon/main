@@ -26,8 +26,8 @@ public class CdCommandTest extends TaskForceGuiTest {
 	private String originalSavePath;
 	
 	//set to the default save location set by config class
-	@BeforeClass
-	public static void setDefaultSaveLocation() throws IOException {
+	@Before
+	public  void setDefaultSaveLocation() throws IOException {
 		Config config = new Config();
 		ConfigUtil.saveConfig(config, "config.json");
 	}
@@ -63,6 +63,12 @@ public class CdCommandTest extends TaskForceGuiTest {
         		.append(CdCommand.MESSAGE_USAGE)
         		.toString();
 	}
+	
+	@Test
+	public void validCheckPath() {
+		commandBox.runCommand("cd");
+		assertResultMessage(String.format(CdCommand.MESSAGE_SUCCESS_CHECK, originalSavePath));
+	}
 	@Test
 	public void invalidFileType() {
 
@@ -84,12 +90,7 @@ public class CdCommandTest extends TaskForceGuiTest {
         
         
 	}
-	@Test
-	public void validCheckPath() {
-		commandBox.runCommand("cd");
-		assertResultMessage(String.format(CdCommand.MESSAGE_SUCCESS_CHECK, originalSavePath));
-	}
-	
+
 	@Test 
 	public void validFilePath() throws IOException {
 
