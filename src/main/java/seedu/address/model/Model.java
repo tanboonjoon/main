@@ -6,9 +6,8 @@ import seedu.address.logic.filters.Expression;
 import seedu.address.model.task.Task;
 import seedu.address.model.task.ReadOnlyTask;
 import seedu.address.model.task.UniqueTaskList;
-
-import java.util.List;
 import java.util.Set;
+
 
 /**
  * The API of the Model component.
@@ -27,9 +26,6 @@ public interface Model {
     
     /** Adds the given task */
     void addTask(Task task) throws UniqueTaskList.DuplicateTaskException;
-
-     /** Update the given task */
-    void updateTask(ReadOnlyTask from, Task to) throws UniqueTaskList.TaskNotFoundException ,UniqueTaskList.DuplicateTaskException;
     
     /** Returns the filtered task list as an {@code UnmodifiableObservableList<ReadOnlyTask>} */
     UnmodifiableObservableList<ReadOnlyTask> getFilteredTaskList();
@@ -43,15 +39,12 @@ public interface Model {
     /** Raises the given event to the event handler **/
     void raiseEvent(BaseEvent event) ;
     
-    /** Revert Task Force to previous state by one step. Use in conjunction with recordTaskForce. */
-    boolean revertTaskForce();
+    /** Revert changes for undo command */
+    BaseEvent revertChanges();
     
-    /** restore Task Force by one step. Use in conjunction with recordTaskForce */
-    boolean restoreTaskForce();
-    
-    /* a method to store a new task into the task history */
-    public void recordTaskForce();
-    
+    /** Restore changes for redo command */
+    BaseEvent restoreChanges();
+        
     /** Gets the next available Task ID */
     public int getNextTaskId() ;
     

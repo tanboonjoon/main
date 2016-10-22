@@ -36,21 +36,13 @@ public class Parser {
 	
 	private static final Logger logger = LogsCenter.getLogger(Parser.class);
 	
-	private static final Pattern TASK_INDEX_ARGS_FORMAT = Pattern.compile("(?<targetIndex>.+)");
 
     /**
      * Used for initial separation of command word and args.
      */
     private static final Pattern BASIC_COMMAND_FORMAT = Pattern.compile("(?<commandWord>\\S+)(?<arguments>.*)");
 
-    private static final Pattern KEYWORDS_ARGS_FORMAT =
-            Pattern.compile("(?<keywords>\\S+(?:\\s+\\S+)*)"); // one or more keywords separated by whitespace
 
-    private static final Pattern TASK_DATA_ARGS_FORMAT = // '-' dashes are reserved for delimiter prefixes
-            Pattern.compile("^(?<name>[^\\/]+)"
-                    + "((?<description>d\\/[^\\/]+))?"
-                    + "(?<tagArguments>(?:e\\/[^\\/]+)*)$"); // variable number of tags
-    
     private static Map<String, Class<? extends CommandParser>> commandRegistry = Maps.newHashMap();
     
     static {
@@ -100,7 +92,6 @@ public class Parser {
     	} catch (Exception e) {
     		return new IncorrectCommandParser() ;
     	}
-    	
     }
 
     public Parser() {}
@@ -116,9 +107,7 @@ public class Parser {
         if (!matcher.matches()) {
             return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, HelpCommand.MESSAGE_USAGE));
         }
-        
-        //Preparer preparer = new Preparer(); // abstract class can't be created
-        
+                
         final String commandWord = matcher.group("commandWord");
         final String arguments = matcher.group("arguments");
 

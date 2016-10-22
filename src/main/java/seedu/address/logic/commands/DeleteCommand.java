@@ -19,9 +19,15 @@ import seedu.address.model.task.UniqueTaskList.TaskNotFoundException;
  */
 public class DeleteCommand extends Command {
 
-    public static final String COMMAND_WORD = "delete";
+    public static final String[] COMMAND_WORD = {
+            "delete",
+            "remove",
+    };
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD
+    public static final String DEFAULT_COMMAND_WORD = COMMAND_WORD[0] ;
+
+
+    public static final String MESSAGE_USAGE = DEFAULT_COMMAND_WORD
             + ": Deletes the task identified by the index number used in the last task listing.\n"
             + "Parameters: INDEX (must be a positive integer)\n"
             + "Example: " + COMMAND_WORD + " 1";
@@ -66,7 +72,6 @@ public class DeleteCommand extends Command {
             return new CommandResult(Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
         }
         
-        model.recordTaskForce();
         
         for (ReadOnlyTask task : tasksToDelete) {
     

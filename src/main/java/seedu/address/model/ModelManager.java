@@ -2,6 +2,7 @@ package seedu.address.model;
 
 import java.util.Deque;
 import java.util.LinkedList;
+
 import java.util.Set;
 import java.util.logging.Logger;
 
@@ -33,8 +34,8 @@ public class ModelManager extends ComponentManager implements Model {
 
     private final TaskForce taskForce;
     private final FilteredList<Task> filteredTasks;
-    private final Deque<ReadOnlyTaskForce> undoTaskForceHistory = new LinkedList<ReadOnlyTaskForce>();
-    private final Deque<ReadOnlyTaskForce> redoTaskForceHistory = new LinkedList<ReadOnlyTaskForce>();
+    private final Deque<TaskForceCommandExecutedEvent> undoTaskForceHistory = new LinkedList<TaskForceCommandExecutedEvent>();
+    private final Deque<TaskForceCommandExecutedEvent> redoTaskForceHistory = new LinkedList<TaskForceCommandExecutedEvent>();
 
     /**
      * Initializes a ModelManager with the given TaskForce TaskForce and its
@@ -102,55 +103,47 @@ public class ModelManager extends ComponentManager implements Model {
     
     
     @Override
-    public synchronized boolean revertTaskForce() {
+    public TaskForceCommandExecutedEvent revertChanges() {
 
         if (undoTaskForceHistory.peekFirst() != null) {
 
-            ReadOnlyTaskForce item = undoTaskForceHistory.pollFirst();
-            redoTaskForceHistory.offerFirst(new TaskForce(taskForce));
-            this.taskForce.resetData(item);
-            indicateTaskForceChanged();
-        } else {
-            return false;
-        }
-
-        return true;
+            return  undoTaskForceHistory.pollFirst();
+            
+        } 
+        return null;
+       
     }
 
-    @Override
-    public void recordTaskForce() {
-        undoTaskForceHistory.addFirst(new TaskForce(taskForce));
-        if (undoTaskForceHistory.size() > MAX_UNDOS_REDOS) {
-            undoTaskForceHistory.removeLast();
-        }
-
-        redoTaskForceHistory.clear();
-
-    }
 
     @Override
-    public synchronized boolean restoreTaskForce() {
+    public TaskForceCommandExecutedEvent restoreChanges() {
         if (redoTaskForceHistory.peekFirst() != null) {
-            ReadOnlyTaskForce item = redoTaskForceHistory.removeFirst();
-            undoTaskForceHistory.offerFirst(new TaskForce(taskForce));
-            this.taskForce.resetData(item);
-            indicateTaskForceChanged();
-        } else {
-            return false;
+            return redoTaskForceHistory.removeFirst();
         }
-
-        return true;
+        return null;
     }
 
-    @Override
-    public void updateTask(ReadOnlyTask from, Task to)
-            throws UniqueTaskList.TaskNotFoundException, UniqueTaskList.DuplicateTaskException {
-        recordTaskForce();
-        this.taskForce.removeTask(from);
-        this.taskForce.addTask(to);
-        indicateTaskForceChanged();
+    
+    public void saveChanges(Deque<TaskForceCommandExecutedEvent> history,TaskForceCommandExecutedEvent event, int size){
+        history.push(event);
+        if(history.size() > size){
+            history.removeLast();
+        }
     }
     
+    
+    private void saveCommandChanges(TaskForceCommandExecutedEvent event) {
+        if(!(event.commandInstance.getCommandChanges().getKey().isEmpty() && event.commandInstance.getCommandChanges().getValue().isEmpty())){
+            if(event.commandInstance.getClass().getSimpleName().equals("RedoCommand")) {
+                saveChanges(undoTaskForceHistory, event, MAX_UNDOS_REDOS);
+            }else if(event.commandInstance.getClass().getSimpleName().equals("UndoCommand")){
+                saveChanges(redoTaskForceHistory, event, MAX_UNDOS_REDOS);
+            }else{
+                saveChanges(undoTaskForceHistory, event, MAX_UNDOS_REDOS);
+                redoTaskForceHistory.clear();
+            } 
+        }
+    }
     // ===============================================================
     // =========== Filtered Task List Accessors ======================
     // ===============================================================
@@ -181,8 +174,10 @@ public class ModelManager extends ComponentManager implements Model {
    
     @Subscribe
     public void onCommandExecutedEvent (TaskForceCommandExecutedEvent event) {
-        
+        saveCommandChanges(event);
     }
+
+   
 
 
 }
