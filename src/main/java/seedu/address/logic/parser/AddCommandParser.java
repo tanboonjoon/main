@@ -5,6 +5,7 @@ import static seedu.address.commons.core.Messages.MESSAGE_INVALID_DATE_FORMAT;
 
 import java.time.format.DateTimeParseException;
 import java.util.Collections;
+import java.util.Optional;
 
 import com.google.common.collect.Sets;
 
@@ -42,13 +43,13 @@ public class AddCommandParser extends CommandParser {
 		try {
 
 			return new AddCommand(
-					parser.getArgValue(CommandArgs.NAME).get(),
-					parser.getArgValue(CommandArgs.DESC).isPresent() ? parser.getArgValue(CommandArgs.DESC).get() : "",
-					parser.getArgValue(CommandArgs.START_DATETIME).isPresent() ? parser.getArgValue(CommandArgs.START_DATETIME).get() : null,
-					parser.getArgValue(CommandArgs.END_DATETIME).isPresent() ? parser.getArgValue(CommandArgs.END_DATETIME).get() : null,
+			        AddCommandParser.<String>getArgValueFromOptional(parser.getArgValue(CommandArgs.NAME), ""),
+			        AddCommandParser.<String>getArgValueFromOptional(parser.getArgValue(CommandArgs.DESC), "") ,
+			        AddCommandParser.<String>getArgValueFromOptional(parser.getArgValue(CommandArgs.START_DATETIME), null),
+			        AddCommandParser.<String>getArgValueFromOptional(parser.getArgValue(CommandArgs.END_DATETIME), null),
 					parser.getArgValues(CommandArgs.TAGS).isPresent() ? Sets.newHashSet(parser.getArgValues(CommandArgs.TAGS).get()) : Collections.emptySet(),
-					parser.getArgValue(CommandArgs.RECURRING).isPresent() ? parser.getArgValue(CommandArgs.RECURRING).get().toLowerCase():null,
-					parser.getArgValue(CommandArgs.REPETITION).isPresent()?parser.getArgValue(CommandArgs.REPETITION).get():null
+					AddCommandParser.<String>getArgValueFromOptional(parser.getArgValue(CommandArgs.RECURRING), null),
+					AddCommandParser.<String>getArgValueFromOptional(parser.getArgValue(CommandArgs.REPETITION), null)
 			        ) ;
 		} catch (IllegalValueException e) {
 			return new IncorrectCommand(e.getMessage());
@@ -69,6 +70,14 @@ public class AddCommandParser extends CommandParser {
 		return parser;
 	}
 	
-
+	// @@author A0135768R
+	private static <T> T getArgValueFromOptional (Optional<T> argValue, T defaultValue) {
+	    
+	    if (argValue.isPresent()) {
+	        return argValue.get() ;
+	    }
+	    
+	    return defaultValue ;
+	}
 
 }
