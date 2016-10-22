@@ -18,6 +18,13 @@ import seedu.address.logic.commands.CdCommand;
 //@@A0139942W
 public class CdCommandTest extends TaskForceGuiTest {
 	
+	private String invalidFileType;
+	private String invalidMissingFileType;
+	private String validPath;
+	private String INVALID_FILE_TYPE_MESSAGE;
+	private String INVALID_FILE_PATH_MESSAGE;
+	private String originalSavePath;
+	
 	//set to the default save location set by config class
 	@BeforeClass
 	public static void setDefaultSaveLocation() throws IOException {
@@ -25,12 +32,6 @@ public class CdCommandTest extends TaskForceGuiTest {
 		ConfigUtil.saveConfig(config, "config.json");
 	}
 	
-	private String invalidFileType;
-	private String invalidMissingFileType;
-	private String validPath;
-	private String INVALID_FILE_TYPE_MESSAGE;
-	private String INVALID_FILE_PATH_MESSAGE;
-	private String originalSavePath;
 	@Before
 	public void setUp() {
 		originalSavePath = new Config().getTaskForceFilePath();

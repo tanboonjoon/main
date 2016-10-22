@@ -58,10 +58,8 @@ public class CdCommand extends Command {
 			checkForInvalidArgs(filepath);
 		}
 
-		if (commandType.equals(CD_CHECK)); {
-			this.currentSavePath = readConfig();
-		}
-		
+	
+		this.currentSavePath = readConfig();
 		this.commandType = commandType;
 		this.config = new Config();
 		this.originalJsonPath = config.getUserPrefsFilePath();
