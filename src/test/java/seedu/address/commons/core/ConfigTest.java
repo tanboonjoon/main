@@ -26,8 +26,9 @@ public class ConfigTest {
     @Test
     public void equalsMethod(){
         Config defaultConfig = new Config();
-        assertFalse(defaultConfig.equals(null));
-        assertTrue(defaultConfig.equals(defaultConfig));
+        assertEquals(defaultConfig.equals(null), false);
+        assertEquals(defaultConfig.equals(defaultConfig), true);
+       
     }
 
 

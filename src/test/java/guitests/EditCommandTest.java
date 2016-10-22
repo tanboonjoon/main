@@ -3,7 +3,6 @@ package guitests;
 import guitests.guihandles.TaskCardHandle;
 import org.junit.Test;
 
-import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.commands.EditCommand;
 import seedu.address.commons.core.Messages;
 import seedu.address.testutil.TestTask;
