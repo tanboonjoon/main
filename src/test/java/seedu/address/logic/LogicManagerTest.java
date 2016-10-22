@@ -571,7 +571,7 @@ public class LogicManagerTest {
         /**
          * Generates a Task object with given name. Other fields will have some dummy values.
          */
-        Task generatePersonWithName(String name) throws Exception {
+        public Task generatePersonWithName(String name) throws Exception {
             return new Task(0,
                     name,
                     "description ...",
