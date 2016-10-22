@@ -77,12 +77,6 @@ public class CdCommand extends Command {
 		}
 	}
 
-
-
-
-
-
-
 	@Override
 	public CommandResult execute() {
 		// TODO Auto-generated method stub
@@ -118,9 +112,6 @@ public class CdCommand extends Command {
 		String taskForceDataFilePath = (String) configJson.get("taskForceDataFilePath");
 		return taskForceDataFilePath;
 	}
-
-
-
 
 	private boolean isValidPath(String filepath) {
 		File file = new File(filepath);

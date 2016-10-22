@@ -120,8 +120,6 @@ public class ConfirmCommand extends Command {
     private void findAndDeleteOtherBlocks (Block task) {
         List<ReadOnlyTask> list = findAllOtherBlocks (task) ;
 
-        System.out.println(list.size());
-
         for (ReadOnlyTask taskToDelete : list) {
             try {
                 model.deleteTask(taskToDelete) ;

@@ -145,7 +145,7 @@ public class EditCommand extends Command {
         	model.deleteTask(taskToEdit);
                 tasksDeleted.add(taskToEdit);
 
-            return new CommandResult(String.format(MESSAGE_EDIT_SUCCESS, newTask));
+            return new CommandResult(String.format(MESSAGE_EDIT_SUCCESS, newTask), true);
 
         } catch (TaskNotFoundException pnfe) {
             return new CommandResult("The target task cannot be missing");

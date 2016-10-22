@@ -173,11 +173,9 @@ public class ModelManager extends ComponentManager implements Model {
    
     @Subscribe
     public void onCommandExecutedEvent (TaskForceCommandExecutedEvent event) {
-        saveCommandChanges(event);
+        if (event.result.isSuccessfulCommand()) {
+            saveCommandChanges(event);
+        }
     }
-
-   
-
-
 }
 

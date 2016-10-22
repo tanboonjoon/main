@@ -1,5 +1,5 @@
 /**
- * original @@author SAN SOK SAN A0140037W
+ * @@author A0140037W
  */
 package seedu.address.logic.commands;
 
@@ -33,11 +33,14 @@ public class UndoCommand extends Command {
         TaskForceCommandExecutedEvent changes = (TaskForceCommandExecutedEvent) model.revertChanges();
         if(changes != null){
             Command cmd = ((TaskForceCommandExecutedEvent) changes).commandInstance;
+            
             List<ReadOnlyTask> toDelete = cmd.getCommandChanges().getKey();
             List<ReadOnlyTask> toAdd = cmd.getCommandChanges().getValue();
+            
             if(toDelete.isEmpty() && toAdd.isEmpty()){
                 return new CommandResult(MESSAGE_NO_MORE_ACTION);
             }
+            
             for(ReadOnlyTask add: toAdd){
                 try {
                     model.addTask((Task) add);
