@@ -28,6 +28,7 @@ public class NameQualifier implements Qualifier {
     private String findType;
     private DateTimeFormatter format_exclude_time;
     
+    private final String FILTER_BY_DAY = "DAY";
     private final String SEARCH_NAME = "NAME";
     private final String SEARCH_DESC = "DESC";
     private final String SEARCH_TAG = "TAG";
@@ -146,7 +147,7 @@ public class NameQualifier implements Qualifier {
      * filter out ongoing event that is happening during that particular date
      */
     public boolean filterEvent(String taskStartDate, String taskEndDate) {
-        if (findType.equals("DAY")) {
+        if (FILTER_BY_DAY.equals(findType)) {
         	String formattedDate = formattedDateList.get(FORMATTED_DATE_INDEX);
         	return isEventFound(formattedDate, taskStartDate, taskEndDate);
             
@@ -190,7 +191,7 @@ public class NameQualifier implements Qualifier {
         LocalDateTime dateForCompare = dateToday;
         Long timeToAdd = parseTimeToLong(nameKeyWords);
 
-        if (findType.equals("DAY")) {
+        if (FILTER_BY_DAY.equals(findType)) {
             dateForCompare = dateToday.plusDays(timeToAdd);
             dateToCompareList.add(dateForCompare);
             return;
