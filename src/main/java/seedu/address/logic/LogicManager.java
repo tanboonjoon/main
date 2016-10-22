@@ -30,7 +30,7 @@ public class LogicManager extends ComponentManager implements Logic {
     }
 
     @Override
-    public CommandResult invoke(String commandText) {
+    public CommandResult execute(String commandText) {
         logger.info("----------------[USER COMMAND][" + commandText + "]");
         Command command = parser.parseCommand(commandText);
         command.setData(model);
@@ -38,7 +38,7 @@ public class LogicManager extends ComponentManager implements Logic {
   
         result = command.execute();
 
-        BaseEvent commandExecuted = new TaskForceCommandExecutedEvent(command.getClass(), commandText, result) ;
+        BaseEvent commandExecuted = new TaskForceCommandExecutedEvent(command, result) ;
         
         model.raiseEvent(commandExecuted) ;
         return result ;

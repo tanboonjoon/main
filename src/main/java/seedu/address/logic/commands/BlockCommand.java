@@ -2,16 +2,20 @@ package seedu.address.logic.commands;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Sets;
 
+import javafx.util.Pair;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.commons.util.CollectionUtil;
 import seedu.address.commons.util.DateUtil;
 import seedu.address.model.Model;
 import seedu.address.model.task.Block;
+import seedu.address.model.task.ReadOnlyTask;
 import seedu.address.model.task.UniqueTaskList.DuplicateTaskException;
 import seedu.address.model.task.UniqueTaskList.TaskNotFoundException;
 
@@ -38,6 +42,8 @@ public class BlockCommand extends Command {
     private final List<LocalDateTime> startDates ;
     private final List<LocalDateTime> endDates ;
     
+    private List<Block> blocksToAdd ;
+    
     
     public BlockCommand (String name, List<LocalDateTime> startDates, List<LocalDateTime> endDates) throws IllegalValueException {
         
@@ -60,11 +66,9 @@ public class BlockCommand extends Command {
         assert endDates.size() == startDates.size() ;
         assert model != null ;
         
-        model.recordTaskForce();
-        
         int id = model.getNextTaskId() ;
         
-        List<Block> blocksToAdd = new ArrayList<>(endDates.size()) ;
+        blocksToAdd = new ArrayList<>(endDates.size()) ;
         
         for (int i = 0; i < endDates.size(); i ++) {
             blocksToAdd.add(i, new Block (id, name, startDates.get(i), endDates.get(i)));
@@ -96,9 +100,14 @@ public class BlockCommand extends Command {
         sb.delete(sb.length() - 5, sb.length()) ;
         
         
-        return new CommandResult(String.format(MESSAGE_SUCCESS, name, sb.toString())) ;
+        return new CommandResult(String.format(MESSAGE_SUCCESS, name, sb.toString()), true ) ;
     }
     
+    
+    @Override
+    public Pair<List<ReadOnlyTask>, List<ReadOnlyTask>> getCommandChanges() {
+        return new Pair<List<ReadOnlyTask>, List<ReadOnlyTask>>(ImmutableList.copyOf(blocksToAdd), Collections.emptyList()) ; 
+    }
     
     private static class Transaction {
         
@@ -139,5 +148,4 @@ public class BlockCommand extends Command {
             }
         }
     }
-
 }

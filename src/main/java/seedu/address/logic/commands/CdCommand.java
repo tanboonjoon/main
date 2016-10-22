@@ -77,12 +77,6 @@ public class CdCommand extends Command {
 		}
 	}
 
-
-
-
-
-
-
 	@Override
 	public CommandResult execute() {
 		// TODO Auto-generated method stub
@@ -119,9 +113,6 @@ public class CdCommand extends Command {
 		return taskForceDataFilePath;
 	}
 
-
-
-
 	private boolean isValidPath(String filepath) {
 		File file = new File(filepath);
 		if (file.getParent() == INVALID_FILE_PATH) {
@@ -143,5 +134,4 @@ public class CdCommand extends Command {
 		
 
 	}
-
 }

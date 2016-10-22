@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Sets;
 
 import javafx.util.Pair;
@@ -52,6 +53,7 @@ public class ConfirmCommand extends Command {
     private final String endDate ;
     private final String description ;
     private final UniqueTagList taglist ;
+    private final List<ReadOnlyTask> deletedTask, addedTask ;
 
     public ConfirmCommand (int targetIndex, String description, String startDate, String endDate, Set<String> tags) throws IllegalValueException {
 
@@ -70,6 +72,9 @@ public class ConfirmCommand extends Command {
         this.endDate = endDate ;
         this.description = description ;
         this.taglist = new UniqueTagList(tagSet) ;
+        
+        this.deletedTask = new ArrayList<>() ;
+        this.addedTask = new ArrayList<>() ;
     }
 
     @Override
@@ -102,23 +107,24 @@ public class ConfirmCommand extends Command {
         Task newEvent = new Event(id, name, description, datePair.get().getKey(), datePair.get().getValue(), taglist) ;
 
         try {
-            model.addTask(newEvent);
+            model.addTask(newEvent) ;
+            addedTask.add(newEvent) ;
 
         } catch (DuplicateTaskException e) {
             return new CommandResult(MESSAGE_DUPLICATE_TASK) ;
         }
 
-        return new CommandResult(String.format(MESSAGE_CONFIRM_SUCCESS, newEvent)) ;
+        return new CommandResult(String.format(MESSAGE_CONFIRM_SUCCESS, newEvent), true) ;
     }
 
     private void findAndDeleteOtherBlocks (Block task) {
         List<ReadOnlyTask> list = findAllOtherBlocks (task) ;
 
-        System.out.println(list.size());
-
         for (ReadOnlyTask taskToDelete : list) {
             try {
                 model.deleteTask(taskToDelete) ;
+                deletedTask.add(taskToDelete) ;
+                
             } catch (TaskNotFoundException e) {
 
                 continue ;
@@ -137,5 +143,9 @@ public class ConfirmCommand extends Command {
 
         return new ArrayList<>(model.getFilteredTaskList()) ;
     }
-
+    
+    @Override
+    public Pair<List<ReadOnlyTask>, List<ReadOnlyTask>> getCommandChanges() {
+        return new Pair<List<ReadOnlyTask>, List<ReadOnlyTask>>(ImmutableList.copyOf(addedTask), ImmutableList.copyOf(deletedTask)) ; 
+    }
 }

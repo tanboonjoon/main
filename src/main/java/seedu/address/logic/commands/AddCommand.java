@@ -2,8 +2,12 @@ package seedu.address.logic.commands;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Sets;
 
 import javafx.util.Pair;
@@ -14,6 +18,7 @@ import seedu.address.model.tag.Tag;
 import seedu.address.model.tag.UniqueTagList;
 import seedu.address.model.task.Deadline;
 import seedu.address.model.task.Event;
+import seedu.address.model.task.ReadOnlyTask;
 import seedu.address.model.task.Task;
 import seedu.address.model.task.UniqueTaskList;
 
@@ -31,15 +36,15 @@ public class AddCommand extends Command {
             "schedule",
             "remind"
     };
-    
+
     public static final String DEFAULT_COMMAND_WORD = COMMAND_WORD[0] ;
 
-    public static final String MESSAGE_USAGE = DEFAULT_COMMAND_WORD + ": Adds a person to the Task Force. \n"
-    		+ "Format : Task : TASKNAME [d/DESCIPRTION] [t/TAG...]\n" 
-                + "Deadline : TASKNAME [d/DESCIPRTION] et/END_DATE [t/TAG...]\n"
-    		+ "Recurring Deadline : TASKNAME [d/DESCRIPTION] et/END_DATE [t/TAG...] recurring/FREQUENCY (daily, weekly..., alternate day, alternate week) repeat/REPETITION (between 1 - 20)\n"
-    		+ "Event : EVENTNAME [d/DESCRIPTION] st/START_DATE et/END_DATE [t/TAG...]\n" 
-                + "Recurring Event : EVENTNAME [d/DESCRIPTION] st/START_DATE et/END_DATE recurring/FREQUENCY (daily, weekly..., alternate day, alternate week...) repeat/REPETITION (between 1 - 20) [t/TAG...]\n"
+    public static final String MESSAGE_USAGE = DEFAULT_COMMAND_WORD + ": Adds a new task to the Task Force. \n"
+            + "Format : Task : TASKNAME [d/DESCIPRTION] [t/TAG...]\n" 
+            + "Deadline : TASKNAME [d/DESCIPRTION] et/END_DATE [t/TAG...]\n"
+            + "Recurring Deadline : TASKNAME [d/DESCRIPTION] et/END_DATE [t/TAG...] recurring/FREQUENCY (daily, weekly..., alternate day, alternate week) repeat/REPETITION (between 1 - 20)\n"
+            + "Event : EVENTNAME [d/DESCRIPTION] st/START_DATE et/END_DATE [t/TAG...]\n" 
+            + "Recurring Event : EVENTNAME [d/DESCRIPTION] st/START_DATE et/END_DATE recurring/FREQUENCY (daily, weekly..., alternate day, alternate week...) repeat/REPETITION (between 1 - 20) [t/TAG...]\n"
 
             + "Example: " + DEFAULT_COMMAND_WORD
             + " Homework d/CS2103 hw t/veryImportant t/urgent"
@@ -62,28 +67,29 @@ public class AddCommand extends Command {
     private String recurringFrequency;
     private int repeat;
     private int id;
-    
-    private ArrayList<Task> taskList = new ArrayList<Task>();
+
+    private List<Task> taskList = new ArrayList<>();
 
     /**
+     * @@author A0135768R
+     * 
      * Convenience constructor using raw values.
      *
      * @throws IllegalValueException if any of the raw values are invalid
      */
-
     public AddCommand(String name, String description,String startDate,String endDate, Set<String> tags, String recurring, String repeat) throws IllegalValueException {
         final Set<Tag> tagSet = Sets.newHashSet();
-        
+
         setRecurrenceAttributes(recurring, repeat);
-        
+
         for (String tagName : tags) {
             tagSet.add(new Tag(tagName));
         }
-        
+
         if (startDate == null && endDate == null) {
 
             setNewTaskWithDetails(name, description, new UniqueTagList(tagSet));
-        	
+
         } else if (startDate == null && endDate != null) {
             
             Optional<Pair<LocalDateTime, LocalDateTime>> datePair = DateUtil.determineStartAndEndDateTime(null, endDate) ;
@@ -98,10 +104,9 @@ public class AddCommand extends Command {
                 throw new IllegalValueException(INVALID_END_DATE_MESSAGE);
             }
         	
-        	setNewTaskWithDetails (name, description, datePair.get().getKey(), datePair.get().getValue(), new UniqueTagList(tagSet));
-        	
+        	setNewTaskWithDetails (name, description, datePair.get().getKey(), datePair.get().getValue(), new UniqueTagList(tagSet)) ;
         } else {
-        	throw new IllegalValueException(INVALID_TASK_TYPE_MESSAGE);
+            throw new IllegalValueException(INVALID_TASK_TYPE_MESSAGE);
         }
     }
 
@@ -110,31 +115,39 @@ public class AddCommand extends Command {
     public CommandResult execute() {
         assert model != null;
         this.id = model.getNextTaskId();
-        
+
         if(recurringFrequency != null && repeat == 0) {
             return new CommandResult(MISSING_NUMBER_OF_RECURRENCE_MESSAGE);
-        }else if(recurringFrequency != null && repeat >= MIN_NUMBER_OF_RECURRENCE){
-                try {
-                    this.createRecurringEvent(recurringFrequency, repeat);
-                } catch (IllegalValueException e) {
-                    return new CommandResult(e.getMessage());
-                }
-        }else{
+
+        } else if (recurringFrequency != null && repeat >= MIN_NUMBER_OF_RECURRENCE){
+
+            try {
+                this.createRecurringEvent(recurringFrequency, repeat);
+            } catch (IllegalValueException e) {
+                return new CommandResult(e.getMessage());
+            }
+
+        } else {
             this.taskList.add(getNewTask());
         }
-        
-        model.recordTaskForce();
 
         try {
             for(Task task: taskList) {
                 model.addTask(task);
-            }            return new CommandResult(String.format(MESSAGE_SUCCESS, taskList.get(0)));
+            }            
+
+            return new CommandResult(String.format(MESSAGE_SUCCESS, taskList.get(0)), true);
 
         } catch (UniqueTaskList.DuplicateTaskException e) {
             return new CommandResult(MESSAGE_DUPLICATE_TASK);
         }
     }
     
+    @Override
+    public Pair<List<ReadOnlyTask>, List<ReadOnlyTask>> getCommandChanges() {
+        return new Pair<List<ReadOnlyTask>, List<ReadOnlyTask>>(ImmutableList.copyOf(taskList), Collections.emptyList()) ;
+    }
+
     private void setNewTaskWithDetails (String name, String description, LocalDateTime startDate, LocalDateTime endDate, UniqueTagList tags) {
         this.name = name ;
         this.description = description ;
@@ -142,30 +155,30 @@ public class AddCommand extends Command {
         this.endDate = endDate ;
         this.tagList = tags ;
     }
-    
+
     private void setNewTaskWithDetails (String name, String description, LocalDateTime endDate, UniqueTagList tags) {
         setNewTaskWithDetails(name, description, null, endDate, tags) ;
     }
-    
+
     private void setNewTaskWithDetails (String name, String description, UniqueTagList tags) {
         setNewTaskWithDetails(name, description, null, null, tags) ;
     }
-    
+
     private Task getNewTask () {
 
         if (startDate == null && endDate != null) {
             return new Deadline (id, name, description, endDate, tagList) ;
         }
-        
+
         if (startDate != null && endDate != null) {
             return new Event (id, name, description, startDate, endDate, tagList) ;
         }
-        
+
         return new Task (id, name, description, tagList) ;
     }
-    
-// @@author A0140037W    
-    
+
+    // @@author A0140037W    
+
     private void createRecurringEvent(String recurring, int repeat) throws IllegalValueException {
         if(repeat >= MIN_NUMBER_OF_RECURRENCE){
             this.taskList.add(getNewTask());
@@ -173,9 +186,9 @@ public class AddCommand extends Command {
             this.endDate = this.parseFrequency(endDate, recurring);
             this.createRecurringEvent(recurring,repeat-1);
         }
-            
+
     }
-    
+
     private LocalDateTime parseFrequency(LocalDateTime date, String recurring) throws IllegalValueException {
         if(date != null) {
             switch(recurring.trim().toLowerCase()){
@@ -189,8 +202,8 @@ public class AddCommand extends Command {
                 return date.plusYears(RECURRENCE_INCREMENT_STEP);
             case "alternate day":
                 return date.plusDays(RECURRENCE_ALTERNATE_INCREMENT_STEP);
-	    case "fortnightly":
-		return date.plusDays(RECURRENCE_ALTERNATE_INCREMENT_STEP);	    
+            case "fortnightly":
+                return date.plusDays(RECURRENCE_ALTERNATE_INCREMENT_STEP);	    
             case "alternate week":
                 return date.plusWeeks(RECURRENCE_ALTERNATE_INCREMENT_STEP);
             case "biweekly":
@@ -209,18 +222,18 @@ public class AddCommand extends Command {
         }else{
             return date;
         }
-        
+
     }
-    
+
 
     private void setRecurrenceAttributes(String recurring, String repeat) throws IllegalValueException {
         if(recurring != null && repeat == null){
             throw new IllegalValueException(MISSING_NUMBER_OF_RECURRENCE_MESSAGE);
         }else if(recurring == null && repeat != null){
             throw new IllegalValueException(MESSAGE_USAGE);
-	}
-        
-	this.recurringFrequency = recurring;
+        }
+
+        this.recurringFrequency = recurring;
 
         setRepeat(repeat);
     }
@@ -241,5 +254,4 @@ public class AddCommand extends Command {
             }
         }
     }
-
 }

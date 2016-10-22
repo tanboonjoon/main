@@ -7,10 +7,12 @@ import java.util.Set;
 import seedu.address.commons.exceptions.IllegalValueException;
 
 /**
+ * @@author A0139942W
+ * 
  * Finds and lists all tasks in taskForce whose name contains any of the argument keywords.
  * Keyword matching is case sensitive.
  */
-//@@author A0139942W
+
 public class FindCommand extends Command {
 
     public static final String COMMAND_WORD = "find";
@@ -62,15 +64,16 @@ public class FindCommand extends Command {
     	return VALID_ARG;
     	
     }
+    
     public boolean isSearchByKeywords (String findType) {
     	return  findType.equals(FIND_TYPE_NAME) ||
     			findType.equals(FIND_TYPE_DESC) ||
     			findType.equals(FIND_TYPE_TAG);
     }
+
     @Override
     public CommandResult execute() {
         model.updateFilteredTaskList(keywords, findType);
-        return new CommandResult(getMessageForTaskListShownSummary(model.getFilteredTaskList().size()));
+        return new CommandResult(getMessageForTaskListShownSummary(model.getFilteredTaskList().size()), true);
     }
-
 }

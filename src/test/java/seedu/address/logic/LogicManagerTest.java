@@ -108,7 +108,7 @@ public class LogicManagerTest {
                                        List<? extends ReadOnlyTask> expectedShownList) throws Exception {
 
         //Execute the command
-        CommandResult result = logic.invoke(inputCommand);
+        CommandResult result = logic.execute(inputCommand);
         //Confirm the ui display elements should contain the right data
         assertEquals(expectedMessage, result.feedbackToUser);
         assertEquals(expectedShownList, model.getFilteredTaskList());
@@ -232,13 +232,13 @@ public class LogicManagerTest {
         Task test_eventWithoutEndDate = helper.testEventWithoutEndDate() ;
         expectedAB.addTask(test_eventWithoutEndDate);
 
-        CommandResult result = logic.invoke("add event d/this is a event st/02-13-2016 1300 et/02-13-2016 1310");
+        CommandResult result = logic.execute("add event d/this is a event st/02-13-2016 1300 et/02-13-2016 1310");
         assertEquals(String.format(AddCommand.MESSAGE_SUCCESS, test_event), result.feedbackToUser);
 
-        CommandResult result2 = logic.invoke("add deadline d/this is a deadline et/Aug 13 2016 1600");
+        CommandResult result2 = logic.execute("add deadline d/this is a deadline et/Aug 13 2016 1600");
         assertEquals(String.format(AddCommand.MESSAGE_SUCCESS, test_deadline), result2.feedbackToUser);
         
-        CommandResult result3 = logic.invoke("add eventWithoutStartTime st/today 3pm") ;
+        CommandResult result3 = logic.execute("add eventWithoutStartTime st/today 3pm") ;
         assertEquals(String.format(AddCommand.MESSAGE_SUCCESS, test_eventWithoutEndDate), result3.feedbackToUser);
     }
 

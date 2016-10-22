@@ -1,12 +1,16 @@
 package seedu.address.logic.commands;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
+import javafx.util.Pair;
 
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.UnmodifiableObservableList;
@@ -42,7 +46,8 @@ public class EditCommand extends Command {
     
     private static final String START_DATE = "startDate" ;
     private static final String END_DATE = "endDate" ;
-
+    private List<ReadOnlyTask> tasksAdded = Lists.newLinkedList();
+    private List<ReadOnlyTask> tasksDeleted = Lists.newLinkedList();
     private final int targetIndex;
     private final String name;
     private final String description;
@@ -133,14 +138,14 @@ public class EditCommand extends Command {
        
         Task newTask = createNewTask (newName, newDescription, newTagSet, dateMap.get(START_DATE), dateMap.get(END_DATE));
 
-    	model.recordTaskForce();
         try {
-
-//            model.updateTask(taskToEdit, newTask);
         	model.addTask(newTask);
+                tasksAdded.add(newTask);
+                
         	model.deleteTask(taskToEdit);
-            
-            return new CommandResult(String.format(MESSAGE_EDIT_SUCCESS, newTask));
+                tasksDeleted.add(taskToEdit);
+
+            return new CommandResult(String.format(MESSAGE_EDIT_SUCCESS, newTask), true);
 
         } catch (TaskNotFoundException pnfe) {
             return new CommandResult("The target task cannot be missing");
@@ -218,4 +223,8 @@ public class EditCommand extends Command {
         return newTaskTags ;
     }
 
+    @Override
+    public Pair<List<ReadOnlyTask>, List<ReadOnlyTask>> getCommandChanges() {
+        return new Pair<List<ReadOnlyTask>, List<ReadOnlyTask>>(ImmutableList.copyOf(tasksAdded), ImmutableList.copyOf(tasksDeleted)) ; 
+    }
 }

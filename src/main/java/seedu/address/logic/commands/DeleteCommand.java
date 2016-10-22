@@ -1,22 +1,33 @@
 package seedu.address.logic.commands;
 
+import java.util.Collections;
 import java.util.List;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 
+import javafx.util.Pair;
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.UnmodifiableObservableList;
 import seedu.address.model.task.ReadOnlyTask;
 import seedu.address.model.task.UniqueTaskList.TaskNotFoundException;
 
 /**
+ * @@author A0135768R
+ * 
  * Deletes a task identified using it's last displayed index from the taskForce list.
  */
 public class DeleteCommand extends Command {
 
-    public static final String COMMAND_WORD = "delete";
+    public static final String[] COMMAND_WORD = {
+            "delete",
+            "remove",
+    };
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD
+    public static final String DEFAULT_COMMAND_WORD = COMMAND_WORD[0] ;
+
+
+    public static final String MESSAGE_USAGE = DEFAULT_COMMAND_WORD
             + ": Deletes the task identified by the index number used in the last task listing.\n"
             + "Parameters: INDEX (must be a positive integer)\n"
             + "Example: " + COMMAND_WORD + " 1";
@@ -26,9 +37,12 @@ public class DeleteCommand extends Command {
     public static final String MESSAGE_DELETE_TASK_IGNORED = "The following indexes are invalid and ignored: %1$s ";
 
     public final List<Integer> targetIndexes;
+    
+    private final List<ReadOnlyTask> deletedTasks ;
 
     public DeleteCommand(Integer... targetIndex) {
         this.targetIndexes = Lists.newLinkedList() ;
+        this.deletedTasks = Lists.newLinkedList() ;
         
         for (int index : targetIndex) {
             this.targetIndexes.add(index) ;
@@ -58,12 +72,12 @@ public class DeleteCommand extends Command {
             return new CommandResult(Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
         }
         
-        model.recordTaskForce();
         
         for (ReadOnlyTask task : tasksToDelete) {
     
             try {
                 model.deleteTask(task);
+                deletedTasks.add(task) ;
                 
                 messageBuilder.addDeletedTaskDetails(task.getName()) ;
             } catch (TaskNotFoundException pnfe) {
@@ -72,7 +86,7 @@ public class DeleteCommand extends Command {
         }
         
      
-        return new CommandResult(messageBuilder.getDeleteCommandResultString());
+        return new CommandResult(messageBuilder.getDeleteCommandResultString(), true);
     }
     
     /**
@@ -151,6 +165,11 @@ public class DeleteCommand extends Command {
             
             return sb.toString() ;
         }
+    }
+
+    @Override
+    public Pair<List<ReadOnlyTask>, List<ReadOnlyTask>> getCommandChanges() {
+        return new Pair<List<ReadOnlyTask>, List<ReadOnlyTask>> (Collections.emptyList(), ImmutableList.copyOf(deletedTasks)) ;
     }
     
 

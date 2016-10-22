@@ -32,12 +32,12 @@ import seedu.address.logic.commands.UndoCommand;
  */
 public class Parser {
 
+
     /**
      * Used for initial separation of command word and args.
      */
     private static final Pattern BASIC_COMMAND_FORMAT = Pattern.compile("(?<commandWord>\\S+)(?<arguments>.*)");
 
-    
     private static Map<String, Class<? extends CommandParser>> commandRegistry = Maps.newHashMap();
     
     static {
@@ -89,7 +89,6 @@ public class Parser {
     	} catch (Exception e) {
     		return new IncorrectCommandParser() ;
     	}
-    	
     }
 
 
@@ -105,7 +104,7 @@ public class Parser {
         if (!matcher.matches()) {
             return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, HelpCommand.MESSAGE_USAGE));
         }
-        
+
         final String commandWord = matcher.group("commandWord");
         final String arguments = matcher.group("arguments");
 
