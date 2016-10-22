@@ -24,14 +24,9 @@ import java.util.stream.Collectors;
 public class XmlSerializableTaskForce implements ReadOnlyTaskForce {
 
     @XmlElement
-    private List<XmlAdaptedTask> tasks;
+    private List<XmlAdaptedTask> tasks = Lists.newLinkedList();
     @XmlElement
-    private List<Tag> tags;
-
-    {
-        tasks = Lists.newLinkedList() ;
-        tags = Lists.newLinkedList() ;
-    }
+    private List<Tag> tags = Lists.newLinkedList();
 
     /**
      * Empty constructor required for marshalling

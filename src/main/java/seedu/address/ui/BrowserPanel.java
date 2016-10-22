@@ -1,14 +1,12 @@
 package seedu.address.ui;
 
-import javafx.event.Event;
+import java.util.logging.Logger;
+
 import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.web.WebView;
-import seedu.address.commons.util.FxViewUtil;
-import seedu.address.model.task.ReadOnlyTask;
 import seedu.address.commons.core.LogsCenter;
-
-import java.util.logging.Logger;
+import seedu.address.model.task.ReadOnlyTask;
 
 /**
  * The Browser Panel of the App.

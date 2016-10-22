@@ -34,7 +34,7 @@ public class BlockCommandTest extends TaskForceGuiTest {
         
         String command = buildBlockCommand(blocks, name, startDates, endDates);
         
-        assertBlockSuccess(command.toString(), blocks) ;
+        assertBlockSuccess(command, blocks) ;
     }
     
     @Test
