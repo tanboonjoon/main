@@ -147,7 +147,7 @@ public class NameQualifier implements Qualifier {
      */
     public boolean filterEvent(String taskStartDate, String taskEndDate) {
 
-        if ("DAY".equals(findType)) {
+        if (FILTER_BY_DAY.equals(findType)) {
         	String formattedDate = formattedDateList.get(FORMATTED_DATE_INDEX);
         	return isEventFound(formattedDate, taskStartDate, taskEndDate);
             
@@ -192,7 +192,7 @@ public class NameQualifier implements Qualifier {
         Long timeToAdd = parseTimeToLong(nameKeyWords);
 
 
-        if ("DAY".equals(findType)) {
+        if (FILTER_BY_DAY.equals(findType)) {
             dateForCompare = dateToday.plusDays(timeToAdd);
             dateToCompareList.add(dateForCompare);
             return;

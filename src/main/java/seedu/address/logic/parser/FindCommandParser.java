@@ -31,17 +31,18 @@ public class FindCommandParser extends CommandParser {
     public static int FIND_TYPE_INDEX = 0;
     public static String NULL_STRING = null;
     public static String SEPERATOR = "/";
+    private ArgumentsParser parser;
     @Override
     public Command prepareCommand(String args) {
         
     	
-    	ArgumentsParser parser = prepareParser() ;
+    	parser = prepareParser() ;
 
         try {	
 
             parser.parse(args);
             
-            final String find_type = prepareFindTypes(parser);
+            final String find_type = prepareFindTypes();
             
             if (!isValidArgs(find_type, args.trim())) {
                 return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
@@ -49,7 +50,7 @@ public class FindCommandParser extends CommandParser {
             }
             
             
-            final  Set<String> keywordSet = prepareSets(find_type , parser);
+            final  Set<String> keywordSet = prepareSets(find_type);
             return new FindCommand(keywordSet, find_type);
             
         } catch (IncorrectCommandException e) {
@@ -67,9 +68,9 @@ public class FindCommandParser extends CommandParser {
 
     }
     
-    private Set<String> prepareSets(String find_type, ArgumentsParser parser) throws IncorrectCommandException {
+    private Set<String> prepareSets(String find_type) throws IncorrectCommandException {
 		// TODO Auto-generated method stub
-    	final String[] keywords = getKeywords(find_type, parser);
+    	final String[] keywords = getKeywords(find_type);
     	final Set<String> preparedKeywordSet = Sets.newHashSet(Arrays.asList(keywords));
     	preparedKeywordSet.remove(EMPTY_STRING);
 		return preparedKeywordSet;
@@ -106,18 +107,44 @@ public class FindCommandParser extends CommandParser {
 		return args.startsWith(SEPERATOR, seperatorIndex);
 	}
 
-	public String prepareFindTypes(ArgumentsParser parser ) throws IncorrectCommandException {
+	public String prepareFindTypes() throws IncorrectCommandException {
     	
+		String name = getNameArg();
+		String week = getWeekArg();
+		String day = getDayArg();
+		String desc = getDescArg();
+		String tag = getTagArg();
 		
-		return getFindTypesArgs(parser.getArgValue(CommandArgs.FIND_NAME).isPresent() ? "NAME"  : "",
-            		parser.getArgValue(CommandArgs.FIND_WEEK).isPresent() ? "WEEK" : "",
-            		parser.getArgValue(CommandArgs.FIND_DAY).isPresent()  ? "DAY"  : "",
-            		parser.getArgValue(CommandArgs.FIND_DESC).isPresent() ? "DESC" : "",
-            		parser.getArgValue(CommandArgs.FIND_TAG).isPresent()  ? "TAG"  : ""	);
-
-    	
+		return getFindTypesArgs(name, week, day, desc, tag);
+      	
     }
 	
+	private String getTagArg() {
+		// TODO Auto-generated method stub
+		return parser.getArgValue(CommandArgs.FIND_TAG).isPresent()  ? "TAG"  : "";	
+	}
+
+	private String getDescArg() {
+		// TODO Auto-generated method stub
+		return parser.getArgValue(CommandArgs.FIND_DESC).isPresent() ? "DESC" : "";
+	}
+
+	private String getDayArg() {
+		// TODO Auto-generated method stub
+		return parser.getArgValue(CommandArgs.FIND_DAY).isPresent()  ? "DAY"  : "";
+	}
+
+	private String getWeekArg() {
+		// TODO Auto-generated method stub
+		return parser.getArgValue(CommandArgs.FIND_WEEK).isPresent() ? "WEEK" : "";
+	}
+
+	private String getNameArg() {
+		// TODO Auto-generated method stub
+		return parser.getArgValue(CommandArgs.FIND_NAME).isPresent() ? "NAME"  : "";
+	}
+	
+
 	public String getFindTypesArgs(String... args) throws IncorrectCommandException {
 		List<String> find_type = new ArrayList<String> (Arrays.asList(args));
     	find_type.removeAll(Arrays.asList(EMPTY_STRING , NULL_STRING));
@@ -133,7 +160,7 @@ public class FindCommandParser extends CommandParser {
 
     
 
-    public String[] getKeywords(String find_type, ArgumentsParser parser) throws IncorrectCommandException {
+    public String[] getKeywords(String find_type) throws IncorrectCommandException {
   
     	
     	switch (find_type) {
