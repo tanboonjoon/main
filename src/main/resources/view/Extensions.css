@@ -1,4 +1,60 @@
+/* @@author A0135768R */
 
+.command-box {
+	-fx-background-insets: 0;
+	-fx-border-insets: 0;
+    -fx-background-color: transparent, #f46060, transparent, #f46060;
+    -fx-border-width: 1px ;
+    -fx-border-color: #f46060 #f46060 #ffffff #f46060;
+}
+
+.error {
+    -fx-background-color: #b50000;
+}
+
+
+.tag-selector {
+    -fx-border-width: 1;
+    -fx-border-color: white;
+    -fx-border-radius: 3;
+    -fx-background-radius: 3;
+}
+
+.tooltip-text {
+    -fx-text-fill: white;
+}
+
+/*
+ * ====================================================================
+ * ======================STYLES FOR CIRCLES============================
+ * ====================================================================
+ */
+
+.circle_low {
+	-fx-fill: derive(#4b8bf5, 0%);
+}
+
+.circle_med {
+	-fx-fill: derive(#ffce43, 0%);
+}
+.circle_high {
+	-fx-fill: derive(#de5347, 0%);
+}
+
+.circle_done {
+	-fx-fill: derive(#1aa260, 0%);
+}
+
+.circle_block {
+	-fx-fill: none ;
+}
+
+/*
+ * ====================================================================
+ * ======================STYLES FOR TITLEs=============================
+ * ====================================================================
+ */
+ 
 .cell_big_label_done .text {
 	-fx-font-family: "Open Sans Light";
 	-fx-strikethrough: true ;
@@ -17,36 +73,5 @@
 	-fx-font-family: "Open Sans Light";
     -fx-font-size: 16px;
     -fx-text-fill: #dcccc2 ;
-}
-
-.error {
-    -fx-background-color: red;
-}
-
-
-.tag-selector {
-    -fx-border-width: 1;
-    -fx-border-color: white;
-    -fx-border-radius: 3;
-    -fx-background-radius: 3;
-}
-
-.tooltip-text {
-    -fx-text-fill: white;
-}
-
-.circle_low {
-	-fx-fill: derive(#4b8bf5, 0%);
-}
-
-.circle_med {
-	-fx-fill: derive(#ffce43, 0%);
-}
-.circle_high {
-	-fx-fill: derive(#de5347, 0%);
-}
-
-.circle_block {
-	-fx-fill: none ;
 }
 

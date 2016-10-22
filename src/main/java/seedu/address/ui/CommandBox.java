@@ -67,8 +67,7 @@ public class CommandBox extends UiPart {
     public void setPlaceholder(AnchorPane pane) {
         this.placeHolderPane = pane;
     }
-
-
+    
     @FXML
     private void handleCommandInputChanged() {
         //Take a copy of the command text

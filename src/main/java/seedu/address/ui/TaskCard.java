@@ -19,7 +19,6 @@ public class TaskCard extends UiPart{
 
     private static final String FXML = "TaskListCard.fxml";
     
-    public static final String DEFAULT_CELL_CLASS = "circle_med" ;
     public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("d MMM h:mm a");
 
     @FXML
@@ -62,7 +61,8 @@ public class TaskCard extends UiPart{
     	
     	if (task.getDoneStatus()) {
     		isDone.setVisible(true);
-    		FxViewUtil.removeAndAddCssClass(name, "cell_big_label_overdue", "cell_big_label_done") ;
+    		FxViewUtil.setNodeStyle(name, NodeStyle.TITLE_DONE) ;
+    		FxViewUtil.setNodeStyle(circle, NodeStyle.CIRCLE_DONE) ;
     	}
         
     	setTaskTitle();
@@ -95,7 +95,7 @@ public class TaskCard extends UiPart{
         clock.setVisible(false);
         isDone.setVisible(false);
         
-        circle.getStyleClass().add(DEFAULT_CELL_CLASS) ;
+        circle.getStyleClass().add("circle_med") ;
     }
     
     private void setTaskTitle() {
@@ -105,14 +105,14 @@ public class TaskCard extends UiPart{
             Deadline deadline = (Deadline) task ;
             
             if (deadline.isDeadlineOverdue()) {
-                FxViewUtil.removeAndAddCssClass(name, "cell_big_label", "cell_big_label_overdue") ;
-                FxViewUtil.removeAndAddCssClass(circle, DEFAULT_CELL_CLASS, "circle_high") ;
+                FxViewUtil.setNodeStyle(name, NodeStyle.TITLE_OVERDUE) ;
+                FxViewUtil.setNodeStyle(circle, NodeStyle.CIRCLE_HIGH) ;
             }
         }
         
         if (task instanceof Block) {
-            FxViewUtil.removeAndAddCssClass(name, "cell_big_label", "cell_big_label_block") ;
-            FxViewUtil.removeAndAddCssClass(circle, DEFAULT_CELL_CLASS, "circle_block") ;
+            FxViewUtil.setNodeStyle(name, NodeStyle.TITLE_BLOCK) ;
+            FxViewUtil.setNodeStyle(circle, NodeStyle.CIRCLE_BLOCK) ;
         }
     }
     
