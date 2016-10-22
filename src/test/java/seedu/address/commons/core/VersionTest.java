@@ -12,7 +12,7 @@ public class VersionTest {
     public ExpectedException thrown = ExpectedException.none();
 
     @Test
-    public void versionParsing_acceptableVersionString_parsedVersionCorrectly() {
+    public void versionParsingAcceptableVersionString_parsedVersionCorrectly() {
         verifyVersionParsedCorrectly("V0.0.0ea", 0, 0, 0, true);
         verifyVersionParsedCorrectly("V3.10.2", 3, 10, 2, false);
         verifyVersionParsedCorrectly("V100.100.100ea", 100, 100, 100, true);
@@ -25,7 +25,7 @@ public class VersionTest {
     }
 
     @Test
-    public void versionConstructor_correctParameter_valueAsExpected() {
+    public void versionConstructorCorrectParameterValueAsExpected() {
         Version version = new Version(19, 10, 20, true);
 
         assertEquals(19, version.getMajor());
@@ -35,7 +35,7 @@ public class VersionTest {
     }
 
     @Test
-    public void versionToString_validVersion_correctStringRepresentation() {
+    public void versionToStringValidVersionCorrectStringRepresentation() {
         // boundary at 0
         Version version = new Version(0, 0, 0, true);
         assertEquals("v0.0ea", version.toString());
@@ -50,7 +50,7 @@ public class VersionTest {
     }
 
     @Test
-    public void versionComparable_validVersion_compareToIsCorrect() {
+    public void versionComparableValidVersionCompareToIsCorrect() {
         Version one, another;
 
         // Tests equality
@@ -109,7 +109,7 @@ public class VersionTest {
     }
 
     @Test
-    public void versionComparable_validVersion_hashCodeIsCorrect() {
+    public void versionComparableValidVersionHashCodeIsCorrect() {
         Version version = new Version(100, 100, 100, true);
         assertEquals(100100100, version.hashCode());
 
@@ -118,7 +118,7 @@ public class VersionTest {
     }
 
     @Test
-    public void versionComparable_validVersion_equalIsCorrect() {
+    public void versionComparableValidVersionEqualIsCorrect() {
         Version one, another;
 
         one = new Version(0, 0, 0, false);

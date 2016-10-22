@@ -44,7 +44,6 @@ public class CdCommand extends Command {
 	private final String INVALID_FILE_PATH = null;
 	private final String CONFIG_JSON_PATH = "config.json";
 	private final String newStoragePath;
-	private final String originalJsonPath;
 	private final String currentSavePath;
 	private final String commandType;
 	private Config config;
@@ -62,9 +61,7 @@ public class CdCommand extends Command {
 		this.currentSavePath = readConfig();
 		this.commandType = commandType;
 		this.config = new Config();
-		this.originalJsonPath = config.getUserPrefsFilePath();
 		this.newStoragePath = filepath;
-		this.storageManager = new StorageManager(this.newStoragePath, originalJsonPath );
 	}
 
 
@@ -95,6 +92,9 @@ public class CdCommand extends Command {
 		}
 		
 		try {
+			String originalJsonPath = config.getUserPrefsFilePath();
+			this.storageManager = new StorageManager(this.newStoragePath, originalJsonPath );
+
 			storageManager.saveTaskForce(model.getTaskForce());
 
 			

@@ -16,7 +16,7 @@ import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT
 public class EditCommandTest extends TaskForceGuiTest {
 
     @Test
-    public void Edit() {
+    public void edit() {
         
         //Add one task
         TestTask[] currentList = td.getTypicalTasks();

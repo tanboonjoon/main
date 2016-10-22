@@ -22,7 +22,6 @@ import seedu.address.model.task.*;
 import seedu.address.storage.StorageManager;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -82,7 +81,7 @@ public class LogicManagerTest {
     }
 
     @Test
-    public void execute_invalid() throws Exception {
+    public void executeInvalid() throws Exception {
         String invalidCommand = "       ";
         assertCommandBehavior(invalidCommand,
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, HelpCommand.MESSAGE_USAGE));
@@ -120,24 +119,24 @@ public class LogicManagerTest {
 
 
     @Test
-    public void execute_unknownCommandWord() throws Exception {
+    public void executeUnknownCommandWord() throws Exception {
         String unknownCommand = "uicfhmowqewca";
         assertCommandBehavior(unknownCommand, MESSAGE_UNKNOWN_COMMAND);
     }
 
     @Test
-    public void execute_help() throws Exception {
+    public void executeHelp() throws Exception {
         assertCommandBehavior("help", HelpCommand.SHOWING_HELP_MESSAGE);
         assertTrue(helpShown);
     }
 
     @Test
-    public void execute_exit() throws Exception {
+    public void executeExit() throws Exception {
         assertCommandBehavior("exit", ExitCommand.MESSAGE_EXIT_ACKNOWLEDGEMENT);
     }
 
     @Test
-    public void execute_clear() throws Exception {
+    public void executeClear() throws Exception {
         TestDataHelper helper = new TestDataHelper();
         model.addTask(helper.generateTask(1));
         model.addTask(helper.generateTask(2));
@@ -148,7 +147,7 @@ public class LogicManagerTest {
 
 
     @Test
-    public void execute_add_invalidArgsFormat() throws Exception {
+    public void executeAddInvalidArgsFormat() throws Exception {
         String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE);
         assertCommandBehavior(
                 "add wrong args wrong args /t", expectedMessage);
@@ -167,7 +166,7 @@ public class LogicManagerTest {
     }
 
     @Test
-    public void execute_add_invalidPersonData() throws Exception {
+    public void executeAddInvalidPersonData() throws Exception {
     	// NOT APPLICABLE TO THE CURRENT ADD COMMAND
 //        assertCommandBehavior(
 //                "add []\\[;] p/12345 e/valid@e.mail a/valid, address", Name.MESSAGE_NAME_CONSTRAINTS);
@@ -181,7 +180,7 @@ public class LogicManagerTest {
     }
     
     @Test
-    public void execute_add_order_dont_matter () throws Exception {
+    public void executeAddOrderDontMatter () throws Exception {
         TestDataHelper helper = new TestDataHelper();
         TaskForce expectedAB = new TaskForce();
         
@@ -195,7 +194,7 @@ public class LogicManagerTest {
     }
     
     @Test
-    public void add_command_optional_args() throws Exception {
+    public void addCommandOptionalArgs() throws Exception {
         
         TestDataHelper helper = new TestDataHelper();
         TaskForce expectedAB = new TaskForce();
@@ -210,7 +209,7 @@ public class LogicManagerTest {
     }
 
     @Test
-    public void execute_add_successful() throws Exception {
+    public void executeAddSuccessful() throws Exception {
         // setup expectations
         TestDataHelper helper = new TestDataHelper();
         Task toBeAdded = helper.adam();
@@ -224,13 +223,13 @@ public class LogicManagerTest {
                 expectedAB.getTaskList());        
 
         
-        Task test_event = helper.test_event();
+        Task test_event = helper.testEvent();
         expectedAB.addTask(test_event);
 
-        Task test_deadline = helper.test_deadline();
+        Task test_deadline = helper.testDeadline();
         expectedAB.addTask(test_deadline);
         
-        Task test_eventWithoutEndDate = helper.test_eventWithoutEndDate() ;
+        Task test_eventWithoutEndDate = helper.testEventWithoutEndDate() ;
         expectedAB.addTask(test_eventWithoutEndDate);
 
         CommandResult result = logic.invoke("add event d/this is a event st/02-13-2016 1300 et/02-13-2016 1310");
@@ -244,7 +243,7 @@ public class LogicManagerTest {
     }
 
     @Test
-    public void execute_addDuplicate_notAllowed() throws Exception {
+    public void executeAddDuplicateNotAllowed() throws Exception {
 //        // setup expectations
 //        TestDataHelper helper = new TestDataHelper();
 //        Task toBeAdded = helper.adam();
@@ -265,7 +264,7 @@ public class LogicManagerTest {
 
 
     @Test
-    public void execute_list_showsAllPersons() throws Exception {
+    public void executeListShowsAllPersons() throws Exception {
         // prepare expectations
         TestDataHelper helper = new TestDataHelper();
         TaskForce expectedAB = helper.generateAddressBook(2);
@@ -314,18 +313,18 @@ public class LogicManagerTest {
     }
 
     @Test
-    public void execute_selectInvalidArgsFormat_errorMessageShown() throws Exception {
+    public void executeSelectInvalidArgsFormatErrorMessageShown() throws Exception {
         String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, SelectCommand.MESSAGE_USAGE);
         assertIncorrectIndexFormatBehaviorForCommand("select", expectedMessage);
     }
 
     @Test
-    public void execute_selectIndexNotFound_errorMessageShown() throws Exception {
+    public void executeSlectIndexNotFoundErrorMessageShown() throws Exception {
         assertIndexNotFoundBehaviorForCommand("select");
     }
 
     @Test
-    public void execute_select_jumpsToCorrectTask() throws Exception {
+    public void executeSelectJumpsToCorrectTask() throws Exception {
         TestDataHelper helper = new TestDataHelper();
         List<Task> threeTasks = helper.generateTaskList(3);
 
@@ -342,18 +341,18 @@ public class LogicManagerTest {
 
 
     @Test
-    public void execute_deleteInvalidArgsFormat_errorMessageShown() throws Exception {
+    public void executeDeleteInvalidArgsFormatErrorMessageShown() throws Exception {
         String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE);
         assertIncorrectIndexFormatBehaviorForCommand("delete", expectedMessage);
     }
 
     @Test
-    public void execute_deleteIndexNotFound_errorMessageShown() throws Exception {
+    public void executeDeleteIndexNotFoundErrorMessageShown() throws Exception {
         assertIndexNotFoundBehaviorForCommand("delete");
     }
   
     @Test
-    public void execute_delete_removesCorrectTask() throws Exception {
+    public void executeDeleteRemovesCorrectTask() throws Exception {
         TestDataHelper helper = new TestDataHelper();
         List<Task> threeTasks = helper.generateTaskList(3);
 
@@ -434,7 +433,7 @@ public class LogicManagerTest {
     */
     
     @Test
-    public void execute_invalid_block_command() throws Exception {
+    public void executeInvalidBlockCommand() throws Exception {
         TaskForce expectedAB = new TaskForce();
         
         assertCommandBehavior("block st/sadsd et/dasdad",
@@ -444,7 +443,7 @@ public class LogicManagerTest {
     }
     
     @Test
-    public void execute_invalidDates_block_command() throws Exception {
+    public void executeInvalidDatesBlockCommand() throws Exception {
         TaskForce expectedAB = new TaskForce();
         
         assertCommandBehavior("block name st/sadsd et/today 5pm",
@@ -476,15 +475,15 @@ public class LogicManagerTest {
         }
         
 
-        Task test_deadline() throws Exception {
+        Task testDeadline() throws Exception {
         	return new Deadline(0, "deadline", "this is a deadline", DateUtil.parseStringIntoDateTime("13 Aug 16 1300").get(), new UniqueTagList() );
         }
         
-        Task test_eventWithoutEndDate() throws Exception {
+        Task testEventWithoutEndDate() throws Exception {
             return new Event(0, "eventWithoutStartTime", "", DateUtil.parseStringIntoDateTime("today 3pm").get(), DateUtil.END_OF_TODAY, new UniqueTagList() );
         }
         
-        Task test_event() throws Exception {
+        Task testEvent() throws Exception {
         	LocalDateTime startDate = DateUtil.parseStringIntoDateTime("02-13-2016 1300").get() ;
         	LocalDateTime endDate = DateUtil.parseStringIntoDateTime("02-13-2016 1310").get();
         	return new Event(0, "event", "this is a event", startDate, endDate, new UniqueTagList() );

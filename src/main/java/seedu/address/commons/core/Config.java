@@ -20,9 +20,6 @@ public class Config {
     private String appName = "My Todo list";
 
 
-    public Config() {
-    }
-
     public String getAppTitle() {
         return appTitle;
     }

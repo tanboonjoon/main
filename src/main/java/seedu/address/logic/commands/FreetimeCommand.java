@@ -135,11 +135,11 @@ public class FreetimeCommand extends Command{
 			return sb.toString();
 		}
 
-		return getAllFreeSlot( currentStartTime, currentEndTime, same_day, sb);
+		return getAllFreeSlot(currentEndTime, same_day, sb);
 
 	}
 	
-	private String getAllFreeSlot(LocalDateTime currentStartTime, LocalDateTime currentEndTime, int same_day,
+	private String getAllFreeSlot(LocalDateTime currentEndTime, int same_day,
 			StringBuilder sb) {
 		// TODO Auto-generated method stub
 		for (int time_index = 1 ;  time_index < timeList.size(); time_index++) {
