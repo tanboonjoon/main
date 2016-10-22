@@ -3,13 +3,11 @@ package seedu.address.logic.parser;
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 
 import java.util.Map;
-import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.google.common.collect.Maps;
 
-import seedu.address.commons.core.LogsCenter;
 import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.commands.BlockCommand;
 import seedu.address.logic.commands.CdCommand;
@@ -34,22 +32,11 @@ import seedu.address.logic.commands.UndoCommand;
  */
 public class Parser {
 	
-	private static final Logger logger = LogsCenter.getLogger(Parser.class);
-	
-	private static final Pattern TASK_INDEX_ARGS_FORMAT = Pattern.compile("(?<targetIndex>.+)");
-
     /**
      * Used for initial separation of command word and args.
      */
     private static final Pattern BASIC_COMMAND_FORMAT = Pattern.compile("(?<commandWord>\\S+)(?<arguments>.*)");
-
-    private static final Pattern KEYWORDS_ARGS_FORMAT =
-            Pattern.compile("(?<keywords>\\S+(?:\\s+\\S+)*)"); // one or more keywords separated by whitespace
-
-    private static final Pattern TASK_DATA_ARGS_FORMAT = // '-' dashes are reserved for delimiter prefixes
-            Pattern.compile("^(?<name>[^\\/]+)"
-                    + "((?<description>d\\/[^\\/]+))?"
-                    + "(?<tagArguments>(?:e\\/[^\\/]+)*)$"); // variable number of tags
+    
     
     private static Map<String, Class<? extends CommandParser>> commandRegistry = Maps.newHashMap();
     
