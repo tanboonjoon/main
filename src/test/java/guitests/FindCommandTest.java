@@ -43,13 +43,13 @@ public class FindCommandTest extends TaskForceGuiTest {
     }
 
     @Test
-    public void find_emptyList(){
+    public void findEmptyList(){
         commandBox.runCommand("clear");
         assertFindResult("find name/Jean"); //no results
     }
     
     @Test
-    public void find_MinimalValidCommand_pass() {
+    public void findMinimalValidCommand_pass() {
         
         commandBox.runCommand("clear");
         

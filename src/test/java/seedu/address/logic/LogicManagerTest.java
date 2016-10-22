@@ -22,7 +22,6 @@ import seedu.address.model.task.*;
 import seedu.address.storage.StorageManager;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -224,13 +223,13 @@ public class LogicManagerTest {
                 expectedAB.getTaskList());        
 
         
-        Task test_event = helper.test_event();
+        Task test_event = helper.testEvent();
         expectedAB.addTask(test_event);
 
-        Task test_deadline = helper.test_deadline();
+        Task test_deadline = helper.testDeadline();
         expectedAB.addTask(test_deadline);
         
-        Task test_eventWithoutEndDate = helper.test_eventWithoutEndDate() ;
+        Task test_eventWithoutEndDate = helper.testEventWithoutEndDate() ;
         expectedAB.addTask(test_eventWithoutEndDate);
 
         CommandResult result = logic.invoke("add event d/this is a event st/02-13-2016 1300 et/02-13-2016 1310");
@@ -320,7 +319,7 @@ public class LogicManagerTest {
     }
 
     @Test
-    public void executeSelectIndexNotFoundErrorMessageShown() throws Exception {
+    public void executeSlectIndexNotFoundErrorMessageShown() throws Exception {
         assertIndexNotFoundBehaviorForCommand("select");
     }
 
@@ -348,7 +347,7 @@ public class LogicManagerTest {
     }
 
     @Test
-    public void execute_deleteIndexNotFound_errorMessageShown() throws Exception {
+    public void executeDeleteIndexNotFoundErrorMessageShown() throws Exception {
         assertIndexNotFoundBehaviorForCommand("delete");
     }
   
@@ -475,16 +474,15 @@ public class LogicManagerTest {
         	return new Task (0, "Johnny's Birthday party", "at his house", new UniqueTagList() ) ;
         }
         
-
-        public Task test_deadline() throws Exception {
+        Task testDeadline() throws Exception {
         	return new Deadline(0, "deadline", "this is a deadline", DateUtil.parseStringIntoDateTime("13 Aug 16 1300").get(), new UniqueTagList() );
         }
         
-        public Task test_eventWithoutEndDate() throws Exception {
+        Task testEventWithoutEndDate() throws Exception {
             return new Event(0, "eventWithoutStartTime", "", DateUtil.parseStringIntoDateTime("today 3pm").get(), DateUtil.END_OF_TODAY, new UniqueTagList() );
         }
         
-        public Task test_event() throws Exception {
+        Task testEvent() throws Exception {
         	LocalDateTime startDate = DateUtil.parseStringIntoDateTime("02-13-2016 1300").get() ;
         	LocalDateTime endDate = DateUtil.parseStringIntoDateTime("02-13-2016 1310").get();
         	return new Event(0, "event", "this is a event", startDate, endDate, new UniqueTagList() );

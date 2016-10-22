@@ -176,10 +176,10 @@ Format: `undo`
 
 #### Changing FileStorage location : `cd`
 Changing the saveData into another location <br>
-Format: `cd FILEPATH\FILENAME.xml`
+Format: `cd [FILEPATH\FILENAME.xml]`
 Examples:
-* `cd C:\Users\Boon\Desktop\newName.xml`
-* `cd C:\Users\Boon\newSaveName.xml`
+* `cd ` will tell you the current location of the saveData
+* `cd C:\Users\Boon\newSaveName.xml`will change the saveData location to specified path
 
 #### Clearing all entries : `clear`
 Clears **ALL** entries from the task list. This command **CANNOT** be undone! <br>
@@ -230,7 +230,7 @@ Delete | `delete INDEX`
 Edit | `edit INDEX [NAME] [s/START_DATE] [e/END_DATE] ...`
 Freetime | `freetime [day/DAYS_FROM_TODAY]`
 Find | `find METHOD/ KEYWORD [MORE_KEYWORDS_FOR_ALL_METHOD]`
-cd   | `cd FILEPATH/FILENAME.xml`
+cd   | `cd [FILEPATH/FILENAME.xml]`
 Undo | `undo`
 Help | `help`
 Exit | `exit`

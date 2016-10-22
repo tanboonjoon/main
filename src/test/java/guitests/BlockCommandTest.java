@@ -15,7 +15,7 @@ import seedu.address.testutil.TestTask;
 public class BlockCommandTest extends TaskForceGuiTest {
 
     @Test
-    public void block_command_success_test() {
+    public void blockCommandSuccessTest() {
         commandBox.runCommand("clear");
         
         TestTask[] blocks = new TestTask[3] ;
@@ -38,7 +38,7 @@ public class BlockCommandTest extends TaskForceGuiTest {
     }
     
     @Test
-    public void block_command_duplicate_dates() {
+    public void blockCommandDuplicateDates() {
         commandBox.runCommand("clear");
         
         TestTask[] blocks = new TestTask[3] ;
