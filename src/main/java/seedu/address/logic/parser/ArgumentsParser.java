@@ -167,12 +167,12 @@ public class ArgumentsParser {
 		Deque<Character> charStack = Lists.newLinkedList();
 		CommandArgs thisArg = noFlagArgument ;
 		
-		commandString = commandString.trim().concat(" $/") ; // Append a unique "end of string" character
+		String commandStringTrimmed = commandString.trim().concat(" $/") ; // Append a unique "end of string" character
 		
-		for (int i = 0; i < commandString.length(); i ++) {
+		for (int i = 0; i < commandStringTrimmed.length(); i ++) {
 			
-			if (commandString.charAt(i) != '/') {
-				charStack.push(commandString.charAt(i));
+			if (commandStringTrimmed.charAt(i) != '/') {
+				charStack.push(commandStringTrimmed.charAt(i));
 				continue;
 			}
 			
@@ -235,9 +235,6 @@ public class ArgumentsParser {
 		
 		Set<CommandArgs> argsPresent = argumentValuesMap.keySet() ;
 		
-		if (argsPresent.containsAll(requiredArguments)) {		
-			return true ;
-		} 
-		return false;
+		return argsPresent.containsAll(requiredArguments) ;
 	}
  }

@@ -11,6 +11,7 @@ import org.junit.rules.ExpectedException;
 
 import com.google.common.collect.Lists;
 
+import javafx.util.Pair;
 import seedu.address.commons.exceptions.IncorrectCommandException;
 import seedu.address.commons.util.DateUtil;
 import seedu.address.logic.parser.ArgumentsParser;
@@ -34,6 +35,8 @@ public class ArgsParserTest {
         .addRequiredArg(CommandArgs.END_DATETIME) ;
         
         parser.parse("hello");
+        
+        assert(!parser.getArgValue(CommandArgs.DESC).isPresent()) ;
         
     }
     
@@ -69,7 +72,7 @@ public class ArgsParserTest {
         StringBuilder sb = new StringBuilder() ;
         
         for (Pair<LocalDateTime, LocalDateTime> pair : startEndPairs) {
-            sb.append("st/" + pair.key.toString() + " et/" + pair.value.toString() + " ") ;
+            sb.append("st/" + pair.getKey().toString() + " et/" + pair.getValue().toString() + " ") ;
         }
 
         parser.parse(sb.toString());
@@ -78,22 +81,10 @@ public class ArgsParserTest {
         List<String> end = parser.getArgValues(CommandArgs.END_DATETIME).get() ;
         
         for (int i = 0; i < start.size(); i ++) {
-            assertEquals (start.get(i), startEndPairs.get(i).key.toString()) ;
-            assertEquals (end.get(i), startEndPairs.get(i).value.toString()) ;
+            assertEquals (start.get(i), startEndPairs.get(i).getKey().toString()) ;
+            assertEquals (end.get(i), startEndPairs.get(i).getValue().toString()) ;
             
         }
         
     }
-    
-    private static class Pair<K, V> {
-        
-        public final K key ;
-        public final V value;
-        
-        public Pair (K key, V value) {
-            this.key = key ;
-            this.value = value ;
-        }
-    }
-
 }

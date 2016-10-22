@@ -455,9 +455,9 @@ public class LogicManagerTest {
     /**
      * A utility class to generate test data.
      */
-    class TestDataHelper{
+    public class TestDataHelper{
 
-        Task adam() throws Exception {
+        public Task adam() throws Exception {
             String name ="Adam Brown" ;
             
             Tag tag1 = new Tag("tag1");
@@ -466,15 +466,14 @@ public class LogicManagerTest {
             return new Task(0, name, " " , tags);
         }
         
-        Task john() throws Exception {
+        public Task john() throws Exception {
         	return new Task (0, "John's Birthday party", "at his house", new UniqueTagList(new Tag("friendsParty"))) ;
         }
         
-        Task johnny() throws Exception {
+        public Task johnny() throws Exception {
         	return new Task (0, "Johnny's Birthday party", "at his house", new UniqueTagList() ) ;
         }
         
-
         Task testDeadline() throws Exception {
         	return new Deadline(0, "deadline", "this is a deadline", DateUtil.parseStringIntoDateTime("13 Aug 16 1300").get(), new UniqueTagList() );
         }
@@ -497,7 +496,7 @@ public class LogicManagerTest {
          *
          * @param seed used to generate the person data field values
          */
-        Task generateTask(int seed) throws Exception {
+        public Task generateTask(int seed) throws Exception {
             return new Task(0,
                     "Task " + seed,
                     "description " + seed,
@@ -506,7 +505,7 @@ public class LogicManagerTest {
         }
 
         /** Generates the correct add command based on the person given */
-        String generateAddCommand(Task p) {
+        public String generateAddCommand(Task p) {
             StringBuffer cmd = new StringBuffer();
 
             cmd.append("add ");
@@ -525,7 +524,7 @@ public class LogicManagerTest {
         /**
          * Generates an TaskForce with auto-generated persons.
          */
-        TaskForce generateAddressBook(int numGenerated) throws Exception{
+        public TaskForce generateAddressBook(int numGenerated) throws Exception{
             TaskForce taskForce = new TaskForce();
             addToAddressBook(taskForce, numGenerated);
             return taskForce;
@@ -534,7 +533,7 @@ public class LogicManagerTest {
         /**
          * Generates an TaskForce based on the list of Persons given.
          */
-        TaskForce generateAddressBook(List<Task> tasks) throws Exception{
+        public TaskForce generateAddressBook(List<Task> tasks) throws Exception{
             TaskForce taskForce = new TaskForce();
             addToAddressBook(taskForce, tasks);
             return taskForce;
@@ -544,14 +543,14 @@ public class LogicManagerTest {
          * Adds auto-generated Task objects to the given TaskForce
          * @param taskForce The TaskForce to which the Persons will be added
          */
-        void addToAddressBook(TaskForce taskForce, int numGenerated) throws Exception{
+        public void addToAddressBook(TaskForce taskForce, int numGenerated) throws Exception{
             addToAddressBook(taskForce, generateTaskList(numGenerated));
         }
 
         /**
          * Adds the given list of Persons to the given TaskForce
          */
-        void addToAddressBook(TaskForce taskForce, List<Task> personsToAdd) throws Exception{
+        public void addToAddressBook(TaskForce taskForce, List<Task> personsToAdd) throws Exception{
             for(Task p: personsToAdd){
                 taskForce.addTask(p);
             }
@@ -561,14 +560,14 @@ public class LogicManagerTest {
          * Adds auto-generated Task objects to the given model
          * @param model The model to which the Persons will be added
          */
-        void addToModel(Model model, int numGenerated) throws Exception{
+        public void addToModel(Model model, int numGenerated) throws Exception{
             addToModel(model, generateTaskList(numGenerated));
         }
 
         /**
          * Adds the given list of Persons to the given model
          */
-        void addToModel(Model model, List<Task> personsToAdd) throws Exception{
+        public void addToModel(Model model, List<Task> personsToAdd) throws Exception{
             for(Task p: personsToAdd){
                 model.addTask(p);
             }
@@ -577,7 +576,7 @@ public class LogicManagerTest {
         /**
          * Generates a list of Persons based on the flags.
          */
-        List<Task> generateTaskList(int numGenerated) throws Exception{
+        public List<Task> generateTaskList(int numGenerated) throws Exception{
             List<Task> tasks = new ArrayList<>();
             for(int i = 1; i <= numGenerated; i++){
                 tasks.add(generateTask(i));
@@ -585,7 +584,7 @@ public class LogicManagerTest {
             return tasks;
         }
 
-        List<Task> generatePersonList(Task... persons) {
+        public List<Task> generatePersonList(Task... persons) {
             return Arrays.asList(persons);
         }
 
