@@ -1,5 +1,6 @@
 package seedu.address.ui;
 
+// @@author A0135768R
 public enum NodeStyle {
     
     CIRCLE_HIGH ("CIRCLE", "circle_high", 0) ,

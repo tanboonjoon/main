@@ -1,22 +1,11 @@
+/* @@author A0135768R */
 
-.cell_big_label_done .text {
-	-fx-font-family: "Open Sans Light";
-	-fx-strikethrough: true ;
-	-fx-font-size: 16px;
-    -fx-text-fill: #010504 ;
-}
-
-.cell_big_label_overdue {
-	-fx-font-family: "Open Sans Semibold";
-    -fx-font-size: 16px;
-    -fx-font-weight: bold ;
-    -fx-text-fill: #f46060 !important ;
-}
-
-.cell_big_label_block {
-	-fx-font-family: "Open Sans Light";
-    -fx-font-size: 16px;
-    -fx-text-fill: #dcccc2 ;
+.command-box {
+	-fx-background-insets: 0;
+	-fx-border-insets: 0;
+    -fx-background-color: transparent, #f46060, transparent, #f46060;
+    -fx-border-width: 1px ;
+    -fx-border-color: #f46060 #f46060 #ffffff #f46060;
 }
 
 .error {
@@ -35,6 +24,12 @@
     -fx-text-fill: white;
 }
 
+/*
+ * ====================================================================
+ * ======================STYLES FOR CIRCLES============================
+ * ====================================================================
+ */
+
 .circle_low {
 	-fx-fill: derive(#4b8bf5, 0%);
 }
@@ -50,8 +45,33 @@
 	-fx-fill: derive(#1aa260, 0%);
 }
 
-
 .circle_block {
 	-fx-fill: none ;
+}
+
+/*
+ * ====================================================================
+ * ======================STYLES FOR TITLEs=============================
+ * ====================================================================
+ */
+ 
+.cell_big_label_done .text {
+	-fx-font-family: "Open Sans Light";
+	-fx-strikethrough: true ;
+	-fx-font-size: 16px;
+    -fx-text-fill: #010504 ;
+}
+
+.cell_big_label_overdue {
+	-fx-font-family: "Open Sans Semibold";
+    -fx-font-size: 16px;
+    -fx-font-weight: bold ;
+    -fx-text-fill: #f46060 !important ;
+}
+
+.cell_big_label_block {
+	-fx-font-family: "Open Sans Light";
+    -fx-font-size: 16px;
+    -fx-text-fill: #dcccc2 ;
 }
 
