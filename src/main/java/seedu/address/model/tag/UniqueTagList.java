@@ -16,6 +16,7 @@ import java.util.*;
  * @see CollectionUtil#elementsAreUnique(Collection)
  */
 public class UniqueTagList implements Iterable<Tag> {
+    private final ObservableList<Tag> internalList = FXCollections.observableArrayList();
 
     /**
      * Signals that an operation would have violated the 'no duplicates' property of the list.
@@ -26,7 +27,6 @@ public class UniqueTagList implements Iterable<Tag> {
         }
     }
 
-    private final ObservableList<Tag> internalList = FXCollections.observableArrayList();
 
     /**
      * Constructs empty TagList.

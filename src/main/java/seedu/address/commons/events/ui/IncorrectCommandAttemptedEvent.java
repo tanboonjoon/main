@@ -7,8 +7,12 @@ import seedu.address.logic.commands.Command;
  * Indicates an attempt to execute an incorrect command
  */
 public class IncorrectCommandAttemptedEvent extends BaseEvent {
+    
+    public final Command command ;
 
-    public IncorrectCommandAttemptedEvent(Command command) {}
+    public IncorrectCommandAttemptedEvent(Command command) {
+        this.command = command ;
+    }
 
     @Override
     public String toString() {

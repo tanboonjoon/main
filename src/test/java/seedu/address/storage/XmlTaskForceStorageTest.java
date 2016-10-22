@@ -31,7 +31,7 @@ public class XmlTaskForceStorageTest {
     public TemporaryFolder testFolder = new TemporaryFolder();
 
     @Test
-    public void readAddressBook_nullFilePath_assertionFailure() throws Exception {
+    public void readAddressBookNullFilePathAssertionFailure() throws Exception {
         thrown.expect(AssertionError.class);
         readListData(null);
     }
@@ -47,12 +47,12 @@ public class XmlTaskForceStorageTest {
     }
 
     @Test
-    public void read_missingFile_emptyResult() throws Exception {
+    public void read_missingFileEmptyResult() throws Exception {
         assertFalse(readListData("NonExistentFile.xml").isPresent());
     }
 
     @Test
-    public void read_notXmlFormat_exceptionThrown() throws Exception {
+    public void readNotXmlFormatExceptionThrown() throws Exception {
 
         thrown.expect(DataConversionException.class);
         readListData("NotXmlFormatTaskForce.xml");
@@ -101,7 +101,7 @@ public class XmlTaskForceStorageTest {
     }
 
     @Test
-    public void saveAddressBook_nullAddressBook_assertionFailure() throws IOException {
+    public void saveAddressBookNullAddressBookAssertionFailure() throws IOException {
         thrown.expect(AssertionError.class);
         saveAddressBook(null, "SomeFile.xml");
     }
@@ -111,7 +111,7 @@ public class XmlTaskForceStorageTest {
     }
 
     @Test
-    public void saveAddressBook_nullFilePath_assertionFailure() throws IOException {
+    public void saveAddressBookNullFilePathAssertionFailure() throws IOException {
         thrown.expect(AssertionError.class);
         saveAddressBook(new TaskForce(), null);
     }

@@ -8,6 +8,7 @@ import com.google.common.collect.Sets;
 
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.commons.exceptions.IncorrectCommandException;
+import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.ConfirmCommand;
 import seedu.address.logic.commands.IncorrectCommand;
@@ -16,14 +17,7 @@ public class ConfirmCommandParser extends CommandParser {
 
     @Override
     public Command prepareCommand(String args) {
-        ArgumentsParser parser = new ArgumentsParser() ;
-        
-        parser
-        .addNoFlagArg(CommandArgs.INDEX)
-        .addRequiredArg(CommandArgs.START_DATETIME)
-        .addRequiredArg(CommandArgs.END_DATETIME)
-        .addOptionalArg(CommandArgs.DESC)
-        .addOptionalArg(CommandArgs.TAGS) ;
+        ArgumentsParser parser = buildArgsParser();
         
         try {
             parser.parse(args);
@@ -35,11 +29,11 @@ public class ConfirmCommandParser extends CommandParser {
             return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, ConfirmCommand.MESSAGE_USAGE));
         }
         
-        int targetIndex = 0 ;
+        int targetIndex ;
         
         try {
-            targetIndex= Integer.parseInt(parser.getArgValue(CommandArgs.INDEX).get()) ;
-        } catch (NumberFormatException e) {
+            targetIndex = getIndexFromArgs(parser);
+        } catch (IncorrectCommandException e) {
             return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, ConfirmCommand.MESSAGE_USAGE));
         }
         
@@ -60,5 +54,28 @@ public class ConfirmCommandParser extends CommandParser {
             return new IncorrectCommand(e.getMessage()) ;
         }
 
+    }
+
+    private ArgumentsParser buildArgsParser() {
+        ArgumentsParser parser = new ArgumentsParser() ;
+        
+        parser
+        .addNoFlagArg(CommandArgs.INDEX)
+        .addRequiredArg(CommandArgs.START_DATETIME)
+        .addRequiredArg(CommandArgs.END_DATETIME)
+        .addOptionalArg(CommandArgs.DESC)
+        .addOptionalArg(CommandArgs.TAGS) ;
+        
+        return parser;
+    }
+
+    private int getIndexFromArgs(ArgumentsParser parser) throws IncorrectCommandException {
+        String indexString = parser.getArgValue(CommandArgs.INDEX).get() ;
+        
+        if (!StringUtil.isParsable(indexString)) {
+            throw new IncorrectCommandException() ;
+        }
+
+        return Integer.parseInt(indexString) ;
     }
 }

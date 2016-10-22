@@ -2,7 +2,6 @@ package seedu.address.model;
 
 import java.util.Deque;
 import java.util.LinkedList;
-
 import java.util.Set;
 import java.util.logging.Logger;
 

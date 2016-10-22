@@ -22,7 +22,7 @@ public class CommandBox extends UiPart {
     private AnchorPane placeHolderPane;
     private AnchorPane commandPane;
     private ResultDisplay resultDisplay;
-    String previousCommandTest;
+    private String previousCommandTest;
 
     private Logic logic;
 
@@ -67,8 +67,7 @@ public class CommandBox extends UiPart {
     public void setPlaceholder(AnchorPane pane) {
         this.placeHolderPane = pane;
     }
-
-
+    
     @FXML
     private void handleCommandInputChanged() {
         //Take a copy of the command text

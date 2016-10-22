@@ -12,10 +12,11 @@ import seedu.address.commons.util.DateUtil;
 import seedu.address.logic.commands.BlockCommand;
 import seedu.address.testutil.TestTask;
 
+// @@author A0135768R
 public class BlockCommandTest extends TaskForceGuiTest {
 
     @Test
-    public void block_command_success_test() {
+    public void blockCommandSuccessTest() {
         commandBox.runCommand("clear");
         
         TestTask[] blocks = new TestTask[3] ;
@@ -34,11 +35,11 @@ public class BlockCommandTest extends TaskForceGuiTest {
         
         String command = buildBlockCommand(blocks, name, startDates, endDates);
         
-        assertBlockSuccess(command.toString(), blocks) ;
+        assertBlockSuccess(command, blocks) ;
     }
     
     @Test
-    public void block_command_duplicate_dates() {
+    public void blockCommandDuplicateDates() {
         commandBox.runCommand("clear");
         
         TestTask[] blocks = new TestTask[3] ;

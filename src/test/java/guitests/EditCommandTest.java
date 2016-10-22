@@ -3,7 +3,6 @@ package guitests;
 import guitests.guihandles.TaskCardHandle;
 import org.junit.Test;
 
-import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.commands.EditCommand;
 import seedu.address.commons.core.Messages;
 import seedu.address.testutil.TestTask;
@@ -16,7 +15,7 @@ import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT
 public class EditCommandTest extends TaskForceGuiTest {
 
     @Test
-    public void Edit() {
+    public void editTest() {
         
         //Add one task
         TestTask[] currentList = td.getTypicalTasks();
@@ -35,7 +34,7 @@ public class EditCommandTest extends TaskForceGuiTest {
         currentList = TestUtil.addTasksToList(currentList, taskToAdd);
         
         // Invalid commands
-        String expectedMessage = String.format(Messages.MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE);
+        String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE);
         commandBox.runCommand("edit") ;
         assertResultMessage(expectedMessage);
         

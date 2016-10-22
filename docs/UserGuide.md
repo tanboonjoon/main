@@ -35,7 +35,12 @@ implementation of blocks - events with no name (placeholders).
    * **`add`**` wash the toilet ` adds a reminder to wash the toilet to the task list.
    * **`search`**` d/0` searches the task list for all tasks happening today.
    * **`exit`** : exits the app
-6. Refer to the [Features](#features) section below for details of each command.<br>
+6. Many commands requires an `INDEX` which is the number associated to the task in the current list.
+       > <img src = "images/index_example.png" width="600"> <br>
+       > #### The index of a task is the number beside it
+        
+        
+7. Refer to the [Features](#features) section below for details of each command.<br>
 
 
 ## Features
@@ -176,10 +181,10 @@ Format: `undo`
 
 #### Changing FileStorage location : `cd`
 Changing the saveData into another location <br>
-Format: `cd FILEPATH\FILENAME.xml`
+Format: `cd [FILEPATH\FILENAME.xml]`
 Examples:
-* `cd C:\Users\Boon\Desktop\newName.xml`
-* `cd C:\Users\Boon\newSaveName.xml`
+* `cd ` will tell you the current location of the saveData
+* `cd C:\Users\Boon\newSaveName.xml`will change the saveData location to specified path
 
 #### Clearing all entries : `clear`
 Clears **ALL** entries from the task list. This command **CANNOT** be undone! <br>
@@ -230,7 +235,7 @@ Delete | `delete INDEX`
 Edit | `edit INDEX [NAME] [s/START_DATE] [e/END_DATE] ...`
 Freetime | `freetime [day/DAYS_FROM_TODAY]`
 Find | `find METHOD/ KEYWORD [MORE_KEYWORDS_FOR_ALL_METHOD]`
-cd   | `cd FILEPATH/FILENAME.xml`
+cd   | `cd [FILEPATH/FILENAME.xml]`
 Undo | `undo`
 Help | `help`
 Exit | `exit`

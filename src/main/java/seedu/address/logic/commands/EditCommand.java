@@ -11,6 +11,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 import javafx.util.Pair;
+
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.UnmodifiableObservableList;
 import seedu.address.commons.exceptions.IllegalValueException;
@@ -87,7 +88,8 @@ public class EditCommand extends Command {
     
     @Override
     public CommandResult execute() {
-        String newName, newDescription;
+        String newName;
+        String newDescription;
         UniqueTagList newTagSet;
         UnmodifiableObservableList<ReadOnlyTask> lastShownList = model.getFilteredTaskList();
 

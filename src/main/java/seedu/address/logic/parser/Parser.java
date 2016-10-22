@@ -3,13 +3,11 @@ package seedu.address.logic.parser;
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 
 import java.util.Map;
-import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.google.common.collect.Maps;
 
-import seedu.address.commons.core.LogsCenter;
 import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.commands.BlockCommand;
 import seedu.address.logic.commands.CdCommand;
@@ -33,15 +31,12 @@ import seedu.address.logic.commands.UndoCommand;
  * Parses user input.
  */
 public class Parser {
-	
-	private static final Logger logger = LogsCenter.getLogger(Parser.class);
-	
+
 
     /**
      * Used for initial separation of command word and args.
      */
     private static final Pattern BASIC_COMMAND_FORMAT = Pattern.compile("(?<commandWord>\\S+)(?<arguments>.*)");
-
 
     private static Map<String, Class<? extends CommandParser>> commandRegistry = Maps.newHashMap();
     
@@ -66,6 +61,8 @@ public class Parser {
     }
     
     /**
+     * @@author A0135768R
+     * 
      * Registers all associated command word strings with the provided command parser class.
      * One command parser can be associated with multiple command words such as ("add", "schedule", etc)
      * 
@@ -94,7 +91,6 @@ public class Parser {
     	}
     }
 
-    public Parser() {}
 
     /**
      * Parses user input into command for execution.
@@ -104,10 +100,11 @@ public class Parser {
      */
     public Command parseCommand(String userInput) {
         final Matcher matcher = BASIC_COMMAND_FORMAT.matcher(userInput.trim());
+        
         if (!matcher.matches()) {
             return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, HelpCommand.MESSAGE_USAGE));
         }
-                
+
         final String commandWord = matcher.group("commandWord");
         final String arguments = matcher.group("arguments");
 

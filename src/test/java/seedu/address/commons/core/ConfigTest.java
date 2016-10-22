@@ -5,8 +5,8 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+
 
 public class ConfigTest {
     @Rule
@@ -26,8 +26,9 @@ public class ConfigTest {
     @Test
     public void equalsMethod(){
         Config defaultConfig = new Config();
-        assertFalse(defaultConfig.equals(null));
-        assertTrue(defaultConfig.equals(defaultConfig));
+        assertTrue(defaultConfig != null);
+        assertEquals(defaultConfig.equals(defaultConfig), true);
+       
     }
 
 

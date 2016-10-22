@@ -5,7 +5,6 @@ import org.junit.Test;
 import seedu.address.logic.commands.RedoCommand;
 import seedu.address.logic.commands.UndoCommand;
 
-
 public class UndoAndRedoCommandTest extends TaskForceGuiTest {
 
     @Test

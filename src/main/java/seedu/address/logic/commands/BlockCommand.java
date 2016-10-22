@@ -11,6 +11,7 @@ import com.google.common.collect.Sets;
 
 import javafx.util.Pair;
 import seedu.address.commons.exceptions.IllegalValueException;
+import seedu.address.commons.util.CollectionUtil;
 import seedu.address.commons.util.DateUtil;
 import seedu.address.model.Model;
 import seedu.address.model.task.Block;
@@ -50,7 +51,7 @@ public class BlockCommand extends Command {
             throw new IllegalValueException(INVALID_TASK_TYPE_MESSAGE);
         }
         
-        if (!verifyAllDatesDistinct(startDates) || !verifyAllDatesDistinct(endDates) ) {
+        if (!CollectionUtil.elementsAreUnique(startDates) || !CollectionUtil.elementsAreUnique(endDates) ) {
             throw new IllegalValueException(DATES_NOT_DISTINCT_MESSAGE);
         }
         
@@ -102,33 +103,6 @@ public class BlockCommand extends Command {
         return new CommandResult(String.format(MESSAGE_SUCCESS, name, sb.toString()), true ) ;
     }
     
-    /**
-     * 
-     * Verifies that all dates contains in the given list are unique and distinct.
-     * In the case of empty or null list, this function will return false.
-     * 
-     * @param datesList     The list of dates
-     * @return  true if all dates contained in the list are all unique and distinct; false otherwise.
-     */
-    private boolean verifyAllDatesDistinct (List<LocalDateTime> datesList) {
-        
-        if (datesList == null || datesList.isEmpty()) {
-            return false ;
-        }
-        
-        Set<LocalDateTime> datesInList = Sets.newHashSetWithExpectedSize(datesList.size()) ;
-        
-        for (LocalDateTime date : datesList) {
-            if (!datesInList.contains(date)) {
-                datesInList.add(date) ;
-                continue ;
-            }
-            
-            return false ;
-        }
-        
-        return true ;
-    }
     
     @Override
     public Pair<List<ReadOnlyTask>, List<ReadOnlyTask>> getCommandChanges() {
