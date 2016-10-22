@@ -46,6 +46,11 @@
 	-fx-fill: derive(#de5347, 0%);
 }
 
+.circle_done {
+	-fx-fill: derive(#1aa260, 0%);
+}
+
+
 .circle_block {
 	-fx-fill: none ;
 }
