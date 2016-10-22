@@ -37,15 +37,15 @@ public class FreetimeCommand extends Command{
 	public static final String BETWEEN_EVENT_MESSAGE = "%1$s to %2$s \n";
 	public static final String ONGOING_EVENT_MESSAGE = "You are not free because you have a ongoing from %1$s to %2$s \n";
 	
-	private final String SEARCH_TYPE = "DAY";
+	private static final String SEARCH_TYPE = "DAY";
 ;
-	private final boolean DONE = true;
-	private final int ZERO_EVENT_ON_THAT_DAY = 0;
-	private final int ONE_EVENT_ON_THAT_DAY = 1;
-	private final int SEARCHED_DAY_INDEX = 0;
-	private final int FIRST_EVENT_INDEX = 0;
-	private final int HALF_AN_HOUR = 30;
-	private final int EXACT_AN_HOUR = 00;
+	private static final boolean DONE = true;
+	private static final int ZERO_EVENT_ON_THAT_DAY = 0;
+	private static final int ONE_EVENT_ON_THAT_DAY = 1;
+	private static final int SEARCHED_DAY_INDEX = 0;
+	private static final int FIRST_EVENT_INDEX = 0;
+	private static final int HALF_AN_HOUR = 30;
+	private static final int EXACT_AN_HOUR = 00;
 	
 	private ArrayList<Pair<LocalDateTime, LocalDateTime>> timeList;
 	private final Set<String> searchSet;
@@ -66,7 +66,7 @@ public class FreetimeCommand extends Command{
 
 	@Override
 	public CommandResult execute() {
-		// TODO Auto-generated method stub
+
 		model.updateFilteredTaskList(searchSet, SEARCH_TYPE);
 		List<ReadOnlyTask> filteredList = model.getFilteredTaskList();
 
@@ -80,7 +80,7 @@ public class FreetimeCommand extends Command{
 	
 
 	private LocalDateTime getThatDay() {
-		// TODO Auto-generated method stub
+
 		List<String> getTimeArg = new ArrayList<String>(searchSet);
 		Long timeToAdd = Long.parseLong(getTimeArg.get(SEARCHED_DAY_INDEX));
 		LocalDateTime dateToday = LocalDateTime.now();
@@ -88,7 +88,7 @@ public class FreetimeCommand extends Command{
 	}
 
 	private String getFreeTime(LocalDateTime onThatDay) {
-		// TODO Auto-generated method stub
+
 		if (timeList.size() == ZERO_EVENT_ON_THAT_DAY) {
 			return ZERO_EVENT_MESSAGE;
 		}
@@ -116,7 +116,7 @@ public class FreetimeCommand extends Command{
 	
 	private String freetimeForMutipleEvents(LocalDateTime startTime, LocalDateTime endTime,LocalDateTime thatDay, StringBuilder sb) {
 		int same_day = thatDay.getDayOfMonth();
-		// TODO Auto-generated method stub
+
 		LocalDateTime currentStartTime = startTime;
 		LocalDateTime currentEndTime = endTime;
 		
@@ -141,7 +141,7 @@ public class FreetimeCommand extends Command{
 	
 	private String getAllFreeSlot(LocalDateTime currentEndTime, int same_day,
 			StringBuilder sb) {
-		// TODO Auto-generated method stub
+
 		for (int time_index = 1 ;  time_index < timeList.size(); time_index++) {
 			LocalDateTime nextStartTime = timeList.get(time_index).getKey();
 			LocalDateTime nextEndTime = timeList.get(time_index).getValue();
@@ -193,7 +193,7 @@ public class FreetimeCommand extends Command{
 	}
 
 	private void getAllEvent(List<ReadOnlyTask> filteredList) {
-		// TODO Auto-generated method stub
+
 		for(int list_index = 0 ; list_index < filteredList.size(); list_index++ ) {
 			
 			if(!(filteredList.get(list_index) instanceof Event)) {

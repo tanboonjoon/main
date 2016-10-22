@@ -4,10 +4,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Sets;
 
 import javafx.util.Pair;
 import seedu.address.commons.exceptions.IllegalValueException;
