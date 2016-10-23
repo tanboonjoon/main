@@ -47,8 +47,34 @@ public class StringUtilTest {
         assertTrue(StringUtil.isUnsignedInteger("1")); // Boundary value
         assertTrue(StringUtil.isUnsignedInteger("10"));
     }
+    
+    // @@author A0135768R
+    @Test
+    public void isStringParsable() {
+        // Equivalence partition: null
+        assertFalse(StringUtil.isParsable(null));
+        
+        // EP: empty strings
+        assertFalse(StringUtil.isParsable("")); // Boundary value
+        assertFalse(StringUtil.isParsable("  "));
+        
+        // EP: not a number
+        assertFalse(StringUtil.isParsable("a"));
+        assertFalse(StringUtil.isParsable("aaa"));
+        
+        // EP: numbers with white space
+        assertFalse(StringUtil.isParsable(" 10 ")); // Leading/trailing spaces
+        assertFalse(StringUtil.isParsable("1 0"));  // Spaces in the middle
+        
+        // EP: valid numbers, should return true
+        assertTrue(StringUtil.isParsable("0")); // Boundary value
+        assertTrue(StringUtil.isParsable("-10"));
+        assertTrue(StringUtil.isParsable("322"));
 
+    }
+    
 
+    // @@author reused
     //---------------- Tests for containsWordIgnoreCase --------------------------------------
 
     /*
@@ -139,7 +165,7 @@ public class StringUtilTest {
     @Test
     public void getDetails_exceptionGiven(){
         assertThat(StringUtil.getDetails(new FileNotFoundException("file not found")),
-                   containsString("java.io.FileNotFoundException: file not found"));
+                containsString("java.io.FileNotFoundException: file not found"));
     }
 
     @Test
