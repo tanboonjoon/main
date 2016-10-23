@@ -23,29 +23,28 @@ import seedu.address.model.task.ReadOnlyTask;
  *
  */
 public class NameQualifier implements Qualifier {
+    
+    public static final String FILTER_BY_DAY = "DAY";
+    public static final String SEARCH_NAME = "NAME";
+    public static final String SEARCH_DESC = "DESC";
+    public static final String SEARCH_TAG = "TAG";
+    
+    private static final boolean TASK_NOT_FOUND = false;
+    private static final boolean TASK_FOUND = true;
+
+    private static final int STARTING_INDEX  = 0;
+    private static final int LAST_DAY_INDEX = 7;
+
+    private static final int SAME_DAY_VALUE = 0;
+    private static final int AFTER_START_DATE = 0;
+    private static final int BEFORE_END_DATE = 0;
+    private static final int DATE_ARGS_INDEX = 0;
+    private static final int FORMATTED_DATE_INDEX = 0;
+    private static final int GET_TO_MONDAY_INDEX = 1;
 
     private Set<String> nameKeyWords;
     private String findType;
     private DateTimeFormatter format_exclude_time;
-    
-    private final String FILTER_BY_DAY = "DAY";
-    private final String SEARCH_NAME = "NAME";
-    private final String SEARCH_DESC = "DESC";
-    private final String SEARCH_TAG = "TAG";
-    
-    private final boolean TASK_NOT_FOUND = false;
-    private final boolean TASK_FOUND = true;
-
-    private final int STARTING_INDEX  = 0;
-    private final int LAST_DAY_INDEX = 7;
-
-    private final int SAME_DAY_VALUE = 0;
-    private final int AFTER_START_DATE = 0;
-    private final int BEFORE_END_DATE = 0;
-    private final int DATE_ARGS_INDEX = 0;
-    private final int FORMATTED_DATE_INDEX = 0;
-    private final int GET_TO_MONDAY_INDEX = 1;
-
     private ArrayList<String> formattedDateList;
     private ArrayList<LocalDateTime> dateToCompareList;
 
