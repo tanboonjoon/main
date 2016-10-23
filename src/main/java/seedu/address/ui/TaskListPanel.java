@@ -1,6 +1,9 @@
 package seedu.address.ui;
 
+import java.util.List;
 import java.util.logging.Logger;
+
+import com.google.common.collect.Lists;
 
 import javafx.application.Platform;
 import javafx.collections.ListChangeListener;
@@ -70,7 +73,13 @@ public class TaskListPanel extends UiPart {
         taskList.addListener(new ListChangeListener<ReadOnlyTask>() {
             @Override
             public void onChanged(ListChangeListener.Change change) {
-                raise(new TaskForceTaskListChangedEvent(change.getList().size() - 1)) ;
+                List<ReadOnlyTask> tasks = Lists.newArrayList() ;
+                
+                while (change.next()) {
+                    tasks.addAll(change.getAddedSubList()) ;
+                }
+                
+                raise(new TaskForceTaskListChangedEvent(tasks)) ;
             }
         });
     }
@@ -91,6 +100,16 @@ public class TaskListPanel extends UiPart {
 
     public void scrollTo(int index) {
         Platform.runLater(() -> {
+            taskListView.scrollTo(index);
+            taskListView.getSelectionModel().clearAndSelect(index);
+        });
+    }
+    
+    public void scrollToTask(ReadOnlyTask task) {
+        Platform.runLater(() -> {
+            
+            int index = taskListView.getItems().indexOf(task) ;
+            
             taskListView.scrollTo(index);
             taskListView.getSelectionModel().clearAndSelect(index);
         });
