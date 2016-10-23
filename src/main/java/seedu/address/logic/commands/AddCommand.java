@@ -170,7 +170,7 @@ public class AddCommand extends Command {
         if (startDate != null && endDate != null) {
             return new Event (id, name, description, startDate, endDate, tagList) ;
         }
-
+        System.out.println(id);
         return new Task (id, name, description, tagList) ;
     }
     

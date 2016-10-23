@@ -8,8 +8,8 @@ import java.util.logging.Logger;
 
 import com.google.common.eventbus.Subscribe;
 
-import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import seedu.address.commons.core.ComponentManager;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.core.UnmodifiableObservableList;
@@ -38,6 +38,7 @@ public class ModelManager extends ComponentManager implements Model {
 
     private final TaskForce taskForce;
     private final FilteredList<Task> filteredTasks;
+    private final SortedList<Task> sortedFilteredTasks;
     private final FilteredList<Task> filteredTasksForSearching;
     private final Deque<TaskForceCommandExecutedEvent> undoTaskForceHistory = new LinkedList<TaskForceCommandExecutedEvent>();
     private final Deque<TaskForceCommandExecutedEvent> redoTaskForceHistory = new LinkedList<TaskForceCommandExecutedEvent>();
@@ -62,18 +63,20 @@ public class ModelManager extends ComponentManager implements Model {
 
         taskForce = new TaskForce(src);
         filteredTasks = new FilteredList<>(taskForce.getTasks());
+        sortedFilteredTasks = setUpSortedList();
         filteredTasksForSearching = new FilteredList<>(taskForce.getTasks());
     }
 
-    public ModelManager() {
+	
+
+	public ModelManager() {
         this(new TaskForce(), new UserPrefs());
     }
 
     public ModelManager(ReadOnlyTaskForce initialData, UserPrefs userPrefs) {
         taskForce = new TaskForce(initialData);
-        ObservableList<Task> taskList = taskForce.getTasks();
-        sortFilteredList(taskList);
-        filteredTasks = new FilteredList<>(taskList);
+        filteredTasks = new FilteredList<>(taskForce.getTasks());
+        sortedFilteredTasks = setUpSortedList();
         filteredTasksForSearching = new FilteredList<>(taskForce.getTasks());
     }
 
@@ -164,7 +167,7 @@ public class ModelManager extends ComponentManager implements Model {
 
     @Override
     public UnmodifiableObservableList<ReadOnlyTask> getFilteredTaskList() {
-        return new UnmodifiableObservableList<>(filteredTasks);
+        return getSortedFilteredTask();
     }
 
     @Override
@@ -179,9 +182,10 @@ public class ModelManager extends ComponentManager implements Model {
 
     private void updateFilteredTaskList(Expression expression) {
         filteredTasks.setPredicate(expression::satisfies);
+  
     }
     
-    @Override
+	@Override
     public void searchTaskList(Expression expression) {
         filteredTasksForSearching.setPredicate(expression::satisfies);
     }
@@ -207,27 +211,32 @@ public class ModelManager extends ComponentManager implements Model {
     // ======================= Comparators  ==========================
     // ===============================================================
     
+    
+    
     //@@A0139942W
     /*
-     * To sort the observableList before it is attached to a unmodifiable FilterList
+     * Wrapping a SortedList around the FilteredList that wrap the ObservableList
      * return a sortedLists sorted by type, follow by dates
      * The ranking of class is as followed, Task < Deadline < Event
      */
-    public void sortFilteredList(ObservableList<Task> taskList) {
-    	taskList.sort(new Comparator<Task>() {
-    		@Override
-    		public int compare(Task task1, Task task2) {
-    			if (task1 instanceof Event) {
-    				return sortByEvent( (Event)task1, task2);
-    			}
 
-    			if (task1 instanceof Deadline) {
-    				return sortByDeadline( (Deadline)task1, task2);
-    			}
-    			return sortByTask(task1, task2);
+    private SortedList<Task> setUpSortedList() {
+		// TODO Auto-generated method stub
+    	SortedList<Task> sortedList = new SortedList<> (this.filteredTasks, 
+    			(Task task1, Task task2) ->  {
+        			if (task1 instanceof Event) {
+        				return sortByEvent( (Event)task1, task2);
+        			}
 
-    		}});
+        			if (task1 instanceof Deadline) {
+        				return sortByDeadline( (Deadline)task1, task2);
+        			}
+        			return sortByTask(task1, task2);
+
+        		});
+    	return sortedList;
     }
+
 
     public int sortByTask(Task task1, Task task2) {
     	if (task2 instanceof Deadline) {
@@ -263,6 +272,12 @@ public class ModelManager extends ComponentManager implements Model {
     	}
     	return EVENT_MORE_THAN_TASK;
     }
+
+	@Override
+	public UnmodifiableObservableList<ReadOnlyTask> getSortedFilteredTask() {
+		// TODO Auto-generated method stub
+		return new UnmodifiableObservableList<>(sortedFilteredTasks);
+	}
 
 
 
