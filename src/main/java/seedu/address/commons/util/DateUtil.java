@@ -80,7 +80,7 @@ public final class DateUtil {
         
         for (ReadOnlyTask task : model.getSearchedTaskList()) {
            
-            if ( !(task instanceof Event) || task == eventToBeAdded) {
+            if ( !(task instanceof Event) || task.equals(eventToBeAdded) ) {
                 continue ;
             }
             
