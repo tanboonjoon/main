@@ -17,8 +17,6 @@ import seedu.address.logic.Logic;
 import seedu.address.logic.LogicManager;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
-import seedu.address.model.ReadOnlyTaskForce;
-import seedu.address.model.TaskForce;
 import seedu.address.model.tag.UniqueTagList;
 import seedu.address.model.task.Event;
 import seedu.address.storage.StorageManager;
@@ -30,24 +28,15 @@ public class DateUtilTest {
     public TemporaryFolder saveFolder = new TemporaryFolder();
 
     private Model model;
-    private Logic logic;
-
-    //These are for checking the correctness of the events raised
-    private ReadOnlyTaskForce latestSavedTaskForce;
-    private boolean helpShown;
-    private int targetedJumpIndex;
 
     @Before
     public void setTestEnvironment () {
+        
         model = new ModelManager () ;
         String tempAddressBookFile = saveFolder.getRoot().getPath() + "TempAddressBook.xml";
         String tempPreferencesFile = saveFolder.getRoot().getPath() + "TempPreferences.json";
-        logic = new LogicManager(model, new StorageManager(tempAddressBookFile, tempPreferencesFile));
+        Logic logic = new LogicManager(model, new StorageManager(tempAddressBookFile, tempPreferencesFile));
         EventsCenter.getInstance().registerHandler(this);
-
-        latestSavedTaskForce = new TaskForce(model.getTaskForce()); // last saved assumed to be up to date before.
-        helpShown = false;
-        targetedJumpIndex = -1; // non yet
     }
 
     @Test
@@ -72,8 +61,7 @@ public class DateUtilTest {
 
         expected = LocalDateTime.now().withHour(0).withMinute(0).withSecond(0).withNano(0) ;  
         DateUtilTest.<LocalDateTime>assertOptional(DateUtil.parseStringIntoDateTime("00000"), false, expected) ;
-
-
+        
     }
 
     @Test
@@ -130,7 +118,32 @@ public class DateUtilTest {
 
         DateUtilTest.<Event>assertOptional(DateUtil.checkForConflictingEvents(model, eventToBeAdded), true, null ) ;
     }
-
+    
+    @Test
+    public void testDetermineStartAndEndDateTime() {
+        
+        Pair<LocalDateTime, LocalDateTime> pair ;
+        
+        // EP: Start time is after end date
+        DateUtilTest.<Pair<LocalDateTime, LocalDateTime>>assertOptional(DateUtil.determineStartAndEndDateTime("next friday 1500", " friday 2359"), true, null);
+        
+        // EP: null values
+        DateUtilTest.<Pair<LocalDateTime, LocalDateTime>>assertOptional(DateUtil.determineStartAndEndDateTime(null, ""), true, null);
+        DateUtilTest.<Pair<LocalDateTime, LocalDateTime>>assertOptional(DateUtil.determineStartAndEndDateTime(null, null), true, null);
+        DateUtilTest.<Pair<LocalDateTime, LocalDateTime>>assertOptional(DateUtil.determineStartAndEndDateTime("", null), true, null);
+        
+        // EP: Both are empty
+        DateUtilTest.<Pair<LocalDateTime, LocalDateTime>>assertOptional(DateUtil.determineStartAndEndDateTime("", ""), true, null);
+        DateUtilTest.<Pair<LocalDateTime, LocalDateTime>>assertOptional(DateUtil.determineStartAndEndDateTime("", "  "), true, null);
+        
+        // EP: end date is empty
+        pair = getStartAndEndDates ("tomorrow 1500", "tomorrow 2359") ;
+        DateUtilTest.<Pair<LocalDateTime, LocalDateTime>>assertOptional(DateUtil.determineStartAndEndDateTime("tomorrow 1500", null), false, pair);
+        
+        // EP: auto conversion of end dates
+        pair = getStartAndEndDates ("next friday 1500", "next friday 2359") ;
+        DateUtilTest.<Pair<LocalDateTime, LocalDateTime>>assertOptional(DateUtil.determineStartAndEndDateTime("next friday 1500", "2359"), false, pair);
+    }
 
     /**
      * Given a optional value, assert that the optional is empty is isEmpty is set to true,
