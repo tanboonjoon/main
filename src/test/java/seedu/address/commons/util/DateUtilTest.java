@@ -62,7 +62,7 @@ public class DateUtilTest {
         expected = LocalDateTime.now().withHour(0).withMinute(0).withSecond(0).withNano(0) ;  
         DateUtilTest.<LocalDateTime>assertOptional(DateUtil.parseStringIntoDateTime("00000"), false, expected) ;
         
-        assert true ;
+        assertTrue (true) ;
         
     }
 
@@ -120,7 +120,7 @@ public class DateUtilTest {
 
         DateUtilTest.<Event>assertOptional(DateUtil.checkForConflictingEvents(model, eventToBeAdded), true, null ) ;
         
-        assert true ;
+        assertTrue (true) ;
     }
     
     @Test
@@ -148,7 +148,7 @@ public class DateUtilTest {
         pair = getStartAndEndDates ("next friday 1500", "next friday 2359") ;
         DateUtilTest.<Pair<LocalDateTime, LocalDateTime>>assertOptional(DateUtil.determineStartAndEndDateTime("next friday 1500", "2359"), false, pair);
     
-        assert true ;
+        assertTrue (true) ;
     }
 
     /**
