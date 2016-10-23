@@ -63,9 +63,6 @@ public class Task implements ReadOnlyTask {
 	public boolean getDoneStatus() {
 		return doneStatus;
 	}
-	public void changeStatus() {
-		this.doneStatus = true;
-	}
 
     /**
      * Replaces this task's tags with the tags in the argument tag list.

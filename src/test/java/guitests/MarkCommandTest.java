@@ -30,6 +30,14 @@ public class MarkCommandTest extends TaskForceGuiTest {
         assertResultMessage(String.format(MarkCommand.MESSAGE_MARK_TASK_SUCCESS_UNDONE, "task"));
         commandBox.runCommand("mark 1001231232");
         assertResultMessage(Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
+        commandBox.runCommand("clear");
+        commandBox.runCommand("add deadline et/today 6pm");
+        commandBox.runCommand("mark 1");
+        assertResultMessage(String.format(MarkCommand.MESSAGE_MARK_TASK_SUCCESS_DONE, "deadline"));
+        commandBox.runCommand("add event st/today 6pm et/today 9pm");
+        commandBox.runCommand("mark 2");
+        assertResultMessage(String.format(MarkCommand.MESSAGE_MARK_TASK_SUCCESS_DONE, "event"));
+
         
     }
     
