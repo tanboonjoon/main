@@ -1,6 +1,6 @@
 package seedu.address.model;
 
-import java.util.Comparator;
+
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.Set;
