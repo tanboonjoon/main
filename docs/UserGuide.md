@@ -104,7 +104,7 @@ Examples:
 Confirms a blocked out time and converts it into an event  
 Deletes all other blocked timeslots for the same event
 
-Format: `confirm INDEX st/STARTTIME et/ENDTIME`
+Format: `confirm INDEX st/STARTTIME et/ENDTIME [d/DESCRIPTION][t/TAG]...`
 > - To use this function, you must first list the desired timelot, by either going to the right date to view it, or finding it through keywords
 > - Following which, you can use this command the confirm the desired slot you would like.
 > - All other times associated to the previously blocked out event will be released, even if they are not in the current view.
@@ -130,7 +130,7 @@ Method | Explanation | Example
 > * The search is not case sensitive. e.g `hans` will match `Hans`
 > * The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
 > * Only the name is searched.
-> * Only full words will be matched e.g. `Han` will not match `Hans`
+> * Full and sub-words will be matched e.g. `Han` will match `Hans`
 > * Persons matching at least one keyword will be returned (i.e. `OR` search).
     e.g. `Hans` will match `Hans Bo`
 

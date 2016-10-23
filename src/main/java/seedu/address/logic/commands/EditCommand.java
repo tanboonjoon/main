@@ -139,11 +139,11 @@ public class EditCommand extends Command {
         Task newTask = createNewTask (newName, newDescription, newTagSet, dateMap.get(START_DATE), dateMap.get(END_DATE));
 
         try {
-        	model.addTask(newTask);
-                tasksAdded.add(newTask);
-                
-        	model.deleteTask(taskToEdit);
-                tasksDeleted.add(taskToEdit);
+            model.addTask(newTask);
+            tasksAdded.add(newTask);
+
+            model.deleteTask(taskToEdit);
+            tasksDeleted.add(taskToEdit);
 
             return new CommandResult(String.format(MESSAGE_EDIT_SUCCESS, newTask), true);
 
