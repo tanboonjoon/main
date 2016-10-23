@@ -35,7 +35,7 @@ public class DateUtilTest {
         model = new ModelManager () ;
         String tempAddressBookFile = saveFolder.getRoot().getPath() + "TempAddressBook.xml";
         String tempPreferencesFile = saveFolder.getRoot().getPath() + "TempPreferences.json";
-        Logic logic = new LogicManager(model, new StorageManager(tempAddressBookFile, tempPreferencesFile));
+        new LogicManager(model, new StorageManager(tempAddressBookFile, tempPreferencesFile));
         EventsCenter.getInstance().registerHandler(this);
     }
 
@@ -61,6 +61,8 @@ public class DateUtilTest {
 
         expected = LocalDateTime.now().withHour(0).withMinute(0).withSecond(0).withNano(0) ;  
         DateUtilTest.<LocalDateTime>assertOptional(DateUtil.parseStringIntoDateTime("00000"), false, expected) ;
+        
+        assert true ;
         
     }
 
@@ -117,6 +119,8 @@ public class DateUtilTest {
         model.addTask(eventToBeAdded);
 
         DateUtilTest.<Event>assertOptional(DateUtil.checkForConflictingEvents(model, eventToBeAdded), true, null ) ;
+        
+        assert true ;
     }
     
     @Test
@@ -143,6 +147,8 @@ public class DateUtilTest {
         // EP: auto conversion of end dates
         pair = getStartAndEndDates ("next friday 1500", "next friday 2359") ;
         DateUtilTest.<Pair<LocalDateTime, LocalDateTime>>assertOptional(DateUtil.determineStartAndEndDateTime("next friday 1500", "2359"), false, pair);
+    
+        assert true ;
     }
 
     /**

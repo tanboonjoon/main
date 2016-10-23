@@ -172,6 +172,8 @@ public class StringUtilTest {
     public void getDetailsNullGivenAssertionError(){
         thrown.expect(AssertionError.class);
         StringUtil.getDetails(null);
+        
+        assert true ;
     }
 
 
