@@ -75,9 +75,14 @@ public class FindCommandTest extends TaskForceGuiTest {
         
         assertFindResult("find name/john", list.toArray(array));
         
+        
+        for(int i =0 ; i < list.size(); i++) {
+        	System.out.println(list.get(i).getEndDate());
+        }
         assertFindResult("find day/0", list.get(0), list.get(1), list.get(2));
         assertFindResult("find day/1", list.get(3));
-        // assertFindResult("find week/1", list.get(4)); Bug report filed
+        assertFindResult("find week/1", list.get(3) );
+
     }
 
 
