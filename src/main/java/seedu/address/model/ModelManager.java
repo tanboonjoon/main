@@ -166,7 +166,6 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     private void updateFilteredTaskList(Expression expression) {
-        System.out.println("updated");
         filteredTasks.setPredicate(expression::satisfies);
     }
     

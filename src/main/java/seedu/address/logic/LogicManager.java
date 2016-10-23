@@ -24,6 +24,7 @@ public class LogicManager extends ComponentManager implements Logic {
     private final Logger logger = LogsCenter.getLogger(LogicManager.class);
     private final Model model;
     private final Parser parser;
+    
     public LogicManager(Model model, Storage storage) {
         this.model = model;
         this.parser = new Parser();
@@ -32,15 +33,15 @@ public class LogicManager extends ComponentManager implements Logic {
     @Override
     public CommandResult execute(String commandText) {
         logger.info("----------------[USER COMMAND][" + commandText + "]");
+        
         Command command = parser.parseCommand(commandText);
         command.setData(model);
-        CommandResult result = null;
-  
-        result = command.execute();
 
+        CommandResult result = command.execute();
         BaseEvent commandExecuted = new TaskForceCommandExecutedEvent(command, result) ;
         
         model.raiseEvent(commandExecuted) ;
+        
         return result ;
         
     }

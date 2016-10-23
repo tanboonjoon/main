@@ -4,14 +4,23 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.PriorityQueue;
 
+import com.google.common.collect.Sets;
 import com.joestelmach.natty.DateGroup;
 import com.joestelmach.natty.Parser;
 
 import javafx.util.Pair;
+import seedu.address.logic.filters.NameQualifier;
+import seedu.address.logic.filters.PredicateExpression;
+import seedu.address.model.Model;
+import seedu.address.model.task.Event;
+import seedu.address.model.task.ReadOnlyTask;
 
 // @@author A0135768R
 public final class DateUtil {
@@ -44,6 +53,41 @@ public final class DateUtil {
         assert datetime != null ;
 
         return datetime.format(FORMATTER) ;
+    }
+    
+    public static boolean checkForConflictingEvents (Model model, LocalDateTime startTime, LocalDateTime endTime) {
+        assert model != null ;
+        assert startTime.isBefore(endTime) ;
+        
+        Long days = ChronoUnit.DAYS.between(startTime, endTime) ;
+        
+        model.searchTaskList(new PredicateExpression(new NameQualifier(Sets.newHashSet(days.toString()), NameQualifier.FILTER_BY_DAY)) );
+        
+        PriorityQueue<Event> pq = new PriorityQueue<>(new EventComparator()) ;
+        
+        for (ReadOnlyTask task : model.getSearchedTaskList()) {
+           
+            if ( !(task instanceof Event) ) {
+                continue ;
+            }
+            
+            pq.add((Event) task) ;
+            
+        }
+        
+        Event event = pq.poll() ;
+        
+        while (event.getEndDate().isAfter(startTime)) {
+            
+            if (event.getStartDate().isBefore(endTime)) {
+                return true;
+            }
+            
+            event = pq.poll() ;
+        }
+        
+        return false ;
+        
     }
 
 
@@ -118,8 +162,29 @@ public final class DateUtil {
 
     private static boolean isDateComponentSameAsNow (LocalDateTime dateTime) {
         LocalDate now = LocalDate.now() ;
-        LocalDate givenDate = LocalDate.from(dateTime) ;
+        LocalDate givenDate = dateTime.toLocalDate() ;
 
         return now.equals(givenDate) ;
+    }
+    
+    // Comparator for priority queue
+    private static class EventComparator implements Comparator<Event> {
+
+        @Override
+        public int compare(Event arg0, Event arg1) {
+            LocalDateTime arg0Date = arg0.getEndDate() ;
+            LocalDateTime arg1Date = arg1.getEndDate() ;
+            
+            if (arg0Date.isBefore(arg1Date)) {
+                return 1 ;
+            }
+            
+            if (arg0Date.isAfter(arg1Date)) {
+                return -1 ;
+            }
+            
+            return 0 ;
+        }
+        
     }
 }
