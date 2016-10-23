@@ -230,7 +230,6 @@ public class LogicManagerTest {
         expectedAB.addTask(test_deadline);
         
         Task test_eventWithoutEndDate = helper.testEventWithoutEndDate() ;
-        expectedAB.addTask(test_eventWithoutEndDate);
 
         CommandResult result = logic.execute("add event d/this is a event st/02-13-2016 1300 et/02-13-2016 1310");
         assertEquals(String.format(AddCommand.MESSAGE_SUCCESS, test_event), result.feedbackToUser);
@@ -238,7 +237,7 @@ public class LogicManagerTest {
         CommandResult result2 = logic.execute("add deadline d/this is a deadline et/Aug 13 2016 1600");
         assertEquals(String.format(AddCommand.MESSAGE_SUCCESS, test_deadline), result2.feedbackToUser);
         
-        CommandResult result3 = logic.execute("add eventWithoutStartTime st/today 3pm") ;
+        CommandResult result3 = logic.execute("add eventWithoutStartTime st/today 9pm") ;
         assertEquals(String.format(AddCommand.MESSAGE_SUCCESS, test_eventWithoutEndDate), result3.feedbackToUser);
     }
 
@@ -459,7 +458,7 @@ public class LogicManagerTest {
         }
         
         private Task testEventWithoutEndDate() throws Exception {
-            return new Event(0, "eventWithoutStartTime", "", DateUtil.parseStringIntoDateTime("today 3pm").get(), DateUtil.END_OF_TODAY, new UniqueTagList() );
+            return new Event(0, "eventWithoutStartTime", "", DateUtil.parseStringIntoDateTime("today 9pm").get(), DateUtil.END_OF_TODAY, new UniqueTagList() );
         }
         
         private Task testEvent() throws Exception {

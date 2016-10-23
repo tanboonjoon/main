@@ -55,8 +55,21 @@ public final class DateUtil {
         return datetime.format(FORMATTER) ;
     }
     
-    public static boolean checkForConflictingEvents (Model model, LocalDateTime startTime, LocalDateTime endTime) {
+    /**
+     * Given a new event that is being added/to be added to the model, checks that if any events currently in the model
+     * that will conflict with the given event. If the given event is already added to the model, it will be ignored - that is
+     * an event cannot conflict with itself.
+     * 
+     * @param model     The model of the TaskForce - cannot be null.
+     * @param eventToBeAdded    The event that is being added/or already added to the model.
+     * @return      {@link Optional.empty()} if there is no conflict; otherwise an arbitrary conflicting event is returned.
+     */
+    public static Optional<Event> checkForConflictingEvents (Model model, Event eventToBeAdded) {
         assert model != null ;
+        
+        LocalDateTime startTime = eventToBeAdded.getStartDate() ;
+        LocalDateTime endTime = eventToBeAdded.getEndDate() ;
+        
         assert startTime.isBefore(endTime) ;
         
         Long days = ChronoUnit.DAYS.between(startTime, endTime) ;
@@ -67,7 +80,7 @@ public final class DateUtil {
         
         for (ReadOnlyTask task : model.getSearchedTaskList()) {
            
-            if ( !(task instanceof Event) ) {
+            if ( !(task instanceof Event) || task == eventToBeAdded) {
                 continue ;
             }
             
@@ -75,18 +88,23 @@ public final class DateUtil {
             
         }
         
+        // Don't need to do anything if there is no events occuring on this time period
+        if (pq.isEmpty()) {
+            return Optional.empty() ;
+        }
+        
         Event event = pq.poll() ;
         
         while (event.getEndDate().isAfter(startTime)) {
             
             if (event.getStartDate().isBefore(endTime)) {
-                return true;
+                return Optional.of(event);
             }
             
             event = pq.poll() ;
         }
         
-        return false ;
+        return Optional.empty() ;
         
     }
 

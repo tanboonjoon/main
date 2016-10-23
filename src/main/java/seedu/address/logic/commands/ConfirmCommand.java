@@ -103,8 +103,9 @@ public class ConfirmCommand extends Command {
         findAndDeleteOtherBlocks( (Block) blockToConfirm) ;
 
         String name = blockToConfirm.getName() ;
-
+        
         Task newEvent = new Event(id, name, description, datePair.get().getKey(), datePair.get().getValue(), taglist) ;
+        Optional<Event> conflict = DateUtil.checkForConflictingEvents(model, (Event) newEvent) ;
 
         try {
             model.addTask(newEvent) ;
@@ -116,8 +117,8 @@ public class ConfirmCommand extends Command {
         
         String successMessage = String.format(MESSAGE_CONFIRM_SUCCESS, newEvent) ;
         
-        if ( DateUtil.checkForConflictingEvents(model, datePair.get().getKey(), datePair.get().getValue()) ) {
-            successMessage = successMessage.concat("\n" + Messages.CONFLICTING_EVENTS_DETECTED) ;
+        if ( conflict.isPresent() ) {
+            successMessage = successMessage.concat("\n" + Messages.CONFLICTING_EVENTS_DETECTED + "The event is: " + conflict.get().getName()) ;
         }
         return new CommandResult(successMessage, true) ;
     }

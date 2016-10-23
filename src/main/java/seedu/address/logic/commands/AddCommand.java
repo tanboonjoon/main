@@ -133,6 +133,7 @@ public class AddCommand extends Command {
         }
 
         try {
+            
             for(Task task: taskList) {
                 model.addTask(task);
             }
@@ -184,15 +185,16 @@ public class AddCommand extends Command {
         
         for (Task task : tasks) {
             
-            if ( !(task instanceof Event)) {
+            if ( !(task instanceof Event) ) {
                 continue ;
             }
             
             Event event = (Event) task ;
+            Optional<Event> conflict = DateUtil.checkForConflictingEvents(model, event) ;
             
-            if (DateUtil.checkForConflictingEvents(model, event.getStartDate(), event.getEndDate())) {
+            if (conflict.isPresent()) {
                 sb.append("\n") ;
-                sb.append(Messages.CONFLICTING_EVENTS_DETECTED) ;
+                sb.append(Messages.CONFLICTING_EVENTS_DETECTED + " The event is:" + conflict.get().getName()) ;
                 break ;
             }
         }
