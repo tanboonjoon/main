@@ -48,7 +48,12 @@ public interface Model {
     /** Gets the next available Task ID */
     public int getNextTaskId() ;
     
-    /** Filters the task list with the given expression */
-    public void updateFilteredTaskList(Expression expression) ;
+    /** 
+     * Filters the task list with the given expression. This function will not affect the list
+     * currently shown to the user
+     */
+    public void searchTaskList(Expression expression) ;
+    
+    public UnmodifiableObservableList<ReadOnlyTask> getSearchedTaskList() ;
 
 }

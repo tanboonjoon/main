@@ -71,6 +71,8 @@ public class XmlAdaptedTask {
     }
 
     /**
+     * @@author A0135768R
+     * 
      * Converts this jaxb-friendly adapted task object into the model's Task object.
      *
      * @throws IllegalValueException if there were any data constraints violated in the adapted task

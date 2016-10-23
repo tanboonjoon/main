@@ -103,8 +103,9 @@ public class ConfirmCommand extends Command {
         findAndDeleteOtherBlocks( (Block) blockToConfirm) ;
 
         String name = blockToConfirm.getName() ;
-
+        
         Task newEvent = new Event(id, name, description, datePair.get().getKey(), datePair.get().getValue(), taglist) ;
+        Optional<Event> conflict = DateUtil.checkForConflictingEvents(model, (Event) newEvent) ;
 
         try {
             model.addTask(newEvent) ;
@@ -113,8 +114,13 @@ public class ConfirmCommand extends Command {
         } catch (DuplicateTaskException e) {
             return new CommandResult(MESSAGE_DUPLICATE_TASK) ;
         }
-
-        return new CommandResult(String.format(MESSAGE_CONFIRM_SUCCESS, newEvent), true) ;
+        
+        String successMessage = String.format(MESSAGE_CONFIRM_SUCCESS, newEvent) ;
+        
+        if ( conflict.isPresent() ) {
+            successMessage = successMessage.concat("\n" + Messages.CONFLICTING_EVENTS_DETECTED + "The event is: " + conflict.get().getName()) ;
+        }
+        return new CommandResult(successMessage, true) ;
     }
 
     private void findAndDeleteOtherBlocks (Block task) {
@@ -139,9 +145,9 @@ public class ConfirmCommand extends Command {
         int taskId = task.getTaskId() ;
 
         Expression filterByID = new PredicateExpression(new TaskIdentifierNumberQualifier(taskId)) ;
-        model.updateFilteredTaskList(filterByID);
+        model.searchTaskList(filterByID);
 
-        return new ArrayList<>(model.getFilteredTaskList()) ;
+        return new ArrayList<>(model.getSearchedTaskList()) ;
     }
     
     @Override

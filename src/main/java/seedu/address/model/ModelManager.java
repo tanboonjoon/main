@@ -14,6 +14,7 @@ import seedu.address.commons.core.UnmodifiableObservableList;
 import seedu.address.commons.events.BaseEvent;
 import seedu.address.commons.events.model.TaskForceChangedEvent;
 import seedu.address.commons.events.model.TaskForceCommandExecutedEvent;
+import seedu.address.logic.filters.AlwaysTrueQualifier;
 import seedu.address.logic.filters.Expression;
 import seedu.address.logic.filters.NameQualifier;
 import seedu.address.logic.filters.PredicateExpression;
@@ -33,6 +34,7 @@ public class ModelManager extends ComponentManager implements Model {
 
     private final TaskForce taskForce;
     private final FilteredList<Task> filteredTasks;
+    private final FilteredList<Task> filteredTasksForSearching;
     private final Deque<TaskForceCommandExecutedEvent> undoTaskForceHistory = new LinkedList<TaskForceCommandExecutedEvent>();
     private final Deque<TaskForceCommandExecutedEvent> redoTaskForceHistory = new LinkedList<TaskForceCommandExecutedEvent>();
 
@@ -50,6 +52,7 @@ public class ModelManager extends ComponentManager implements Model {
 
         taskForce = new TaskForce(src);
         filteredTasks = new FilteredList<>(taskForce.getTasks());
+        filteredTasksForSearching = new FilteredList<>(taskForce.getTasks());
     }
 
     public ModelManager() {
@@ -59,6 +62,7 @@ public class ModelManager extends ComponentManager implements Model {
     public ModelManager(ReadOnlyTaskForce initialData, UserPrefs userPrefs) {
         taskForce = new TaskForce(initialData);
         filteredTasks = new FilteredList<>(taskForce.getTasks());
+        filteredTasksForSearching = new FilteredList<>(taskForce.getTasks());
     }
 
     @Override
@@ -96,7 +100,7 @@ public class ModelManager extends ComponentManager implements Model {
     @Override
     public synchronized void addTask(Task task) throws UniqueTaskList.DuplicateTaskException {
         taskForce.addTask(task);
-        updateFilteredListToShowAll();
+        // updateFilteredListToShowAll();
         indicateTaskForceChanged();
     }
     
@@ -109,8 +113,7 @@ public class ModelManager extends ComponentManager implements Model {
             return  undoTaskForceHistory.pollFirst();
             
         } 
-        return null;
-       
+        return null;   
     }
 
 
@@ -154,17 +157,26 @@ public class ModelManager extends ComponentManager implements Model {
 
     @Override
     public void updateFilteredListToShowAll() {
-        filteredTasks.setPredicate(null);
+        updateFilteredTaskList(new PredicateExpression(new AlwaysTrueQualifier()));
     }
 
     @Override
     public void updateFilteredTaskList(Set<String> keywords, String findType) {
         updateFilteredTaskList(new PredicateExpression(new NameQualifier(keywords, findType)));
     }
+
+    private void updateFilteredTaskList(Expression expression) {
+        filteredTasks.setPredicate(expression::satisfies);
+    }
     
     @Override
-    public void updateFilteredTaskList(Expression expression) {
-        filteredTasks.setPredicate(expression::satisfies);
+    public void searchTaskList(Expression expression) {
+        filteredTasksForSearching.setPredicate(expression::satisfies);
+    }
+    
+    @Override
+    public UnmodifiableObservableList<ReadOnlyTask> getSearchedTaskList() {
+        return new UnmodifiableObservableList<>(filteredTasksForSearching);
     }
     
     // ===============================================================

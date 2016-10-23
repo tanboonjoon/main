@@ -11,6 +11,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Sets;
 
 import javafx.util.Pair;
+import seedu.address.commons.core.Messages;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.commons.util.DateUtil;
 import seedu.address.commons.util.StringUtil;
@@ -132,20 +133,16 @@ public class AddCommand extends Command {
         }
 
         try {
+            
             for(Task task: taskList) {
                 model.addTask(task);
-            }            
-
-            return new CommandResult(String.format(MESSAGE_SUCCESS, taskList.get(0)), true);
+            }
+            
+            return new CommandResult(getAddCommandSuccessMessage(taskList), true);
 
         } catch (UniqueTaskList.DuplicateTaskException e) {
             return new CommandResult(MESSAGE_DUPLICATE_TASK);
         }
-    }
-    
-    @Override
-    public Pair<List<ReadOnlyTask>, List<ReadOnlyTask>> getCommandChanges() {
-        return new Pair<List<ReadOnlyTask>, List<ReadOnlyTask>>(ImmutableList.copyOf(taskList), Collections.emptyList()) ;
     }
 
     private void setNewTaskWithDetails (String name, String description, LocalDateTime startDate, LocalDateTime endDate, UniqueTagList tags) {
@@ -176,6 +173,40 @@ public class AddCommand extends Command {
 
         return new Task (id, name, description, tagList) ;
     }
+    
+    private String getAddCommandSuccessMessage (List<Task> tasks) {
+        
+        StringBuilder sb = new StringBuilder() ;
+        sb.append(String.format(MESSAGE_SUCCESS, taskList.get(0))) ;
+        
+        if (tasks.size() > 1) {
+            sb.append("Task repeats " + recurringFrequency) ;
+        }
+        
+        for (Task task : tasks) {
+            
+            if ( !(task instanceof Event) ) {
+                continue ;
+            }
+            
+            Event event = (Event) task ;
+            Optional<Event> conflict = DateUtil.checkForConflictingEvents(model, event) ;
+            
+            if (conflict.isPresent()) {
+                sb.append("\n") ;
+                sb.append(Messages.CONFLICTING_EVENTS_DETECTED + " The event is:" + conflict.get().getName()) ;
+                break ;
+            }
+        }
+            
+        
+        return sb.toString() ;
+    }
+    
+    @Override
+    public Pair<List<ReadOnlyTask>, List<ReadOnlyTask>> getCommandChanges() {
+        return new Pair<List<ReadOnlyTask>, List<ReadOnlyTask>>(ImmutableList.copyOf(taskList), Collections.emptyList()) ;
+    }
 
     // @@author A0140037W    
 
@@ -203,8 +234,6 @@ public class AddCommand extends Command {
             case "alternate day":
                 return date.plusDays(RECURRENCE_ALTERNATE_INCREMENT_STEP);
             case "fortnightly":
-                return date.plusDays(RECURRENCE_ALTERNATE_INCREMENT_STEP);	    
-            case "alternate week":
                 return date.plusWeeks(RECURRENCE_ALTERNATE_INCREMENT_STEP);
             case "biweekly":
                 return date.plusWeeks(RECURRENCE_ALTERNATE_INCREMENT_STEP);
