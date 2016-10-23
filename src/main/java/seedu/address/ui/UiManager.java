@@ -127,7 +127,7 @@ public class UiManager extends ComponentManager implements Ui {
     @Subscribe
     private void handleTaskListChangedEvent(TaskForceTaskListChangedEvent event) {
         logger.info(LogsCenter.getEventHandlingLogMessage(event));
-        mainWindow.getTaskListPanel().scrollTo(event.targetIndex);
+        mainWindow.getTaskListPanel().scrollToTask(event.tasks.get(event.tasks.size() - 1));
     }
 
 }
