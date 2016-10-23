@@ -1,5 +1,6 @@
 package seedu.address.model;
 
+import java.util.Comparator;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.Set;
@@ -7,6 +8,7 @@ import java.util.logging.Logger;
 
 import com.google.common.eventbus.Subscribe;
 
+import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.ComponentManager;
 import seedu.address.commons.core.LogsCenter;
@@ -18,6 +20,8 @@ import seedu.address.logic.filters.AlwaysTrueQualifier;
 import seedu.address.logic.filters.Expression;
 import seedu.address.logic.filters.NameQualifier;
 import seedu.address.logic.filters.PredicateExpression;
+import seedu.address.model.task.Deadline;
+import seedu.address.model.task.Event;
 import seedu.address.model.task.ReadOnlyTask;
 import seedu.address.model.task.Task;
 import seedu.address.model.task.UniqueTaskList;
@@ -37,7 +41,13 @@ public class ModelManager extends ComponentManager implements Model {
     private final FilteredList<Task> filteredTasksForSearching;
     private final Deque<TaskForceCommandExecutedEvent> undoTaskForceHistory = new LinkedList<TaskForceCommandExecutedEvent>();
     private final Deque<TaskForceCommandExecutedEvent> redoTaskForceHistory = new LinkedList<TaskForceCommandExecutedEvent>();
-
+    
+    private static final int TASK_LESS_THAN_DEADLINE = -1;
+    private static final int TASK_LESS_THAN_EVENT = -2;
+    private static final int DEADLINE_MORE_THAN_TASK = 1;
+    private static final int DEADLINE_LESS_THAN_EVENT = -1;
+    private static final int EVENT_MORE_THAN_TASK = 2;
+    private static final int EVENT_MORE_THAN_DEADLINE = 1;
     /**
      * Initializes a ModelManager with the given TaskForce TaskForce and its
      * variables should not be null
@@ -61,7 +71,9 @@ public class ModelManager extends ComponentManager implements Model {
 
     public ModelManager(ReadOnlyTaskForce initialData, UserPrefs userPrefs) {
         taskForce = new TaskForce(initialData);
-        filteredTasks = new FilteredList<>(taskForce.getTasks());
+        ObservableList<Task> taskList = taskForce.getTasks();
+        sortFilteredList(taskList);
+        filteredTasks = new FilteredList<>(taskList);
         filteredTasksForSearching = new FilteredList<>(taskForce.getTasks());
     }
 
@@ -179,6 +191,8 @@ public class ModelManager extends ComponentManager implements Model {
         return new UnmodifiableObservableList<>(filteredTasksForSearching);
     }
     
+    
+    
     // ===============================================================
     // ======================= Event Listeners =======================
     // ===============================================================
@@ -189,5 +203,68 @@ public class ModelManager extends ComponentManager implements Model {
             saveCommandChanges(event);
         }
     }
+    // ===============================================================
+    // ======================= Comparators  ==========================
+    // ===============================================================
+    
+    //@@A0139942W
+    /*
+     * To sort the observableList before it is attached to a unmodifiable FilterList
+     * return a sortedLists sorted by type, follow by dates
+     * The ranking of class is as followed, Task < Deadline < Event
+     */
+    public void sortFilteredList(ObservableList<Task> taskList) {
+    	taskList.sort(new Comparator<Task>() {
+    		@Override
+    		public int compare(Task task1, Task task2) {
+    			if (task1 instanceof Event) {
+    				return sortByEvent( (Event)task1, task2);
+    			}
+
+    			if (task1 instanceof Deadline) {
+    				return sortByDeadline( (Deadline)task1, task2);
+    			}
+    			return sortByTask(task1, task2);
+
+    		}});
+    }
+
+    public int sortByTask(Task task1, Task task2) {
+    	if (task2 instanceof Deadline) {
+    		return TASK_LESS_THAN_DEADLINE;
+    	}
+    	if (task2 instanceof Event) {
+    		return TASK_LESS_THAN_EVENT;
+    	}
+    	return task1.getName().compareTo(task2.getName());
+    }
+
+    public int sortByDeadline(Deadline deadline, Task task) {
+    	if (task instanceof Deadline) {
+    		Deadline deadline2 = (Deadline) task;
+    		return deadline.getEndDate().compareTo(deadline2.getEndDate());
+    	}
+
+    	if (task instanceof Event) {
+    		return  DEADLINE_LESS_THAN_EVENT;
+    	}
+
+    	return  DEADLINE_MORE_THAN_TASK;
+    }
+
+    public int sortByEvent(Event event, Task task) {
+    	if (task instanceof Event) {
+    		Event event2 = (Event) task;
+    		return event.getStartDate().compareTo(event2.getStartDate());
+    	}
+
+    	if (task instanceof Deadline) {
+    		return EVENT_MORE_THAN_DEADLINE;
+    	}
+    	return EVENT_MORE_THAN_TASK;
+    }
+
+
+
 }
 
