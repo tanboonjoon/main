@@ -79,7 +79,7 @@ public class ConfirmCommand extends Command {
 
     @Override
     public CommandResult execute() {
-        UnmodifiableObservableList<ReadOnlyTask> lastShownList = model.getFilteredTaskList();
+        UnmodifiableObservableList<ReadOnlyTask> lastShownList = model.getSortedFilteredTask();
 
         if (lastShownList.size() < targetIndex || targetIndex < 1) {
             indicateAttemptToExecuteIncorrectCommand();
