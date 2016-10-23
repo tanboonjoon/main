@@ -103,7 +103,7 @@ public class FindCommandTest extends TaskForceGuiTest {
                 task.setEndDate(DateUtil.parseStringIntoDateTime("tomorrow").get());
             
             } else {
-                task.setEndDate(DateUtil.parseStringIntoDateTime("next week").get());
+                task.setEndDate(DateUtil.parseStringIntoDateTime("next tuesday").get());
             }
             
             list.add(task) ;
