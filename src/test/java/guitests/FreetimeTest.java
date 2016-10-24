@@ -44,7 +44,7 @@ public class FreetimeTest extends TaskForceGuiTest{
 	
 	
 	@Test
-	public void valid_command_one_event() {
+	public void validCommandOneEvent() {
 		LocalDateTime now = LocalDateTime.now();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		commandBox.runCommand("add event st/today 3pm et/today 5pm");
@@ -57,7 +57,7 @@ public class FreetimeTest extends TaskForceGuiTest{
 	}
 	
 	@Test
-	public void valid_command_one_ongoing_event() {
+	public void validCommandOneOngoingEvent() {
 		DateTimeFormatter addFormat = DateTimeFormatter.ofPattern("MM-dd-yyy HHmm");
 		LocalDateTime now = LocalDateTime.now();
 		LocalDateTime yestarday = roundUpTime(now.minusDays(1));
@@ -75,7 +75,7 @@ public class FreetimeTest extends TaskForceGuiTest{
 	
 	
 	@Test
-	public void valid_command_one_ongoingEndToday_event() {
+	public void validCommandOneOngoingEndTodayEvent() {
 		LocalDateTime now = LocalDateTime.now();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		commandBox.runCommand("add event st/yesterday 3pm et/today 5pm");
@@ -87,7 +87,7 @@ public class FreetimeTest extends TaskForceGuiTest{
 	}
 	
 	@Test
-	public void valid_command_one_ongoingStartToday_event() {
+	public void validCommandOneOngoingStartTodayEvent() {
 		LocalDateTime now = LocalDateTime.now();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		commandBox.runCommand("add event st/today 3pm et/tomorrow 5pm");
@@ -150,7 +150,8 @@ public class FreetimeTest extends TaskForceGuiTest{
 		if (minutes == EXACT_AN_HOUR) {
 			return dateTime;
 		}
-		if (minutes < HALF_AN_HOUR) {
+		if (minutes <= HALF_AN_HOUR) {
+			System.out.println(dateTime.toString());
 			return dateTime.plusMinutes(HALF_AN_HOUR - minutes);
 		}
 

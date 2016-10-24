@@ -94,7 +94,7 @@ public class FreetimeCommand extends Command{
 			return ZERO_EVENT_MESSAGE;
 		}
 
-		LocalDateTime currStartTime = timeList.get(FIRST_EVENT_INDEX).getKey();;
+		LocalDateTime currStartTime = timeList.get(FIRST_EVENT_INDEX).getKey();
 		LocalDateTime currEndTime = timeList.get(FIRST_EVENT_INDEX).getValue();
 		
 		
@@ -163,6 +163,7 @@ public class FreetimeCommand extends Command{
 	private String getAllFreeSlot(LocalDateTime currentEndTime, int same_day, StringBuilder sb) {
 		int nextEndDay;
 		int currEndDay;
+		LocalDateTime tempCurrEndTime = currentEndTime;
 		LocalDateTime nextStartTime;
 		LocalDateTime nextEndTime;
 		for (int time_index = 1 ;  time_index < timeList.size(); time_index++) {
@@ -170,13 +171,13 @@ public class FreetimeCommand extends Command{
 			nextEndTime = timeList.get(time_index).getValue();
 			nextEndDay = nextEndTime.getDayOfMonth();
 
-			if (currentEndTime.isAfter(nextStartTime) || currentEndTime.isEqual(nextStartTime)) {
-				currentEndTime = getNextEndTime(currentEndTime, timeList.get(time_index).getValue());
+			if (tempCurrEndTime.isAfter(nextStartTime) || tempCurrEndTime.isEqual(nextStartTime)) {
+				tempCurrEndTime = getNextEndTime(tempCurrEndTime, timeList.get(time_index).getValue());
 				continue;
 			}
 		
-			sb.append(String.format(BETWEEN_EVENT_MESSAGE, currentEndTime.format(hourFormat), nextStartTime.format(hourFormat)));
-			currentEndTime = nextEndTime;
+			sb.append(String.format(BETWEEN_EVENT_MESSAGE, tempCurrEndTime.format(hourFormat), nextStartTime.format(hourFormat)));
+			tempCurrEndTime = nextEndTime;
 			
 			if (!doesEventEndOnSameDay(nextEndDay, same_day)) {
 				return sb.toString();
@@ -184,13 +185,13 @@ public class FreetimeCommand extends Command{
 
 
 		}
-		currEndDay = currentEndTime.getDayOfMonth();
+		currEndDay = tempCurrEndTime.getDayOfMonth();
 		
 		if (!doesEventEndOnSameDay(currEndDay, same_day)) {
 			return sb.toString();
 		}
 		
-		return sb.append(String.format(LAST_EVENT_MESSAGE, currentEndTime.format(hourFormat))).toString();
+		return sb.append(String.format(LAST_EVENT_MESSAGE, tempCurrEndTime.format(hourFormat))).toString();
 		
 	}
 
@@ -223,7 +224,7 @@ public class FreetimeCommand extends Command{
 		if (minutes == EXACT_AN_HOUR) {
 			return dateTime;
 		}
-		if (minutes < HALF_AN_HOUR) {
+		if (minutes <= HALF_AN_HOUR) {
 			return dateTime.plusMinutes(HALF_AN_HOUR - minutes);
 		}
 
