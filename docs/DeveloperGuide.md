@@ -179,6 +179,31 @@ and logging destinations.
 * `INFO` : Information showing the noteworthy actions by the App
 * `FINE` : Details that is not usually noteworthy but may be useful in debugging
   e.g. print the actual list instead of just its size
+  
+### Tasks
+All tasks created in TaskForce are immutable. The whole program revolve around Adding and Deleting Tasks. Commands Such as EditCommand
+MarkCommands are extension of Addding and Deleting Tasks.
+
+* Adding and Deleting Tasks will trigger an event to inform and update the Model side that the list is updated.
+* Having commands revolve around Adding and Deleting simplify our implementation as the Model only have to listen to when Tasks are
+added or deleted.
+
+### FindCommand
+Our FindCommand is implemented to replace the old ListCommand found in TaskForce. ListCommand simply list out all the tasks found in 
+TaskForce and this may become a problem when the list get too big. User have to scroll up and down to locate the specified tasks that they are interested. As such our FindCommand are implemented to allow users to filter out tasks in a few ways.
+
+*Keywords Searched are filtered by TagName, Description and TaskName
+*Tasks can be filtered by Event that start/end or are ongoing on a particular day. This include Deadline and Reminders.
+* Tasks can also be filtered by Week, showing all the task that is due/ongoing on a particular Week defined as Monday to Friday.
+
+As such our Findcommand covered everything a ListCommand. The key difference is that instead of listing everything on TaskForce,
+It allow Users to filter out their list by FindType.
+
+
+### UndoCommand
+We have set a limit for UndoCommand to 10. Users can only undo up to 10 previous command that they have inputted while the program is 
+active. Having a ceiling for UndoCommand prevent any form of huge resource hog by TaskForce and this allow Users to multitasks many 
+programs with TaskForce opened at the same time.
 
 ### Configuration
 
