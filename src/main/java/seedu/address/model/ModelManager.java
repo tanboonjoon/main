@@ -1,5 +1,6 @@
 package seedu.address.model;
 
+
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.Set;
@@ -8,6 +9,7 @@ import java.util.logging.Logger;
 import com.google.common.eventbus.Subscribe;
 
 import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import seedu.address.commons.core.ComponentManager;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.core.UnmodifiableObservableList;
@@ -18,6 +20,8 @@ import seedu.address.logic.filters.AlwaysTrueQualifier;
 import seedu.address.logic.filters.Expression;
 import seedu.address.logic.filters.NameQualifier;
 import seedu.address.logic.filters.PredicateExpression;
+import seedu.address.model.task.Deadline;
+import seedu.address.model.task.Event;
 import seedu.address.model.task.ReadOnlyTask;
 import seedu.address.model.task.Task;
 import seedu.address.model.task.UniqueTaskList;
@@ -34,10 +38,17 @@ public class ModelManager extends ComponentManager implements Model {
 
     private final TaskForce taskForce;
     private final FilteredList<Task> filteredTasks;
+    private final SortedList<Task> sortedFilteredTasks;
     private final FilteredList<Task> filteredTasksForSearching;
     private final Deque<TaskForceCommandExecutedEvent> undoTaskForceHistory = new LinkedList<TaskForceCommandExecutedEvent>();
     private final Deque<TaskForceCommandExecutedEvent> redoTaskForceHistory = new LinkedList<TaskForceCommandExecutedEvent>();
-
+    
+    private static final int TASK_LESS_THAN_DEADLINE = -1;
+    private static final int TASK_LESS_THAN_EVENT = -2;
+    private static final int DEADLINE_MORE_THAN_TASK = 1;
+    private static final int DEADLINE_LESS_THAN_EVENT = -1;
+    private static final int EVENT_MORE_THAN_TASK = 2;
+    private static final int EVENT_MORE_THAN_DEADLINE = 1;
     /**
      * Initializes a ModelManager with the given TaskForce TaskForce and its
      * variables should not be null
@@ -52,16 +63,20 @@ public class ModelManager extends ComponentManager implements Model {
 
         taskForce = new TaskForce(src);
         filteredTasks = new FilteredList<>(taskForce.getTasks());
+        sortedFilteredTasks = setUpSortedList();
         filteredTasksForSearching = new FilteredList<>(taskForce.getTasks());
     }
 
-    public ModelManager() {
+	
+
+	public ModelManager() {
         this(new TaskForce(), new UserPrefs());
     }
 
     public ModelManager(ReadOnlyTaskForce initialData, UserPrefs userPrefs) {
         taskForce = new TaskForce(initialData);
         filteredTasks = new FilteredList<>(taskForce.getTasks());
+        sortedFilteredTasks = setUpSortedList();
         filteredTasksForSearching = new FilteredList<>(taskForce.getTasks());
     }
 
@@ -100,7 +115,7 @@ public class ModelManager extends ComponentManager implements Model {
     @Override
     public synchronized void addTask(Task task) throws UniqueTaskList.DuplicateTaskException {
         taskForce.addTask(task);
-        // updateFilteredListToShowAll();
+       // sortFilteredList(taskForce.getTasks());
         indicateTaskForceChanged();
     }
     
@@ -152,7 +167,7 @@ public class ModelManager extends ComponentManager implements Model {
 
     @Override
     public UnmodifiableObservableList<ReadOnlyTask> getFilteredTaskList() {
-        return new UnmodifiableObservableList<>(filteredTasks);
+        return getSortedFilteredTask();
     }
 
     @Override
@@ -167,9 +182,10 @@ public class ModelManager extends ComponentManager implements Model {
 
     private void updateFilteredTaskList(Expression expression) {
         filteredTasks.setPredicate(expression::satisfies);
+  
     }
     
-    @Override
+	@Override
     public void searchTaskList(Expression expression) {
         filteredTasksForSearching.setPredicate(expression::satisfies);
     }
@@ -178,6 +194,8 @@ public class ModelManager extends ComponentManager implements Model {
     public UnmodifiableObservableList<ReadOnlyTask> getSearchedTaskList() {
         return new UnmodifiableObservableList<>(filteredTasksForSearching);
     }
+    
+    
     
     // ===============================================================
     // ======================= Event Listeners =======================
@@ -189,5 +207,79 @@ public class ModelManager extends ComponentManager implements Model {
             saveCommandChanges(event);
         }
     }
+    // ===============================================================
+    // ======================= Comparators  ==========================
+    // ===============================================================
+    
+    
+    
+    //@@A0139942W
+    /*
+     * Wrapping a SortedList around the FilteredList that wrap the ObservableList
+     * return a sortedLists sorted by type, follow by dates
+     * The ranking of class is as followed, Task < Deadline < Event
+     */
+
+    private SortedList<Task> setUpSortedList() {
+		// TODO Auto-generated method stub
+    	SortedList<Task> sortedList = new SortedList<> (this.filteredTasks, 
+    			(Task task1, Task task2) ->  {
+        			if (task1 instanceof Event) {
+        				return sortByEvent( (Event)task1, task2);
+        			}
+
+        			if (task1 instanceof Deadline) {
+        				return sortByDeadline( (Deadline)task1, task2);
+        			}
+        			return sortByTask(task1, task2);
+
+        		});
+    	return sortedList;
+    }
+
+
+    public int sortByTask(Task task1, Task task2) {
+    	if (task2 instanceof Deadline) {
+    		return TASK_LESS_THAN_DEADLINE;
+    	}
+    	if (task2 instanceof Event) {
+    		return TASK_LESS_THAN_EVENT;
+    	}
+    	return task1.getName().compareTo(task2.getName());
+    }
+
+    public int sortByDeadline(Deadline deadline, Task task) {
+    	if (task instanceof Deadline) {
+    		Deadline deadline2 = (Deadline) task;
+    		return deadline.getEndDate().compareTo(deadline2.getEndDate());
+    	}
+
+    	if (task instanceof Event) {
+    		return  DEADLINE_LESS_THAN_EVENT;
+    	}
+
+    	return  DEADLINE_MORE_THAN_TASK;
+    }
+
+    public int sortByEvent(Event event, Task task) {
+    	if (task instanceof Event) {
+    		Event event2 = (Event) task;
+    		return event.getStartDate().compareTo(event2.getStartDate());
+    	}
+
+    	if (task instanceof Deadline) {
+    		return EVENT_MORE_THAN_DEADLINE;
+    	}
+    	return EVENT_MORE_THAN_TASK;
+    }
+
+	@Override
+	public UnmodifiableObservableList<ReadOnlyTask> getSortedFilteredTask() {
+		// TODO Auto-generated method stub
+		return new UnmodifiableObservableList<>(sortedFilteredTasks);
+	}
+
+
+
 }
 

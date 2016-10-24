@@ -26,8 +26,8 @@ public class MarkCommand extends Command {
             + "Parameters: INDEX (must be a positive integer)\n"
             + "Example: " + COMMAND_WORD + " 1";
 
-    public static final String MESSAGE_MARK_TASK_SUCCESS_DONE = "Marked Task %1$s as done - ";
-    public static final String MESSAGE_MARK_TASK_SUCCESS_UNDONE = "Marked Task %1$s as undone - ";
+    public static final String MESSAGE_MARK_TASK_SUCCESS_DONE = "Marked Task : [%1$s] as done - ";
+    public static final String MESSAGE_MARK_TASK_SUCCESS_UNDONE = "Marked Task : [%1$s] as undone - ";
     
     public final int targetIndex;
     private final List<ReadOnlyTask> tasksAdded = Lists.newLinkedList();
@@ -69,9 +69,9 @@ public class MarkCommand extends Command {
             }
             
             if (newTask.getDoneStatus()) {
-            	return new CommandResult(String.format(MESSAGE_MARK_TASK_SUCCESS_DONE, newTask), true);
+            	return new CommandResult(String.format(MESSAGE_MARK_TASK_SUCCESS_DONE, newTask.getName()), true);
             } else {
-            	return new CommandResult(String.format(MESSAGE_MARK_TASK_SUCCESS_UNDONE, newTask), true);
+            	return new CommandResult(String.format(MESSAGE_MARK_TASK_SUCCESS_UNDONE, newTask.getName()), true);
             }
   
         } catch (UniqueTaskList.DuplicateTaskException e) {

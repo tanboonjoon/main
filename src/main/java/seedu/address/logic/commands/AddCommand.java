@@ -170,7 +170,6 @@ public class AddCommand extends Command {
         if (startDate != null && endDate != null) {
             return new Event (id, name, description, startDate, endDate, tagList) ;
         }
-
         return new Task (id, name, description, tagList) ;
     }
     
