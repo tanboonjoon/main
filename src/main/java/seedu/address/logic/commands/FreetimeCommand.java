@@ -37,13 +37,14 @@ public class FreetimeCommand extends Command{
 	public static final String ONGOING_EVENT_MESSAGE = "You are not free because you have a ongoing from %1$s to %2$s \n";
 	
 	private static final String SEARCH_TYPE = "DAY";
-;
+
 	private static final boolean DONE = true;
 	private static final int ZERO_EVENT_ON_THAT_DAY = 0;
 	private static final int ONE_EVENT_ON_THAT_DAY = 1;
 	private static final int SEARCHED_DAY_INDEX = 0;
 	private static final int FIRST_EVENT_INDEX = 0;
 	private static final int HALF_AN_HOUR = 30;
+	private static final int AN_HOUR = 60;
 	private static final int EXACT_AN_HOUR = 00;
 	
 	private ArrayList<Pair<LocalDateTime, LocalDateTime>> timeList;
@@ -89,8 +90,6 @@ public class FreetimeCommand extends Command{
 	private String getFreeTime(LocalDateTime onThatDay) {
 		StringBuilder sb = new StringBuilder();
 	
-		sb.append(String.format(DEFAULT_STARTING_MESSAGE, onThatDay.format(dateFormat)));
-		
 		if (timeList.size() == ZERO_EVENT_ON_THAT_DAY) {
 			return ZERO_EVENT_MESSAGE;
 		}
@@ -220,8 +219,11 @@ public class FreetimeCommand extends Command{
 		if (minutes == EXACT_AN_HOUR) {
 			return dateTime;
 		}
+		if (minutes < HALF_AN_HOUR) {
+			return dateTime.plusMinutes(HALF_AN_HOUR - minutes);
+		}
 
-		return dateTime.plusMinutes( Math.abs(HALF_AN_HOUR - minutes));
+		return dateTime.plusMinutes(AN_HOUR - minutes);
 	
 	}
 	
