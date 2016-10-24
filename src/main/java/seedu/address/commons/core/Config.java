@@ -6,10 +6,12 @@ import java.util.logging.Level;
 
 import com.google.common.collect.Maps;
 
+import javafx.util.Pair;
+
 
 
 /**
- * @@author A035768R
+ * @@author A0135768R
  * Config values used by the app
  */
 public class Config {
@@ -24,17 +26,22 @@ public class Config {
     }
     
     private void registerDefaultConfigs() {
-        this.<String>setConfigurationOption("appTitle", "Task Force") ;
-        this.<String>setConfigurationOption("userPrefsFilePath", "preferences.json") ;
-        this.<String>setConfigurationOption("taskForceDataFilePath", "data/taskForceData.xml") ;
-        this.<String>setConfigurationOption("appName", "My Todo list") ;
-        this.<Level>setConfigurationOption("logLevel", Level.INFO ) ;
+        this.<String>registerNewConfigOption("appTitle", "Task Force") ;
+        this.<String>registerNewConfigOption("userPrefsFilePath", "preferences.json") ;
+        this.<String>registerNewConfigOption("taskForceDataFilePath", "data/taskForceData.xml") ;
+        this.<String>registerNewConfigOption("appName", "My Todo list") ;
+        this.<Level>registerNewConfigOption("logLevel", Level.INFO ) ;
+        this.<Pair<String, String>>registerNewConfigOption("activeHours", new Pair<String, String>("0800", "2200")) ;
         
+    }
+    
+    private <T> void registerNewConfigOption (String key, T value) {
+        configRegistry.put(key, value) ;
     }
     
     public <T> void setConfigurationOption (String key, T value) {
         
-        configRegistry.put(key, value) ;
+        configRegistry.replace(key, value) ;
     }
     
     public <T> T getConfigurationOption (String key) {
