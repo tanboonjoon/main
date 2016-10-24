@@ -4,9 +4,10 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.logging.Level;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.collect.Maps;
 
-
+import javafx.util.Pair;
 
 /**
  * @@author A0135768R
@@ -15,26 +16,42 @@ import com.google.common.collect.Maps;
 public class Config {
 
     public static final String DEFAULT_CONFIG_FILE = "config.json";
+    
+    @JsonIgnore
+    public static final Map<String, Pair<Class<?>, Object>> DEFAULT_CONFIGS = Maps.newHashMap() ;
 
     // Config values customizable through config file
     private Map<String, Object> configRegistry = Maps.newHashMap() ;
+    
+    static {
+
+       Config.<String>registerNewConfigWithDefault("appTitle", "Task Force") ;
+       Config.<String>registerNewConfigWithDefault("userPrefsFilePath", "preferences.json") ;
+       Config.<String>registerNewConfigWithDefault("taskForceDataFilePath", "data/taskForceData.xml") ;
+       Config.<String>registerNewConfigWithDefault("appName", "My Todo list") ;
+       Config.<String>registerNewConfigWithDefault("activeHoursFrom", "0800") ;
+       Config.<String>registerNewConfigWithDefault("activeHoursTo", "2100") ;
+       
+    }
+    
+    private static <T> void registerNewConfigWithDefault (String key, T value) {
+        DEFAULT_CONFIGS.put(key, new Pair<Class<?>, Object>(value.getClass(), value)) ;
+    }
+
     
     public Config () {
         registerDefaultConfigs() ;
     }
     
     private void registerDefaultConfigs() {
-        this.<String>registerNewConfigOption("appTitle", "Task Force") ;
-        this.<String>registerNewConfigOption("userPrefsFilePath", "preferences.json") ;
-        this.<String>registerNewConfigOption("taskForceDataFilePath", "data/taskForceData.xml") ;
-        this.<String>registerNewConfigOption("appName", "My Todo list") ;
-        this.<String>registerNewConfigOption("activeHoursFrom", "0800") ;
-        this.<String>registerNewConfigOption("activeHoursTo", "2100") ;
-        
-    }
-    
-    private <T> void registerNewConfigOption (String key, T value) {
-        configRegistry.put(key, value) ;
+        for (Entry<String, Pair<Class<?>, Object>> entry : DEFAULT_CONFIGS.entrySet()) {
+            
+            Class<?> clazz = entry.getValue().getKey() ;
+            Object value = entry.getValue().getValue() ;
+            
+            configRegistry.put(entry.getKey(), clazz.cast(value)) ;
+            
+        }
     }
     
     public <T> void setConfigurationOption (String key, T value) {
@@ -44,7 +61,7 @@ public class Config {
     
     public <T> T getConfigurationOption (String key) {
         if (!configRegistry.containsKey(key)) {
-            return null ;
+            return (T) DEFAULT_CONFIGS.get(key).getValue() ;
         }
         
         return (T) configRegistry.get(key) ;
