@@ -210,6 +210,11 @@ TaskForce wrap around the ObservableList with a FilteredList, this allow Users t
 The FilteredList is furthur wrapped with a SortedList to ensure the list shown to Users are constantly sorted at all time.
 The nature of the ObservableList allow the list shown to be constantly updated whenever a new changes occured such as Addition/Deletion of a new Tasks
 
+### CdCommand
+The CdCommand recreate the config.json file using default Config Class as a base. The only difference is that the config.json file will contained the new savepath indicated by users. Any modification made directly to the config.json file will be overwritten when
+CdCommand is used. This command is for new users who are not comfortable with editing the config.json file. 
+Advanced Users are adviced to change the config.json directly to meet their needs.
+
 ### Configuration
 
 Certain properties of the application can be controlled (e.g App name, logging level) through the configuration file
