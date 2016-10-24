@@ -54,10 +54,6 @@ public class Config {
         }
     }
     
-    private <T> void setDefaultConfigOption(String key, T value) {
-        configRegistry.put(key, value) ;
-    }
-    
     public <T> void setConfigurationOption (String key, T value) {
         
         configRegistry.replace(key, value) ;
