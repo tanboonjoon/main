@@ -78,7 +78,7 @@ public class FindCommandTest extends TaskForceGuiTest {
 
         assertFindResult("find day/0", list.get(0), list.get(1), list.get(2));
         assertFindResult("find day/1", list.get(3));
-       // assertFindResult("find week/1", list.get(3) ); // <--- bug test 
+        assertFindResult("find week/1", list.get(3) ); // <--- bug test 
 
     }
 
