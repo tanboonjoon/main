@@ -218,7 +218,11 @@ Advanced Users are adviced to change the config.json directly to meet their need
 ### Configuration
 
 Certain properties of the application can be controlled (e.g App name, logging level) through the configuration file
-(default: `config.json`):
+(default: `config.json`): 
+Users are allow to edit the config.json file directly such as changing the savepath or setting new activetime.
+However, they are not recommended to edit/change/remove the Keyname of the config file. Doing so will result in the System overwriting the current config file with a default one
+
+This is to prevent the breaking of the system. Certain commands such as freetime will retrieve values found in config using keyname. Hence changing the keyname will break the command if the default config setting is not restored.
 
 
 ## Testing
@@ -569,7 +573,6 @@ Use case ends
 19. Software must work without any form of installer
 20. Third-party library/framwork are only allowed if they are free and require no form of installation
 
-{More to be added}
 
 ## Appendix D : Glossary
 
