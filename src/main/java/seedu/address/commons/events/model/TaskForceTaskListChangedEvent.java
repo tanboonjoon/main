@@ -7,23 +7,33 @@ import seedu.address.model.task.ReadOnlyTask;
 
 public class TaskForceTaskListChangedEvent extends BaseEvent {
     
-    public final List<ReadOnlyTask> tasks ;
+    public final List<ReadOnlyTask> tasksAdded ;
+    public final List<ReadOnlyTask> tasksDeleted ;
     
-    public TaskForceTaskListChangedEvent (List<ReadOnlyTask> tasks) {
-        this.tasks = tasks; 
+    public TaskForceTaskListChangedEvent (List<ReadOnlyTask> tasksAdded, List<ReadOnlyTask> tasksDeleted) {
+        this.tasksAdded = tasksAdded; 
+        this.tasksDeleted = tasksDeleted ;
     }
     
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder () ;
         
-        for (ReadOnlyTask task : tasks) {
+        for (ReadOnlyTask task : tasksAdded) {
             sb.append(task.getName()) ;
             sb.append(", ") ;
         }
         
-        sb.delete(sb.length() - 2, sb.length());
-        return "Names of tasks added: " + sb.toString() ;
+        String resultingString ;
+        
+        if (sb.length() > 0) {
+            sb.delete(sb.length() - 2, sb.length());
+            
+            resultingString = "Names of tasks added: " + sb.toString() ;
+        } else {
+            resultingString = "Tasks deleted:" + tasksDeleted.size() ;
+        }
+        return resultingString ;
     }
 
 }
