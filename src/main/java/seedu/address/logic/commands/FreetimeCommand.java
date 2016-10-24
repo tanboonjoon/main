@@ -14,12 +14,11 @@ import seedu.address.model.task.Event;
 import seedu.address.model.task.ReadOnlyTask;
 
 
-
+//@@author A0139942W
 /*
  * Finds and list out all the timeslot that the user are free on that particular day
  * All timeslot are rounded up to block of 30min interval
  */
-//@@author A0139942W
 public class FreetimeCommand extends Command{
 	public static final String COMMAND_WORD = "freetime";
 	
@@ -88,27 +87,23 @@ public class FreetimeCommand extends Command{
 	}
 
 	private String getFreeTime(LocalDateTime onThatDay) {
-
+		StringBuilder sb = new StringBuilder();
+	
+		sb.append(String.format(DEFAULT_STARTING_MESSAGE, onThatDay.format(dateFormat)));
+		
 		if (timeList.size() == ZERO_EVENT_ON_THAT_DAY) {
 			return ZERO_EVENT_MESSAGE;
 		}
+
+		LocalDateTime currStartTime = timeList.get(FIRST_EVENT_INDEX).getKey();;
+		LocalDateTime currEndTime = timeList.get(FIRST_EVENT_INDEX).getValue();
 		
-		LocalDateTime currStartTime;
-		LocalDateTime currEndTime;
-		int same_day = onThatDay.getDayOfMonth();
-		StringBuilder sb = new StringBuilder();
-		sb.append(String.format(DEFAULT_STARTING_MESSAGE, onThatDay.format(dateFormat)));
-	
+		
 		if (timeList.size() == ONE_EVENT_ON_THAT_DAY) {
-			currStartTime = timeList.get(FIRST_EVENT_INDEX).getKey();
-		    currEndTime = timeList.get(FIRST_EVENT_INDEX).getValue();
-		    return freetimeForOneEvent(currStartTime , currEndTime, same_day, sb);
+		    return freetimeForOneEvent(currStartTime , currEndTime, onThatDay, sb);
 	
 		}
-		
-		currStartTime = timeList.get(FIRST_EVENT_INDEX).getKey();
-		currEndTime = timeList.get(FIRST_EVENT_INDEX).getValue();
-		
+	
 		return freetimeForMutipleEvents(currStartTime, currEndTime, onThatDay, sb);
 
 
@@ -116,75 +111,84 @@ public class FreetimeCommand extends Command{
 	
 	private String freetimeForMutipleEvents(LocalDateTime startTime, LocalDateTime endTime,LocalDateTime thatDay, StringBuilder sb) {
 		int same_day = thatDay.getDayOfMonth();
-
+		sb.append(String.format(DEFAULT_STARTING_MESSAGE, thatDay.format(dateFormat)));
 		LocalDateTime currentStartTime = startTime;
 		LocalDateTime currentEndTime = endTime;
 		
-		int startTimeDate = currentStartTime.getDayOfMonth();
-		int endTimeDate = currentEndTime.getDayOfMonth();
+		int startTimeDay = currentStartTime.getDayOfMonth();
+		int endTimeDay = currentEndTime.getDayOfMonth();
 		
-		if (startTimeDate != same_day && endTimeDate != same_day) {
+		if (checkOnGoingEvent(startTimeDay, endTimeDay, same_day)) {
 			sb.append(String.format(ONGOING_EVENT_MESSAGE, currentStartTime.format(datetimeFormat), currentEndTime.format(datetimeFormat)));
 			return sb.toString();
 		}
-		if (startTimeDate == same_day) {
+		if (doesEventStartEndSameDay(startTimeDay, endTimeDay, same_day)) {
 			sb.append(String.format(FIRST_EVENT_MESSAGE, currentStartTime.format(hourFormat)));
 		}
 		
-		if	(endTimeDate != same_day) {
+		if	(!doesEventEndOnSameDay(endTimeDay, same_day)) {
 			return sb.toString();
 		}
+		
 
 		return getAllFreeSlot(currentEndTime, same_day, sb);
 
 	}
 	
-	private String getAllFreeSlot(LocalDateTime currentEndTime, int same_day,
-			StringBuilder sb) {
-
+	private String getAllFreeSlot(LocalDateTime currentEndTime, int same_day, StringBuilder sb) {
+		int nextEndDay;
+		int currEndDay;
+		LocalDateTime nextStartTime;
+		LocalDateTime nextEndTime;
 		for (int time_index = 1 ;  time_index < timeList.size(); time_index++) {
-			LocalDateTime nextStartTime = timeList.get(time_index).getKey();
-			LocalDateTime nextEndTime = timeList.get(time_index).getValue();
-			
+			nextStartTime = timeList.get(time_index).getKey();
+			nextEndTime = timeList.get(time_index).getValue();
+			nextEndDay = nextEndTime.getDayOfMonth();
 
 			if (currentEndTime.isAfter(nextStartTime) || currentEndTime.isEqual(nextStartTime)) {
-				LocalDateTime tempEndTime = timeList.get(time_index).getValue();
-				if (tempEndTime.isAfter(currentEndTime)) {
-					currentEndTime = tempEndTime;
-					continue;
-				}
+				currentEndTime = getNextEndTime(currentEndTime, timeList.get(time_index).getValue());
 				continue;
 			}
 		
 			sb.append(String.format(BETWEEN_EVENT_MESSAGE, currentEndTime.format(hourFormat), nextStartTime.format(hourFormat)));
 			currentEndTime = nextEndTime;
 			
-			if (nextEndTime.getDayOfMonth() != same_day) {
+			if (!doesEventEndOnSameDay(nextEndDay, same_day)) {
 				return sb.toString();
 			}
 
 
 		}
-		return currentEndTime.getDayOfMonth() != same_day ? sb.toString() :
-			sb.append(String.format(LAST_EVENT_MESSAGE, currentEndTime.format(hourFormat))).toString();
+		currEndDay = currentEndTime.getDayOfMonth();
+		
+		if (!doesEventEndOnSameDay(currEndDay, same_day)) {
+			return sb.toString();
+		}
+		
+		return sb.append(String.format(LAST_EVENT_MESSAGE, currentEndTime.format(hourFormat))).toString();
 		
 	}
 
-	private String freetimeForOneEvent(LocalDateTime startTime, LocalDateTime endTime, int same_day, StringBuilder sb) {
+
+	private String freetimeForOneEvent(LocalDateTime startTime, LocalDateTime endTime, LocalDateTime onThatDay, StringBuilder sb) {
 		int startTimeDay = startTime.getDayOfMonth();
 		int endTimeDay = endTime.getDayOfMonth();
-		if (startTimeDay != same_day && endTimeDay != same_day) {
+		int sameDay = onThatDay.getDayOfMonth();
+		sb.append(String.format(DEFAULT_STARTING_MESSAGE, onThatDay.format(dateFormat)));
+		
+		if (checkOnGoingEvent(startTimeDay, endTimeDay, sameDay)) {
 			sb.append(String.format(ONGOING_EVENT_MESSAGE, startTime.format(datetimeFormat), endTime.format(datetimeFormat)));
 			return sb.toString();
 		}
-		if (startTimeDay != same_day) {
+		
+		if (startTimeDay != sameDay && endTimeDay == sameDay) {
 			sb.append(String.format(LAST_EVENT_MESSAGE, endTime.format(hourFormat)));
 			return sb.toString();
 		}
 		
 		sb.append(String.format(FIRST_EVENT_MESSAGE, startTime.format(hourFormat)));
 		
-		if (endTime.getDayOfMonth() != same_day) {
+		if (!doesEventEndOnSameDay(endTimeDay, sameDay)) {
 			return sb.toString();
 		}
 		
@@ -219,6 +223,25 @@ public class FreetimeCommand extends Command{
 
 		return dateTime.plusMinutes( Math.abs(HALF_AN_HOUR - minutes));
 	
+	}
+	
+	private boolean checkOnGoingEvent(int startDay, int endDay, int checkDay) {
+		return startDay != checkDay && endDay != checkDay;
+	}
+	
+	private boolean doesEventStartEndSameDay(int startDay, int endDay, int checkDay) {
+		return startDay == checkDay && endDay == checkDay;
+	}
+	
+	private boolean doesEventEndOnSameDay(int endDay, int checkDay) {
+		return endDay == checkDay;
+	}
+	
+	private LocalDateTime getNextEndTime(LocalDateTime currEndTime, LocalDateTime nextEndTime) {
+		if (nextEndTime.isAfter(currEndTime)) {
+			return nextEndTime;
+		}
+		return currEndTime;
 	}
 	
 	//sorting the list by start time
