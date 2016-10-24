@@ -1,11 +1,15 @@
 package seedu.address.commons.core;
 
-import java.util.Objects;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.logging.Level;
+
+import com.google.common.collect.Maps;
 
 
 
 /**
+ * @@author A035768R
  * Config values used by the app
  */
 public class Config {
@@ -13,54 +17,33 @@ public class Config {
     public static final String DEFAULT_CONFIG_FILE = "config.json";
 
     // Config values customizable through config file
-    private String appTitle = "Task Force";
-    private Level logLevel = Level.INFO;
-    private String userPrefsFilePath = "preferences.json";
-    private String taskForceDataFilePath = "data/taskForceData.xml";
-    private String appName = "My Todo list";
-
-
-    public String getAppTitle() {
-        return appTitle;
+    private Map<String, Object> configRegistry = Maps.newHashMap() ;
+    
+    public Config () {
+        registerDefaultConfigs() ;
     }
-
-    public void setAppTitle(String appTitle) {
-        this.appTitle = appTitle;
-    }
-
-    public Level getLogLevel() {
-        return logLevel;
-    }
-
-    public void setLogLevel(Level logLevel) {
-        this.logLevel = logLevel;
-    }
-
-    public String getUserPrefsFilePath() {
-        return userPrefsFilePath;
-    }
-
-    public void setUserPrefsFilePath(String userPrefsFilePath) {
-        this.userPrefsFilePath = userPrefsFilePath;
-    }
-
-    public String getTaskForceFilePath() {
-        return taskForceDataFilePath;
-    }
-
-    public void setTaskForceFilePath(String taskForceFilePath) {
-        this.taskForceDataFilePath = taskForceFilePath;
+    
+    private void registerDefaultConfigs() {
+        this.<String>setConfigurationOption("appTitle", "Task Force") ;
+        this.<String>setConfigurationOption("userPrefsFilePath", "preferences.json") ;
+        this.<String>setConfigurationOption("taskForceDataFilePath", "data/taskForceData.xml") ;
+        this.<String>setConfigurationOption("appName", "My Todo list") ;
+        this.<Level>setConfigurationOption("logLevel", Level.INFO ) ;
         
     }
-
-    public String getTaskForceName() {
-        return appName;
+    
+    public <T> void setConfigurationOption (String key, T value) {
+        
+        configRegistry.put(key, value) ;
     }
-
-    public void setTaskForceName(String taskForceName) {
-        this.appName = taskForceName;
+    
+    public <T> T getConfigurationOption (String key) {
+        if (!configRegistry.containsKey(key)) {
+            return null ;
+        }
+        
+        return (T) configRegistry.get(key) ;
     }
-
 
     @Override
     public boolean equals(Object other) {
@@ -73,27 +56,74 @@ public class Config {
 
         Config o = (Config)other;
 
-        return Objects.equals(appTitle, o.appTitle)
-                && Objects.equals(logLevel, o.logLevel)
-                && Objects.equals(userPrefsFilePath, o.userPrefsFilePath)
-                && Objects.equals(taskForceDataFilePath, o.taskForceDataFilePath)
-                && Objects.equals(appName, o.appName);
+        return configRegistry.equals(o.configRegistry) ;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(appTitle, logLevel, userPrefsFilePath, taskForceDataFilePath, appName);
+        return configRegistry.hashCode() ;
     }
 
     @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();
-        sb.append("App title : " + appTitle);
-        sb.append("\nCurrent log level : " + logLevel);
-        sb.append("\nPreference file Location : " + userPrefsFilePath);
-        sb.append("\nLocal data file location : " + taskForceDataFilePath);
-        sb.append("\nApp name : " + appName);
+        
+        for (Entry<String, Object> entry : configRegistry.entrySet()) {
+            sb.append(entry.getKey() + ": " + entry.getValue()) ;
+            sb.append("\n") ;
+        }
+        
         return sb.toString();
+    }
+    
+    public static String getDefaultConfigString() {
+        Config config = new Config () ;
+        
+        return config.toString() ;
+    }
+    
+    // The getter and setters are left alone for minimal code impact
+    // @@author reused
+    
+    public String getTaskForceName() {
+        return this.<String>getConfigurationOption("appName") ;
+    }
+
+    public void setTaskForceName(String taskForceName) {
+        this.<String>setConfigurationOption("appName", taskForceName) ;
+    }
+    
+    public String getAppTitle() {
+        return this.<String>getConfigurationOption("appTitle") ;
+    }
+
+    public void setAppTitle(String appTitle) {
+        this.<String>setConfigurationOption("appTitle", appTitle) ;
+    }
+
+    public Level getLogLevel() {
+        return this.<Level>getConfigurationOption("logLevel") ;
+    }
+
+    public void setLogLevel(Level logLevel) {
+        this.<Level>setConfigurationOption("logLevel", logLevel) ;
+    }
+
+    public String getUserPrefsFilePath() {
+        return this.<String>getConfigurationOption("userPrefsFilePath") ;
+    }
+
+    public void setUserPrefsFilePath(String userPrefsFilePath) {
+        this.<String>setConfigurationOption("userPrefsFilePath", userPrefsFilePath) ;
+    }
+
+    public String getTaskForceFilePath() {
+        return this.<String>getConfigurationOption("taskForceDataFilePath") ;
+    }
+
+    public void setTaskForceFilePath(String taskForceFilePath) {
+        this.<String>setConfigurationOption("taskForceDataFilePath", taskForceFilePath) ;
+        
     }
 
 }

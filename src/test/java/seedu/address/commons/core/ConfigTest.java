@@ -14,11 +14,7 @@ public class ConfigTest {
 
     @Test
     public void toString_defaultObject_stringReturned() {
-        String defaultConfigAsString = "App title : Task Force\n" +
-                "Current log level : INFO\n" +
-                "Preference file Location : preferences.json\n" +
-                "Local data file location : data/taskForceData.xml\n" +
-                "App name : My Todo list";
+        String defaultConfigAsString = Config.getDefaultConfigString() ;
 
         assertEquals(defaultConfigAsString, new Config().toString());
     }
