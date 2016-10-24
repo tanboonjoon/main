@@ -16,6 +16,7 @@ public enum NodeStyle {
     
     TIME_NORMAL ("TIME", "cell_small_label", Integer.MAX_VALUE) ,
     TIME_BLOCK ("TIME", "time_block", -1) ,
+    TIME_UPCOMING ("TIME", "time_upcoming", -1),
     TIME_OVERDUE ("TIME", "time_overdue", -2),
     TIME_DONE ("TIME", "time_done", Integer.MIN_VALUE)
     

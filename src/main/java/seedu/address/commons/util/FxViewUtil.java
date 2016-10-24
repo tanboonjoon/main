@@ -43,11 +43,13 @@ public class FxViewUtil {
      * currently applied to this node
      * 
      * @param node      The node to apply the style to
-     * @param style     A non-null NodeStyle enum representing the CSS class that is to be applied onto the given node 
+     * @param style     A NodeStyle representing the CSS class that is to be applied onto the given node 
      */
     public static void setNodeStyle (Node node, NodeStyle style) {
         
-        assert style != null ;
+        if (style == null) {
+            return ;
+        }
         
         String family = style.family ;
         

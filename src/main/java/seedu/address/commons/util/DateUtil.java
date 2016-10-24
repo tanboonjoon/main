@@ -10,7 +10,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.PriorityQueue;
+import java.util.concurrent.TimeUnit;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Sets;
 import com.joestelmach.natty.DateGroup;
 import com.joestelmach.natty.Parser;
@@ -54,7 +56,7 @@ public final class DateUtil {
 
         return datetime.format(FORMATTER) ;
     }
-    
+
     /**
      * Given a new event that is being added/to be added to the model, checks that if any events currently in the model
      * that will conflict with the given event. If the given event is already added to the model, it will be ignored - that is
@@ -66,46 +68,46 @@ public final class DateUtil {
      */
     public static Optional<Event> checkForConflictingEvents (Model model, Event eventToBeAdded) {
         assert model != null ;
-        
+
         LocalDateTime startTime = eventToBeAdded.getStartDate() ;
         LocalDateTime endTime = eventToBeAdded.getEndDate() ;
-        
+
         assert startTime.isBefore(endTime) ;
-        
+
         Long days = ChronoUnit.DAYS.between(startTime, endTime) ;
-        
+
         model.searchTaskList(new PredicateExpression(new NameQualifier(Sets.newHashSet(days.toString()), NameQualifier.FILTER_BY_DAY)) );
-        
+
         PriorityQueue<Event> pq = new PriorityQueue<>(new EventComparator()) ;
-        
+
         for (ReadOnlyTask task : model.getSearchedTaskList()) {
-           
+
             if ( !(task instanceof Event) || task.equals(eventToBeAdded) ) {
                 continue ;
             }
-            
+
             pq.add((Event) task) ;
-            
+
         }
-        
+
         // Don't need to do anything if there is no events occuring on this time period
         if (pq.isEmpty()) {
             return Optional.empty() ;
         }
-        
+
         Event event = pq.poll() ;
-        
+
         while (event.getEndDate().isAfter(startTime)) {
-            
+
             if (event.getStartDate().isBefore(endTime)) {
                 return Optional.of(event);
             }
-            
+
             event = pq.poll() ;
         }
-        
+
         return Optional.empty() ;
-        
+
     }
 
 
@@ -140,15 +142,15 @@ public final class DateUtil {
             int hours = endDate.get().getHour() ;
 
             computedEndDate = startDate.get().withHour(hours).withMinute(minutes).withSecond(seconds) ;
-            
+
             if (computedStartDate.isBefore(computedEndDate)) {
                 return Optional.of(new Pair<LocalDateTime, LocalDateTime> (computedStartDate, computedEndDate)) ;
             }
 
         } else if (endDate.get().isAfter(startDate.get())) {
-            
+
             return Optional.of(new Pair<LocalDateTime, LocalDateTime> (startDate.get(), endDate.get())) ;
-            
+
         }
 
         return Optional.empty() ;
@@ -185,6 +187,18 @@ public final class DateUtil {
         return now.equals(givenDate) ;
     }
     
+    public static String getRelativeDateFromNow (LocalDateTime dateTime) {
+        Long milis = ChronoUnit.MILLIS.between(NOW, dateTime) ;
+        
+        return RelativeTimeConverter.toDuration(milis) ;
+    }
+    
+    public static long getTimeDifferenceFromNow (LocalDateTime dateTime, ChronoUnit units) {
+        long diff = units.between(NOW, dateTime) ;
+        
+        return diff ;
+    }
+
     // Comparator for priority queue
     private static class EventComparator implements Comparator<Event> {
 
@@ -192,17 +206,65 @@ public final class DateUtil {
         public int compare(Event arg0, Event arg1) {
             LocalDateTime arg0Date = arg0.getEndDate() ;
             LocalDateTime arg1Date = arg1.getEndDate() ;
-            
+
             if (arg0Date.isBefore(arg1Date)) {
                 return 1 ;
             }
-            
+
             if (arg0Date.isAfter(arg1Date)) {
                 return -1 ;
             }
-            
+
             return 0 ;
         }
+
+    }
+
+    private static class RelativeTimeConverter {
         
+        public static final ImmutableList<Long> TIMES = ImmutableList.of(
+                TimeUnit.DAYS.toMillis(365),
+                TimeUnit.DAYS.toMillis(30),
+                TimeUnit.DAYS.toMillis(1),
+                TimeUnit.HOURS.toMillis(1),
+                TimeUnit.MINUTES.toMillis(1),
+                TimeUnit.SECONDS.toMillis(1) );
+        
+        public static final ImmutableList<String> TIME_STIRNGS = ImmutableList.of("year","month","day","hour","minute","second");
+
+        
+        public static String toDuration(long miliseconds) {
+            
+            long duration = Math.abs(miliseconds) ;
+
+            StringBuffer sb = new StringBuffer();
+            
+            for(int i = 0; i < TIMES.size(); i ++) {
+                Long current = TIMES.get(i);
+                long temp = duration/current;
+                
+                if(temp>0) {
+                    sb.append(temp) ;
+                    sb.append(" ") ;
+                    sb.append( TIME_STIRNGS.get(i) ) ;
+                    sb.append(temp > 1 ? "s" : "") ;
+                    
+                    break;
+                }
+            }
+            
+            if( "".equals(sb.toString()) ) {
+                return "0 second ago";
+            } 
+            
+            if (miliseconds > 0) {
+                sb.append(" later") ;
+            
+            } else {
+                sb.append(" ago") ;
+            }
+            
+            return sb.toString();
+        }
     }
 }

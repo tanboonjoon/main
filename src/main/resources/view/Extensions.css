@@ -100,13 +100,19 @@
 	-fx-font-size: 10pt;
 }
 
+.time_upcoming {
+	-fx-text-fill: #4b8bf5 !important ;
+	-fx-font-family: "Open Sans Semibold";
+	-fx-font-size: 10pt;
+}
+
 .time_overdue {
 	-fx-text-fill: #f46060 !important ;
 	-fx-font-size: 10pt;
 }
 
 .time_done {
-	-fx-text-fill: #010504 ;
+	-fx-text-fill: #010504 !important ;
 	-fx-font-size: 10pt;
 }
 
