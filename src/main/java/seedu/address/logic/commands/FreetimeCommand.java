@@ -108,6 +108,32 @@ public class FreetimeCommand extends Command{
 
 	}
 	
+	private String freetimeForOneEvent(LocalDateTime startTime, LocalDateTime endTime, LocalDateTime onThatDay, StringBuilder sb) {
+		int startTimeDay = startTime.getDayOfMonth();
+		int endTimeDay = endTime.getDayOfMonth();
+		int sameDay = onThatDay.getDayOfMonth();
+		sb.append(String.format(DEFAULT_STARTING_MESSAGE, onThatDay.format(dateFormat)));
+		
+		if (checkOnGoingEvent(startTimeDay, endTimeDay, sameDay)) {
+			sb.append(String.format(ONGOING_EVENT_MESSAGE, startTime.format(datetimeFormat), endTime.format(datetimeFormat)));
+			return sb.toString();
+		}
+		
+		if (startTimeDay != sameDay && endTimeDay == sameDay) {
+			sb.append(String.format(LAST_EVENT_MESSAGE, endTime.format(hourFormat)));
+			return sb.toString();
+		}
+		
+		sb.append(String.format(FIRST_EVENT_MESSAGE, startTime.format(hourFormat)));
+		
+		if (!doesEventEndOnSameDay(endTimeDay, sameDay)) {
+			return sb.toString();
+		}
+		
+		return sb.append(String.format(LAST_EVENT_MESSAGE, endTime.format(hourFormat))).toString();
+
+	}
+	
 	private String freetimeForMutipleEvents(LocalDateTime startTime, LocalDateTime endTime,LocalDateTime thatDay, StringBuilder sb) {
 		int same_day = thatDay.getDayOfMonth();
 		sb.append(String.format(DEFAULT_STARTING_MESSAGE, thatDay.format(dateFormat)));
@@ -169,31 +195,7 @@ public class FreetimeCommand extends Command{
 	}
 
 
-	private String freetimeForOneEvent(LocalDateTime startTime, LocalDateTime endTime, LocalDateTime onThatDay, StringBuilder sb) {
-		int startTimeDay = startTime.getDayOfMonth();
-		int endTimeDay = endTime.getDayOfMonth();
-		int sameDay = onThatDay.getDayOfMonth();
-		sb.append(String.format(DEFAULT_STARTING_MESSAGE, onThatDay.format(dateFormat)));
-		
-		if (checkOnGoingEvent(startTimeDay, endTimeDay, sameDay)) {
-			sb.append(String.format(ONGOING_EVENT_MESSAGE, startTime.format(datetimeFormat), endTime.format(datetimeFormat)));
-			return sb.toString();
-		}
-		
-		if (startTimeDay != sameDay && endTimeDay == sameDay) {
-			sb.append(String.format(LAST_EVENT_MESSAGE, endTime.format(hourFormat)));
-			return sb.toString();
-		}
-		
-		sb.append(String.format(FIRST_EVENT_MESSAGE, startTime.format(hourFormat)));
-		
-		if (!doesEventEndOnSameDay(endTimeDay, sameDay)) {
-			return sb.toString();
-		}
-		
-		return sb.append(String.format(LAST_EVENT_MESSAGE, endTime.format(hourFormat))).toString();
 
-	}
 
 	private void getAllEvent(List<ReadOnlyTask> filteredList) {
 
@@ -213,6 +215,8 @@ public class FreetimeCommand extends Command{
 			timeList.add(datePair);
 		}
 	}
+	
+	
 	
 	private LocalDateTime roundUpTime(LocalDateTime dateTime) {
 		int minutes = dateTime.getMinute();

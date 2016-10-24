@@ -5,11 +5,16 @@ import org.junit.Before;
 import org.junit.Test;
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import seedu.address.logic.commands.FreetimeCommand;
 
-//@@ A0139942W
+//@@author A0139942W
 public class FreetimeTest extends TaskForceGuiTest{
+	private static final int HALF_AN_HOUR = 30;
+	private static final int AN_HOUR = 60;
+	private static final int EXACT_AN_HOUR = 00;
 	
 	@Before 
 	public void clearList() {
@@ -37,20 +42,63 @@ public class FreetimeTest extends TaskForceGuiTest{
 	}
 	
 	
-	/*
+	
 	@Test
 	public void valid_command_one_event() {
 		LocalDateTime now = LocalDateTime.now();
-		DateTimeFormatter format = DateTimeFormatter.ofPattern("MM-dd-yyy HHmm");
-		commandBox.runCommand("add event st/10-20-2016 1711 et/10-20-2016 2100");
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		commandBox.runCommand("add event st/today 3pm et/today 5pm");
 		StringBuilder sb = new StringBuilder();
 		commandBox.runCommand("freetime day/0");
-		sb.append(String.format(FreetimeCommand.DEFAULT_STARTING_MESSAGE,"20/10/2016"))
-		.append(String.format(FreetimeCommand.FIRST_EVENT_MESSAGE, "1730"))
-		.append(String.format(FreetimeCommand.LAST_EVENT_MESSAGE, "2100"));
+		sb.append(String.format(FreetimeCommand.DEFAULT_STARTING_MESSAGE, now.format(formatter)))
+		.append(String.format(FreetimeCommand.FIRST_EVENT_MESSAGE, "1500"))
+		.append(String.format(FreetimeCommand.LAST_EVENT_MESSAGE, "1700"));
 		assertResultMessage(sb.toString());
 	}
 	
+	@Test
+	public void valid_command_one_ongoing_event() {
+		DateTimeFormatter addFormat = DateTimeFormatter.ofPattern("MM-dd-yyy HHmm");
+		LocalDateTime now = LocalDateTime.now();
+		LocalDateTime yestarday = roundUpTime(now.minusDays(1));
+		LocalDateTime tomorrow = roundUpTime(now.plusDays(1));
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		DateTimeFormatter ongoingFormat = DateTimeFormatter.ofPattern("dd/MM/yyy HHmm");
+		commandBox.runCommand("add event st/" + yestarday.format(addFormat) + " et/" + tomorrow.format(addFormat));
+		StringBuilder sb = new StringBuilder();
+		commandBox.runCommand("freetime day/0");
+		sb.append(String.format(FreetimeCommand.DEFAULT_STARTING_MESSAGE, now.format(formatter)))
+		.append(String.format(FreetimeCommand.ONGOING_EVENT_MESSAGE, yestarday.format(ongoingFormat), tomorrow.format(ongoingFormat)));
+		assertResultMessage(sb.toString());
+	}
+	
+	
+	
+	@Test
+	public void valid_command_one_ongoingEndToday_event() {
+		LocalDateTime now = LocalDateTime.now();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		commandBox.runCommand("add event st/yesterday 3pm et/today 5pm");
+		StringBuilder sb = new StringBuilder();
+		commandBox.runCommand("freetime day/0");
+		sb.append(String.format(FreetimeCommand.DEFAULT_STARTING_MESSAGE, now.format(formatter)))
+		.append(String.format(FreetimeCommand.LAST_EVENT_MESSAGE, "1700"));
+		assertResultMessage(sb.toString());
+	}
+	
+	@Test
+	public void valid_command_one_ongoingStartToday_event() {
+		LocalDateTime now = LocalDateTime.now();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		commandBox.runCommand("add event st/today 3pm et/tomorrow 5pm");
+		StringBuilder sb = new StringBuilder();
+		commandBox.runCommand("freetime day/0");
+		sb.append(String.format(FreetimeCommand.DEFAULT_STARTING_MESSAGE, now.format(formatter)))
+		.append(String.format(FreetimeCommand.FIRST_EVENT_MESSAGE, "1500"));
+		assertResultMessage(sb.toString());
+	}
+	
+	/*
 	@Test
 	public void valid_command_one_long_event() {
 		commandBox.runCommand("add event st/10-21-2016 1700 et/10-22-2016 2100");
@@ -95,6 +143,19 @@ public class FreetimeTest extends TaskForceGuiTest{
 	@After
 	public void clear() {
 		commandBox.runCommand("clear");
+	}
+	
+	private LocalDateTime roundUpTime(LocalDateTime dateTime) {
+		int minutes = dateTime.getMinute();
+		if (minutes == EXACT_AN_HOUR) {
+			return dateTime;
+		}
+		if (minutes < HALF_AN_HOUR) {
+			return dateTime.plusMinutes(HALF_AN_HOUR - minutes);
+		}
+
+		return dateTime.plusMinutes(AN_HOUR - minutes);
+	
 	}
 	
 
