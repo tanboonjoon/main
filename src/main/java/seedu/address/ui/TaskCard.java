@@ -1,6 +1,8 @@
 package seedu.address.ui;
 
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -9,6 +11,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+import seedu.address.commons.util.DateUtil;
 import seedu.address.commons.util.FxViewUtil;
 import seedu.address.model.task.Block;
 import seedu.address.model.task.Deadline;
@@ -18,7 +21,7 @@ import seedu.address.model.task.ReadOnlyTask;
 public class TaskCard extends UiPart{
 
     private static final String FXML = "TaskListCard.fxml";
-    
+
     public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("d MMM h:mm a");
 
     @FXML
@@ -35,7 +38,7 @@ public class TaskCard extends UiPart{
     private Circle circle;
     @FXML
     private Label startline;
-    
+
     @FXML
     private Rectangle descBar ;
     @FXML
@@ -45,7 +48,7 @@ public class TaskCard extends UiPart{
 
     private ReadOnlyTask task;
     private int displayedIndex;
-    
+
 
 
     public static TaskCard load(ReadOnlyTask task, int displayedIndex){
@@ -58,21 +61,21 @@ public class TaskCard extends UiPart{
     @FXML
     public void initialize() {
         setDefaultStyle() ;
-    	
-    	if (task.getDoneStatus()) {
-    		isDone.setVisible(true);
-    		FxViewUtil.setNodeStyle(name, NodeStyle.TITLE_DONE) ;
-    		FxViewUtil.setNodeStyle(circle, NodeStyle.CIRCLE_DONE) ;
-    		FxViewUtil.setNodeStyle(startline, NodeStyle.TIME_DONE) ;
-    	}
-        
-    	setTaskTitle();
+
+        if (task.getDoneStatus()) {
+            isDone.setVisible(true);
+            FxViewUtil.setNodeStyle(name, NodeStyle.TITLE_DONE) ;
+            FxViewUtil.setNodeStyle(circle, NodeStyle.CIRCLE_DONE) ;
+            FxViewUtil.setNodeStyle(startline, NodeStyle.TIME_DONE) ;
+        }
+
+        setTaskTitle();
         id.setText(displayedIndex + ".");
-        
+
         setDescriptionText();
-        
+
         displayTagString();
-        
+
         displayStartAndEndDates();
     }
 
@@ -90,68 +93,83 @@ public class TaskCard extends UiPart{
     public String getFxmlPath() {
         return FXML;
     }
-    
+
     private void setDefaultStyle () {
         startline.setVisible(false);
         clock.setVisible(false);
         isDone.setVisible(false);
-        
+
         circle.getStyleClass().add("circle_med") ;
     }
-    
+
     private void setTaskTitle() {
         name.setText(task.getName());
-        
+
         if (task instanceof Deadline) {
             Deadline deadline = (Deadline) task ;
-            
+
             if (deadline.isDeadlineOverdue()) {
                 FxViewUtil.setNodeStyle(name, NodeStyle.TITLE_OVERDUE) ;
                 FxViewUtil.setNodeStyle(circle, NodeStyle.CIRCLE_HIGH) ;
                 FxViewUtil.setNodeStyle(startline, NodeStyle.TIME_OVERDUE) ;
             }
         }
-        
+
         if (task instanceof Block) {
             FxViewUtil.setNodeStyle(name, NodeStyle.TITLE_BLOCK) ;
             FxViewUtil.setNodeStyle(circle, NodeStyle.CIRCLE_BLOCK) ;
             FxViewUtil.setNodeStyle(startline, NodeStyle.TIME_BLOCK) ;
         }
     }
-    
+
     private void setDescriptionText () {
         description.setText(task.getDescription());
-        
+
         if (task.getDescription().length() == 0) {
             descBar.setVisible(false);
         }
     }
-    
+
     private void displayStartAndEndDates() {
         if(task instanceof Deadline) {
             clock.setVisible(true);
             startline.setVisible(true);
-            startline.setText( ((Deadline) task).getEndDate().format(FORMATTER).toString());
+
+            LocalDateTime deadline = ((Deadline) task).getEndDate() ;
+
+            long difference = DateUtil.getTimeDifferenceFromNow(deadline, ChronoUnit.SECONDS) ;
+
+            if (Math.abs(difference) > 5 * 3600) {
+                // If task is more than 5 hours from now, display the absolute dates
+                
+                startline.setText( deadline.format(FORMATTER).toString());
+
+            } else {
+
+                FxViewUtil.setNodeStyle(startline, (difference > 0) ? NodeStyle.TIME_UPCOMING : null) ;
+
+                startline.setText(DateUtil.getRelativeDateFromNow(deadline));
+            }
         }
-        
+
         if(task instanceof Event) {
             startline.setVisible(true);
             clock.setVisible(true);
-            
+
             String text = ((Event) task).getStartDate().format(FORMATTER).toString() + " to " + ((Event) task).getEndDate().format(FORMATTER).toString() ;
             startline.setText(text);
 
         }
     }
-    
+
     private void displayTagString() {
         String tagString = task.tagsString() ;
-        
+
         tags.setText(tagString);
-        
+
         if (tagString.length() == 0) {
             tags.setVisible(false);
         }
     }
-    
+
 }
