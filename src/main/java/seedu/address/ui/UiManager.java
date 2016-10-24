@@ -1,6 +1,9 @@
 package seedu.address.ui;
 
+import java.util.logging.Logger;
+
 import com.google.common.eventbus.Subscribe;
+
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -10,16 +13,15 @@ import seedu.address.MainApp;
 import seedu.address.commons.core.ComponentManager;
 import seedu.address.commons.core.Config;
 import seedu.address.commons.core.LogsCenter;
+import seedu.address.commons.events.model.TaskForceCommandExecutedEvent;
 import seedu.address.commons.events.model.TaskForceTaskListChangedEvent;
 import seedu.address.commons.events.storage.DataSavingExceptionEvent;
 import seedu.address.commons.events.ui.JumpToListRequestEvent;
-import seedu.address.commons.events.ui.TaskPanelSelectionChangedEvent;
 import seedu.address.commons.events.ui.ShowHelpRequestEvent;
+import seedu.address.commons.events.ui.TaskPanelSelectionChangedEvent;
 import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.Logic;
 import seedu.address.model.UserPrefs;
-
-import java.util.logging.Logger;
 
 /**
  * The manager of the UI component.
@@ -133,6 +135,11 @@ public class UiManager extends ComponentManager implements Ui {
         }
         
         mainWindow.getTaskListPanel().scrollToTask(event.tasksAdded.get(event.tasksAdded.size() - 1));
+    }
+    
+    @Subscribe
+    private void handleCommandExecutedEvent(TaskForceCommandExecutedEvent event) {
+        mainWindow.getResultDisplay().commandExecuted(event.result.isSuccessfulCommand());
     }
 
 }

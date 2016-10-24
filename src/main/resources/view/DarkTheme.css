@@ -140,14 +140,6 @@
 	-fx-prompt-text-fill: white ;
 }
 
-.result-display {
-	-fx-font-family: "Open Sans Light" ;
-	-fx-font-size: 14pt;
-	-fx-text-fill: #f46060 ;
-	-fx-background-insets: 0;
-    -fx-background-color: transparent, #ececec, transparent, #ececec;
-}
-
 .result-display .content {
 	-fx-background-color: transparent, #ececec, transparent, #ececec;
 }

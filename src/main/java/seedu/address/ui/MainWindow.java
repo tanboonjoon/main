@@ -203,6 +203,10 @@ public class MainWindow extends UiPart {
     public TaskListPanel getTaskListPanel() {
         return this.taskListPanel;
     }
+    
+    public ResultDisplay getResultDisplay() {
+        return resultDisplay ;
+    }
 
     public void loadTaskPage(ReadOnlyTask task) {
         //browserPanel.loadTaskPage(task);
