@@ -46,9 +46,7 @@ public class CdCommand extends Command {
 	private final String newStoragePath;
 	private final String commandType;
 	
-	private Config config;
-	private String currentSavePath;
-	
+	private Config config;	
 	private StorageManager storageManager;
 
 
@@ -79,11 +77,11 @@ public class CdCommand extends Command {
 	@Override
 	public CommandResult execute() {
 	    
-	    this.currentSavePath = model.getConfigs().getTaskForceFilePath() ;
+	    String currentSavePath = model.getConfigs().getTaskForceFilePath() ;
 
 		if (this.commandType.equals(CD_CHECK)) {
 			
-			return new CommandResult(String.format(MESSAGE_SUCCESS_CHECK, this.currentSavePath));
+			return new CommandResult(String.format(MESSAGE_SUCCESS_CHECK, currentSavePath));
 		}
 		
 		try {

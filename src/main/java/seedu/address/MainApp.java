@@ -57,7 +57,7 @@ public class MainApp extends Application {
 
         initLogging(config);
 
-        model = initModelManager(storage, userPrefs, config);
+        model = initModelManager(storage, config);
 
         logic = new LogicManager(model, storage);
 
@@ -71,7 +71,7 @@ public class MainApp extends Application {
         return applicationParameters.get(parameterName);
     }
 
-    private Model initModelManager(Storage storage, UserPrefs userPrefs, Config config) {
+    private Model initModelManager(Storage storage, Config config) {
         Optional<ReadOnlyTaskForce> taskForceOptional;
         ReadOnlyTaskForce initialData;
         try {
