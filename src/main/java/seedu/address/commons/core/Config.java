@@ -6,8 +6,6 @@ import java.util.logging.Level;
 
 import com.google.common.collect.Maps;
 
-import javafx.util.Pair;
-
 
 
 /**
@@ -30,8 +28,8 @@ public class Config {
         this.<String>registerNewConfigOption("userPrefsFilePath", "preferences.json") ;
         this.<String>registerNewConfigOption("taskForceDataFilePath", "data/taskForceData.xml") ;
         this.<String>registerNewConfigOption("appName", "My Todo list") ;
-        this.<Level>registerNewConfigOption("logLevel", Level.INFO ) ;
-        this.<Pair<String, String>>registerNewConfigOption("activeHours", new Pair<String, String>("0800", "2200")) ;
+        this.<String>registerNewConfigOption("activeHoursFrom", "0800") ;
+        this.<String>registerNewConfigOption("activeHoursTo", "2100") ;
         
     }
     
@@ -109,11 +107,11 @@ public class Config {
     }
 
     public Level getLogLevel() {
-        return this.<Level>getConfigurationOption("logLevel") ;
+        return Level.INFO ;
     }
 
     public void setLogLevel(Level logLevel) {
-        this.<Level>setConfigurationOption("logLevel", logLevel) ;
+        // NO-OP
     }
 
     public String getUserPrefsFilePath() {
