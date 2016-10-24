@@ -1,5 +1,6 @@
 package seedu.address.model;
 
+import seedu.address.commons.core.Config;
 import seedu.address.commons.core.UnmodifiableObservableList;
 import seedu.address.commons.events.BaseEvent;
 import seedu.address.logic.filters.Expression;
@@ -20,6 +21,9 @@ public interface Model {
 
     /** Returns the TaskForce */
     ReadOnlyTaskForce getTaskForce();
+    
+    /** Gets the application configuration settings */
+    public Config getConfigs() ;
 
     /** Deletes the given task. */
     void deleteTask(ReadOnlyTask target) throws UniqueTaskList.TaskNotFoundException;
