@@ -1,7 +1,11 @@
-{
-  "appTitle" : "Typical App Title",
-  "logLevel" : "INFO",
-  "userPrefsFilePath" : "C:\\preferences.json",
-  "taskForceFilePath" : "taskforce.xml",
-  "taskForceName" : "TypicalTaskForceName"
-}
+[ "seedu.address.commons.core.Config", {
+  "configRegistry" : [ "java.util.HashMap", {
+    "taskForceDataFilePath" : "data/taskForceData.xml",
+    "activeHoursFrom" : "0800",
+    "logLevel" : [ "java.util.logging.Level", "INFO" ],
+    "appName" : "My Todo list",
+    "appTitle" : "Task Force",
+    "userPrefsFilePath" : "preferences.json",
+    "activeHoursTo" : "2100"
+  } ]
+} ]

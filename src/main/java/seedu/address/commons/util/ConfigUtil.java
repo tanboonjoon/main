@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.util.Optional;
 import java.util.logging.Logger;
 
+import com.fasterxml.jackson.databind.JsonMappingException;
+
 /**
  * A class for accessing the Config File.
  */
@@ -37,10 +39,16 @@ public class ConfigUtil {
 
         try {
             config = FileUtil.deserializeObjectFromJsonFile(configFile, Config.class);
+        
+        } catch (JsonMappingException jme) {
+            logger.warning("Config file contains invalid JSON data. Using default configs.");
+            config = new Config() ;
+
         } catch (IOException e) {
             logger.warning("Error reading from config file " + configFile + ": " + e);
             throw new DataConversionException(e);
         }
+        
 
         return Optional.of(config);
     }

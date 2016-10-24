@@ -1,7 +1,7 @@
 {
   "appTitle" : "Typical App Title",
   "logLevel" : "INFO",
-  "userPrefsFilePath" : "C:\\preferences.json",
+  "userPrefsFilePath" : "preferences.json",
   "taskForceFilePath" : "taskforce.xml",
   "taskForceName" : "TypicalTaskForceName",
   "extra" : "extra value"

@@ -2,6 +2,8 @@ package guitests;
 
 import static org.junit.Assert.assertTrue;
 
+import java.time.DayOfWeek;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.junit.Test;
@@ -78,11 +80,9 @@ public class FindCommandTest extends TaskForceGuiTest {
 
         assertFindResult("find day/0", list.get(0), list.get(1), list.get(2));
         assertFindResult("find day/1", list.get(3));
-        assertFindResult("find week/1", list.get(3) ); // <--- bug test 
+        assertFindResult("find week/1", list.get(4) ); 
 
     }
-
-
 
     private void assertFindResult(String command, TestTask... expectedHits ) {
         commandBox.runCommand(command);
@@ -105,7 +105,10 @@ public class FindCommandTest extends TaskForceGuiTest {
                 task.setEndDate(DateUtil.parseStringIntoDateTime("tomorrow").get());
             
             } else {
-                task.setEndDate(DateUtil.parseStringIntoDateTime("next monday").get());
+                
+                String dateString = (LocalDateTime.now().getDayOfWeek() == DayOfWeek.SUNDAY) ? "tuesday" : "next monday" ;
+                
+                task.setEndDate(DateUtil.parseStringIntoDateTime(dateString).get());
             }
             
             list.add(task) ;

@@ -73,13 +73,15 @@ public class TaskListPanel extends UiPart {
         taskList.addListener(new ListChangeListener<ReadOnlyTask>() {
             @Override
             public void onChanged(ListChangeListener.Change change) {
-                List<ReadOnlyTask> tasks = Lists.newArrayList() ;
+                List<ReadOnlyTask> tasksAdded = Lists.newArrayList() ;
+                List<ReadOnlyTask> tasksDeleted = Lists.newArrayList() ;
                 
                 while (change.next()) {
-                    tasks.addAll(change.getAddedSubList()) ;
+                    tasksAdded.addAll(change.getAddedSubList()) ;
+                    tasksDeleted.addAll(change.getRemoved()) ;
                 }
                 
-                raise(new TaskForceTaskListChangedEvent(tasks)) ;
+                raise(new TaskForceTaskListChangedEvent(tasksAdded, tasksDeleted)) ;
             }
         });
     }

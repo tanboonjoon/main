@@ -33,7 +33,7 @@ public class CdCommandTest extends TaskForceGuiTest {
 	
 	@Before
 	public void setUp() {
-		originalSavePath = new Config().getTaskForceFilePath();
+		originalSavePath = this.getDataFileLocation() ;
 		String userPath = System.getProperty("user.dir");
 		invalidFileType = userPath.concat("\\asd.doc");
 		invalidMissingFileType = userPath.concat("\\asd");

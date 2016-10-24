@@ -11,6 +11,7 @@ import com.google.common.eventbus.Subscribe;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import seedu.address.commons.core.ComponentManager;
+import seedu.address.commons.core.Config;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.core.UnmodifiableObservableList;
 import seedu.address.commons.events.BaseEvent;
@@ -42,6 +43,7 @@ public class ModelManager extends ComponentManager implements Model {
     private final FilteredList<Task> filteredTasksForSearching;
     private final Deque<TaskForceCommandExecutedEvent> undoTaskForceHistory = new LinkedList<TaskForceCommandExecutedEvent>();
     private final Deque<TaskForceCommandExecutedEvent> redoTaskForceHistory = new LinkedList<TaskForceCommandExecutedEvent>();
+    private final Config config ;
     
     private static final int TASK_LESS_THAN_DEADLINE = -1;
     private static final int TASK_LESS_THAN_EVENT = -2;
@@ -53,27 +55,29 @@ public class ModelManager extends ComponentManager implements Model {
      * Initializes a ModelManager with the given TaskForce TaskForce and its
      * variables should not be null
      */
-    public ModelManager(TaskForce src, UserPrefs userPrefs) {
+    public ModelManager(TaskForce src, Config config) {
 
         super();
         assert src != null;
-        assert userPrefs != null;
+        assert config != null;
 
-        logger.fine("Initializing with address book: " + src + " and user prefs " + userPrefs);
+        logger.fine("Initializing with address book: " + src);
+        
+        this.config = config ;
 
         taskForce = new TaskForce(src);
         filteredTasks = new FilteredList<>(taskForce.getTasks());
         sortedFilteredTasks = setUpSortedList();
         filteredTasksForSearching = new FilteredList<>(taskForce.getTasks());
+        
     }
-
-	
 
 	public ModelManager() {
-        this(new TaskForce(), new UserPrefs());
+        this(new TaskForce(), new Config());
     }
 
-    public ModelManager(ReadOnlyTaskForce initialData, UserPrefs userPrefs) {
+    public ModelManager(ReadOnlyTaskForce initialData, Config config) {
+        this.config = config ;
         taskForce = new TaskForce(initialData);
         filteredTasks = new FilteredList<>(taskForce.getTasks());
         sortedFilteredTasks = setUpSortedList();
@@ -89,6 +93,11 @@ public class ModelManager extends ComponentManager implements Model {
     @Override
     public ReadOnlyTaskForce getTaskForce() {
         return taskForce;
+    }
+    
+    @Override
+    public Config getConfigs() {
+        return config ;
     }
     
     @Override
@@ -130,7 +139,6 @@ public class ModelManager extends ComponentManager implements Model {
         } 
         return null;   
     }
-
 
     @Override
     public TaskForceCommandExecutedEvent restoreChanges() {

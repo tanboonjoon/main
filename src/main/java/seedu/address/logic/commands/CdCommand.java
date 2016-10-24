@@ -20,12 +20,12 @@ import seedu.address.commons.util.ConfigUtil;
 import seedu.address.storage.StorageManager;
 
 
-/*
+/**
+ * @@author A0139942W
  * 
  * This command save the storage file into a different location
  * specified by the user
  */
-//@@author A0139942W
 public class CdCommand extends Command {
 
 	public final static String COMMAND_WORD = "cd";
@@ -44,10 +44,9 @@ public class CdCommand extends Command {
 	private final String INVALID_FILE_PATH = null;
 	private final String CONFIG_JSON_PATH = "config.json";
 	private final String newStoragePath;
-	private final String currentSavePath;
 	private final String commandType;
-	private Config config;
 	
+	private Config config;	
 	private StorageManager storageManager;
 
 
@@ -56,9 +55,7 @@ public class CdCommand extends Command {
 		if (commandType.equals(CD_CHANGE)) {
 			checkForInvalidArgs(filepath);
 		}
-
-	
-		this.currentSavePath = readConfig();
+		
 		this.commandType = commandType;
 		this.config = new Config();
 		this.newStoragePath = filepath;
@@ -79,10 +76,12 @@ public class CdCommand extends Command {
 
 	@Override
 	public CommandResult execute() {
-		// TODO Auto-generated method stub
+	    
+	    String currentSavePath = model.getConfigs().getTaskForceFilePath() ;
+
 		if (this.commandType.equals(CD_CHECK)) {
 			
-			return new CommandResult(String.format(MESSAGE_SUCCESS_CHECK, this.currentSavePath));
+			return new CommandResult(String.format(MESSAGE_SUCCESS_CHECK, currentSavePath));
 		}
 		
 		try {
