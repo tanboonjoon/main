@@ -552,14 +552,22 @@ Use case ends
 4. Should favor DOS style commands over Unix-style commands.
 5. Should not take more than 5 seconds when executing find command
 6. Should not use too much memory (less than 250 MB)
+7. Should be able to recreate a new save data in a event of corruption/missing file
+8. Should be open source and allow developer to contribute to the project anytime
+9. Should always maintain an updated version of both UserGuide and DeveloperGuide 
+10. Should come free without having Users pay money to use the software.
 
 ### Project Constraints NFR
-6. Final product should be a result of morphing using level4 code
-7. Software must work on desktop without internet connection
-8. Software must be stand-alone with optional extensions
-9. CommandLine must be the primary mode of input
-10. Software must not use any form of relational database
-11. Data must be stored locally and human editable
+11. Final product should be a result of morphing using level4 code
+12. Software must work on desktop without internet connection
+13. Software must be stand-alone with optional extensions
+14. CommandLine must be the primary mode of input
+15. Software must not use any form of relational database
+16. Data must be stored locally and human editable
+17. All data must be stored locally and be in human editable text file
+18. Project should followed Object-oriented-paradigm
+19. Software must work without any form of installer
+20. Third-party library/framwork are only allowed if they are free and require no form of installation
 
 {More to be added}
 
