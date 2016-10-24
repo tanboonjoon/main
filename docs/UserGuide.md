@@ -8,7 +8,7 @@
 
 ## Overview
 
-1. TaskForce allows you to manage his tasks through a simple
+1. TaskForce allows you to manage your tasks through a simple
 command-line interface (CLI)-based application.
 2. It allows for 3 main kinds of tasks:  
    * Reminders - a task with no start nor end date  
@@ -18,6 +18,11 @@ command-line interface (CLI)-based application.
 implementation of blocks - events with no name (placeholders).
 4. This app is built on Java, and runs on any Desktop.
 
+### Advanced User
+
+1. Once you have used the program long enough and are comfortable with editing the config.json file directly. You are allowed to do so. 
+2. Please take note that you should only edit the values in the config file (e.g changing path, setting new active time )
+3. Do take note that changing or removing any keyname such as 'taskForceDataFilePath' will result in the system overwriting the config file with a default one instead.
 ## Quick Start
 
 0. Ensure you have Java version `1.8.0_60` or later installed in your Computer.<br>
