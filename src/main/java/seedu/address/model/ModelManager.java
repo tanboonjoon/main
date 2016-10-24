@@ -166,7 +166,7 @@ public class ModelManager extends ComponentManager implements Model {
             }else{
                 saveChanges(undoTaskForceHistory, event, MAX_UNDOS_REDOS);
                 redoTaskForceHistory.clear();
-            } 
+            }
         }
     }
     // ===============================================================

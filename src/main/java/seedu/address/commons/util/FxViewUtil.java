@@ -65,7 +65,7 @@ public class FxViewUtil {
                 classToAdd = null ;
             }
         }
-        
+
         node.getStyleClass().removeAll(classToRemove) ;
         
         if (classToAdd != null) {

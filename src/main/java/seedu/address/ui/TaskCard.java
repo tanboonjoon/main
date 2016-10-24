@@ -63,6 +63,7 @@ public class TaskCard extends UiPart{
     		isDone.setVisible(true);
     		FxViewUtil.setNodeStyle(name, NodeStyle.TITLE_DONE) ;
     		FxViewUtil.setNodeStyle(circle, NodeStyle.CIRCLE_DONE) ;
+    		FxViewUtil.setNodeStyle(startline, NodeStyle.TIME_DONE) ;
     	}
         
     	setTaskTitle();
@@ -107,12 +108,14 @@ public class TaskCard extends UiPart{
             if (deadline.isDeadlineOverdue()) {
                 FxViewUtil.setNodeStyle(name, NodeStyle.TITLE_OVERDUE) ;
                 FxViewUtil.setNodeStyle(circle, NodeStyle.CIRCLE_HIGH) ;
+                FxViewUtil.setNodeStyle(startline, NodeStyle.TIME_OVERDUE) ;
             }
         }
         
         if (task instanceof Block) {
             FxViewUtil.setNodeStyle(name, NodeStyle.TITLE_BLOCK) ;
             FxViewUtil.setNodeStyle(circle, NodeStyle.CIRCLE_BLOCK) ;
+            FxViewUtil.setNodeStyle(startline, NodeStyle.TIME_BLOCK) ;
         }
     }
     

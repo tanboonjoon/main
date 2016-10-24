@@ -10,16 +10,22 @@ public enum NodeStyle {
     CIRCLE_BLOCK ("CIRCLE", "circle_block", -1) ,
     
     TITLE_NORMAL ("TITLE", "cell_big_label", Integer.MAX_VALUE) ,
-    TITLE_OVERDUE ("TITLE", "cell_big_label_overdue", -1) ,
+    TITLE_OVERDUE ("TITLE", "cell_big_label_overdue", -2) ,
     TITLE_BLOCK ("TITLE", "cell_big_label_block", -1) ,
-    TITLE_DONE ("TITLE", "cell_big_label_done", Integer.MIN_VALUE)
+    TITLE_DONE ("TITLE", "cell_big_label_done", Integer.MIN_VALUE),
+    
+    TIME_NORMAL ("TIME", "cell_small_label", Integer.MAX_VALUE) ,
+    TIME_BLOCK ("TIME", "time_block", -1) ,
+    TIME_OVERDUE ("TIME", "time_overdue", -2),
+    TIME_DONE ("TIME", "time_done", Integer.MIN_VALUE)
     
     ;
     
     
     public final String family ;
     public final String className ;
-    public final int priority ;
+    /** lower priority number = more important */
+    public final int priority ; 
     
     private NodeStyle (String family, String className, int priority) {
         this.family = family ;

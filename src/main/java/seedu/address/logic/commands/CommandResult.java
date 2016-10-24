@@ -11,7 +11,7 @@ public class CommandResult {
     public CommandResult(String feedbackToUser, boolean success) {
         assert feedbackToUser != null;
         this.feedbackToUser = feedbackToUser;
-        this.commandSuccess = true ;
+        this.commandSuccess = success ;
     }
     
     public CommandResult(String feedbackToUser) {

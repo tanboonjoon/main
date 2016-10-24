@@ -23,7 +23,7 @@ public class TaskForceCommandExecutedEvent extends BaseEvent {
 
 	@Override
 	public String toString() {
-	    return "Command Executed: " + Command.class.getSimpleName() + ". Command Success:" + result.isSuccessfulCommand() ;
+	    return "Command Executed: " + commandInstance.getClass().getSimpleName() + ". Command Success:" + result.isSuccessfulCommand() ;
 	}
 
 }

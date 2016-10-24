@@ -61,7 +61,7 @@ public class UndoCommand extends Command {
                 }
             }
             
-            return new CommandResult(MESSAGE_SUCCESS);
+            return new CommandResult(MESSAGE_SUCCESS, true);
 
         }
         return new CommandResult(MESSAGE_NO_MORE_ACTION);

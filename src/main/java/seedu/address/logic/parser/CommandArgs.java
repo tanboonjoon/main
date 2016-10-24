@@ -6,14 +6,13 @@ public enum CommandArgs {
     NAME(""),
     INDEX(""),
     DESC("d/"),
-    TAGS("t/"),
+    TAGS("t/", "tag/"),
     START_DATETIME ("st/"),
     END_DATETIME ("et/"),
-    
-    
-    RECURRING("recurring/"),
-    REPETITION("repeat/"),
-    
+
+    RECURRING("recurring/", "recur/"),
+    REPETITION("repeat/", "r/"),
+
     //Arguments for find command to parse
     FIND_DAY ("day/"),
     FIND_WEEK ("week/"),
@@ -26,7 +25,6 @@ public enum CommandArgs {
 
     ;
 
-
     private String[] commandString ;
 
     private CommandArgs (String... cmd) {
@@ -37,7 +35,7 @@ public enum CommandArgs {
     public String toString() {
         return commandString[0] ;
     }
-    
+
     public Iterable<String> getAliases() {
         return ImmutableList.copyOf(commandString) ;
     }
