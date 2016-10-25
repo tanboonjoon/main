@@ -65,7 +65,7 @@ public class BlockCommandParser extends CommandParser{
             
             for (int i = 0; i < startStrings.size(); i ++) {
                 Pair<LocalDateTime, LocalDateTime> startEndDates =  
-                        DateUtil.determineStartAndEndDateTime(startStrings.get(i), endStrings.get(i))
+                        DateUtil.determineStartAndEndDateTime(startStrings.get(i), endStrings.get(i), false)
                         .orElseThrow(() -> new IllegalValueException(AddCommand.INVALID_END_DATE_MESSAGE)) ;
                 
                 startTimes.add(startEndDates.getKey()) ;

@@ -187,7 +187,7 @@ public class LogicManagerTest {
         Task john = helper.john() ;
         expectedAB.addTask(john);
         
-        assertCommandBehavior("add John's Birthday party t/friendsParty d/at his house",
+        assertCommandBehavior("add John's Birthday party t/friendsparty d/at his house",
                 String.format(AddCommand.MESSAGE_SUCCESS, john),
                 expectedAB,
                 expectedAB.getTaskList());
@@ -426,7 +426,7 @@ public class LogicManagerTest {
         TaskForce expectedAB = new TaskForce();
         
         assertCommandBehavior("block name st/sadsd et/today 5pm",
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, BlockCommand.MESSAGE_USAGE),
+                AddCommand.INVALID_END_DATE_MESSAGE,
                 expectedAB,
                 expectedAB.getTaskList() ) ;
     }
@@ -446,7 +446,7 @@ public class LogicManagerTest {
         }
         
         public Task john() throws Exception {
-        	return new Task (0, "John's Birthday party", "at his house", new UniqueTagList(new Tag("friendsParty"))) ;
+        	return new Task (0, "John's Birthday party", "at his house", new UniqueTagList(new Tag("friendsparty"))) ;
         }
         
         public Task johnny() throws Exception {

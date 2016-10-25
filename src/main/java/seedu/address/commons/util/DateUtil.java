@@ -111,12 +111,16 @@ public final class DateUtil {
     }
 
 
-    private static Optional<Pair<LocalDateTime, LocalDateTime>> determineStartAndEndDateTime(Optional<LocalDateTime> startDate, Optional<LocalDateTime> endDate) {
+    private static Optional<Pair<LocalDateTime, LocalDateTime>> determineStartAndEndDateTime(Optional<LocalDateTime> startDate, Optional<LocalDateTime> endDate, boolean canBeEmpty) {
 
         LocalDateTime computedStartDate ;
         LocalDateTime computedEndDate ;
 
         if (!startDate.isPresent() && !endDate.isPresent()) {
+            return Optional.empty() ;
+        }
+        
+        if (!canBeEmpty && (!startDate.isPresent() || !endDate.isPresent())) {
             return Optional.empty() ;
         }
 
@@ -172,12 +176,21 @@ public final class DateUtil {
      * If start datetime happens to be after end datetime, this function will return Optional.empty()
      * <p>
      * 
+     * If the boolean allowEmptyValues is set to false, however, then if any dates is empty, this will return {@link Optional.empty()}
+     * This is set to true by default if not specified
+     * 
+     * <p>
+     * 
      * @param startString string that will be parsed by natty
      * @param endString string that will be parsed by natty
      * @return a LocalDateTime pair with the key being the starting datetime, and the value the ending datetime
      */
     public static Optional<Pair<LocalDateTime, LocalDateTime>> determineStartAndEndDateTime(String startString, String endString) {
-        return determineStartAndEndDateTime(parseStringIntoDateTime(startString), parseStringIntoDateTime(endString)) ;
+        return determineStartAndEndDateTime(parseStringIntoDateTime(startString), parseStringIntoDateTime(endString), true) ;
+    }
+    
+    public static Optional<Pair<LocalDateTime, LocalDateTime>> determineStartAndEndDateTime(String startString, String endString, boolean allowEmptyValues) {
+        return determineStartAndEndDateTime(parseStringIntoDateTime(startString), parseStringIntoDateTime(endString), allowEmptyValues) ;
     }
 
     private static boolean isDateComponentSameAsNow (LocalDateTime dateTime) {
