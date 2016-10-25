@@ -40,7 +40,7 @@ public class EditCommand extends Command {
             + "Example: " + DEFAULT_COMMAND_WORD + " 1 d/download How I Met Your Mother season 1" ;
     public static final String MESSAGE_EDIT_SUCCESS = "Edit saved!";
     public static final String MESSAGE_DUPLICATE_TASK = "This task already exists in the address book";
-    public static final String MESSAGE_BLOCK_CANNOT_EDIT = "The target is a block, and cannot be edited.";
+    public static final String MESSAGE_BLOCK_CANNOT_REMOVE_DATE = "The target is a block, and dates cannot be removed.";
     public static final String MESSAGE_ST_WITHOUT_ET = "You input a start date without an end date!";
     
     private static final String START_DATE = "startDate" ;
@@ -98,29 +98,17 @@ public class EditCommand extends Command {
         }
         
         ReadOnlyTask taskToEdit = lastShownList.get(targetIndex - 1);  
-
-        
-        /* 
-         * Preparing parsed variables to create new task to be added
-         */
-//        if(isValidString(name)) {
-//            newName = name;
-//            hasChanged = true ;
-//        }else{
-//            newName = taskToEdit.getName();
-//        }
-        
-//      if(isValidString(description)) {
-//      newDescription = description;
-//      hasChanged = true ;
-//  }else{
-//      newDescription = taskToEdit.getDescription();
-//  }       
+    
         newName = checkUpdate(taskToEdit.getName(), name);
         
         determineDateTimeOfNewTask(taskToEdit);
 
         if (taskToEdit instanceof Block) {
+        	
+        	if (dateMap.get(START_DATE).equals(DateUtil.MARKER_FOR_DELETE) || 
+        			dateMap.get(END_DATE).equals(DateUtil.MARKER_FOR_DELETE) ) {
+        		return new CommandResult(MESSAGE_BLOCK_CANNOT_REMOVE_DATE);
+        	}
         	
         	newTask = new Block(taskToEdit.getTaskId(), newName, dateMap.get(START_DATE), dateMap.get(END_DATE));
         	
