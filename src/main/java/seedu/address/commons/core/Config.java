@@ -42,10 +42,12 @@ public class Config {
 
     
     public Config () {
-        registerDefaultConfigs() ;
+        resetAndregisterDefaultConfigs() ;
     }
     
-    private void registerDefaultConfigs() {
+    public void resetAndregisterDefaultConfigs() {
+        configRegistry.clear() ;
+        
         for (Entry<String, Pair<Class<?>, Object>> entry : DEFAULT_CONFIGS.entrySet()) {
             
             Class<?> clazz = entry.getValue().getKey() ;
