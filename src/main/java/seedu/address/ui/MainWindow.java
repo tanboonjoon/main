@@ -39,7 +39,6 @@ public class MainWindow extends UiPart {
     private ResultDisplay resultDisplay;
     private StatusBarFooter statusBarFooter;
     
-    @FXML
     private CommandBox commandBox;
     private Config config;
     private UserPrefs userPrefs;
