@@ -1,6 +1,7 @@
 package seedu.address.logic.parser;
 
 import seedu.address.commons.core.Messages;
+import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.commons.exceptions.IncorrectCommandException;
 import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.ConfigCommand;
@@ -22,7 +23,12 @@ public class ConfigCommandParser extends CommandParser {
             return new IncorrectCommand(String.format(Messages.MESSAGE_INVALID_COMMAND_FORMAT, ConfigCommand.MESSAGE_USAGE));
         }
         
-        return new ConfigCommand() ;
+        try {
+            return new ConfigCommand(parser.getArgValue(CommandArgs.NAME).get(), parser.getArgValue(CommandArgs.VALUES).get()) ;
+        
+        } catch (IllegalValueException e) {
+            return new IncorrectCommand(e.getMessage()) ;
+        }
         
     }
 

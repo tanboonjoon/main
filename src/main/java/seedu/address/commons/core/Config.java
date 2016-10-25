@@ -39,7 +39,10 @@ public class Config {
     private static <T> void registerNewConfigWithDefault (String key, T value) {
         DEFAULT_CONFIGS.put(key, new Pair<Class<?>, Object>(value.getClass(), value)) ;
     }
-
+    
+    public static Class<?> getConfigValueType (String configOption) {
+        return (DEFAULT_CONFIGS.get(configOption) != null) ? DEFAULT_CONFIGS.get(configOption).getKey() : null ;
+    }
     
     public Config () {
         resetAndregisterDefaultConfigs() ;
