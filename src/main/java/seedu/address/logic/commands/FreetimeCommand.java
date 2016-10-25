@@ -10,6 +10,7 @@ import java.util.Set;
 
 import edu.emory.mathcs.backport.java.util.Collections;
 import javafx.util.Pair;
+import seedu.address.commons.core.Config;
 import seedu.address.model.task.Event;
 import seedu.address.model.task.ReadOnlyTask;
 
@@ -54,6 +55,8 @@ public class FreetimeCommand extends Command{
 	private DateTimeFormatter dateFormat;
 	private DateTimeFormatter hourFormat;
 	private DateTimeFormatter datetimeFormat;
+	private LocalDateTime activeHourStart;
+	private LocalDateTime activeHourEnd;
 	
 	public FreetimeCommand(String searchedDay) {
 		this.searchSet = new HashSet<String>();
@@ -62,7 +65,11 @@ public class FreetimeCommand extends Command{
 		dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		hourFormat = DateTimeFormatter.ofPattern("HHmm");
 		datetimeFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy HHmm");
+		activeHourStart = getActiveHour("activeHoursFrom");
+		activeHourEnd = getActiveHour("activeHoursTo");
 	}
+
+
 
 	@Override
 	public CommandResult execute() {
@@ -76,6 +83,16 @@ public class FreetimeCommand extends Command{
 		
 		String freeTime = getFreeTime(onThatDay);
 		return new CommandResult(freeTime);
+	}
+	
+	private LocalDateTime getActiveHour(String key) {
+		// TODO Auto-generated method stub
+		Config config = model.getConfigs();
+		String activeTime = config.getConfigurationOption(key);
+		DateTimeFormatter withoutTime = DateTimeFormatter.ofPattern("dd/MM/yyyy ");
+		DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy HHmm");
+		String activeTimeDate = LocalDateTime.now().format(withoutTime) + activeTime;
+		return LocalDateTime.parse(activeTimeDate, dateFormat);
 	}
 	
 
