@@ -88,12 +88,13 @@ public class FreetimeCommand extends Command{
 	
 	private LocalDateTime getActiveHour(String key) {
 		// TODO Auto-generated method stub
+		LocalDateTime onThatDay = getThatDay();
 		Config config = model.getConfigs();
 		String activeTime = config.getConfigurationOption(key);
 
 		DateTimeFormatter withoutTime = DateTimeFormatter.ofPattern("dd/MM/yyyy ");
 		DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy HHmm");
-		String activeTimeDate = LocalDateTime.now().format(withoutTime) + activeTime;
+		String activeTimeDate = onThatDay.format(withoutTime) + activeTime;
 		return LocalDateTime.parse(activeTimeDate, dateFormat);
 	}
 	
@@ -131,6 +132,7 @@ public class FreetimeCommand extends Command{
 		int startTimeDay = startTime.getDayOfMonth();
 		int endTimeDay = endTime.getDayOfMonth();
 		int sameDay = onThatDay.getDayOfMonth();
+		LocalDateTime tempEndTime = endTime;
 		sb.append(String.format(DEFAULT_STARTING_MESSAGE, onThatDay.format(dateFormat)));
 		
 		if (checkOnGoingEvent(startTimeDay, endTimeDay, sameDay)) {
@@ -138,17 +140,20 @@ public class FreetimeCommand extends Command{
 			return sb.toString();
 		}
 		
-		if (activeHourStart.isAfter(startTime) && activeHourEnd.isBefore(endTime)) {
+		if (isTimeAfterActiveHour(activeHourStart, startTime) && isTimeBeforeActiveHour(activeHourEnd, endTime)) {
 			return sb.append(NO_FREE_TIME_MESSAGE).toString();
 		}
 		
-		if (activeHourStart.isBefore(startTime)) {
+		if (isTimeBeforeActiveHour(activeHourStart, startTime)) {
 			sb.append(String.format(BETWEEN_EVENT_MESSAGE, activeHourStart.format(hourFormat), startTime.format(hourFormat)));
 		}
 		
+		if (isTimeAfterActiveHour(activeHourStart, endTime)) {
+			tempEndTime = activeHourStart;
+		}
 
-		if (activeHourEnd.isAfter(endTime)) {
-			sb.append(String.format(BETWEEN_EVENT_MESSAGE, endTime.format(hourFormat), activeHourEnd.format(hourFormat)));
+		if (isTimeAfterActiveHour(activeHourEnd, endTime)) {
+			sb.append(String.format(BETWEEN_EVENT_MESSAGE, tempEndTime.format(hourFormat), activeHourEnd.format(hourFormat)));
 			return sb.toString();
 		}
 
@@ -156,6 +161,8 @@ public class FreetimeCommand extends Command{
 		
 
 	}
+	
+
 	
 	private String freetimeForMutipleEvents(LocalDateTime startTime, LocalDateTime endTime,LocalDateTime thatDay, StringBuilder sb) {
 		int same_day = thatDay.getDayOfMonth();
@@ -170,29 +177,32 @@ public class FreetimeCommand extends Command{
 			sb.append(String.format(ONGOING_EVENT_MESSAGE, currentStartTime.format(datetimeFormat), currentEndTime.format(datetimeFormat)));
 			return sb.toString();
 		}
-		if (doesEventStartEndSameDay(startTimeDay, endTimeDay, same_day)) {
-			sb.append(String.format(FIRST_EVENT_MESSAGE, currentStartTime.format(hourFormat)));
+		
+		if (isTimeBeforeActiveHour(activeHourStart, currentStartTime)) {
+			sb.append(String.format(BETWEEN_EVENT_MESSAGE, activeHourStart.format(hourFormat), currentStartTime.format(hourFormat)));
 		}
 		
-		if	(!doesEventEndOnSameDay(endTimeDay, same_day)) {
+		
+		if (isTimeBeforeActiveHour(activeHourEnd, currentEndTime)) {
 			return sb.toString();
 		}
 		
+		if (isTimeAfterActiveHour(activeHourStart, currentEndTime)) {
+			currentEndTime = activeHourStart;
+		}
 
+		
 		return getAllFreeSlot(currentEndTime, same_day, sb);
 
 	}
 	
 	private String getAllFreeSlot(LocalDateTime currentEndTime, int same_day, StringBuilder sb) {
-		int nextEndDay;
-		int currEndDay;
 		LocalDateTime tempCurrEndTime = currentEndTime;
 		LocalDateTime nextStartTime;
 		LocalDateTime nextEndTime;
 		for (int time_index = 1 ;  time_index < timeList.size(); time_index++) {
 			nextStartTime = timeList.get(time_index).getKey();
 			nextEndTime = timeList.get(time_index).getValue();
-			nextEndDay = nextEndTime.getDayOfMonth();
 
 			if (tempCurrEndTime.isAfter(nextStartTime) || tempCurrEndTime.isEqual(nextStartTime)) {
 				tempCurrEndTime = getNextEndTime(tempCurrEndTime, timeList.get(time_index).getValue());
@@ -200,21 +210,22 @@ public class FreetimeCommand extends Command{
 			}
 		
 			sb.append(String.format(BETWEEN_EVENT_MESSAGE, tempCurrEndTime.format(hourFormat), nextStartTime.format(hourFormat)));
-			tempCurrEndTime = nextEndTime;
-			
-			if (!doesEventEndOnSameDay(nextEndDay, same_day)) {
+
+			if (isTimeBeforeActiveHour(activeHourEnd , nextEndTime)) {
 				return sb.toString();
 			}
+			
 
+			
+			tempCurrEndTime = nextEndTime;
 
 		}
-		currEndDay = tempCurrEndTime.getDayOfMonth();
-		
-		if (!doesEventEndOnSameDay(currEndDay, same_day)) {
+		if (isTimeBeforeActiveHour(activeHourEnd , tempCurrEndTime) || activeHourEnd.isEqual(tempCurrEndTime)) {
 			return sb.toString();
 		}
 		
-		return sb.append(String.format(LAST_EVENT_MESSAGE, tempCurrEndTime.format(hourFormat))).toString();
+
+		return sb.append(String.format(BETWEEN_EVENT_MESSAGE, tempCurrEndTime.format(hourFormat), activeHourEnd.format(hourFormat))).toString();
 		
 	}
 
@@ -259,19 +270,21 @@ public class FreetimeCommand extends Command{
 		return startDay != checkDay && endDay != checkDay;
 	}
 	
-	private boolean doesEventStartEndSameDay(int startDay, int endDay, int checkDay) {
-		return startDay == checkDay && endDay == checkDay;
-	}
-	
-	private boolean doesEventEndOnSameDay(int endDay, int checkDay) {
-		return endDay == checkDay;
-	}
+
 	
 	private LocalDateTime getNextEndTime(LocalDateTime currEndTime, LocalDateTime nextEndTime) {
 		if (nextEndTime.isAfter(currEndTime)) {
 			return nextEndTime;
 		}
 		return currEndTime;
+	}
+	
+	private boolean isTimeBeforeActiveHour(LocalDateTime activeTime, LocalDateTime time) {
+		return activeTime.isBefore(time);
+	}
+	
+	public boolean isTimeAfterActiveHour(LocalDateTime activeTime, LocalDateTime time) {
+		return activeTime.isAfter(time);
 	}
 	
 	//sorting the list by start time
