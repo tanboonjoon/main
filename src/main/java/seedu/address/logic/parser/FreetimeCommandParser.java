@@ -57,6 +57,7 @@ public class FreetimeCommandParser extends CommandParser {
 
 	private boolean isValidArgs(String searchType, String args) {
 		// TODO Auto-generated method stub
+	
 		int compareCharAt;
 		char searchType_char;
 		char args_char;
@@ -80,6 +81,9 @@ public class FreetimeCommandParser extends CommandParser {
 			return INVALID_ARGS;
 		}
 		return VALID_ARGS;
+	}
+	public boolean hasFreetime() {
+		return true;
 	}
 
 }
