@@ -1,13 +1,15 @@
 package seedu.address.model;
 
+import java.util.Set;
+
 import seedu.address.commons.core.Config;
 import seedu.address.commons.core.UnmodifiableObservableList;
 import seedu.address.commons.events.BaseEvent;
 import seedu.address.logic.filters.Expression;
-import seedu.address.model.task.Task;
+import seedu.address.model.tag.ReadOnlyTagRegistrar;
 import seedu.address.model.task.ReadOnlyTask;
+import seedu.address.model.task.Task;
 import seedu.address.model.task.UniqueTaskList;
-import java.util.Set;
 
 
 /**
@@ -24,6 +26,9 @@ public interface Model {
     
     /** Gets the application configuration settings */
     public Config getConfigs() ;
+    
+    /** Gets the central tag registry to handle creation of tags */
+    public ReadOnlyTagRegistrar getTagRegistry() ;
 
     /** Deletes the given task. */
     void deleteTask(ReadOnlyTask target) throws UniqueTaskList.TaskNotFoundException;

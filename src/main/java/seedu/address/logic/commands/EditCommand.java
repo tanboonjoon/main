@@ -52,7 +52,7 @@ public class EditCommand extends Command {
     private final String name;
     private final String description;
     private boolean doneStatus;
-    private final Set<Tag> tagSet;
+    private final Set<String> tagNameSet;
     private final Map<String, LocalDateTime> dateMap ;
     
     private boolean hasChanged = false ;
@@ -61,12 +61,8 @@ public class EditCommand extends Command {
         this.targetIndex = targetIndex;
         this.name = name;
         this.description = description;
-        this.tagSet = Sets.newHashSet() ;
+        this.tagNameSet = tags ;
         this.dateMap = Maps.newHashMap() ;
-        
-        for (String tagName : tags) {
-            tagSet.add(new Tag(tagName));
-        }
         
         if (startDate != null) {
             dateMap.put(START_DATE, startDate) ;
@@ -128,7 +124,12 @@ public class EditCommand extends Command {
         	hasChanged = true;
         }
         
-        newTagSet = new UniqueTagList(editOrDeleteTags(taskToEdit.getTags(), tagSet)) ;
+        try {
+            newTagSet = new UniqueTagList(editOrDeleteTags(taskToEdit.getTags(), tagNameSet)) ;
+        
+        } catch (IllegalValueException e) {
+            return new CommandResult(e.getMessage());
+        }
         
         determineDateTimeOfNewTask (taskToEdit) ;
         
@@ -204,17 +205,22 @@ public class EditCommand extends Command {
         }
     }
     
-    private Set<Tag> editOrDeleteTags(UniqueTagList currentTags, Set<Tag> tagSet) {
+    private Set<Tag> editOrDeleteTags(UniqueTagList currentTags, Set<String> tagNamesSet) throws IllegalValueException {
+        
+        assert model != null ;
         
         Set<Tag> newTaskTags = Sets.newHashSet(currentTags) ;
         
-        for (Tag tag : tagSet) {
-            if (!currentTags.contains(tag)) {
-                newTaskTags.add(tag) ;
+        for (String names : tagNamesSet) {
+            
+            Tag thisTag = model.getTagRegistry().getTagFromString(names, true) ;
+            
+            if (!currentTags.contains(thisTag)) {
+                newTaskTags.add(thisTag) ;
                 hasChanged = true ;
                 
             } else {
-                newTaskTags.remove(tag) ;
+                newTaskTags.remove(thisTag) ;
                 hasChanged = true ;
             }
             
