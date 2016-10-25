@@ -40,6 +40,7 @@ public class EditCommand extends Command {
     public static final String MESSAGE_EDIT_SUCCESS = "Edit saved!";
     public static final String MESSAGE_DUPLICATE_TASK = "This task already exists in the address book";
     public static final String MESSAGE_BLOCK_CANNOT_EDIT = "The target is a block, and cannot be edited.";
+    public static final String MESSAGE_ST_WITHOUT_ET = "You input a start date without an end date!";
     
     private static final String START_DATE = "startDate" ;
     private static final String END_DATE = "endDate" ;
@@ -87,56 +88,62 @@ public class EditCommand extends Command {
         String newName, newDescription;
         UniqueTagList newTagSet;
         UnmodifiableObservableList<ReadOnlyTask> lastShownList = model.getFilteredTaskList();
-
+        Task newTask;
+        
+        /* determine target task to delete based on lastShownList */
         if (lastShownList.size() < targetIndex || targetIndex < 1) {
             indicateAttemptToExecuteIncorrectCommand();
             return new CommandResult(Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
         }
         
         ReadOnlyTask taskToEdit = lastShownList.get(targetIndex - 1);  
+
         
-        
-        /* temporary measure - I can't make a block because current approach edits IDs
-         * Actually, we don't have to reassign a new ID, right?
-         * By using the existing ID, block and recurring structure can hold.
+        /* 
+         * Preparing parsed variables to create new task to be added
          */
+//        if(isValidString(name)) {
+//            newName = name;
+//            hasChanged = true ;
+//        }else{
+//            newName = taskToEdit.getName();
+//        }
+        
+//      if(isValidString(description)) {
+//      newDescription = description;
+//      hasChanged = true ;
+//  }else{
+//      newDescription = taskToEdit.getDescription();
+//  }       
+        newName = checkUpdate(taskToEdit.getName(), name);
+        
+        determineDateTimeOfNewTask(taskToEdit);
+
         if (taskToEdit instanceof Block) {
-        	return new CommandResult(MESSAGE_BLOCK_CANNOT_EDIT);
+        	
+        	newTask = new Block(taskToEdit.getTaskId(), newName, dateMap.get(START_DATE), dateMap.get(END_DATE));
+        	
+        } else {
+	        
+	        newDescription = checkUpdate(taskToEdit.getDescription(), description);
+	        
+	        doneStatus = taskToEdit.getDoneStatus();
+	        
+	        newTagSet = new UniqueTagList(editOrDeleteTags(taskToEdit.getTags(), tagSet));
+        
+        	newTask = createNewTask (newName, newDescription, newTagSet, dateMap.get(START_DATE), dateMap.get(END_DATE));
         }
         
-        doneStatus = taskToEdit.getDoneStatus();
-       
-        if(isValidString(name)) {
-            newName = name;
-            hasChanged = true ;
-        }else{
-            newName = taskToEdit.getName();
-        }
-        if(isValidString(description)) {
-            newDescription = description;
-            hasChanged = true ;
-        }else{
-            newDescription = taskToEdit.getDescription();
-        }
-        
-        if (dateMap.size() > 0) {
-        	hasChanged = true;
-        }
-        
-        newTagSet = new UniqueTagList(editOrDeleteTags(taskToEdit.getTags(), tagSet)) ;
-        
-        determineDateTimeOfNewTask (taskToEdit) ;
-        
-        if(!hasChanged){
+        /*
+         * Throw the appropriate result if nothing substantial has changed.
+         */
+        if (!hasChanged) {
             return new CommandResult(NOTHING_CHANGED);
         }
-       
-        Task newTask = createNewTask (newName, newDescription, newTagSet, dateMap.get(START_DATE), dateMap.get(END_DATE));
-
+        
     	model.recordTaskForce();
         try {
 
-//            model.updateTask(taskToEdit, newTask);
         	model.addTask(newTask);
         	model.deleteTask(taskToEdit);
             
@@ -154,11 +161,21 @@ public class EditCommand extends Command {
         return s.length() > INVALID_VALUE_LENGTH ;
     }
     
+    private String checkUpdate(String origin, String changed) {
+    	if (isValidString(changed)) {
+    		hasChanged = true;
+    		return changed;
+    	} else {
+    		return origin;
+    	}
+    }
+    
     private Task createNewTask (String name, String description, UniqueTagList tag, LocalDateTime startTime, LocalDateTime endTime) {
         
         int id = model.getNextTaskId() ;
         
         if (startTime != null && endTime != null) {
+        	
             return new Event (id, name, description, startTime, endTime, tag, doneStatus) ;
         
         } 
@@ -172,7 +189,15 @@ public class EditCommand extends Command {
 
     }
     
+    /*
+     * Populates the dates map with existing dates there is no such pair.
+     */
     private void determineDateTimeOfNewTask (ReadOnlyTask taskToEdit) {
+    	
+        if (dateMap.size() > 0) {
+        	hasChanged = true;
+        }
+    	
         if (taskToEdit instanceof Event) {
 
             if (!dateMap.containsKey(START_DATE)) {
@@ -199,6 +224,9 @@ public class EditCommand extends Command {
         }
     }
     
+    /* 
+     * Updates the taglist
+     */
     private Set<Tag> editOrDeleteTags(UniqueTagList currentTags, Set<Tag> tagSet) {
         
         Set<Tag> newTaskTags = Sets.newHashSet(currentTags) ;

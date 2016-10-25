@@ -23,7 +23,7 @@ public interface ReadOnlyTask {
     /**
      * Gets the unique Task ID associated to this task.
      */
-    public int getTaskId () ;
+    public int getTaskId() ;
 
     /**
      * Returns true if both have the same state. (interfaces cannot override .equals)

@@ -6,13 +6,7 @@
         <description></description>
         <endDateTime>2016-10-14T13:00</endDateTime>
         <doneStatus>false</doneStatus>
-    </tasks>
-    <tasks>
-        <taskId>4</taskId>
-        <name>read CS2103 notes</name>
-        <description>to learna bout technical stuff</description>
-        <doneStatus>false</doneStatus>
-        <tagged>important</tagged>
+        <isBlock>false</isBlock>
     </tasks>
     <tasks>
         <taskId>5</taskId>
@@ -20,15 +14,7 @@
         <description></description>
         <endDateTime>2016-10-25T19:27:39.125</endDateTime>
         <doneStatus>false</doneStatus>
-    </tasks>
-    <tasks>
-        <taskId>6</taskId>
-        <name>CS2102 project</name>
-        <description>diccuss with teammate</description>
-        <doneStatus>false</doneStatus>
-        <tagged>important</tagged>
-        <tagged>schoolwork</tagged>
-        <tagged>project</tagged>
+        <isBlock>false</isBlock>
     </tasks>
     <tasks>
         <taskId>7</taskId>
@@ -37,6 +23,7 @@
         <startDateTime>2016-10-19T18:00</startDateTime>
         <endDateTime>2016-10-19T19:00</endDateTime>
         <doneStatus>false</doneStatus>
+        <isBlock>false</isBlock>
         <tagged>tvSeries</tagged>
     </tasks>
     <tasks>
@@ -46,6 +33,7 @@
         <startDateTime>2016-10-26T19:33:06.798</startDateTime>
         <endDateTime>2016-10-26T19:33:06.800</endDateTime>
         <doneStatus>false</doneStatus>
+        <isBlock>false</isBlock>
         <tagged>tvSeries</tagged>
     </tasks>
     <tasks>
@@ -54,6 +42,7 @@
         <description></description>
         <endDateTime>2016-10-14T10:00</endDateTime>
         <doneStatus>false</doneStatus>
+        <isBlock>false</isBlock>
     </tasks>
     <tasks>
         <taskId>10</taskId>
@@ -61,6 +50,7 @@
         <description></description>
         <endDateTime>2016-10-07T10:00</endDateTime>
         <doneStatus>false</doneStatus>
+        <isBlock>false</isBlock>
     </tasks>
     <tasks>
         <taskId>11</taskId>
@@ -69,6 +59,7 @@
         <startDateTime>2016-11-02T19:35:10.764</startDateTime>
         <endDateTime>2016-11-02T19:35:10.766</endDateTime>
         <doneStatus>false</doneStatus>
+        <isBlock>false</isBlock>
         <tagged>important</tagged>
     </tasks>
     <tasks>
@@ -78,6 +69,7 @@
         <startDateTime>2016-11-09T19:36:13.293</startDateTime>
         <endDateTime>2016-11-09T19:36:13.294</endDateTime>
         <doneStatus>false</doneStatus>
+        <isBlock>false</isBlock>
         <tagged>VERYIMPORTANT</tagged>
     </tasks>
     <tasks>
@@ -85,6 +77,7 @@
         <name>own friend money</name>
         <description>he brought me coffee</description>
         <doneStatus>false</doneStatus>
+        <isBlock>false</isBlock>
         <tagged>money</tagged>
         <tagged>friend</tagged>
     </tasks>
@@ -94,6 +87,7 @@
         <description>database project report</description>
         <endDateTime>2016-10-31T19:39:11.412</endDateTime>
         <doneStatus>false</doneStatus>
+        <isBlock>false</isBlock>
         <tagged>important</tagged>
         <tagged>project</tagged>
     </tasks>
@@ -103,6 +97,7 @@
         <description></description>
         <endDateTime>2016-10-21T19:24:10.476</endDateTime>
         <doneStatus>false</doneStatus>
+        <isBlock>false</isBlock>
     </tasks>
     <tasks>
         <taskId>16</taskId>
@@ -110,6 +105,7 @@
         <description>Last version for new features</description>
         <endDateTime>2016-10-28T19:24:55.718</endDateTime>
         <doneStatus>false</doneStatus>
+        <isBlock>false</isBlock>
     </tasks>
     <tasks>
         <taskId>17</taskId>
@@ -117,6 +113,7 @@
         <description>The release candidate</description>
         <endDateTime>2016-11-04T19:25:20.870</endDateTime>
         <doneStatus>false</doneStatus>
+        <isBlock>false</isBlock>
     </tasks>
     <tasks>
         <taskId>18</taskId>
@@ -124,6 +121,7 @@
         <description></description>
         <endDateTime>2016-11-11T17:00</endDateTime>
         <doneStatus>false</doneStatus>
+        <isBlock>false</isBlock>
     </tasks>
     <tasks>
         <taskId>19</taskId>
@@ -131,6 +129,35 @@
         <description></description>
         <endDateTime>2016-11-11T17:00</endDateTime>
         <doneStatus>false</doneStatus>
+        <isBlock>false</isBlock>
+    </tasks>
+    <tasks>
+        <taskId>20</taskId>
+        <name>CS2102 project</name>
+        <description>diccuss with teammate</description>
+        <endDateTime>2016-10-25T23:59</endDateTime>
+        <doneStatus>false</doneStatus>
+        <isBlock>false</isBlock>
+        <tagged>important</tagged>
+        <tagged>schoolwork</tagged>
+        <tagged>project</tagged>
+    </tasks>
+    <tasks>
+        <taskId>21</taskId>
+        <name>read CS2103 notes</name>
+        <description>to learna bout technical stuff</description>
+        <doneStatus>false</doneStatus>
+        <isBlock>false</isBlock>
+        <tagged>important</tagged>
+    </tasks>
+    <tasks>
+        <taskId>23</taskId>
+        <name>woohoohoo</name>
+        <description></description>
+        <startDateTime>2016-10-25T16:00</startDateTime>
+        <endDateTime>2016-10-25T18:00</endDateTime>
+        <doneStatus>false</doneStatus>
+        <isBlock>false</isBlock>
     </tasks>
     <tags>
         <tagName>important</tagName>
