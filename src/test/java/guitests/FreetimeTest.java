@@ -115,7 +115,7 @@ public class FreetimeTest extends TaskForceGuiTest{
 	}
 	
 	@Test
-	public void ValidCommandOneEventNoFreeTime() {
+	public void validCommandOneEventNoFreeTime() {
 		commandBox.runCommand("add event st/6am et/11pm");
 		commandBox.runCommand("freetime day/0");
 		StringBuilder sb = new StringBuilder();

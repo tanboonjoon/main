@@ -221,14 +221,14 @@ public class FreetimeCommand extends Command{
 			
 			tempCurrEndTime = nextEndTime;
 
-			if (checkFreeTime == true) {
+			if (hasFreetime() == checkFreeTime) {
 				continue;
 			}
 			checkFreeTime = true;
 
 		}
 		if (isTimeBeforeActiveHour(activeHourEnd , tempCurrEndTime) || activeHourEnd.isEqual(tempCurrEndTime)) {
-			return checkFreeTime == true ? sb.toString() 
+			return hasFreetime() == checkFreeTime ? sb.toString() 
 					: sb.append(NO_FREE_TIME_MESSAGE).toString();
 		}
 		
@@ -293,6 +293,10 @@ public class FreetimeCommand extends Command{
 	
 	public boolean isTimeAfterActiveHour(LocalDateTime activeTime, LocalDateTime time) {
 		return activeTime.isAfter(time);
+	}
+	
+	public boolean hasFreetime() {
+		return true;
 	}
 	
 	//sorting the list by start time
