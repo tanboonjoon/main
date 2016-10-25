@@ -124,16 +124,9 @@ public final class DateUtil {
             return Optional.empty() ;
         }
 
-        if (!startDate.isPresent() && endDate.isPresent()) {
-            computedStartDate = DateUtil.NOW ;
-            computedEndDate = endDate.get() ;
-
-            return Optional.of(new Pair<LocalDateTime, LocalDateTime> (computedStartDate, computedEndDate)) ;
-        }
-
-        if (startDate.isPresent() && !endDate.isPresent()) {
-            computedStartDate = startDate.get() ;
-            computedEndDate = startDate.get().withHour(23).withMinute(59) ;
+        if (!startDate.isPresent() || !endDate.isPresent()) {
+            computedStartDate = startDate.orElse(DateUtil.NOW) ;
+            computedEndDate = endDate.orElse(startDate.get().withHour(23).withMinute(59)) ;
 
             return Optional.of(new Pair<LocalDateTime, LocalDateTime> (computedStartDate, computedEndDate)) ;
         }
