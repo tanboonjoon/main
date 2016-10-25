@@ -82,8 +82,6 @@ public class FreetimeCommandParser extends CommandParser {
 		}
 		return VALID_ARGS;
 	}
-	public boolean hasFreetime() {
-		return true;
-	}
+
 
 }
