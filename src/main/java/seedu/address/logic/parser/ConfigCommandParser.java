@@ -7,6 +7,7 @@ import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.ConfigCommand;
 import seedu.address.logic.commands.IncorrectCommand;
 
+// @@author A0135768R
 public class ConfigCommandParser extends CommandParser {
 
     @Override

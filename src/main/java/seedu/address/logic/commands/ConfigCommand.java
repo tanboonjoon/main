@@ -6,6 +6,7 @@ import seedu.address.commons.core.Config;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.commons.util.ConfigUtil;
 
+// @@author A0135768R
 public class ConfigCommand extends Command {
     
     public static final String COMMAND_WORD = "config";
@@ -51,11 +52,13 @@ public class ConfigCommand extends Command {
                 return new CommandResult(INVALID_CONFIG) ;
             }
             
-            newConfigValue = defaultValue ;
+            newConfigValue = defaultValue.toString() ;
         }
         
         try {
-            config.setConfigurationOption(configOption, configValueType.cast(newConfigValue));
+            newConfigValue = castStringIntoValue(configValueType, newConfigValue) ;
+            
+            config.setConfigurationOption(configOption, newConfigValue );
             ConfigUtil.saveConfig(config, Config.DEFAULT_CONFIG_FILE);
         
         } catch (ClassCastException e) {
@@ -66,7 +69,24 @@ public class ConfigCommand extends Command {
         }
         
         
-        return new CommandResult(String.format(MESSAGE_SUCCESS, configOption, value), true) ;
+        return new CommandResult(String.format(MESSAGE_SUCCESS, configOption, newConfigValue), true) ;
+    }
+    
+    private Object castStringIntoValue (Class<?> clazz, Object value) {
+        
+        if (String.class.getName().equals(clazz.getName())) {
+            return value.toString() ;
+        }
+        
+        if (Boolean.class.getName().equals(clazz.getName())) {
+            return new Boolean(value.toString()) ;
+        }
+        
+        if (Integer.class.getName().equals(clazz.getName())) {
+            return Integer.parseInt(value.toString()) ;
+        }
+        
+        return null ;
     }
 
 }
