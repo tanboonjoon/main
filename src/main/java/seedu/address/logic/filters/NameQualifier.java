@@ -47,14 +47,16 @@ public class NameQualifier implements Qualifier {
     private DateTimeFormatter format_exclude_time;
     private ArrayList<String> formattedDateList;
     private ArrayList<LocalDateTime> dateToCompareList;
+    private boolean isMarkCheck;
 
-    public NameQualifier(Set<String> nameKeyWords, String findType) {
+    public NameQualifier(Set<String> nameKeyWords, String findType, boolean isMarkCheck) {
 
         this.formattedDateList = new ArrayList<String>();
         this.dateToCompareList = new ArrayList<LocalDateTime>();
         this.format_exclude_time = DateTimeFormatter.ofPattern("ddMMyyyy");
         this.nameKeyWords = nameKeyWords;
         this.findType = findType;
+        this.isMarkCheck = isMarkCheck;
     }
 
     @Override

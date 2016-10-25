@@ -76,7 +76,7 @@ public final class DateUtil {
 
         Long days = ChronoUnit.DAYS.between(startTime, endTime) ;
 
-        model.searchTaskList(new PredicateExpression(new NameQualifier(Sets.newHashSet(days.toString()), NameQualifier.FILTER_BY_DAY)) );
+        model.searchTaskList(new PredicateExpression(new NameQualifier(Sets.newHashSet(days.toString()), NameQualifier.FILTER_BY_DAY, false)) );
 
         PriorityQueue<Event> pq = new PriorityQueue<>(new EventComparator()) ;
 
