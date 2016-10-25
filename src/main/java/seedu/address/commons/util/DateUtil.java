@@ -16,14 +16,20 @@ public final class DateUtil {
 	public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm a");
 	public static final LocalDateTime END_OF_TODAY = parseStringIntoDateTime("today 2359").get() ;
 	public static final LocalDateTime NOW = LocalDateTime.now() ;
+	public static final LocalDateTime MARKER_FOR_DELETE = parseStringIntoDateTime("01-01-2000 0000").get();
 	
 	public static Optional<LocalDateTime> parseStringIntoDateTime (String rawString) {
 	    
 	    if (rawString == null) {
-	        return Optional.empty() ;
+	        return Optional.empty();
+	    }
+	    
+	    if (rawString.equals("-")) {	
+	    	return Optional.of(MARKER_FOR_DELETE);
 	    }
 	    
 		Parser dateParser = new Parser() ;
+		
 		
 		List<DateGroup> dates = dateParser.parse(rawString) ;
 		
