@@ -36,6 +36,7 @@ public class FreetimeCommand extends Command{
 	public static final String LAST_EVENT_MESSAGE = "after %1$s \n";
 	public static final String BETWEEN_EVENT_MESSAGE = "%1$s to %2$s \n";
 	public static final String ONGOING_EVENT_MESSAGE = "You are not free because you have a ongoing from %1$s to %2$s \n";
+	public static final String NO_FREE_TIME_MESSAGE = "Sorry you do not have any freetime between your active period";
 	
 	private static final String SEARCH_TYPE = "DAY";
 
@@ -65,15 +66,15 @@ public class FreetimeCommand extends Command{
 		dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		hourFormat = DateTimeFormatter.ofPattern("HHmm");
 		datetimeFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy HHmm");
-		activeHourStart = getActiveHour("activeHoursFrom");
-		activeHourEnd = getActiveHour("activeHoursTo");
+
 	}
 
 
 
 	@Override
 	public CommandResult execute() {
-
+		activeHourStart = roundUpTime(getActiveHour("activeHoursFrom"));
+		activeHourEnd = roundUpTime(getActiveHour("activeHoursTo"));
 		model.updateFilteredTaskList(searchSet, SEARCH_TYPE);
 		List<ReadOnlyTask> filteredList = model.getFilteredTaskList();
 
@@ -89,6 +90,7 @@ public class FreetimeCommand extends Command{
 		// TODO Auto-generated method stub
 		Config config = model.getConfigs();
 		String activeTime = config.getConfigurationOption(key);
+
 		DateTimeFormatter withoutTime = DateTimeFormatter.ofPattern("dd/MM/yyyy ");
 		DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy HHmm");
 		String activeTimeDate = LocalDateTime.now().format(withoutTime) + activeTime;
@@ -136,18 +138,22 @@ public class FreetimeCommand extends Command{
 			return sb.toString();
 		}
 		
-		if (startTimeDay != sameDay && endTimeDay == sameDay) {
-			sb.append(String.format(LAST_EVENT_MESSAGE, endTime.format(hourFormat)));
-			return sb.toString();
+		if (activeHourStart.isAfter(startTime) && activeHourEnd.isBefore(endTime)) {
+			return sb.append(NO_FREE_TIME_MESSAGE).toString();
 		}
 		
-		sb.append(String.format(FIRST_EVENT_MESSAGE, startTime.format(hourFormat)));
-		
-		if (!doesEventEndOnSameDay(endTimeDay, sameDay)) {
-			return sb.toString();
+		if (activeHourStart.isBefore(startTime)) {
+			sb.append(String.format(BETWEEN_EVENT_MESSAGE, activeHourStart.format(hourFormat), startTime.format(hourFormat)));
 		}
 		
-		return sb.append(String.format(LAST_EVENT_MESSAGE, endTime.format(hourFormat))).toString();
+
+		if (activeHourEnd.isAfter(endTime)) {
+			sb.append(String.format(BETWEEN_EVENT_MESSAGE, endTime.format(hourFormat), activeHourEnd.format(hourFormat)));
+			return sb.toString();
+		}
+
+		return sb.toString();
+		
 
 	}
 	
