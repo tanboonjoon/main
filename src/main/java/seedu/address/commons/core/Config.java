@@ -31,6 +31,7 @@ public class Config {
        Config.<String>registerNewConfigWithDefault("appName", "My Todo list") ;
        Config.<String>registerNewConfigWithDefault("activeHoursFrom", "0800") ;
        Config.<String>registerNewConfigWithDefault("activeHoursTo", "2100") ;
+       Config.<Boolean>registerNewConfigWithDefault("enableSudo", false) ;
        
     }
     
