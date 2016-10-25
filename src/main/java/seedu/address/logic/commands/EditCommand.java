@@ -42,6 +42,7 @@ public class EditCommand extends Command {
     public static final String MESSAGE_DUPLICATE_TASK = "This task already exists in the address book";
     public static final String MESSAGE_BLOCK_CANNOT_REMOVE_DATE = "The target is a block, and dates cannot be removed.";
     public static final String MESSAGE_ST_WITHOUT_ET = "You input a start date without an end date!";
+    public static final String MESSAGE_CANNOT_HAVE_ST_ONLY = "You can't only have the start time in a task!";
     
     private static final String START_DATE = "startDate" ;
     private static final String END_DATE = "endDate" ;
@@ -102,17 +103,21 @@ public class EditCommand extends Command {
         newName = checkUpdate(taskToEdit.getName(), name);
         
         determineDateTimeOfNewTask(taskToEdit);
-
+        
         if (taskToEdit instanceof Block) {
         	
-        	if (dateMap.get(START_DATE).equals(DateUtil.MARKER_FOR_DELETE) || 
-        			dateMap.get(END_DATE).equals(DateUtil.MARKER_FOR_DELETE) ) {
+        	if (dateMap.get(START_DATE) == null || dateMap.get(END_DATE) == null) {
         		return new CommandResult(MESSAGE_BLOCK_CANNOT_REMOVE_DATE);
         	}
         	
         	newTask = new Block(taskToEdit.getTaskId(), newName, dateMap.get(START_DATE), dateMap.get(END_DATE));
         	
         } else {
+        	
+        	if (dateMap.get(START_DATE) != null && dateMap.get(END_DATE) == null) {
+        		return new CommandResult(MESSAGE_CANNOT_HAVE_ST_ONLY);
+        	}
+
 	        
 	        newDescription = checkUpdate(taskToEdit.getDescription(), description);
 	        
@@ -194,18 +199,11 @@ public class EditCommand extends Command {
             } else {
                 hasChanged = true ;
             }
-
+            
             if (!dateMap.containsKey(END_DATE)) {
                 dateMap.put(END_DATE, ( (Event) taskToEdit).getEndDate()) ;
             } else {
                 hasChanged = true ;
-            }
-            
-            if (dateMap.get(START_DATE).equals(DateUtil.MARKER_FOR_DELETE)) {
-            	dateMap.put(START_DATE, null);
-            	if (dateMap.get(END_DATE).equals(DateUtil.MARKER_FOR_DELETE)) {
-            		dateMap.put(END_DATE, null);
-            	}
             }
 
         }
@@ -217,12 +215,24 @@ public class EditCommand extends Command {
             } else {
                 hasChanged = true ;
             }
-            
-            if (dateMap.get(END_DATE).equals(DateUtil.MARKER_FOR_DELETE)) {
-            	System.out.println("HAIZ");
-            	dateMap.put(END_DATE, null);
-            }
         }
+        
+        if(dateMap.containsKey(END_DATE)) {
+            if (dateMap.get(END_DATE).equals(DateUtil.MARKER_FOR_DELETE)) {
+            	dateMap.put(END_DATE, null);
+            } 
+        } else {
+        	dateMap.put(END_DATE, null);
+        }
+
+        
+        if (dateMap.containsKey(START_DATE)) {
+        	if (dateMap.get(START_DATE).equals(DateUtil.MARKER_FOR_DELETE)) {
+        		dateMap.put(START_DATE, null);
+        	} 
+        } else {
+    		dateMap.put(START_DATE, null);
+    	}
         
     
     }
