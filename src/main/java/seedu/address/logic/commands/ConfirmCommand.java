@@ -52,7 +52,7 @@ public class ConfirmCommand extends Command {
     private final String startDate ;
     private final String endDate ;
     private final String description ;
-    private final UniqueTagList taglist ;
+    private final Set<String> taglist ;
     private final List<ReadOnlyTask> deletedTask, addedTask ;
 
     public ConfirmCommand (int targetIndex, String description, String startDate, String endDate, Set<String> tags) throws IllegalValueException {
@@ -61,17 +61,11 @@ public class ConfirmCommand extends Command {
             throw new IllegalValueException(MESSAGE_DATES_NOT_NULL) ;
         }
 
-        final Set<Tag> tagSet = Sets.newHashSet() ;
-
-        for (String tagName : tags) {
-            tagSet.add(new Tag(tagName));
-        }
-
         this.targetIndex = targetIndex ;
         this.startDate = startDate ;
         this.endDate = endDate ;
         this.description = description ;
-        this.taglist = new UniqueTagList(tagSet) ;
+        this.taglist = tags ;
         
         this.deletedTask = new ArrayList<>() ;
         this.addedTask = new ArrayList<>() ;
@@ -104,7 +98,18 @@ public class ConfirmCommand extends Command {
 
         String name = blockToConfirm.getName() ;
         
-        Task newEvent = new Event(id, name, description, datePair.get().getKey(), datePair.get().getValue(), taglist) ;
+        final Set<Tag> newTags = Sets.newHashSet() ;
+        
+        try {
+            for (String tagName : taglist) {
+                newTags.add(model.getTagRegistry().getTagFromString(tagName, true)) ;
+            }
+            
+        }catch (IllegalValueException e) {
+            return new CommandResult(e.getMessage()) ;
+        }
+        
+        Task newEvent = new Event(id, name, description, datePair.get().getKey(), datePair.get().getValue(), new UniqueTagList(newTags)) ;
         Optional<Event> conflict = DateUtil.checkForConflictingEvents(model, (Event) newEvent) ;
 
         try {
