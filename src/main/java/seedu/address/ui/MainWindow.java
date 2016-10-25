@@ -110,14 +110,12 @@ public class MainWindow extends UiPart {
         setWindowDefaultSize(prefs);
         
         scene = new Scene(rootLayout);
-        
-     
-        
+
         loadCustomTrueTypeFonts();
         
         primaryStage.setScene(scene);
      
-//        setAccelerators();
+        setAccelerators();
     }
     
     // @@author A0135768R
@@ -129,8 +127,7 @@ public class MainWindow extends UiPart {
     
     // @@author reused
     private void setAccelerators() {
-        helpMenuItem.setAccelerator(KeyCombination.valueOf("F1"));
-//        logic.execute("undo");
+//        helpMenuItem.setAccelerator(KeyCombination.valueOf("F1"));
     }
 
     public void fillInnerParts() {
