@@ -23,6 +23,8 @@ public class FreetimeTest extends TaskForceGuiTest{
 	private DateTimeFormatter addCommandFormatter;
 	private DateTimeFormatter ongoingEventFormatter;
 	private DateTimeFormatter eventFormatter;
+	
+	
 	@Before 
 	public void clearList() {
 		commandBox.runCommand("clear");
@@ -72,8 +74,8 @@ public class FreetimeTest extends TaskForceGuiTest{
 		StringBuilder sb = new StringBuilder();
 		commandBox.runCommand("freetime day/0");
 		sb.append(String.format(FreetimeCommand.DEFAULT_STARTING_MESSAGE, now.format(eventFormatter)))
-		.append(String.format(FreetimeCommand.FIRST_EVENT_MESSAGE, "1500"))
-		.append(String.format(FreetimeCommand.LAST_EVENT_MESSAGE, "1700"));
+		.append(String.format(FreetimeCommand.BETWEEN_EVENT_MESSAGE,"0800", "1500"))
+		.append(String.format(FreetimeCommand.BETWEEN_EVENT_MESSAGE,"1700", "2100"));
 		assertResultMessage(sb.toString());
 	}
 	
@@ -92,24 +94,35 @@ public class FreetimeTest extends TaskForceGuiTest{
 	
 	
 	@Test
-	public void validCommandOneOngoingEndTodayEvent() {
-		commandBox.runCommand("add event st/yesterday 3pm et/today 5pm");
+	public void validCommandOneEventStartBeforeActiveHour() {
+		commandBox.runCommand("add event st/yesterday 7am et/today 5pm");
 		StringBuilder sb = new StringBuilder();
 		commandBox.runCommand("freetime day/0");
 		sb.append(String.format(FreetimeCommand.DEFAULT_STARTING_MESSAGE, now.format(eventFormatter)))
-		.append(String.format(FreetimeCommand.LAST_EVENT_MESSAGE, "1700"));
+		.append(String.format(FreetimeCommand.BETWEEN_EVENT_MESSAGE, "1700", "2100"));
 		assertResultMessage(sb.toString());
 	}
 	
 	@Test
-	public void validCommandOneOngoingStartTodayEvent() {
+	public void validCommandOneEventEndAfterActiveHour() {
 
-		commandBox.runCommand("add event st/today 3pm et/tomorrow 5pm");
+		commandBox.runCommand("add event st/today 9am et/tomorrow 11pm");
 		StringBuilder sb = new StringBuilder();
 		commandBox.runCommand("freetime day/0");
 		sb.append(String.format(FreetimeCommand.DEFAULT_STARTING_MESSAGE, now.format(eventFormatter)))
-		.append(String.format(FreetimeCommand.FIRST_EVENT_MESSAGE, "1500"));
+		.append(String.format(FreetimeCommand.BETWEEN_EVENT_MESSAGE,"0800", "0900"));
 		assertResultMessage(sb.toString());
+	}
+	
+	@Test
+	public void ValidCommandOneEventNoFreeTime() {
+		commandBox.runCommand("add event st/6am et/11pm");
+		commandBox.runCommand("freetime day/0");
+		StringBuilder sb = new StringBuilder();
+		sb.append(String.format(FreetimeCommand.DEFAULT_STARTING_MESSAGE, now.format(eventFormatter)))
+		.append(FreetimeCommand.NO_FREE_TIME_MESSAGE);
+		assertResultMessage(sb.toString());
+
 	}
 
 	@Test
