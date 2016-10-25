@@ -20,6 +20,8 @@ public class ConfigCommand extends Command {
             + "Format: config CONFIG_OPTION v/NEW VALUE \n"
             + "Example: config activeHoursFrom v/1000" ;
     
+    private static final String RESET_TO_DEFAULT = "default" ;
+    
     private final String configOption ;
     private final String value ;
     private final Class<?> configValueType ;
@@ -39,9 +41,21 @@ public class ConfigCommand extends Command {
     public CommandResult execute() {
         
         Config config = model.getConfigs() ;
+        Object newConfigValue = value ;
+        
+        if (RESET_TO_DEFAULT.equalsIgnoreCase(value)) {
+            final Object defaultValue = (config.getDefaultConfigs().get(configOption) != null) ? 
+                    config.getDefaultConfigs().get(configOption).getValue() : null ;
+             
+            if (defaultValue == null) {
+                return new CommandResult(INVALID_CONFIG) ;
+            }
+            
+            newConfigValue = defaultValue ;
+        }
         
         try {
-            config.setConfigurationOption(configOption, configValueType.cast(value));
+            config.setConfigurationOption(configOption, configValueType.cast(newConfigValue));
             ConfigUtil.saveConfig(config, Config.DEFAULT_CONFIG_FILE);
         
         } catch (ClassCastException e) {
