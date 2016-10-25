@@ -5,6 +5,10 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import seedu.address.commons.events.ui.IncorrectCommandAttemptedEvent;
@@ -23,6 +27,8 @@ public class CommandBox extends UiPart {
     private AnchorPane commandPane;
     private ResultDisplay resultDisplay;
     private String previousCommandTest;
+    final KeyCombination undoKeyCombo = new KeyCodeCombination(KeyCode.Z, KeyCombination.SHORTCUT_DOWN);
+    final KeyCombination redoKeyCombo = new KeyCodeCombination(KeyCode.Z, KeyCombination.SHORTCUT_DOWN, KeyCombination.SHIFT_DOWN);
 
     private Logic logic;
 
@@ -43,6 +49,16 @@ public class CommandBox extends UiPart {
         this.logic = logic;
         commandTextField.getStyleClass().removeAll();
         commandTextField.getStyleClass().add("command-box") ;
+        
+        commandTextField.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
+            if(undoKeyCombo.match(key)){
+                logic.execute("undo");
+            }else if(redoKeyCombo.match(key)){
+                logic.execute("redo");
+            }
+                
+    }
+            );
         registerAsAnEventHandler(this);
     }
 

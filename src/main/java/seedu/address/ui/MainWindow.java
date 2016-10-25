@@ -4,6 +4,10 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.MenuItem;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -34,6 +38,8 @@ public class MainWindow extends UiPart {
     private TaskListPanel taskListPanel;
     private ResultDisplay resultDisplay;
     private StatusBarFooter statusBarFooter;
+    
+    @FXML
     private CommandBox commandBox;
     private Config config;
     private UserPrefs userPrefs;
@@ -95,7 +101,6 @@ public class MainWindow extends UiPart {
         this.addressBookName = addressBookName;
         this.config = config;
         this.userPrefs = prefs;
-        
         versionNum.setText(MainApp.VERSION.toString());
 
         //Configure the UI
@@ -106,11 +111,13 @@ public class MainWindow extends UiPart {
         
         scene = new Scene(rootLayout);
         
+     
+        
         loadCustomTrueTypeFonts();
         
         primaryStage.setScene(scene);
-
-        setAccelerators();
+     
+//        setAccelerators();
     }
     
     // @@author A0135768R
@@ -122,7 +129,8 @@ public class MainWindow extends UiPart {
     
     // @@author reused
     private void setAccelerators() {
-        //helpMenuItem.setAccelerator(KeyCombination.valueOf("F1"));
+        helpMenuItem.setAccelerator(KeyCombination.valueOf("F1"));
+//        logic.execute("undo");
     }
 
     public void fillInnerParts() {
