@@ -5,6 +5,7 @@ import java.util.Map.Entry;
 import java.util.logging.Level;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 
 import javafx.util.Pair;
@@ -18,7 +19,7 @@ public class Config {
     public static final String DEFAULT_CONFIG_FILE = "config.json";
     
     @JsonIgnore
-    public static final Map<String, Pair<Class<?>, Object>> DEFAULT_CONFIGS = Maps.newHashMap() ;
+    private static final Map<String, Pair<Class<?>, Object>> DEFAULT_CONFIGS = Maps.newHashMap() ;
 
     // Config values customizable through config file
     private Map<String, Object> configRegistry = Maps.newHashMap() ;
@@ -66,6 +67,10 @@ public class Config {
         }
         
         return (T) configRegistry.get(key) ;
+    }
+    
+    public ImmutableMap<String, Pair<Class<?>, Object>> getDefaultConfigs() {
+        return ImmutableMap.copyOf(DEFAULT_CONFIGS) ;
     }
 
     @Override

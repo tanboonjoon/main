@@ -19,6 +19,8 @@ public enum CommandArgs {
     FIND_NAME ("name/"),
     FIND_DESC ("desc/"),
     FIND_TAG ("tag/"),
+    
+    VALUES("v/"),
 
     // Special NULL flag to indicate useless arguments
     NULL_ARG("^/")

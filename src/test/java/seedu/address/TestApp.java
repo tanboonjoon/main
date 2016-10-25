@@ -47,6 +47,7 @@ public class TestApp extends MainApp {
         config.setTaskForceFilePath(saveFileLocation);
         config.setUserPrefsFilePath(DEFAULT_PREF_FILE_LOCATION_FOR_TESTING);
         config.setTaskForceName(TASKFORCE_NAME);
+        config.setConfigurationOption("enableSudo", true);
         return config;
     }
 
