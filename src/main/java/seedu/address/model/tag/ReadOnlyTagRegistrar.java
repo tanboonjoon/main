@@ -13,12 +13,14 @@ public interface ReadOnlyTagRegistrar {
     public static final String MESSAGE_DUPLICATE_NAME = "The given tag name already exists!" ;
     
     /**
-     * Given a tag string to the registry, the registry will either return the Tag object with tag name
+     * Given a tag string to the registry, the registry will return the Tag object with tag name
      * matching the given string.
      * <p>
      * Additionally if register is set to true,
      * if the tag is not currently in the registry, this create a new Tag object with the given
-     * string and returns it.
+     * string and returns it. <br>
+     * 
+     * If not, this function returns null ;
      * 
      * @param tagString     The tag name to be queried
      * @param register      If true, this will register a new tag with the given name if not found; otherwise this will return null;

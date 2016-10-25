@@ -40,7 +40,7 @@ public class TagRegistrar implements ReadOnlyTagRegistrar {
     }
     
     private String parseInput (String input) {
-        return input.trim().toLowerCase() ;
+        return (input != null) ? input.trim().toLowerCase() : null ;
     }
     
     /**
