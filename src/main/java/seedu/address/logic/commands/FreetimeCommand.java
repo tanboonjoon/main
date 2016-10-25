@@ -165,6 +165,7 @@ public class FreetimeCommand extends Command{
 
 	
 	private String freetimeForMutipleEvents(LocalDateTime startTime, LocalDateTime endTime,LocalDateTime thatDay, StringBuilder sb) {
+		
 		int same_day = thatDay.getDayOfMonth();
 		sb.append(String.format(DEFAULT_STARTING_MESSAGE, thatDay.format(dateFormat)));
 		LocalDateTime currentStartTime = startTime;
@@ -197,6 +198,7 @@ public class FreetimeCommand extends Command{
 	}
 	
 	private String getAllFreeSlot(LocalDateTime currentEndTime, int same_day, StringBuilder sb) {
+		boolean checkFreeTime = false;
 		LocalDateTime tempCurrEndTime = currentEndTime;
 		LocalDateTime nextStartTime;
 		LocalDateTime nextEndTime;
@@ -208,9 +210,9 @@ public class FreetimeCommand extends Command{
 				tempCurrEndTime = getNextEndTime(tempCurrEndTime, timeList.get(time_index).getValue());
 				continue;
 			}
-		
+			
 			sb.append(String.format(BETWEEN_EVENT_MESSAGE, tempCurrEndTime.format(hourFormat), nextStartTime.format(hourFormat)));
-
+			
 			if (isTimeBeforeActiveHour(activeHourEnd , nextEndTime)) {
 				return sb.toString();
 			}
@@ -219,9 +221,15 @@ public class FreetimeCommand extends Command{
 			
 			tempCurrEndTime = nextEndTime;
 
+			if (checkFreeTime == true) {
+				continue;
+			}
+			checkFreeTime = true;
+
 		}
 		if (isTimeBeforeActiveHour(activeHourEnd , tempCurrEndTime) || activeHourEnd.isEqual(tempCurrEndTime)) {
-			return sb.toString();
+			return checkFreeTime == true ? sb.toString() 
+					: sb.append(NO_FREE_TIME_MESSAGE).toString();
 		}
 		
 

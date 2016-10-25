@@ -127,15 +127,15 @@ public class FreetimeTest extends TaskForceGuiTest{
 
 	@Test
 	public void validCommandMultipleEvent() {
-		commandBox.runCommand("add event st/today 3am et/today 12pm");
+		commandBox.runCommand("add event st/today 9am et/today 12pm");
 		commandBox.runCommand("add event2 st/today 2:30am et/today 11am");
 		commandBox.runCommand("add event3 st/today 2pm et/today 5pm");
 		commandBox.runCommand("freetime day/0");
 		StringBuilder sb = new StringBuilder();
 		sb.append(String.format(FreetimeCommand.DEFAULT_STARTING_MESSAGE, now.format(eventFormatter)))
-		.append(String.format(FreetimeCommand.FIRST_EVENT_MESSAGE, "0230"))
+		.append(String.format(FreetimeCommand.BETWEEN_EVENT_MESSAGE, "0800", "0900"))
 		.append(String.format(FreetimeCommand.BETWEEN_EVENT_MESSAGE, "1200", "1400"))
-		.append(String.format(FreetimeCommand.LAST_EVENT_MESSAGE, "1700"));
+		.append(String.format(FreetimeCommand.BETWEEN_EVENT_MESSAGE, "1700", "2100"));
 		
 		assertResultMessage(sb.toString());
 	}
@@ -155,6 +155,19 @@ public class FreetimeTest extends TaskForceGuiTest{
 	
 	@Test
 	public void validCommandMutipleEventEndLater() {
+		commandBox.runCommand("add event st/today 9:30am et/today 11am");
+		commandBox.runCommand("add event2 st/" + yesterday.format(addCommandFormatter) + " et/today 12pm");
+		commandBox.runCommand("add event3 st/today 5pm et/today 10pm");
+		commandBox.runCommand("freetime day/0");
+		StringBuilder sb = new StringBuilder();
+		sb.append(String.format(FreetimeCommand.DEFAULT_STARTING_MESSAGE, now.format(eventFormatter)))
+		.append(String.format(FreetimeCommand.BETWEEN_EVENT_MESSAGE, "0800", "0930"))
+		.append(String.format(FreetimeCommand.BETWEEN_EVENT_MESSAGE, "1200", "1700"));
+		assertResultMessage(sb.toString());
+	}
+	
+	@Test
+	public void validCommandMutipleEventStartEarly() {
 		commandBox.runCommand("add event st/today 2:30am et/today 11am");
 		commandBox.runCommand("add event2 st/" + yesterday.format(addCommandFormatter) + " et/today 12pm");
 		commandBox.runCommand("add event3 st/today 5pm et/today 6pm");
@@ -162,7 +175,7 @@ public class FreetimeTest extends TaskForceGuiTest{
 		StringBuilder sb = new StringBuilder();
 		sb.append(String.format(FreetimeCommand.DEFAULT_STARTING_MESSAGE, now.format(eventFormatter)))
 		.append(String.format(FreetimeCommand.BETWEEN_EVENT_MESSAGE, "1200", "1700"))
-		.append(String.format(FreetimeCommand.LAST_EVENT_MESSAGE, "1800"));
+		.append(String.format(FreetimeCommand.BETWEEN_EVENT_MESSAGE, "1800", "2100"));
 		assertResultMessage(sb.toString());
 	}
 		
