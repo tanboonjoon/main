@@ -23,6 +23,10 @@ import seedu.address.model.task.Task;
 import seedu.address.model.task.UniqueTaskList;
 import seedu.address.model.task.UniqueTaskList.TaskNotFoundException;
 
+/*
+ * Edits a existing task in all ways possible
+ * @@author: A0111277M
+ */
 public class EditCommand extends Command {
     
     public static final String[] COMMAND_WORD = {
