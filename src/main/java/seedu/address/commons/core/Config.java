@@ -5,6 +5,7 @@ import java.util.Map.Entry;
 import java.util.logging.Level;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 
 import javafx.util.Pair;
@@ -18,7 +19,7 @@ public class Config {
     public static final String DEFAULT_CONFIG_FILE = "config.json";
     
     @JsonIgnore
-    public static final Map<String, Pair<Class<?>, Object>> DEFAULT_CONFIGS = Maps.newHashMap() ;
+    private static final Map<String, Pair<Class<?>, Object>> DEFAULT_CONFIGS = Maps.newHashMap() ;
 
     // Config values customizable through config file
     private Map<String, Object> configRegistry = Maps.newHashMap() ;
@@ -31,19 +32,25 @@ public class Config {
        Config.<String>registerNewConfigWithDefault("appName", "My Todo list") ;
        Config.<String>registerNewConfigWithDefault("activeHoursFrom", "0800") ;
        Config.<String>registerNewConfigWithDefault("activeHoursTo", "2100") ;
+       Config.<Boolean>registerNewConfigWithDefault("enableSudo", false) ;
        
     }
     
     private static <T> void registerNewConfigWithDefault (String key, T value) {
         DEFAULT_CONFIGS.put(key, new Pair<Class<?>, Object>(value.getClass(), value)) ;
     }
-
     
-    public Config () {
-        registerDefaultConfigs() ;
+    public static Class<?> getConfigValueType (String configOption) {
+        return (DEFAULT_CONFIGS.get(configOption) != null) ? DEFAULT_CONFIGS.get(configOption).getKey() : null ;
     }
     
-    private void registerDefaultConfigs() {
+    public Config () {
+        resetAndregisterDefaultConfigs() ;
+    }
+    
+    public void resetAndregisterDefaultConfigs() {
+        configRegistry.clear() ;
+        
         for (Entry<String, Pair<Class<?>, Object>> entry : DEFAULT_CONFIGS.entrySet()) {
             
             Class<?> clazz = entry.getValue().getKey() ;
@@ -65,6 +72,10 @@ public class Config {
         }
         
         return (T) configRegistry.get(key) ;
+    }
+    
+    public ImmutableMap<String, Pair<Class<?>, Object>> getDefaultConfigs() {
+        return ImmutableMap.copyOf(DEFAULT_CONFIGS) ;
     }
 
     @Override

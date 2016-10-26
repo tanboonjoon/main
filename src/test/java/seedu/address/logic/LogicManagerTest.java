@@ -73,6 +73,8 @@ public class LogicManagerTest {
         latestSavedAddressBook = new TaskForce(model.getTaskForce()); // last saved assumed to be up to date before.
         helpShown = false;
         targetedJumpIndex = -1; // non yet
+        
+        model.getConfigs().setConfigurationOption("enableSudo", true);
     }
 
     @After
