@@ -300,6 +300,11 @@ public class ModelManager extends ComponentManager implements Model {
 		// TODO Auto-generated method stub
 		return new UnmodifiableObservableList<>(sortedFilteredTasks);
 	}
+	
+	/*
+	 * Allows the Taskforce App to start with today's tasks
+	 * @@author: A0111277M
+	 */
 
     public UnmodifiableObservableList<ReadOnlyTask> startWithTodaysTasks() {
     	Set<String> keywordSet = new HashSet<String>();

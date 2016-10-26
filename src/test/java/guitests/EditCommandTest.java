@@ -57,8 +57,6 @@ public class EditCommandTest extends TaskForceGuiTest {
         //edit invalid command
         commandBox.runCommand("Edits Johnny");
         assertResultMessage(Messages.MESSAGE_UNKNOWN_COMMAND);
-
-
         
     }
 
