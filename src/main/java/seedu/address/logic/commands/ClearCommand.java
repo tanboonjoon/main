@@ -46,10 +46,7 @@ public class ClearCommand extends Command {
         alert.setContentText("This operation is not undoable. If proceed, all information will be deleted forever. Are you sure?");
 
         Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == ButtonType.OK){
-            return true;
-        } else {
-            return false;
-        }
+        return result.get() == ButtonType.OK;
+        
     }
 }
