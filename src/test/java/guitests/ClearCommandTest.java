@@ -2,6 +2,8 @@ package guitests;
 
 import org.junit.Test;
 
+import seedu.address.logic.commands.ClearCommand;
+
 import static org.junit.Assert.assertTrue;
 
 public class ClearCommandTest extends TaskForceGuiTest {
@@ -25,7 +27,8 @@ public class ClearCommandTest extends TaskForceGuiTest {
 
     private void assertClearCommandSuccess() {
         commandBox.runCommand("clear");
+        commandBox.pressEnter();
         assertListSize(0);
-        assertResultMessage("Address book has been cleared!");
+        assertResultMessage(ClearCommand.MESSAGE_SUCCESS);
     }
 }
