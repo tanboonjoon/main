@@ -15,7 +15,6 @@ public class ClearCommand extends Command {
     public static final String CLEAR_OPERATION_CANCELED = "Clear operation canceled!";
     public static final String COMMAND_WORD = "clear";
     public static final String MESSAGE_SUCCESS = "TaskForce data has been cleared!";
-    public static final String MESSAGE_SUCCESS = "Address book has been cleared!";
     public static final String SUDO_REQUIRED = "SUDO mode needs to be required to perform this action." ;
 
     
