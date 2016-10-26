@@ -19,10 +19,11 @@ public class FindCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Finds all tasks whose names contain any of "
             + "the specified keywords (case-sensitive) and displays them as a list with index numbers.\n"
-            + "Parameters: TYPE/KEYWORDS\n"
-            + "Example: " + COMMAND_WORD + " all/meeting\n" 
+            + "Parameters: " + COMMAND_WORD +" TYPE/KEYWORDS [mark/true]\n"
+            + "Example: " + COMMAND_WORD + " name/meeting\n" 
             +  COMMAND_WORD + " day/3\n" 
-            +  COMMAND_WORD + " week/-4";
+            +  COMMAND_WORD + " week/-4"
+            +  COMMAND_WORD + " tag/Done mark/true";
     public final static String INVALID_FIND_DATE_MESSAGE = "Please enter valid number when search by day/week";
    
     private final String FIND_TYPE_NAME = "NAME";
@@ -37,14 +38,16 @@ public class FindCommand extends Command {
   
     private final Set<String> keywords;
     private final String findType;
+    private final boolean isMarkCheck;
 
-    public FindCommand(Set<String> keywords, String findType) throws IllegalValueException {
+    public FindCommand(Set<String> keywords, String findType, boolean isMarkCheck) throws IllegalValueException {
 
     	if (!checkKeyWord(keywords, findType)) {
         	throw new IllegalValueException(INVALID_FIND_DATE_MESSAGE);
         }
     	this.keywords = keywords;
         this.findType = findType;
+        this.isMarkCheck = isMarkCheck;
     }
     
     //This method ensure that keyword for type 'day' and 'week' contain only a integer number
@@ -73,7 +76,7 @@ public class FindCommand extends Command {
 
     @Override
     public CommandResult execute() {
-        model.updateFilteredTaskList(keywords, findType);
+        model.updateFilteredTaskList(keywords, findType, isMarkCheck);
         return new CommandResult(getMessageForTaskListShownSummary(model.getSortedFilteredTask().size()), true);
     }
 }

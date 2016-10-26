@@ -197,8 +197,8 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     @Override
-    public void updateFilteredTaskList(Set<String> keywords, String findType) {
-        updateFilteredTaskList(new PredicateExpression(new NameQualifier(keywords, findType)));
+    public void updateFilteredTaskList(Set<String> keywords, String findType, boolean isCheckMark) {
+        updateFilteredTaskList(new PredicateExpression(new NameQualifier(keywords, findType, isCheckMark)));
     }
 
     private void updateFilteredTaskList(Expression expression) {

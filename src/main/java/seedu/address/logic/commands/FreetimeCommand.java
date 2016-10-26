@@ -75,7 +75,7 @@ public class FreetimeCommand extends Command{
 	public CommandResult execute() {
 		activeHourStart = roundUpTime(getActiveHour("activeHoursFrom"));
 		activeHourEnd = roundUpTime(getActiveHour("activeHoursTo"));
-		model.updateFilteredTaskList(searchSet, SEARCH_TYPE);
+		model.updateFilteredTaskList(searchSet, SEARCH_TYPE, false);
 		List<ReadOnlyTask> filteredList = model.getFilteredTaskList();
 
 		LocalDateTime onThatDay = getThatDay();
