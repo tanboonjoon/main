@@ -50,13 +50,14 @@ public class CommandBox extends UiPart {
         commandTextField.getStyleClass().removeAll();
         commandTextField.getStyleClass().add("command-box") ;
         
+// @@author A0140037W START       
         commandTextField.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
             if(undoKeyCombo.match(key)){
-                logic.execute("undo");
+                logic.execute(UndoCommand.COMMAND_WORD);
             }else if(redoKeyCombo.match(key)){
-                logic.execute("redo");
+                logic.execute(RedoCommand.COMMAND_WORD);
             }
-                
+// @@author A0140037W END               
     }
             );
         registerAsAnEventHandler(this);
