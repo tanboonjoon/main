@@ -182,7 +182,7 @@ and logging destinations.
   
 ### Tasks
 All tasks created in TaskForce are immutable. The whole program revolve around Adding and Deleting Tasks. Commands Such as EditCommand
-MarkCommands are extension of Addding and Deleting Tasks.
+MarkCommands are extension of Adding and Deleting Tasks.
 
 * Adding and Deleting Tasks will trigger an event to inform and update the Model side that the list is updated.
 * Having commands revolve around Adding and Deleting simplify our implementation as the Model only have to listen to when Tasks are
@@ -214,6 +214,11 @@ The nature of the ObservableList allow the list shown to be constantly updated w
 The CdCommand recreate the config.json file using default Config Class as a base. The only difference is that the config.json file will contained the new savepath indicated by users. Any modification made directly to the config.json file will be overwritten when
 CdCommand is used. This command is for new users who are not comfortable with editing the config.json file. 
 Advanced Users are adviced to change the config.json directly to meet their needs.
+
+### ClearCommand
+The ClearCommand will erase TaskForce data and history upon executed. A confirmation dialog will appear to get user's confirmation before proceed to do the irreversable operation. 
+User is adviced to use arrow key and space bar to select the option on the confirmation dialog in the absent of a mouse.
+
 
 ### Configuration
 
@@ -451,7 +456,9 @@ Use case ends.
 **MSS:**
 
 1. User will enter clear to clear the save data.
-2. The system will display 'TaskForce has been cleared'.
+2. The system will display a confirmation dialog.
+3a. If user response "Okay", the system will display 'TaskForce data has been cleared'.
+3b. If user response "Cancel", the system will display 'Clear operation canceled!'.
 
 Use case ends
 
