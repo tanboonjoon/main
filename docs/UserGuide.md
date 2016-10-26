@@ -195,7 +195,7 @@ Examples:
 
 ### Changing configuration options : `config`
 Allows for changing of configuration options in config.json <br>
-**Warning:** This is for advanced users only!
+**Warning: This is for advanced users only!** <br>
 Format : `config CONFG_OPTION v/NEW_VALUE` <br>
 The following table are the config options and its values that is avaliable for modification by this command. <br>
 
@@ -203,8 +203,8 @@ Configuration Option  | Values             | Description
 --------------------- | :------------------|:-----------------
 taskForceDataFilePath | Use the `cd` command | The location of the data save file
 userPrefsFilePath   | A file path | The location of the user preferences file
-activeHoursFrom | 0000 to 2400 | The earliest hour that the freetime command would take into account
-activeHoursTo | 0000 to 2400 | The latest hour that the freetime command would take into account
+activeHoursFrom | 0000 to 2400 | The earliest hour that the freetime command would take into account when computing your freetime
+activeHoursTo | 0000 to 2400 | The latest hour that the freetime command would take into account when computing your freetime
 enableSudo | true or false | When enabled, you can perform the clear command and other commands for advanced users
 
 
