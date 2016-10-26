@@ -31,6 +31,8 @@ public class FindCommandParser extends CommandParser {
     public static int FIND_TYPE_INDEX = 0;
     public static String NULL_STRING = null;
     public static String SEPERATOR = "/";
+    public static boolean INCLUDE_MARK = true;
+    public static boolean EXCLUDE_MARK = false;
     private ArgumentsParser parser;
     @Override
     public Command prepareCommand(String args) {
@@ -41,9 +43,8 @@ public class FindCommandParser extends CommandParser {
         try {	
 
             parser.parse(args);
-            
+            final boolean checkMark = prepareMarkArgs();
             final String find_type = prepareFindTypes();
-            
             if (!isValidArgs(find_type, args.trim())) {
                 return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
                         FindCommand.MESSAGE_USAGE));
@@ -51,7 +52,7 @@ public class FindCommandParser extends CommandParser {
             
             
             final  Set<String> keywordSet = prepareSets(find_type);
-            return new FindCommand(keywordSet, find_type);
+            return new FindCommand(keywordSet, find_type, checkMark);
             
         } catch (IncorrectCommandException e) {
              return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
@@ -68,7 +69,9 @@ public class FindCommandParser extends CommandParser {
 
     }
     
-    private Set<String> prepareSets(String find_type) throws IncorrectCommandException {
+
+
+	private Set<String> prepareSets(String find_type) throws IncorrectCommandException {
 		// TODO Auto-generated method stub
     	final String[] keywords = getKeywords(find_type);
     	final Set<String> preparedKeywordSet = Sets.newHashSet(Arrays.asList(keywords));
@@ -84,8 +87,8 @@ public class FindCommandParser extends CommandParser {
     	.addOptionalArg(CommandArgs.FIND_WEEK)
     	.addOptionalArg(CommandArgs.FIND_DAY)
     	.addOptionalArg(CommandArgs.FIND_DESC)
-    	.addOptionalArg(CommandArgs.FIND_TAG);
-    	
+    	.addOptionalArg(CommandArgs.FIND_TAG)
+    	.addOptionalArg(CommandArgs.FIND_MARK);
     	return prepareParser;
 	}
 
@@ -119,29 +122,59 @@ public class FindCommandParser extends CommandParser {
       	
     }
 	
+    private boolean prepareMarkArgs() throws IncorrectCommandException {
+		// TODO Auto-generated method stub
+		String markArgs = getMarkArg();
+		System.out.println(markArgs);
+		if ("true".equalsIgnoreCase(markArgs)) {
+			System.out.println("hey");
+			return INCLUDE_MARK;
+		}
+		
+		if (EMPTY_STRING.equals(markArgs)) {
+			System.out.println("lol");
+			return EXCLUDE_MARK;
+		}
+		System.out.println("lasd");
+		throw new IncorrectCommandException();
+	}
+	
+	private String getMarkArg() {
+		if (!parser.getArgValue(CommandArgs.FIND_MARK).isPresent()) {
+			return EMPTY_STRING;
+		}
+		
+		return parser.getArgValue(CommandArgs.FIND_MARK).get();
+			
+
+
+	}
+
+
+
 	private String getTagArg() {
 		// TODO Auto-generated method stub
-		return parser.getArgValue(CommandArgs.FIND_TAG).isPresent()  ? "TAG"  : "";	
+		return parser.getArgValue(CommandArgs.FIND_TAG).isPresent()  ? "TAG"  : EMPTY_STRING;	
 	}
 
 	private String getDescArg() {
 		// TODO Auto-generated method stub
-		return parser.getArgValue(CommandArgs.FIND_DESC).isPresent() ? "DESC" : "";
+		return parser.getArgValue(CommandArgs.FIND_DESC).isPresent() ? "DESC" : EMPTY_STRING;
 	}
 
 	private String getDayArg() {
 		// TODO Auto-generated method stub
-		return parser.getArgValue(CommandArgs.FIND_DAY).isPresent()  ? "DAY"  : "";
+		return parser.getArgValue(CommandArgs.FIND_DAY).isPresent()  ? "DAY"  : EMPTY_STRING;
 	}
 
 	private String getWeekArg() {
 		// TODO Auto-generated method stub
-		return parser.getArgValue(CommandArgs.FIND_WEEK).isPresent() ? "WEEK" : "";
+		return parser.getArgValue(CommandArgs.FIND_WEEK).isPresent() ? "WEEK" : EMPTY_STRING;
 	}
 
 	private String getNameArg() {
 		// TODO Auto-generated method stub
-		return parser.getArgValue(CommandArgs.FIND_NAME).isPresent() ? "NAME"  : "";
+		return parser.getArgValue(CommandArgs.FIND_NAME).isPresent() ? "NAME"  : EMPTY_STRING;
 	}
 	
 

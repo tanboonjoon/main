@@ -31,7 +31,8 @@ public class NameQualifier implements Qualifier {
     
     private static final boolean TASK_NOT_FOUND = false;
     private static final boolean TASK_FOUND = true;
-
+    private static final boolean MARKED_TASK = true;
+    private static final boolean MARK_NOT_FILTERED = false;
     private static final int STARTING_INDEX  = 0;
     private static final int LAST_DAY_INDEX = 7;
 
@@ -47,19 +48,24 @@ public class NameQualifier implements Qualifier {
     private DateTimeFormatter format_exclude_time;
     private ArrayList<String> formattedDateList;
     private ArrayList<LocalDateTime> dateToCompareList;
+    private boolean isMarkCheck;
 
-    public NameQualifier(Set<String> nameKeyWords, String findType) {
+    public NameQualifier(Set<String> nameKeyWords, String findType, boolean isMarkCheck) {
 
         this.formattedDateList = new ArrayList<String>();
         this.dateToCompareList = new ArrayList<LocalDateTime>();
         this.format_exclude_time = DateTimeFormatter.ofPattern("ddMMyyyy");
         this.nameKeyWords = nameKeyWords;
         this.findType = findType;
+        this.isMarkCheck = isMarkCheck;
     }
 
     @Override
     public boolean run(ReadOnlyTask task) {
-
+    	
+    	if (isMarkCheck == MARK_NOT_FILTERED && task.getDoneStatus() == MARKED_TASK) {
+    		return TASK_NOT_FOUND;
+    	}
         if (isKeywordSearch(findType)) {
             Trie keywordTrie = buildKeyword();
             return filterByKeyWord(task, keywordTrie, findType);

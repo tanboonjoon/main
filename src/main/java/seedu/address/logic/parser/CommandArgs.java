@@ -14,11 +14,12 @@ public enum CommandArgs {
     REPETITION("repeat/", "r/"),
 
     //Arguments for find command to parse
-    FIND_DAY ("day/"),
-    FIND_WEEK ("week/"),
-    FIND_NAME ("name/"),
+    FIND_DAY ("day/", "d/"),
+    FIND_WEEK ("week/", "w/"),
+    FIND_NAME ("name/", "n/"),
     FIND_DESC ("desc/"),
-    FIND_TAG ("tag/"),
+    FIND_TAG ("tag/", "t/"),
+    FIND_MARK ("mark/", "m/"),
     
     VALUES("v/"),
 
