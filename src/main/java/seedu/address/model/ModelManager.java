@@ -43,8 +43,8 @@ public class ModelManager extends ComponentManager implements Model {
     private final FilteredList<Task> filteredTasks;
     private final SortedList<Task> sortedFilteredTasks;
     private final FilteredList<Task> filteredTasksForSearching;
-    private final Deque<TaskForceCommandExecutedEvent> undoTaskForceHistory = new LinkedList<TaskForceCommandExecutedEvent>();
-    private final Deque<TaskForceCommandExecutedEvent> redoTaskForceHistory = new LinkedList<TaskForceCommandExecutedEvent>();
+    private final Deque<TaskForceCommandExecutedEvent> undoHistory = new LinkedList<TaskForceCommandExecutedEvent>();
+    private final Deque<TaskForceCommandExecutedEvent> redoHistory = new LinkedList<TaskForceCommandExecutedEvent>();
     private final TagRegistrar tagRegistrar = new TagRegistrar() ;
     private final Config config ;
     
@@ -95,6 +95,8 @@ public class ModelManager extends ComponentManager implements Model {
     public void resetData(ReadOnlyTaskForce newData) {
         taskForce.resetData(newData);
         tagRegistrar.setAllTags(newData.getTagList());
+        this.undoHistory.clear();
+        this.redoHistory.clear();
         indicateTaskForceChanged();
     }
 
@@ -145,9 +147,9 @@ public class ModelManager extends ComponentManager implements Model {
     @Override
     public TaskForceCommandExecutedEvent revertChanges() {
 
-        if (undoTaskForceHistory.peekFirst() != null) {
+        if (undoHistory.peekFirst() != null) {
 
-            return  undoTaskForceHistory.pollFirst();
+            return  undoHistory.pollFirst();
             
         } 
         return null;   
@@ -155,8 +157,8 @@ public class ModelManager extends ComponentManager implements Model {
 
     @Override
     public TaskForceCommandExecutedEvent restoreChanges() {
-        if (redoTaskForceHistory.peekFirst() != null) {
-            return redoTaskForceHistory.removeFirst();
+        if (redoHistory.peekFirst() != null) {
+            return redoHistory.removeFirst();
         }
         return null;
     }
@@ -173,12 +175,12 @@ public class ModelManager extends ComponentManager implements Model {
     private void saveCommandChanges(TaskForceCommandExecutedEvent event) {
         if(!(event.commandInstance.getCommandChanges().getKey().isEmpty() && event.commandInstance.getCommandChanges().getValue().isEmpty())){
             if(event.commandInstance.getClass().getSimpleName().equals("RedoCommand")) {
-                saveChanges(undoTaskForceHistory, event, MAX_UNDOS_REDOS);
+                saveChanges(undoHistory, event, MAX_UNDOS_REDOS);
             }else if(event.commandInstance.getClass().getSimpleName().equals("UndoCommand")){
-                saveChanges(redoTaskForceHistory, event, MAX_UNDOS_REDOS);
+                saveChanges(redoHistory, event, MAX_UNDOS_REDOS);
             }else{
-                saveChanges(undoTaskForceHistory, event, MAX_UNDOS_REDOS);
-                redoTaskForceHistory.clear();
+                saveChanges(undoHistory, event, MAX_UNDOS_REDOS);
+                redoHistory.clear();
             }
         }
     }
