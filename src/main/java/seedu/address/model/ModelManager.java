@@ -1,11 +1,14 @@
 package seedu.address.model;
 
 
+import java.util.Arrays;
 import java.util.Deque;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import com.google.common.collect.Sets;
 import com.google.common.eventbus.Subscribe;
 
 import javafx.collections.transformation.FilteredList;
@@ -73,8 +76,7 @@ public class ModelManager extends ComponentManager implements Model {
         tagRegistrar.setAllTags(src.getTagList());
         filteredTasks = new FilteredList<>(taskForce.getTasks());
         sortedFilteredTasks = setUpSortedList();
-        filteredTasksForSearching = new FilteredList<>(taskForce.getTasks());
-        
+        filteredTasksForSearching = new FilteredList<>(taskForce.getTasks());        
     }
 
 	public ModelManager() {
@@ -203,7 +205,6 @@ public class ModelManager extends ComponentManager implements Model {
 
     private void updateFilteredTaskList(Expression expression) {
         filteredTasks.setPredicate(expression::satisfies);
-  
     }
     
 	@Override
@@ -300,7 +301,12 @@ public class ModelManager extends ComponentManager implements Model {
 		return new UnmodifiableObservableList<>(sortedFilteredTasks);
 	}
 
-
+    public UnmodifiableObservableList<ReadOnlyTask> startWithTodaysTasks() {
+    	Set<String> keywordSet = new HashSet<String>();
+    	keywordSet.add("0");
+    	updateFilteredTaskList(keywordSet, "DAY", false);
+    	return getSortedFilteredTask();
+    }
 
 }
 

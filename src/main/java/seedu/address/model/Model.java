@@ -2,6 +2,7 @@ package seedu.address.model;
 
 import java.util.Set;
 
+import javafx.collections.ObservableList;
 import seedu.address.commons.core.Config;
 import seedu.address.commons.core.UnmodifiableObservableList;
 import seedu.address.commons.events.BaseEvent;
@@ -67,5 +68,7 @@ public interface Model {
     public void searchTaskList(Expression expression) ;
     
     public UnmodifiableObservableList<ReadOnlyTask> getSearchedTaskList() ;
+
+	public ObservableList<ReadOnlyTask> startWithTodaysTasks();
 
 }
