@@ -34,6 +34,7 @@ public class MainWindow extends UiPart {
     private TaskListPanel taskListPanel;
     private ResultDisplay resultDisplay;
     private StatusBarFooter statusBarFooter;
+    
     private CommandBox commandBox;
     private Config config;
     private UserPrefs userPrefs;
@@ -95,7 +96,6 @@ public class MainWindow extends UiPart {
         this.addressBookName = addressBookName;
         this.config = config;
         this.userPrefs = prefs;
-        
         versionNum.setText(MainApp.VERSION.toString());
 
         //Configure the UI
@@ -105,11 +105,11 @@ public class MainWindow extends UiPart {
         setWindowDefaultSize(prefs);
         
         scene = new Scene(rootLayout);
-        
+
         loadCustomTrueTypeFonts();
         
         primaryStage.setScene(scene);
-
+     
         setAccelerators();
     }
     
@@ -122,7 +122,7 @@ public class MainWindow extends UiPart {
     
     // @@author reused
     private void setAccelerators() {
-        //helpMenuItem.setAccelerator(KeyCombination.valueOf("F1"));
+//        helpMenuItem.setAccelerator(KeyCombination.valueOf("F1"));
     }
 
     public void fillInnerParts() {
