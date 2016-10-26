@@ -19,10 +19,11 @@ public class FindCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Finds all tasks whose names contain any of "
             + "the specified keywords (case-sensitive) and displays them as a list with index numbers.\n"
-            + "Parameters: TYPE/KEYWORDS\n"
-            + "Example: " + COMMAND_WORD + " all/meeting\n" 
+            + "Parameters: " + COMMAND_WORD +" TYPE/KEYWORDS [mark/true]\n"
+            + "Example: " + COMMAND_WORD + " name/meeting\n" 
             +  COMMAND_WORD + " day/3\n" 
-            +  COMMAND_WORD + " week/-4";
+            +  COMMAND_WORD + " week/-4"
+            +  COMMAND_WORD + " tag/Done mark/true";
     public final static String INVALID_FIND_DATE_MESSAGE = "Please enter valid number when search by day/week";
    
     private final String FIND_TYPE_NAME = "NAME";

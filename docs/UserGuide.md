@@ -119,7 +119,7 @@ Examples:
 
 #### Searching for (a) specific task(s): `find`
 Finds tasks of a specific time, or whose names contain any of the given keywords.  
-Format: `find METHOD/ KEYWORDS`
+Format: `find METHOD/ KEYWORDS [mark/TRUE]`
 KEYWORDS for TYPE 'name/' 'desc/' 'tag/' is a word that is contain/part of a task name/description/tag
 KEYWORDS for TYPE 'day' and 'week' is a integer number.
 
@@ -132,12 +132,14 @@ Method | Explanation | Example
 `desc/` | List all tasks with the tags of task containing the keywords | `find name/ shoes`
 
 
-> * The search is not case sensitive. e.g `hans` will match `Hans`
-> * The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
-> * Only the name is searched.
-> * Full and sub-words will be matched e.g. `Han` will match `Hans`
-> * Persons matching at least one keyword will be returned (i.e. `OR` search).
-    e.g. `Hans` will match `Hans Bo`
+> * The search is not case sensitive. e.g `task` will match `TaSK`
+> * The order of the keywords does not matter. e.g. `is s task` will match `task is a`
+> * Sub-words will be matched e.g. `sk` will match `task`
+> * Tasks matching at least one keyword will be returned (i.e. `OR` search).
+
+> * FindCommand filtered out marked tasks automatically, user can turn off filter by using [mark/TRUE]
+to include marked task in search
+* 'find name/i wan to find marked task mark/true'
 
 
 #### Deleting a task : `delete`
@@ -239,7 +241,7 @@ Clear | `clear`
 Delete | `delete INDEX`
 Edit | `edit INDEX [NAME] [s/START_DATE] [e/END_DATE] ...`
 Freetime | `freetime [day/DAYS_FROM_TODAY]`
-Find | `find METHOD/ KEYWORD [MORE_KEYWORDS_FOR_ALL_METHOD]`
+Find | `find METHOD/KEYWORDS [mark/TRUE]`
 cd   | `cd [FILEPATH/FILENAME.xml]`
 Undo | `undo`
 Help | `help`
