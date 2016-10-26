@@ -24,6 +24,7 @@ public class CdCommandTest extends TaskForceGuiTest {
 	private String INVALID_FILE_PATH_MESSAGE;
 	private String originalSavePath;
 	
+	
 	//set to the default save location set by config class
 	@Before
 	public  void setDefaultSaveLocation() throws IOException {
@@ -35,10 +36,9 @@ public class CdCommandTest extends TaskForceGuiTest {
 	public void setUp() {
 		originalSavePath = this.getDataFileLocation() ;
 		String userPath = System.getProperty("user.dir");
-		invalidFileType = userPath.concat("\\asd.doc");
-		invalidMissingFileType = userPath.concat("\\asd");
-		
-		validPath = userPath.concat("\\src\\test\\java\\guitests\\forTesting.xml");
+		invalidFileType = userPath.concat(File.separator + "asd.doc");
+		invalidMissingFileType = userPath.concat(File.separator + "asd.doc");
+		validPath = userPath.concat(String.join(File.separator,File.separator, "src", "test", "java", "guitests","forTesting.xml"));
 	}
 	
 	
@@ -97,7 +97,7 @@ public class CdCommandTest extends TaskForceGuiTest {
         assertResultMessage( String.format(CdCommand.MESSAGE_SUCCESS_CHANGE, validPath) );
         
        
-        File file = new File("./src/test/java/guitests/forTesting.xml");
+        File file = new File(String.join(File.separator,"src", "test", "java", "guitests","forTesting.xml"));
         assertTrue(file.exists());
         file.delete() ;
 
