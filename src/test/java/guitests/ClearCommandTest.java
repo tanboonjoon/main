@@ -27,7 +27,6 @@ public class ClearCommandTest extends TaskForceGuiTest {
 
     private void assertClearCommandSuccess() {
         commandBox.runCommand("clear");
-        commandBox.pressEnter();
         assertListSize(0);
         assertResultMessage(ClearCommand.MESSAGE_SUCCESS);
     }
