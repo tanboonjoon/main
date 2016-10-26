@@ -31,7 +31,8 @@ public class NameQualifier implements Qualifier {
     
     private static final boolean TASK_NOT_FOUND = false;
     private static final boolean TASK_FOUND = true;
-
+    private static final boolean MARKED_TASK = true;
+    private static final boolean MARK_NOT_FILTERED = false;
     private static final int STARTING_INDEX  = 0;
     private static final int LAST_DAY_INDEX = 7;
 
@@ -61,7 +62,10 @@ public class NameQualifier implements Qualifier {
 
     @Override
     public boolean run(ReadOnlyTask task) {
-
+    	
+    	if (isMarkCheck == MARK_NOT_FILTERED && task.getDoneStatus() == MARKED_TASK) {
+    		return TASK_NOT_FOUND;
+    	}
         if (isKeywordSearch(findType)) {
             Trie keywordTrie = buildKeyword();
             return filterByKeyWord(task, keywordTrie, findType);

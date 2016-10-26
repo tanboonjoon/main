@@ -43,9 +43,8 @@ public class FindCommandParser extends CommandParser {
         try {	
 
             parser.parse(args);
-            
-            final String find_type = prepareFindTypes();
             final boolean checkMark = prepareMarkArgs();
+            final String find_type = prepareFindTypes();
             if (!isValidArgs(find_type, args.trim())) {
                 return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
                         FindCommand.MESSAGE_USAGE));
@@ -126,22 +125,28 @@ public class FindCommandParser extends CommandParser {
     private boolean prepareMarkArgs() throws IncorrectCommandException {
 		// TODO Auto-generated method stub
 		String markArgs = getMarkArg();
+		System.out.println(markArgs);
 		if ("true".equalsIgnoreCase(markArgs)) {
+			System.out.println("hey");
 			return INCLUDE_MARK;
 		}
 		
 		if (EMPTY_STRING.equals(markArgs)) {
+			System.out.println("lol");
 			return EXCLUDE_MARK;
 		}
-		
+		System.out.println("lasd");
 		throw new IncorrectCommandException();
 	}
 	
 	private String getMarkArg() {
-		if (parser.getArgValue(CommandArgs.FIND_TAG).isPresent()) {
-			return parser.getArgValue(CommandArgs.FIND_MARK).get();
+		if (!parser.getArgValue(CommandArgs.FIND_MARK).isPresent()) {
+			return EMPTY_STRING;
 		}
-		return EMPTY_STRING;
+		
+		return parser.getArgValue(CommandArgs.FIND_MARK).get();
+			
+
 
 	}
 
