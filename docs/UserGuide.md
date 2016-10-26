@@ -195,7 +195,6 @@ Examples:
 
 #### Clearing all entries : `clear`
 Clears **ALL** entries from the task list. This command **CANNOT** be undone! <br>
-A confirmation dialog will appear. Be adviced to use arrow key and space bar to select confirmation responses. 
 Format: `clear`  
 
 #### Exiting the program : `exit`
