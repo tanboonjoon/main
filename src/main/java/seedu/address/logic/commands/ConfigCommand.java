@@ -79,7 +79,8 @@ public class ConfigCommand extends Command {
         }
         
         if (Boolean.class.getName().equals(clazz.getName())) {
-            return new Boolean(value.toString()) ;
+            return ("true".equalsIgnoreCase(value.toString()) || "1".equals(value.toString())) ?
+                    Boolean.TRUE : Boolean.FALSE ;
         }
         
         if (Integer.class.getName().equals(clazz.getName())) {
