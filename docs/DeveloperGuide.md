@@ -124,7 +124,7 @@ The `UI` component,
 1. `Logic` invokes the `Parser` class to parse the user command.
 2. Upon recognizing the command, it sends the arguments to the `CommandParser` class, which recognizes the remaining arguments.
 3. This information is then captured in a `Command` object which is executed by the `LogicManager`.
-4. The command execution can affect the `Model` (e.g. adding a task) and/or raise events.
+4. The command execution can affect the `Model` (e.g. adding a person) and/or raise events.
 5. The result of the command execution is encapsulated as a `CommandResult` object which is passed back to the `Ui`.
 
 Given below is the Sequence Diagram for interactions within the `Logic` component for the `execute("delete 1")`
@@ -455,20 +455,15 @@ Use case ends.
 Use case ends.
 
 <!-- A0140037W -->
-### Use case : Clear all tasks from taskforce storage permanently(clear)
+### Use case : Clear task list (clear)
 
 **MSS:**
 
-1. User will enter clear to clear the save data completely.
+1. User will enter clear to clear the save data.
 2. The system will display a confirmation dialog.
-3. User will press enter to comfirm clear.
-4. The system will display 'TaskForce data has been cleared' .
+3. If user response "Okay", the system will display 'TaskForce data has been cleared'.
+4. If user response "Cancel", the system will display 'Clear operation canceled!'.
 
-Use case ends
-
-**Extension:**
-1a. User will cancel to reject clear.
-> The system will display 'Clear operation canceled!' .
 Use case ends
 
 
@@ -602,7 +597,7 @@ Use case ends
 
 Product Name | Strengths | Weakness
 ----------- | :---------------- | :----------------
-Todoist | Easily classified todo categories, collaboration, notifications | Labels & reminders are premium. Quest points gamification
+Todoist | <ul><li>Natural language parsing for location, timing</li><li>Ability to add tags, priority with # and !</li><li>Able to have recurring tasks using the "every" tag</li><li>Gamification: Gain exp(karma) and badges for completing assigned tasks, helps with building habits</li><li>Versatile in terms of accepting CLI and GUI both</li><li>Saved on the cloud, able to transfer within clients.</li></ul> | <ul><li>Many features are not free, require a premium account.</li><li>You must assign some form of date - no floating task.</li><li>Unable to block multiple dates and confirm</li><li>No calendar features - cannot have an event start and end at a time.</li><li>Hence, also unable to tell you your free time.</li></ul>
 Google Keep | Simple to use, lightweigh | Text based with no advanced functionality. No events
 Todo.txt | <ul><li> Can assign priority to task</li> <li>can associate many small task to a bigger task/project</li> <li> can search by keyword or by association to a projectName</li> <li>visual representation depending on priority of task </li> </ul> | <ul> <li>Require Addon to support task with due dates</li> <li> Require user to follow a strict input format</li> <li> does not tell you what time you are free</li> <li>Does not tell you if your task are overdue</li></ul> 
 Remember the Milk |  <ul> <li>Allows the management of large number of tasks</li> <li> Clean GUI </li> <li> Predefined search terms allows for easy access to tasks that are due in the near future <li> Allows for multiple lists which allows for seperation of tasks according to users perference (such as work-related tasks and personal tasks not in the same list)</li><li>Allows for tranferring of tasks to others using the app which can be used as a collaboration tool in an organisation</li><li>Has a mobile app which allows for usage in multiple devices in different occasions</li> </ul> | <ul> <li>Requires many clicks to add simple deadline that is due on some day not in the near future because of the calendar GUI</li><li>Very confusing for a new user due to functions hidden behind small buttons with icons that are not very intuitive.</li><li>Lots of information is hidden in the UI which requires the user to click on each task individually in order to view them</li><li>Offline mode is only avaliable to paying users</li></ul>
