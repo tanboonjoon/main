@@ -43,15 +43,29 @@ Role: Developer <br>
 Role: Developer <br>  
 Responsibilities: Documentation, UI 
 
-
-#### [San Sok San](https://github.com/ericsssan)
+#### [Eric San Sok San](https://github.com/ericsssan)
 <img src="images/Eric.jpg" width="150"><br>
-Role: Developer <br>  
-Responsibilities: Quality Control
 
+> * Component in charge of: None <br>
+> * Aspects/tools in charge of: None <br>
+> * Features implemented: <br>
+>  * Edit Command.[[PR #46]](https://github.com/CS2103AUG2016-F10-C2/main/pull/46) [[PR #21]](https://github.com/CS2103AUG2016-F10-C2/main/pull/21) <br>
+>  * Undo/Redo Command. [[PR #58]](https://github.com/CS2103AUG2016-F10-C2/main/pull/58)<br>
+>  * Recurring Task. [[PR #100]](https://github.com/CS2103AUG2016-F10-C2/main/pull/100)<br>
+>  * Various shortcut key combination for Help window, Command box, Undo and Redo actions. [[PR #163]](https://github.com/CS2103AUG2016-F10-C2/main/pull/163) [[PR #186]](https://github.com/CS2103AUG2016-F10-C2/main/pull/186) <br>
+
+> * Code written:
+>   * [Functional Code](https://github.com/CS2103AUG2016-F10-C2/main/blob/master/collated/main/A0140037W.md) 
+>   * [Tests](https://github.com/CS2103AUG2016-F10-C2/main/blob/master/collated/test/A0140037W.md)  
+>   * [Docs](https://github.com/CS2103AUG2016-F10-C2/main/blob/master/collated/docs/A0140037W.md)
+> * Other major contributions: <br>
+>  * Did the initial refactoring from AddressBook to TaskForce. <br>
+>  * Implement confirmation dialog for clear command. [[PR #185]](https://github.com/CS2103AUG2016-F10-C2/main/pull/185)<br>
+>  * Added shortcut key combination for various actions. [[PR #163]](https://github.com/CS2103AUG2016-F10-C2/main/pull/163) [[PR #186]](https://github.com/CS2103AUG2016-F10-C2/main/pull/186) <br>
 
 =======
 ## Tool Specialists
 * **Travis, Gradle**: Jeremy
-* **Java 8**: Eric
 * **JavaFX**: Ning Yu
+* **GitHub Master Keeper**: Tan Boon Joon
+* **GitHub Master Breaker**: Eric San Sok San
