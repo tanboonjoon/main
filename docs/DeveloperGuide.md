@@ -215,7 +215,12 @@ The nature of the ObservableList allow the list shown to be constantly updated w
 
 ### CdCommand
 The CdCommand recreate the config.json file using default Config Class as a base. The only difference is that the config.json file will contained the new savepath indicated by users. Any modification made directly to the config.json file will be overwritten when
-CdCommand is used. 
+CdCommand is used.
+
+<!-- @@author A0140037W -->
+### ClearCommand
+The ClearCommand will erase TaskForce data and history upon executed. A confirmation dialog will appear to get user's confirmation before proceed to do the irreversable operation. 
+User is adviced to use arrow key and space bar to select the option on the confirmation dialog in the absent of a mouse.
 
 <!-- @@author A0135768R -->
 
@@ -455,9 +460,12 @@ Use case ends.
 **MSS:**
 
 1. User will enter clear to clear the save data.
-2. The system will display 'TaskForce has been cleared'.
+2. The system will display a confirmation dialog.
+3a. If user response "Okay", the system will display 'TaskForce data has been cleared'.
+3b. If user response "Cancel", the system will display 'Clear operation canceled!'.
 
 Use case ends
+
 
 ### Use case : Changing saving data location (cd)
 
