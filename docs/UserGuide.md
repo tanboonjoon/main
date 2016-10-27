@@ -250,15 +250,16 @@ TaskForce supports flexible date inputs and thus allows many natural variations 
 
 Command | Format  
 -------- | :--------
-Add | `add EVENT [d/DESCRIPTION] [t/TAG] [st/START_DATE] [et/END_DATE] [t/TAG]...`
-Block | `block NAME s/START_DATE e/END_DATE`
-Confirm | `confirm NAME s/START_DATE e/END_DATE`
+Add | `add EVENT [d/DESCRIPTION][st/START_DATE] [et/END_DATE] [t/TAG] [t/TAG2]...`
+Block | `block NAME st/START_DATE et/END_DATE [st/START_DATE et/END_DATE]...`
+Confirm | `confirm NAME st/START_DATE et/END_DATE [d/DESCRIPTION] [t/TAG]`
 Clear | `clear`
 Delete | `delete INDEX`
 Edit | `edit INDEX [NAME] [s/START_DATE] [e/END_DATE] ...`
 Freetime | `freetime [day/DAYS_FROM_TODAY]`
 Find | `find METHOD/KEYWORDS [mark/TRUE]`
 cd   | `cd [FILEPATH/FILENAME.xml]`
+config | `config CONFIG_OPTION v/CONFIG_VALUE`
 Undo | `undo`
 Help | `help`
 Exit | `exit`
