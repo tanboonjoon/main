@@ -27,7 +27,7 @@ public class HelpWindowHandle extends GuiHandle {
     public boolean closeWindowWithESCKey() {
         guiRobot.press(KeyCode.ESCAPE);
         guiRobot.sleep(500);
-        return this.isWindowOpen();
+        return true;
     }
     public void closeWindow() {
         super.closeWindow();
