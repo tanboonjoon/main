@@ -20,7 +20,7 @@ public class HelpWindow extends UiPart {
     private static final Logger logger = LogsCenter.getLogger(HelpWindow.class);
     private static final String ICON = "/images/help_icon.png";
     private static final String FXML = "HelpWindow.fxml";
-    private static final String TITLE = "Help";
+    private static final String TITLE = "Help  Alt+F4 to exit";
     private static final String HELP_URL = "/view/Help.html";
 
     private AnchorPane mainPane;
@@ -47,6 +47,8 @@ public class HelpWindow extends UiPart {
         Scene scene = new Scene(mainPane);
         //Null passed as the parent stage to make it non-modal.
         dialogStage = createDialogStage(TITLE, null, scene);
+        dialogStage.setMaxHeight(850);
+        dialogStage.setMaxWidth(850);
         dialogStage.setMaximized(true); //TODO: set a more appropriate initial size
         setIcon(dialogStage, ICON);
         

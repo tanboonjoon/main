@@ -74,7 +74,7 @@ Event: `add TASKNAME  [d/DESCRIPTION]  [st/START_DATE] [et/END_DATE] [t/TAG]...`
 > - Tasks can have any number of tags (including 0)  
 > - Date format is MM-DD-YYYY HHMM (24 hour Format) e.g. `st/ 10-22-2016 1500`
 > 	- The command also supports natural language dates such as `today 6pm`
-> 	- See the section [On Entering Dates](#On-Entering-Dates) for more details
+> 	- See the section [On Entering Dates](#On Entering Dates) for more details
 > - If no time is specified, the time will be assumed to be the time right now.
 > - If no start date is specified, it is assumed to be today.
 > - If start date/time is specified but end date/time is not specified, the end date/time will be the same day on 2359.
@@ -95,7 +95,7 @@ Format: `block NAME st/START_DATE et/END_DATE [st/START_DATE et/END_DATE]...`
 > - Each st/ and et/ is a pair, and you can have unlimited pairs
 > - Date format is MM-DD-YYYY HHMM (24 hour Format) e.g. `st/ 10-22-2016 1500`
 > 	- The command also supports natural language dates such as `today 6pm`
-> 	- See the section [On Entering Dates](#On-Entering-Dates) for more details
+> 	- See the section [On Entering Dates](#On Entering Dates) for more details
 > - If no start time is specified, the time will be assumed to be the time right now.
 > - If no start date is specified, it is assumed to be today.
 > - If no end date/time is specified, the end date/time will be the same day on 2359.
@@ -119,7 +119,7 @@ Examples:
 
 #### Searching for (a) specific task(s): `find`
 Finds tasks of a specific time, or whose names contain any of the given keywords.  
-Format: `find METHOD/ KEYWORDS`
+Format: `find METHOD/ KEYWORDS [mark/TRUE]`
 KEYWORDS for TYPE 'name/' 'desc/' 'tag/' is a word that is contain/part of a task name/description/tag
 KEYWORDS for TYPE 'day' and 'week' is a integer number.
 
@@ -132,12 +132,14 @@ Method | Explanation | Example
 `desc/` | List all tasks with the tags of task containing the keywords | `find name/ shoes`
 
 
-> * The search is not case sensitive. e.g `hans` will match `Hans`
-> * The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
-> * Only the name is searched.
-> * Full and sub-words will be matched e.g. `Han` will match `Hans`
-> * Persons matching at least one keyword will be returned (i.e. `OR` search).
-    e.g. `Hans` will match `Hans Bo`
+> * The search is not case sensitive. e.g `task` will match `TaSK`
+> * The order of the keywords does not matter. e.g. `is s task` will match `task is a`
+> * Sub-words will be matched e.g. `sk` will match `task`
+> * Tasks matching at least one keyword will be returned (i.e. `OR` search).
+
+> * FindCommand filtered out marked tasks automatically, user can turn off filter by using [mark/TRUE]
+to include marked task in search
+* 'find name/i wan to find marked task mark/true'
 
 
 #### Deleting a task : `delete`
@@ -191,8 +193,24 @@ Examples:
 * `cd ` will tell you the current location of the saveData
 * `cd C:\Users\Boon\newSaveName.xml`will change the saveData location to specified path
 
+### Changing configuration options : `config`
+Allows for changing of configuration options in config.json <br>
+**Warning: This is for advanced users only!** <br>
+Format : `config CONFG_OPTION v/NEW_VALUE` <br>
+The following table are the config options and its values that is avaliable for modification by this command. <br>
+
+Configuration Option  | Values             | Description
+--------------------- | :------------------|:-----------------
+taskForceDataFilePath | Use the `cd` command | The location of the data save file
+userPrefsFilePath   | A file path | The location of the user preferences file
+activeHoursFrom | 0000 to 2400 | The earliest hour that the freetime command would take into account when computing your freetime
+activeHoursTo | 0000 to 2400 | The latest hour that the freetime command would take into account when computing your freetime
+enableSudo | true or false | When enabled, you can perform the clear command and other commands for advanced users
+
+
 #### Clearing all entries : `clear`
 Clears **ALL** entries from the task list. This command **CANNOT** be undone! <br>
+This requires the sudo to be enabled <br>
 Format: `clear`  
 
 #### Exiting the program : `exit`
@@ -232,15 +250,16 @@ TaskForce supports flexible date inputs and thus allows many natural variations 
 
 Command | Format  
 -------- | :--------
-Add | `add EVENT [d/DESCRIPTION] [t/TAG] [st/START_DATE] [et/END_DATE] [t/TAG]...`
-Block | `block NAME s/START_DATE e/END_DATE`
-Confirm | `confirm NAME s/START_DATE e/END_DATE`
+Add | `add EVENT [d/DESCRIPTION][st/START_DATE] [et/END_DATE] [t/TAG] [t/TAG2]...`
+Block | `block NAME st/START_DATE et/END_DATE [st/START_DATE et/END_DATE]...`
+Confirm | `confirm NAME st/START_DATE et/END_DATE [d/DESCRIPTION] [t/TAG]`
 Clear | `clear`
 Delete | `delete INDEX`
 Edit | `edit INDEX [NAME] [s/START_DATE] [e/END_DATE] ...`
 Freetime | `freetime [day/DAYS_FROM_TODAY]`
-Find | `find METHOD/ KEYWORD [MORE_KEYWORDS_FOR_ALL_METHOD]`
+Find | `find METHOD/KEYWORDS [mark/TRUE]`
 cd   | `cd [FILEPATH/FILENAME.xml]`
+config | `config CONFIG_OPTION v/CONFIG_VALUE`
 Undo | `undo`
 Help | `help`
 Exit | `exit`

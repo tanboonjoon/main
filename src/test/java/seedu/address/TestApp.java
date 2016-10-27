@@ -18,6 +18,7 @@ import java.util.function.Supplier;
 public class TestApp extends MainApp {
 
     public static final String SAVE_LOCATION_FOR_TESTING = TestUtil.getFilePathInSandboxFolder("sampleData.xml");
+    public static final String CONFIG_LOCATION_FOR_TESTING = TestUtil.getFilePathInSandboxFolder("config.json");
     protected static final String DEFAULT_PREF_FILE_LOCATION_FOR_TESTING = TestUtil.getFilePathInSandboxFolder("pref_testing.json");
     public static final String APP_TITLE = "Test App";
     protected static final String TASKFORCE_NAME = "Test";
@@ -42,11 +43,13 @@ public class TestApp extends MainApp {
 
     @Override
     protected Config initConfig(String configFilePath) {
-        Config config = super.initConfig(configFilePath);
+        Config config = super.initConfig(CONFIG_LOCATION_FOR_TESTING);
+        config.resetAndregisterDefaultConfigs();
         config.setAppTitle(APP_TITLE);
         config.setTaskForceFilePath(saveFileLocation);
         config.setUserPrefsFilePath(DEFAULT_PREF_FILE_LOCATION_FOR_TESTING);
         config.setTaskForceName(TASKFORCE_NAME);
+        config.setConfigurationOption("enableSudo", true);
         return config;
     }
 

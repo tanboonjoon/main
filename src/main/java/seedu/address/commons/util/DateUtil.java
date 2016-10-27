@@ -27,15 +27,23 @@ import seedu.address.model.task.ReadOnlyTask;
 // @@author A0135768R
 public final class DateUtil {
 
+
     public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm a");
     public static final LocalDateTime END_OF_TODAY = parseStringIntoDateTime("today 2359").get() ;
     public static final LocalDateTime NOW = LocalDateTime.now() ;
+	public static final LocalDateTime MARKER_FOR_DELETE = parseStringIntoDateTime("01-01-2000 0000").get();
+	public static final String STRING_FOR_DELETE = "-"; 
 
     public static Optional<LocalDateTime> parseStringIntoDateTime (String rawString) {
 
         if (rawString == null) {
             return Optional.empty() ;
         }
+        
+	    if (rawString.equals(STRING_FOR_DELETE)) {	
+	    	return Optional.of(MARKER_FOR_DELETE);
+	    }
+	    
 
         Parser dateParser = new Parser() ;
 
@@ -76,7 +84,7 @@ public final class DateUtil {
 
         Long days = ChronoUnit.DAYS.between(startTime, endTime) ;
 
-        model.searchTaskList(new PredicateExpression(new NameQualifier(Sets.newHashSet(days.toString()), NameQualifier.FILTER_BY_DAY)) );
+        model.searchTaskList(new PredicateExpression(new NameQualifier(Sets.newHashSet(days.toString()), NameQualifier.FILTER_BY_DAY, false)) );
 
         PriorityQueue<Event> pq = new PriorityQueue<>(new EventComparator()) ;
 
@@ -111,7 +119,7 @@ public final class DateUtil {
     }
 
 
-    private static Optional<Pair<LocalDateTime, LocalDateTime>> determineStartAndEndDateTime(Optional<LocalDateTime> startDate, Optional<LocalDateTime> endDate) {
+    private static Optional<Pair<LocalDateTime, LocalDateTime>> determineStartAndEndDateTime(Optional<LocalDateTime> startDate, Optional<LocalDateTime> endDate, boolean canBeEmpty) {
 
         LocalDateTime computedStartDate ;
         LocalDateTime computedEndDate ;
@@ -119,17 +127,14 @@ public final class DateUtil {
         if (!startDate.isPresent() && !endDate.isPresent()) {
             return Optional.empty() ;
         }
-
-        if (!startDate.isPresent() && endDate.isPresent()) {
-            computedStartDate = DateUtil.NOW ;
-            computedEndDate = endDate.get() ;
-
-            return Optional.of(new Pair<LocalDateTime, LocalDateTime> (computedStartDate, computedEndDate)) ;
+        
+        if (!canBeEmpty && (!startDate.isPresent() || !endDate.isPresent())) {
+            return Optional.empty() ;
         }
 
-        if (startDate.isPresent() && !endDate.isPresent()) {
-            computedStartDate = startDate.get() ;
-            computedEndDate = startDate.get().withHour(23).withMinute(59) ;
+        if (!startDate.isPresent() || !endDate.isPresent()) {
+            computedStartDate = startDate.orElse(DateUtil.NOW) ;
+            computedEndDate = endDate.orElse(computedStartDate.withHour(23).withMinute(59)) ;
 
             return Optional.of(new Pair<LocalDateTime, LocalDateTime> (computedStartDate, computedEndDate)) ;
         }
@@ -172,12 +177,21 @@ public final class DateUtil {
      * If start datetime happens to be after end datetime, this function will return Optional.empty()
      * <p>
      * 
+     * If the boolean allowEmptyValues is set to false, however, then if any dates is empty, this will return {@link Optional.empty()}
+     * This is set to true by default if not specified
+     * 
+     * <p>
+     * 
      * @param startString string that will be parsed by natty
      * @param endString string that will be parsed by natty
      * @return a LocalDateTime pair with the key being the starting datetime, and the value the ending datetime
      */
     public static Optional<Pair<LocalDateTime, LocalDateTime>> determineStartAndEndDateTime(String startString, String endString) {
-        return determineStartAndEndDateTime(parseStringIntoDateTime(startString), parseStringIntoDateTime(endString)) ;
+        return determineStartAndEndDateTime(parseStringIntoDateTime(startString), parseStringIntoDateTime(endString), true) ;
+    }
+    
+    public static Optional<Pair<LocalDateTime, LocalDateTime>> determineStartAndEndDateTime(String startString, String endString, boolean allowEmptyValues) {
+        return determineStartAndEndDateTime(parseStringIntoDateTime(startString), parseStringIntoDateTime(endString), allowEmptyValues) ;
     }
 
     private static boolean isDateComponentSameAsNow (LocalDateTime dateTime) {

@@ -25,6 +25,9 @@
 
 * This application is modified from the [Address Book (Level 4) application]
   (https://github.com/nus-cs2103-AY1617S1/addressbook-level4) provided by CS2103's team.
+* Robert Bor's java implemntation of the Aho-Corasick algorithm is used for efficient string matching
+  (https://github.com/robert-bor/aho-corasick) 
+* Natty by Joestelmach is used for natural date parsing (http://natty.joestelmach.com/) 
 
 
 #### Licence : [MIT](LICENSE)

@@ -15,6 +15,7 @@ import javafx.util.Pair;
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.UnmodifiableObservableList;
 import seedu.address.commons.exceptions.IllegalValueException;
+import seedu.address.commons.util.DateUtil;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.tag.UniqueTagList;
 import seedu.address.model.task.Block;
@@ -25,6 +26,10 @@ import seedu.address.model.task.Task;
 import seedu.address.model.task.UniqueTaskList;
 import seedu.address.model.task.UniqueTaskList.TaskNotFoundException;
 
+/*
+ * Edits a existing task in all ways possible
+ * @@author A0111277M
+ */
 public class EditCommand extends Command {
     
     public static final String[] COMMAND_WORD = {
@@ -42,7 +47,9 @@ public class EditCommand extends Command {
             + "Example: " + DEFAULT_COMMAND_WORD + " 1 d/download How I Met Your Mother season 1" ;
     public static final String MESSAGE_EDIT_SUCCESS = "Edit saved!";
     public static final String MESSAGE_DUPLICATE_TASK = "This task already exists in the address book";
-    public static final String MESSAGE_BLOCK_CANNOT_EDIT = "The target is a block, and cannot be edited.";
+    public static final String MESSAGE_BLOCK_CANNOT_REMOVE_DATE = "The target is a block, and dates cannot be removed.";
+    public static final String MESSAGE_ST_WITHOUT_ET = "You input a start date without an end date!";
+    public static final String MESSAGE_CANNOT_HAVE_ST_ONLY = "You can't only have the start time in a task!";
     
     private static final String START_DATE = "startDate" ;
     private static final String END_DATE = "endDate" ;
@@ -52,7 +59,7 @@ public class EditCommand extends Command {
     private final String name;
     private final String description;
     private boolean doneStatus;
-    private final Set<Tag> tagSet;
+    private final Set<String> tagNameSet;
     private final Map<String, LocalDateTime> dateMap ;
     
     private boolean hasChanged = false ;
@@ -61,12 +68,8 @@ public class EditCommand extends Command {
         this.targetIndex = targetIndex;
         this.name = name;
         this.description = description;
-        this.tagSet = Sets.newHashSet() ;
+        this.tagNameSet = tags ;
         this.dateMap = Maps.newHashMap() ;
-        
-        for (String tagName : tags) {
-            tagSet.add(new Tag(tagName));
-        }
         
         if (startDate != null) {
             dateMap.put(START_DATE, startDate) ;
@@ -92,51 +95,54 @@ public class EditCommand extends Command {
         String newDescription;
         UniqueTagList newTagSet;
         UnmodifiableObservableList<ReadOnlyTask> lastShownList = model.getFilteredTaskList();
-
+        Task newTask;
+        
+        /* determine target task to delete based on lastShownList */
         if (lastShownList.size() < targetIndex || targetIndex < 1) {
             indicateAttemptToExecuteIncorrectCommand();
             return new CommandResult(Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
         }
         
         ReadOnlyTask taskToEdit = lastShownList.get(targetIndex - 1);  
+    
+        newName = checkUpdate(taskToEdit.getName(), name);
         
+        determineDateTimeOfNewTask(taskToEdit);
         
-        /* temporary measure - I can't make a block because current approach edits IDs
-         * Actually, we don't have to reassign a new ID, right?
-         * By using the existing ID, block and recurring structure can hold.
-         */
         if (taskToEdit instanceof Block) {
-        	return new CommandResult(MESSAGE_BLOCK_CANNOT_EDIT);
+        	
+        	if (dateMap.get(START_DATE) == null || dateMap.get(END_DATE) == null) {
+        		return new CommandResult(MESSAGE_BLOCK_CANNOT_REMOVE_DATE);
+        	}
+        	
+        	newTask = new Block(taskToEdit.getTaskId(), newName, dateMap.get(START_DATE), dateMap.get(END_DATE));
+        	
+        } else {
+        	
+        	if (dateMap.get(START_DATE) != null && dateMap.get(END_DATE) == null) {
+        		return new CommandResult(MESSAGE_CANNOT_HAVE_ST_ONLY);
+        	}
+
+	        
+	        newDescription = checkUpdate(taskToEdit.getDescription(), description);
+	        
+	        doneStatus = taskToEdit.getDoneStatus();
+	        
+	        try {
+	            newTagSet = new UniqueTagList(editOrDeleteTags(taskToEdit.getTags(), tagNameSet)) ;
+	        
+	        } catch (IllegalValueException e) {
+	            return new CommandResult(e.getMessage());
+	        }
+        
+        	newTask = createNewTask (newName, newDescription, newTagSet, dateMap.get(START_DATE), dateMap.get(END_DATE));
         }
         
-        doneStatus = taskToEdit.getDoneStatus();
-       
-        if(isValidString(name)) {
-            newName = name;
-            hasChanged = true ;
-        }else{
-            newName = taskToEdit.getName();
-        }
-        if(isValidString(description)) {
-            newDescription = description;
-            hasChanged = true ;
-        }else{
-            newDescription = taskToEdit.getDescription();
-        }
-        
-        if (dateMap.size() > 0) {
-        	hasChanged = true;
-        }
-        
-        newTagSet = new UniqueTagList(editOrDeleteTags(taskToEdit.getTags(), tagSet)) ;
-        
-        determineDateTimeOfNewTask (taskToEdit) ;
+
         
         if(!hasChanged){
             return new CommandResult(NOTHING_CHANGED);
         }
-       
-        Task newTask = createNewTask (newName, newDescription, newTagSet, dateMap.get(START_DATE), dateMap.get(END_DATE));
 
         try {
             model.addTask(newTask);
@@ -159,11 +165,21 @@ public class EditCommand extends Command {
         return s.length() > INVALID_VALUE_LENGTH ;
     }
     
+    private String checkUpdate(String origin, String changed) {
+    	if (isValidString(changed)) {
+    		hasChanged = true;
+    		return changed;
+    	} else {
+    		return origin;
+    	}
+    }
+    
     private Task createNewTask (String name, String description, UniqueTagList tag, LocalDateTime startTime, LocalDateTime endTime) {
         
         int id = model.getNextTaskId() ;
         
         if (startTime != null && endTime != null) {
+        	
             return new Event (id, name, description, startTime, endTime, tag, doneStatus) ;
         
         } 
@@ -177,7 +193,15 @@ public class EditCommand extends Command {
 
     }
     
+    /*
+     * Populates the dates map with existing dates there is no such pair.
+     */
     private void determineDateTimeOfNewTask (ReadOnlyTask taskToEdit) {
+    	
+        if (dateMap.size() > 0) {
+        	hasChanged = true;
+        }
+    	
         if (taskToEdit instanceof Event) {
 
             if (!dateMap.containsKey(START_DATE)) {
@@ -185,7 +209,7 @@ public class EditCommand extends Command {
             } else {
                 hasChanged = true ;
             }
-
+            
             if (!dateMap.containsKey(END_DATE)) {
                 dateMap.put(END_DATE, ( (Event) taskToEdit).getEndDate()) ;
             } else {
@@ -202,19 +226,47 @@ public class EditCommand extends Command {
                 hasChanged = true ;
             }
         }
+        
+        if(dateMap.containsKey(END_DATE)) {
+            if (dateMap.get(END_DATE).equals(DateUtil.MARKER_FOR_DELETE)) {
+            	dateMap.put(END_DATE, null);
+            } 
+        } else {
+        	dateMap.put(END_DATE, null);
+        }
+
+        
+        if (dateMap.containsKey(START_DATE)) {
+        	if (dateMap.get(START_DATE).equals(DateUtil.MARKER_FOR_DELETE)) {
+        		dateMap.put(START_DATE, null);
+        	} 
+        } else {
+    		dateMap.put(START_DATE, null);
+    	}
+        
+    
     }
     
-    private Set<Tag> editOrDeleteTags(UniqueTagList currentTags, Set<Tag> tagSet) {
+
+    /* 
+     * Updates the taglist
+     */
+    private Set<Tag> editOrDeleteTags(UniqueTagList currentTags, Set<String> tagNamesSet) throws IllegalValueException {
+        
+        assert model != null ;
         
         Set<Tag> newTaskTags = Sets.newHashSet(currentTags) ;
         
-        for (Tag tag : tagSet) {
-            if (!currentTags.contains(tag)) {
-                newTaskTags.add(tag) ;
+        for (String names : tagNamesSet) {
+            
+            Tag thisTag = model.getTagRegistry().getTagFromString(names, true) ;
+            
+            if (!currentTags.contains(thisTag)) {
+                newTaskTags.add(thisTag) ;
                 hasChanged = true ;
                 
             } else {
-                newTaskTags.remove(tag) ;
+                newTaskTags.remove(thisTag) ;
                 hasChanged = true ;
             }
             

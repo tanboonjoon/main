@@ -1,13 +1,16 @@
 package seedu.address.model;
 
+import java.util.Set;
+
+import javafx.collections.ObservableList;
 import seedu.address.commons.core.Config;
 import seedu.address.commons.core.UnmodifiableObservableList;
 import seedu.address.commons.events.BaseEvent;
 import seedu.address.logic.filters.Expression;
-import seedu.address.model.task.Task;
+import seedu.address.model.tag.ReadOnlyTagRegistrar;
 import seedu.address.model.task.ReadOnlyTask;
+import seedu.address.model.task.Task;
 import seedu.address.model.task.UniqueTaskList;
-import java.util.Set;
 
 
 /**
@@ -24,6 +27,9 @@ public interface Model {
     
     /** Gets the application configuration settings */
     public Config getConfigs() ;
+    
+    /** Gets the central tag registry to handle creation of tags */
+    public ReadOnlyTagRegistrar getTagRegistry() ;
 
     /** Deletes the given task. */
     void deleteTask(ReadOnlyTask target) throws UniqueTaskList.TaskNotFoundException;
@@ -41,7 +47,7 @@ public interface Model {
     void updateFilteredListToShowAll();
 
     /** Updates the filter of the filtered task list to filter by the given keywords*/
-    void updateFilteredTaskList(Set<String> keywords, String findType);
+    void updateFilteredTaskList(Set<String> keywords, String findType, boolean isCheckMark);
     
     /** Raises the given event to the event handler **/
     void raiseEvent(BaseEvent event) ;
@@ -62,5 +68,7 @@ public interface Model {
     public void searchTaskList(Expression expression) ;
     
     public UnmodifiableObservableList<ReadOnlyTask> getSearchedTaskList() ;
+
+	public ObservableList<ReadOnlyTask> startWithTodaysTasks();
 
 }

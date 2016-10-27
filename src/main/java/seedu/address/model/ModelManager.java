@@ -2,6 +2,7 @@ package seedu.address.model;
 
 
 import java.util.Deque;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Set;
 import java.util.logging.Logger;
@@ -21,6 +22,8 @@ import seedu.address.logic.filters.AlwaysTrueQualifier;
 import seedu.address.logic.filters.Expression;
 import seedu.address.logic.filters.NameQualifier;
 import seedu.address.logic.filters.PredicateExpression;
+import seedu.address.model.tag.ReadOnlyTagRegistrar;
+import seedu.address.model.tag.TagRegistrar;
 import seedu.address.model.task.Deadline;
 import seedu.address.model.task.Event;
 import seedu.address.model.task.ReadOnlyTask;
@@ -29,7 +32,7 @@ import seedu.address.model.task.UniqueTaskList;
 import seedu.address.model.task.UniqueTaskList.TaskNotFoundException;
 
 /**
- * Represents the in-memory model of the address book data. All changes to any
+ * Represents the in-memory model of the Taskforce list data. All changes to any
  * model should be synchronized.
  */
 public class ModelManager extends ComponentManager implements Model {
@@ -43,6 +46,7 @@ public class ModelManager extends ComponentManager implements Model {
     private final FilteredList<Task> filteredTasksForSearching;
     private final Deque<TaskForceCommandExecutedEvent> undoTaskForceHistory = new LinkedList<TaskForceCommandExecutedEvent>();
     private final Deque<TaskForceCommandExecutedEvent> redoTaskForceHistory = new LinkedList<TaskForceCommandExecutedEvent>();
+    private final TagRegistrar tagRegistrar = new TagRegistrar() ;
     private final Config config ;
     
     private static final int TASK_LESS_THAN_DEADLINE = -1;
@@ -51,6 +55,7 @@ public class ModelManager extends ComponentManager implements Model {
     private static final int DEADLINE_LESS_THAN_EVENT = -1;
     private static final int EVENT_MORE_THAN_TASK = 2;
     private static final int EVENT_MORE_THAN_DEADLINE = 1;
+    
     /**
      * Initializes a ModelManager with the given TaskForce TaskForce and its
      * variables should not be null
@@ -66,10 +71,10 @@ public class ModelManager extends ComponentManager implements Model {
         this.config = config ;
 
         taskForce = new TaskForce(src);
+        tagRegistrar.setAllTags(src.getTagList());
         filteredTasks = new FilteredList<>(taskForce.getTasks());
         sortedFilteredTasks = setUpSortedList();
-        filteredTasksForSearching = new FilteredList<>(taskForce.getTasks());
-        
+        filteredTasksForSearching = new FilteredList<>(taskForce.getTasks());        
     }
 
 	public ModelManager() {
@@ -78,7 +83,9 @@ public class ModelManager extends ComponentManager implements Model {
 
     public ModelManager(ReadOnlyTaskForce initialData, Config config) {
         this.config = config ;
+        
         taskForce = new TaskForce(initialData);
+        tagRegistrar.setAllTags(initialData.getTagList());
         filteredTasks = new FilteredList<>(taskForce.getTasks());
         sortedFilteredTasks = setUpSortedList();
         filteredTasksForSearching = new FilteredList<>(taskForce.getTasks());
@@ -87,7 +94,10 @@ public class ModelManager extends ComponentManager implements Model {
     @Override
     public void resetData(ReadOnlyTaskForce newData) {
         taskForce.resetData(newData);
+        tagRegistrar.setAllTags(newData.getTagList());
         indicateTaskForceChanged();
+        this.undoTaskForceHistory.clear();
+        this.redoTaskForceHistory.clear();
     }
 
     @Override
@@ -98,6 +108,11 @@ public class ModelManager extends ComponentManager implements Model {
     @Override
     public Config getConfigs() {
         return config ;
+    }
+    
+    @Override
+    public ReadOnlyTagRegistrar getTagRegistry() {
+        return tagRegistrar ;
     }
     
     @Override
@@ -184,13 +199,12 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     @Override
-    public void updateFilteredTaskList(Set<String> keywords, String findType) {
-        updateFilteredTaskList(new PredicateExpression(new NameQualifier(keywords, findType)));
+    public void updateFilteredTaskList(Set<String> keywords, String findType, boolean isCheckMark) {
+        updateFilteredTaskList(new PredicateExpression(new NameQualifier(keywords, findType, isCheckMark)));
     }
 
     private void updateFilteredTaskList(Expression expression) {
         filteredTasks.setPredicate(expression::satisfies);
-  
     }
     
 	@Override
@@ -286,8 +300,18 @@ public class ModelManager extends ComponentManager implements Model {
 		// TODO Auto-generated method stub
 		return new UnmodifiableObservableList<>(sortedFilteredTasks);
 	}
+	
+	/*
+	 * Allows the Taskforce App to start with today's tasks
+	 * @@author: A0111277M
+	 */
 
-
+    public UnmodifiableObservableList<ReadOnlyTask> startWithTodaysTasks() {
+    	Set<String> keywordSet = new HashSet<String>();
+    	keywordSet.add("0");
+    	updateFilteredTaskList(keywordSet, "DAY", false);
+    	return getSortedFilteredTask();
+    }
 
 }
 

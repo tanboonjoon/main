@@ -73,6 +73,8 @@ public class LogicManagerTest {
         latestSavedAddressBook = new TaskForce(model.getTaskForce()); // last saved assumed to be up to date before.
         helpShown = false;
         targetedJumpIndex = -1; // non yet
+        
+        model.getConfigs().setConfigurationOption("enableSudo", true);
     }
 
     @After
@@ -135,15 +137,15 @@ public class LogicManagerTest {
         assertCommandBehavior("exit", ExitCommand.MESSAGE_EXIT_ACKNOWLEDGEMENT);
     }
 
-    @Test
-    public void executeClear() throws Exception {
-        TestDataHelper helper = new TestDataHelper();
-        model.addTask(helper.generateTask(1));
-        model.addTask(helper.generateTask(2));
-        model.addTask(helper.generateTask(3));
-
-        assertCommandBehavior("clear", ClearCommand.MESSAGE_SUCCESS, new TaskForce(), Collections.emptyList());
-    }
+//    @Test
+//    public void executeClear() throws Exception {
+//        TestDataHelper helper = new TestDataHelper();
+//        model.addTask(helper.generateTask(1));
+//        model.addTask(helper.generateTask(2));
+//        model.addTask(helper.generateTask(3));
+//
+//        assertCommandBehavior("clear", ClearCommand.MESSAGE_SUCCESS, new TaskForce(), Collections.emptyList());
+//    }
 
 
     @Test
@@ -187,7 +189,7 @@ public class LogicManagerTest {
         Task john = helper.john() ;
         expectedAB.addTask(john);
         
-        assertCommandBehavior("add John's Birthday party t/friendsParty d/at his house",
+        assertCommandBehavior("add John's Birthday party t/friendsparty d/at his house",
                 String.format(AddCommand.MESSAGE_SUCCESS, john),
                 expectedAB,
                 expectedAB.getTaskList());
@@ -426,7 +428,7 @@ public class LogicManagerTest {
         TaskForce expectedAB = new TaskForce();
         
         assertCommandBehavior("block name st/sadsd et/today 5pm",
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, BlockCommand.MESSAGE_USAGE),
+                AddCommand.INVALID_END_DATE_MESSAGE,
                 expectedAB,
                 expectedAB.getTaskList() ) ;
     }
@@ -446,7 +448,7 @@ public class LogicManagerTest {
         }
         
         public Task john() throws Exception {
-        	return new Task (0, "John's Birthday party", "at his house", new UniqueTagList(new Tag("friendsParty"))) ;
+        	return new Task (0, "John's Birthday party", "at his house", new UniqueTagList(new Tag("friendsparty"))) ;
         }
         
         public Task johnny() throws Exception {
