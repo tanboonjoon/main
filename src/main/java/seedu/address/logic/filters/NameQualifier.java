@@ -15,11 +15,11 @@ import seedu.address.model.task.Deadline;
 import seedu.address.model.task.Event;
 import seedu.address.model.task.ReadOnlyTask;
 
-
+//@@author A0139942W
 /**
- * @@author A0139942W
+ *
  * 
- * A general qualifier used by the find command to filter tasks according to user's input
+ * A general qualifier used by the filteredList wrapper to filter tasks according to user's input
  *
  */
 public class NameQualifier implements Qualifier {

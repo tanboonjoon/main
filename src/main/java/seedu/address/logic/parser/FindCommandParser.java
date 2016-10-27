@@ -125,17 +125,14 @@ public class FindCommandParser extends CommandParser {
     private boolean prepareMarkArgs() throws IncorrectCommandException {
 		// TODO Auto-generated method stub
 		String markArgs = getMarkArg();
-		System.out.println(markArgs);
 		if ("true".equalsIgnoreCase(markArgs)) {
 			System.out.println("hey");
 			return INCLUDE_MARK;
 		}
 		
 		if (EMPTY_STRING.equals(markArgs)) {
-			System.out.println("lol");
 			return EXCLUDE_MARK;
 		}
-		System.out.println("lasd");
 		throw new IncorrectCommandException();
 	}
 	

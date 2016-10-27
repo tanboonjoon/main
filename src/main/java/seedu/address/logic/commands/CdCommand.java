@@ -19,9 +19,9 @@ import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.commons.util.ConfigUtil;
 import seedu.address.storage.StorageManager;
 
-
+//@author A0139942W
 /**
- * @@author A0139942W
+ *
  * 
  * This command save the storage file into a different location
  * specified by the user
@@ -101,16 +101,7 @@ public class CdCommand extends Command {
 		}
 
 	}
-	private String readConfig() throws FileNotFoundException, IOException, ParseException  {
-		// TODO Auto-generated method stub
-
-		JSONParser parser = new JSONParser();
-		Object obj = parser.parse(new FileReader(CONFIG_JSON_PATH));
-		JSONObject configJson = (JSONObject) obj;
-		
-		String taskForceDataFilePath = (String) configJson.get("taskForceDataFilePath");
-		return taskForceDataFilePath;
-	}
+	
 
 	private boolean isValidPath(String filepath) {
 		File file = new File(filepath);
@@ -132,5 +123,17 @@ public class CdCommand extends Command {
 		}
 		
 
+	}
+	
+	//@@author A0139942W-unused
+	private String readConfig() throws FileNotFoundException, IOException, ParseException  {
+		// TODO Auto-generated method stub
+
+		JSONParser parser = new JSONParser();
+		Object obj = parser.parse(new FileReader(CONFIG_JSON_PATH));
+		JSONObject configJson = (JSONObject) obj;
+		
+		String taskForceDataFilePath = (String) configJson.get("taskForceDataFilePath");
+		return taskForceDataFilePath;
 	}
 }

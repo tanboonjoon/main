@@ -1,3 +1,5 @@
+<!-- @@author A0111277M -->
+
 # Developer Guide
 
 * [Setting Up](#setting-up)
@@ -179,7 +181,8 @@ and logging destinations.
 * `INFO` : Information showing the noteworthy actions by the App
 * `FINE` : Details that is not usually noteworthy but may be useful in debugging
   e.g. print the actual list instead of just its size
-  
+
+<!-- @@author A0139942W -->
 ### Tasks
 All tasks created in TaskForce are immutable. The whole program revolve around Adding and Deleting Tasks. Commands Such as EditCommand
 MarkCommands are extension of Addding and Deleting Tasks.
@@ -212,8 +215,9 @@ The nature of the ObservableList allow the list shown to be constantly updated w
 
 ### CdCommand
 The CdCommand recreate the config.json file using default Config Class as a base. The only difference is that the config.json file will contained the new savepath indicated by users. Any modification made directly to the config.json file will be overwritten when
-CdCommand is used. This command is for new users who are not comfortable with editing the config.json file. 
-Advanced Users are adviced to change the config.json directly to meet their needs.
+CdCommand is used. 
+
+<!-- @@author A0135768R -->
 
 ### Configuration
 
@@ -224,7 +228,7 @@ However, they are not recommended to edit/change/remove the Keyname of the confi
 
 This is to prevent the breaking of the system. Certain commands such as freetime will retrieve values found in config using keyname. Hence changing the keyname will break the command if the default config setting is not restored.
 
-
+<!-- @@author A0111277M -->
 ## Testing
 
 Tests can be found in the `./src/test/java` folder.
@@ -296,7 +300,6 @@ b. Require developers to download those libraries manually (this creates extra w
 
 Priorities: High (must have) - `* * *`, Medium (nice to have)  - `* *`,  Low (unlikely to have) - `*`
 
-
 Priority | As a ... | I want to ... | So that I can...
 -------- | :-------- | :--------- | :-----------
 `* * *` | new user | see usage instructions | refer to instructions when I forget how to use the App
@@ -319,8 +322,9 @@ Priority | As a ... | I want to ... | So that I can...
 `*` | advanced user | use natural language | make planning tasks more natural and intuitive
 '*' | advanced user | modify the config value | to make full use of the app under certain conditions
 
-{More to be added}
 
+
+<!-- @@author A0139942W -->
 ## Appendix B : Use Cases
 
 (For all use cases below, the **System** is the `TaskForce` app and the **Actor** is the `user/Jim`, unless specified otherwise)
@@ -573,6 +577,7 @@ Use case ends
 19. Software must work without any form of installer
 20. Third-party library/framwork are only allowed if they are free and require no form of installation
 
+<!-- @@author A0139942W -->
 
 ## Appendix D : Glossary
 
