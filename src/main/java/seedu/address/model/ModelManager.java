@@ -2,6 +2,7 @@ package seedu.address.model;
 
 
 import java.util.Deque;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Set;
 import java.util.logging.Logger;
@@ -73,8 +74,7 @@ public class ModelManager extends ComponentManager implements Model {
         tagRegistrar.setAllTags(src.getTagList());
         filteredTasks = new FilteredList<>(taskForce.getTasks());
         sortedFilteredTasks = setUpSortedList();
-        filteredTasksForSearching = new FilteredList<>(taskForce.getTasks());
-        
+        filteredTasksForSearching = new FilteredList<>(taskForce.getTasks());        
     }
 
 	public ModelManager() {
@@ -203,7 +203,6 @@ public class ModelManager extends ComponentManager implements Model {
 
     private void updateFilteredTaskList(Expression expression) {
         filteredTasks.setPredicate(expression::satisfies);
-  
     }
     
 	@Override
@@ -299,8 +298,18 @@ public class ModelManager extends ComponentManager implements Model {
 		// TODO Auto-generated method stub
 		return new UnmodifiableObservableList<>(sortedFilteredTasks);
 	}
+	
+	/*
+	 * Allows the Taskforce App to start with today's tasks
+	 * @@author: A0111277M
+	 */
 
-
+    public UnmodifiableObservableList<ReadOnlyTask> startWithTodaysTasks() {
+    	Set<String> keywordSet = new HashSet<String>();
+    	keywordSet.add("0");
+    	updateFilteredTaskList(keywordSet, "DAY", false);
+    	return getSortedFilteredTask();
+    }
 
 }
 

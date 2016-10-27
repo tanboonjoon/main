@@ -61,9 +61,9 @@ public class EditCommandTest extends TaskForceGuiTest {
         
     }
     
-    // @@author a01112277M
+    // @@author A01112277M
     @Test
-    public void edit_dates() {
+    public void editDates() {
 
         //Add one task
         TestTask[] currentList = td.getTypicalTasks();
