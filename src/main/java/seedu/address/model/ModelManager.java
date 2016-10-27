@@ -1,14 +1,12 @@
 package seedu.address.model;
 
 
-import java.util.Arrays;
 import java.util.Deque;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Set;
 import java.util.logging.Logger;
 
-import com.google.common.collect.Sets;
 import com.google.common.eventbus.Subscribe;
 
 import javafx.collections.transformation.FilteredList;

@@ -316,8 +316,8 @@ Priority | As a ... | I want to ... | So that I can...
 `* *` | user | see free time | be informed of my available time slots
 `* *` | advanced user | set working hours | non-working hours will be automatically blocked out
 `*` | advanced user | set recurring task | so the task can repeat itself without me entering it constantly
-`*` | user | sync to google calendar | know what is going on in all my digital platforms
 `*` | advanced user | use natural language | make planning tasks more natural and intuitive
+'*' | advanced user | modify the config value | to make full use of the app under certain conditions
 
 {More to be added}
 
