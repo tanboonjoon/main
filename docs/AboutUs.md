@@ -20,8 +20,8 @@ Responsibilities: Team Lead, Integration
 > * Features Implemented:<br>
 >    * FindCommand [[PR ]](https://github.com/CS2103AUG2016-F10-C2/main/pulls?utf8=%E2%9C%93&q=findCommand) 
 >    * CdCommand [[PR #138]]( https://github.com/CS2103AUG2016-F10-C2/main/pull/138)  
->    * FreetimeCommand [[PR #156]]( https://github.com/CS2103AUG2016-F10-C2/main/pull/154) 
->    * Wrapping FilteredList with SortedList
+>    * FreetimeCommand [[PR #169]]( https://github.com/CS2103AUG2016-F10-C2/main/pull/169) 
+>    * Wrapping FilteredList with SortedList [[PR #156]]( https://github.com/CS2103AUG2016-F10-C2/main/pull/154) 
 > * Code Written: 
 >   * [Functional Code](https://github.com/CS2103AUG2016-F10-C2/main/blob/master/collated/main/A0139942W.md) 
 >   * [Tests](https://github.com/CS2103AUG2016-F10-C2/main/blob/master/collated/test/A0139942W.md)  
