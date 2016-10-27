@@ -221,10 +221,11 @@ activeHoursFrom | 0000 to 2400 | The earliest hour that the freetime command wou
 activeHoursTo | 0000 to 2400 | The latest hour that the freetime command would take into account when computing your freetime
 enableSudo | true or false | When enabled, you can perform the clear command and other commands for advanced users
 
-<!-- @@author A0111277M-->
+<!-- @@author A0111277M -->
 #### Clearing all entries : `clear`
 Clears **ALL** entries from the task list. This command **CANNOT** be undone! <br>
 This requires the sudo to be enabled <br>
+A confirmation dialog will appear. Be adviced to use arrow key and space bar to select confirmation responses. 
 Format: `clear`  
 
 #### Exiting the program : `exit`
