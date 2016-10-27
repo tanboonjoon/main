@@ -96,6 +96,8 @@ public class ModelManager extends ComponentManager implements Model {
         taskForce.resetData(newData);
         tagRegistrar.setAllTags(newData.getTagList());
         indicateTaskForceChanged();
+        this.undoTaskForceHistory.clear();
+        this.redoTaskForceHistory.clear();
     }
 
     @Override

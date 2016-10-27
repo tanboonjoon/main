@@ -137,15 +137,15 @@ public class LogicManagerTest {
         assertCommandBehavior("exit", ExitCommand.MESSAGE_EXIT_ACKNOWLEDGEMENT);
     }
 
-    @Test
-    public void executeClear() throws Exception {
-        TestDataHelper helper = new TestDataHelper();
-        model.addTask(helper.generateTask(1));
-        model.addTask(helper.generateTask(2));
-        model.addTask(helper.generateTask(3));
-
-        assertCommandBehavior("clear", ClearCommand.MESSAGE_SUCCESS, new TaskForce(), Collections.emptyList());
-    }
+//    @Test
+//    public void executeClear() throws Exception {
+//        TestDataHelper helper = new TestDataHelper();
+//        model.addTask(helper.generateTask(1));
+//        model.addTask(helper.generateTask(2));
+//        model.addTask(helper.generateTask(3));
+//
+//        assertCommandBehavior("clear", ClearCommand.MESSAGE_SUCCESS, new TaskForce(), Collections.emptyList());
+//    }
 
 
     @Test
