@@ -16,12 +16,12 @@ We are a team of students at National University of Singapore, building a task m
 <img src="images/boon joon.jpg" width="150"><br>
 Role: Developer <br>  
 Responsibilities: Team Lead, Integration
-> * Components in-charge of:
+> * Components in-charge of: Documentation, Revision control
 > * Features Implemented:<br>
-> * FindCommand [[PR ]](https://github.com/CS2103AUG2016-F10-C2/main/pulls?utf8=%E2%9C%93&q=findCommand) 
-> * CdCommand [[PR #138]]( https://github.com/CS2103AUG2016-F10-C2/main/pull/138)  
-> * FreetimeCommand [[PR #156]]( https://github.com/CS2103AUG2016-F10-C2/main/pull/154) 
-> * Wrapping FilteredList with SortedList
+>    * FindCommand [[PR ]](https://github.com/CS2103AUG2016-F10-C2/main/pulls?utf8=%E2%9C%93&q=findCommand) 
+>    * CdCommand [[PR #138]]( https://github.com/CS2103AUG2016-F10-C2/main/pull/138)  
+>    * FreetimeCommand [[PR #156]]( https://github.com/CS2103AUG2016-F10-C2/main/pull/154) 
+>    * Wrapping FilteredList with SortedList
 > * Code Written: 
 >   * [Functional Code](https://github.com/CS2103AUG2016-F10-C2/main/blob/master/collated/main/A0139942W.md) 
 >   * [Tests](https://github.com/CS2103AUG2016-F10-C2/main/blob/master/collated/test/A0139942W.md)  
