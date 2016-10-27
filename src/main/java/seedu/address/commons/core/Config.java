@@ -63,7 +63,12 @@ public class Config {
     
     public <T> void setConfigurationOption (String key, T value) {
         
-        configRegistry.replace(key, value) ;
+        if (DEFAULT_CONFIGS.containsKey(key)) {
+            configRegistry.put(key, value) ;
+        
+        } else {
+            configRegistry.replace(key, value) ;
+        }
     }
     
     public <T> T getConfigurationOption (String key) {
