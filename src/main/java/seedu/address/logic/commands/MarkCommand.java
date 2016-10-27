@@ -117,10 +117,14 @@ public class MarkCommand extends Command {
     
     private LocalDateTime getEndDate (ReadOnlyTask taskToEdit) {
 
-        if (taskToEdit instanceof Deadline || taskToEdit instanceof Event) {
+        if (taskToEdit instanceof Deadline) {
         	
         	return ((Deadline) taskToEdit).getEndDate();
         } 
+        
+        if (taskToEdit instanceof Event) {
+            return ((Event) taskToEdit).getEndDate();
+        }
 
         return null;
     }
