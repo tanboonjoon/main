@@ -182,7 +182,7 @@ and logging destinations.
   
 ### Tasks
 All tasks created in TaskForce are immutable. The whole program revolve around Adding and Deleting Tasks. Commands Such as EditCommand
-MarkCommands are extension of Adding and Deleting Tasks.
+MarkCommands are extension of Addding and Deleting Tasks.
 
 * Adding and Deleting Tasks will trigger an event to inform and update the Model side that the list is updated.
 * Having commands revolve around Adding and Deleting simplify our implementation as the Model only have to listen to when Tasks are
@@ -214,11 +214,6 @@ The nature of the ObservableList allow the list shown to be constantly updated w
 The CdCommand recreate the config.json file using default Config Class as a base. The only difference is that the config.json file will contained the new savepath indicated by users. Any modification made directly to the config.json file will be overwritten when
 CdCommand is used. This command is for new users who are not comfortable with editing the config.json file. 
 Advanced Users are adviced to change the config.json directly to meet their needs.
-
-### ClearCommand
-The ClearCommand will erase TaskForce data and history upon executed. A confirmation dialog will appear to get user's confirmation before proceed to do the irreversable operation. 
-User is adviced to use arrow key and space bar to select the option on the confirmation dialog in the absent of a mouse.
-
 
 ### Configuration
 
@@ -321,8 +316,8 @@ Priority | As a ... | I want to ... | So that I can...
 `* *` | user | see free time | be informed of my available time slots
 `* *` | advanced user | set working hours | non-working hours will be automatically blocked out
 `*` | advanced user | set recurring task | so the task can repeat itself without me entering it constantly
-`*` | user | sync to google calendar | know what is going on in all my digital platforms
 `*` | advanced user | use natural language | make planning tasks more natural and intuitive
+'*' | advanced user | modify the config value | to make full use of the app under certain conditions
 
 {More to be added}
 
@@ -456,9 +451,7 @@ Use case ends.
 **MSS:**
 
 1. User will enter clear to clear the save data.
-2. The system will display a confirmation dialog.
-3a. If user response "Okay", the system will display 'TaskForce data has been cleared'.
-3b. If user response "Cancel", the system will display 'Clear operation canceled!'.
+2. The system will display 'TaskForce has been cleared'.
 
 Use case ends
 
@@ -597,5 +590,6 @@ Google Keep | Simple to use, lightweigh | Text based with no advanced functional
 Todo.txt | <ul><li> Can assign priority to task</li> <li>can associate many small task to a bigger task/project</li> <li> can search by keyword or by association to a projectName</li> <li>visual representation depending on priority of task </li> </ul> | <ul> <li>Require Addon to support task with due dates</li> <li> Require user to follow a strict input format</li> <li> does not tell you what time you are free</li> <li>Does not tell you if your task are overdue</li></ul> 
 Remember the Milk |  <ul> <li>Allows the management of large number of tasks</li> <li> Clean GUI </li> <li> Predefined search terms allows for easy access to tasks that are due in the near future <li> Allows for multiple lists which allows for seperation of tasks according to users perference (such as work-related tasks and personal tasks not in the same list)</li><li>Allows for tranferring of tasks to others using the app which can be used as a collaboration tool in an organisation</li><li>Has a mobile app which allows for usage in multiple devices in different occasions</li> </ul> | <ul> <li>Requires many clicks to add simple deadline that is due on some day not in the near future because of the calendar GUI</li><li>Very confusing for a new user due to functions hidden behind small buttons with icons that are not very intuitive.</li><li>Lots of information is hidden in the UI which requires the user to click on each task individually in order to view them</li><li>Offline mode is only avaliable to paying users</li></ul>
 Any.do | <ul>  <li>Any.do Moment show tasks due TODAY </li> <li>Any.do Moment allows rescheduling, marking as done or delete </li>  <li> Allow users to set reminders </li> <li>Allow users to add sub-tasks to break a bigger task down </li> <li>User can see what due today/tomorrow or upcoming </li></ul>  | <ul> <li>Cannot block timeslots to reserve them </li>  <li>Requires internet connection for syncing of data </li>  <li> Frees user cannot customise recurring tasks</li>  <li> Free user cannot access Any.do Moment</li>  <li>Require monthly/yearly subscription for premium services  </li><li>Requires a lot of clicking</li> </ul> 
+Wunderlist | <ul><li> Ability to add subtask inside reminder.</li> <li>Remind/Notification functionality. </li> </ul> | <ul> <li>  Does not have event/appointment.</li><li>Does not prevent/warn user from creating duplicate item in the list.</li></ul>
 
 In general, most products lack a command line interface, or the customization that Jim needs - the ability to block, the ability to set time properly, etc.

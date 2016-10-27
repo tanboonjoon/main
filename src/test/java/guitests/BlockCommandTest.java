@@ -86,6 +86,7 @@ public class BlockCommandTest extends TaskForceGuiTest {
     
     private void assertBlockSuccess (String command, final TestTask[] list) {
         commandBox.runCommand(command);
+        commandBox.runCommand("list");
         
         assertTrue(taskListPanel.isListMatching(list));
     }

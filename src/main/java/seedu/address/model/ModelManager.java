@@ -2,6 +2,7 @@ package seedu.address.model;
 
 
 import java.util.Deque;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Set;
 import java.util.logging.Logger;
@@ -43,8 +44,8 @@ public class ModelManager extends ComponentManager implements Model {
     private final FilteredList<Task> filteredTasks;
     private final SortedList<Task> sortedFilteredTasks;
     private final FilteredList<Task> filteredTasksForSearching;
-    private final Deque<TaskForceCommandExecutedEvent> undoHistory = new LinkedList<TaskForceCommandExecutedEvent>();
-    private final Deque<TaskForceCommandExecutedEvent> redoHistory = new LinkedList<TaskForceCommandExecutedEvent>();
+    private final Deque<TaskForceCommandExecutedEvent> undoTaskForceHistory = new LinkedList<TaskForceCommandExecutedEvent>();
+    private final Deque<TaskForceCommandExecutedEvent> redoTaskForceHistory = new LinkedList<TaskForceCommandExecutedEvent>();
     private final TagRegistrar tagRegistrar = new TagRegistrar() ;
     private final Config config ;
     
@@ -73,8 +74,7 @@ public class ModelManager extends ComponentManager implements Model {
         tagRegistrar.setAllTags(src.getTagList());
         filteredTasks = new FilteredList<>(taskForce.getTasks());
         sortedFilteredTasks = setUpSortedList();
-        filteredTasksForSearching = new FilteredList<>(taskForce.getTasks());
-        
+        filteredTasksForSearching = new FilteredList<>(taskForce.getTasks());        
     }
 
 	public ModelManager() {
@@ -95,8 +95,6 @@ public class ModelManager extends ComponentManager implements Model {
     public void resetData(ReadOnlyTaskForce newData) {
         taskForce.resetData(newData);
         tagRegistrar.setAllTags(newData.getTagList());
-        this.undoHistory.clear();
-        this.redoHistory.clear();
         indicateTaskForceChanged();
     }
 
@@ -147,9 +145,9 @@ public class ModelManager extends ComponentManager implements Model {
     @Override
     public TaskForceCommandExecutedEvent revertChanges() {
 
-        if (undoHistory.peekFirst() != null) {
+        if (undoTaskForceHistory.peekFirst() != null) {
 
-            return  undoHistory.pollFirst();
+            return  undoTaskForceHistory.pollFirst();
             
         } 
         return null;   
@@ -157,8 +155,8 @@ public class ModelManager extends ComponentManager implements Model {
 
     @Override
     public TaskForceCommandExecutedEvent restoreChanges() {
-        if (redoHistory.peekFirst() != null) {
-            return redoHistory.removeFirst();
+        if (redoTaskForceHistory.peekFirst() != null) {
+            return redoTaskForceHistory.removeFirst();
         }
         return null;
     }
@@ -175,12 +173,12 @@ public class ModelManager extends ComponentManager implements Model {
     private void saveCommandChanges(TaskForceCommandExecutedEvent event) {
         if(!(event.commandInstance.getCommandChanges().getKey().isEmpty() && event.commandInstance.getCommandChanges().getValue().isEmpty())){
             if(event.commandInstance.getClass().getSimpleName().equals("RedoCommand")) {
-                saveChanges(undoHistory, event, MAX_UNDOS_REDOS);
+                saveChanges(undoTaskForceHistory, event, MAX_UNDOS_REDOS);
             }else if(event.commandInstance.getClass().getSimpleName().equals("UndoCommand")){
-                saveChanges(redoHistory, event, MAX_UNDOS_REDOS);
+                saveChanges(redoTaskForceHistory, event, MAX_UNDOS_REDOS);
             }else{
-                saveChanges(undoHistory, event, MAX_UNDOS_REDOS);
-                redoHistory.clear();
+                saveChanges(undoTaskForceHistory, event, MAX_UNDOS_REDOS);
+                redoTaskForceHistory.clear();
             }
         }
     }
@@ -205,7 +203,6 @@ public class ModelManager extends ComponentManager implements Model {
 
     private void updateFilteredTaskList(Expression expression) {
         filteredTasks.setPredicate(expression::satisfies);
-  
     }
     
 	@Override
@@ -301,8 +298,18 @@ public class ModelManager extends ComponentManager implements Model {
 		// TODO Auto-generated method stub
 		return new UnmodifiableObservableList<>(sortedFilteredTasks);
 	}
+	
+	/*
+	 * Allows the Taskforce App to start with today's tasks
+	 * @@author: A0111277M
+	 */
 
-
+    public UnmodifiableObservableList<ReadOnlyTask> startWithTodaysTasks() {
+    	Set<String> keywordSet = new HashSet<String>();
+    	keywordSet.add("0");
+    	updateFilteredTaskList(keywordSet, "DAY", false);
+    	return getSortedFilteredTask();
+    }
 
 }
 

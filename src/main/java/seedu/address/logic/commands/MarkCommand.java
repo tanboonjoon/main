@@ -17,6 +17,10 @@ import seedu.address.model.task.Task;
 import seedu.address.model.task.UniqueTaskList;
 import seedu.address.model.task.UniqueTaskList.TaskNotFoundException;
 
+/*
+ *  Marks a task as done, so it does not show up in the usual list, unless specified.
+ *  @@author: A0111277M
+ */
 public class MarkCommand extends Command {
 
 	public static final String COMMAND_WORD = "mark";
@@ -41,10 +45,10 @@ public class MarkCommand extends Command {
 
         UnmodifiableObservableList<ReadOnlyTask> lastShownList = model.getFilteredTaskList();
         
-        ReadOnlyTask taskToMark ;
+        ReadOnlyTask taskToMark;
         
         try {
-            taskToMark = lastShownList.get(targetIndex - 1) ; // List is 0-indexed
+            taskToMark = lastShownList.get(targetIndex - 1);
         
         } catch (IndexOutOfBoundsException e) {
             
@@ -55,6 +59,7 @@ public class MarkCommand extends Command {
         Task newTask = createNewTask (taskToMark.getName(), taskToMark.getDescription(), taskToMark.getTags(), 
         							  getStartDate(taskToMark), getEndDate(taskToMark), !taskToMark.getDoneStatus());
 
+        assert model != null;
         
         try {
             model.addTask(newTask);
@@ -83,38 +88,45 @@ public class MarkCommand extends Command {
     
     private Task createNewTask (String name, String description, UniqueTagList tag, LocalDateTime startTime, LocalDateTime endTime, boolean doneStatus) {
         
-        assert model != null ;
-        
-        int id = model.getNextTaskId() ;
+        int id = model.getNextTaskId();
         
         if (startTime != null && endTime != null) {
-            return new Event (id, name, description, startTime, endTime, tag, doneStatus) ;
+        	
+            return new Event (id, name, description, startTime, endTime, tag, doneStatus);
         
         } 
         
         if (endTime != null && startTime == null) {
-            return new Deadline (id, name, description, endTime, tag, doneStatus) ;
+        	
+            return new Deadline (id, name, description, endTime, tag, doneStatus);
         
         } 
         
-        return new Task (id, name, description, tag, doneStatus) ;
+        return new Task (id, name, description, tag, doneStatus);
     }
     
     private LocalDateTime getStartDate (ReadOnlyTask taskToEdit) {
+    	
         if (taskToEdit instanceof Event) {
+        	
         	return ((Event) taskToEdit).getStartDate();
         }
 
-        return null ;
+        return null;
     }
     
     private LocalDateTime getEndDate (ReadOnlyTask taskToEdit) {
 
         if (taskToEdit instanceof Deadline) {
+        	
         	return ((Deadline) taskToEdit).getEndDate();
         } 
+        
+        if (taskToEdit instanceof Event) {
+            return ((Event) taskToEdit).getEndDate();
+        }
 
-        return null ;
+        return null;
     }
     @Override
     public Pair<List<ReadOnlyTask>, List<ReadOnlyTask>> getCommandChanges() {

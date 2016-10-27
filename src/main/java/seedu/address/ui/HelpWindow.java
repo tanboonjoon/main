@@ -4,6 +4,8 @@ import java.util.logging.Logger;
 
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
@@ -22,7 +24,6 @@ public class HelpWindow extends UiPart {
     private static final String HELP_URL = "/view/Help.html";
 
     private AnchorPane mainPane;
-
     private Stage dialogStage;
 
     public static HelpWindow load(Stage primaryStage) {
@@ -50,11 +51,24 @@ public class HelpWindow extends UiPart {
         dialogStage.setMaxWidth(850);
         dialogStage.setMaximized(true); //TODO: set a more appropriate initial size
         setIcon(dialogStage, ICON);
+        
+        setKeyEventForClosingWindow();
 
         WebView browser = new WebView();
         browser.getEngine().load(getClass().getResource(HELP_URL).toExternalForm());
         FxViewUtil.applyAnchorBoundaryParameters(browser, 0.0, 0.0, 0.0, 0.0);
         mainPane.getChildren().add(browser);
+    }
+
+    /*
+     * @@author A0140037W
+     */
+    private void setKeyEventForClosingWindow() {
+        dialogStage.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
+            if(key.getCode()==KeyCode.ESCAPE){
+                dialogStage.close();
+            }
+        });
     }
 
     public void show() {

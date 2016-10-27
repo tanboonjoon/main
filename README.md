@@ -25,10 +25,9 @@
 
 * This application is modified from the [Address Book (Level 4) application]
   (https://github.com/nus-cs2103-AY1617S1/addressbook-level4) provided by CS2103's team.
-* Aho-Corasick is a library used for efficient string matching
-  (https://github.com/robert-bor/aho-corasick) provided by Robert Bor
-* Natty is a library used for natural date parsing
-  (http://natty.joestelmach.com/) provided by joestelmach
+* Robert Bor's java implemntation of the Aho-Corasick algorithm is used for efficient string matching
+  (https://github.com/robert-bor/aho-corasick) 
+* Natty by Joestelmach is used for natural date parsing (http://natty.joestelmach.com/) 
 
 
 #### Licence : [MIT](LICENSE)
