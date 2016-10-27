@@ -41,7 +41,16 @@ Role: Developer <br>
 #### [Ning Yu](https://github.com/ningyuuu)
 <img src="images/ningyu.jpg" width="150"><br>
 Role: Developer <br>  
-Responsibilities: Documentation, UI 
+> * Components in-charge of: Documentation, UI
+> * Features Implemented:  
+>   * Implemented mark as done command [[PR #88]](https://github.com/CS2103AUG2016-F10-C2/main/pull/88)
+>   * Implemented editing of dates on task [[PR #181]](https://github.com/CS2103AUG2016-F10-C2/main/pull/181)
+>   * Implemented some parts of undo (Initial parts not in PR), [[PR #112]](https://github.com/CS2103AUG2016-F10-C2/main/pull/112)
+>   * Documentation control for developer guide [[PR #110]](https://github.com/CS2103AUG2016-F10-C2/main/pull/110)
+> * Code Written:
+>   * [Functional Code](https://github.com/CS2103AUG2016-F10-C2/main/blob/master/collated/main/A0111277M.md) 
+>   * [Tests](https://github.com/CS2103AUG2016-F10-C2/main/blob/master/collated/test/A0111277M.md)  
+>   * [Docs](https://github.com/CS2103AUG2016-F10-C2/main/blob/master/collated/docs/A0111277M.md)
 
 #### [Eric San Sok San](https://github.com/ericsssan)
 <img src="images/Eric.jpg" width="150"><br>
