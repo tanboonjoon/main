@@ -61,7 +61,7 @@ public class EditCommandTest extends TaskForceGuiTest {
         
     }
     
-    // @@author A01112277M
+    // @@author A0111277M
     @Test
     public void editDates() {
 

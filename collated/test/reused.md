@@ -1,4 +1,4 @@
-# A0135768R-reused
+# reused
 ###### \java\seedu\address\commons\util\StringUtilTest.java
 ``` java
     //---------------- Tests for containsWordIgnoreCase --------------------------------------
