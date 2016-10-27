@@ -40,14 +40,14 @@ public class TaskForce implements ReadOnlyTaskForce {
     public TaskForce() {}
 
     /**
-     * Persons and Tags are copied into this taskforce
+     * Tasks and Tags are copied into this taskforce
      */
     public TaskForce(ReadOnlyTaskForce toBeCopied) {
         this(toBeCopied.getUniqueTaskList(), toBeCopied.getUniqueTagList());
     }
 
     /**
-     * Persons and Tags are copied into this taskforce
+     * Tasks and Tags are copied into this taskforce
      */
     public TaskForce(UniqueTaskList tasks, UniqueTagList tags) {
         resetData(tasks.getInternalList(), tags.getInternalList());

@@ -9,7 +9,9 @@ public class PredicateExpression implements Expression {
         this.qualifier = qualifier;
     }
 
-    @Override
+
+
+	@Override
     public boolean satisfies(ReadOnlyTask task) {
         return qualifier.run(task);
     }

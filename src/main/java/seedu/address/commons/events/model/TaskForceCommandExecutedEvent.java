@@ -4,23 +4,26 @@ import seedu.address.commons.events.BaseEvent;
 import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.CommandResult;
 
+/**
+ * @@author A0135768R 
+ * <p>
+ * This event is fired right after a command is executed.
+ * 
+ */
 public class TaskForceCommandExecutedEvent extends BaseEvent {
 	
-	public final Class<? extends Command> commandClass ;
-	public final String commandText ;
+	public final Command commandInstance ;
 	public final CommandResult result ;
 	
-	public TaskForceCommandExecutedEvent (Class<? extends Command> commandClass, String commandText, CommandResult result) {
-		this.commandClass = commandClass ;
-		this.commandText = commandText ;
+	public TaskForceCommandExecutedEvent (Command commandInstance, CommandResult result) {
+		this.commandInstance = commandInstance ;
 		this.result = result ;
 		
 	}
 
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
-		return null;
+	    return "Command Executed: " + commandInstance.getClass().getSimpleName() + ". Command Success:" + result.isSuccessfulCommand() ;
 	}
 
 }

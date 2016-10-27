@@ -1,6 +1,12 @@
 package seedu.address;
 
+import java.io.IOException;
+import java.util.Map;
+import java.util.Optional;
+import java.util.logging.Logger;
+
 import com.google.common.eventbus.Subscribe;
+
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.stage.Stage;
@@ -10,21 +16,19 @@ import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.core.Version;
 import seedu.address.commons.events.ui.ExitAppRequestEvent;
 import seedu.address.commons.exceptions.DataConversionException;
+import seedu.address.commons.util.ConfigUtil;
 import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.Logic;
 import seedu.address.logic.LogicManager;
-import seedu.address.model.*;
-import seedu.address.commons.util.ConfigUtil;
+import seedu.address.model.Model;
+import seedu.address.model.ModelManager;
+import seedu.address.model.ReadOnlyTaskForce;
+import seedu.address.model.TaskForce;
+import seedu.address.model.UserPrefs;
 import seedu.address.storage.Storage;
 import seedu.address.storage.StorageManager;
 import seedu.address.ui.Ui;
 import seedu.address.ui.UiManager;
-
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.Map;
-import java.util.Optional;
-import java.util.logging.Logger;
 
 /**
  * The main entry point to the application.
@@ -41,8 +45,6 @@ public class MainApp extends Application {
     protected Config config;
     protected UserPrefs userPrefs;
 
-    public MainApp() {}
-
     @Override
     public void init() throws Exception {
         logger.info("=============================[ Initializing TaskForce ]===========================");
@@ -55,7 +57,7 @@ public class MainApp extends Application {
 
         initLogging(config);
 
-        model = initModelManager(storage, userPrefs);
+        model = initModelManager(storage, config);
 
         logic = new LogicManager(model, storage);
 
@@ -69,7 +71,7 @@ public class MainApp extends Application {
         return applicationParameters.get(parameterName);
     }
 
-    private Model initModelManager(Storage storage, UserPrefs userPrefs) {
+    private Model initModelManager(Storage storage, Config config) {
         Optional<ReadOnlyTaskForce> taskForceOptional;
         ReadOnlyTaskForce initialData;
         try {
@@ -86,7 +88,7 @@ public class MainApp extends Application {
             initialData = new TaskForce();
         }
 
-        return new ModelManager(initialData, userPrefs);
+        return new ModelManager(initialData, config);
     }
 
     private void initLogging(Config config) {

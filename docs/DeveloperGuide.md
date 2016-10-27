@@ -179,11 +179,50 @@ and logging destinations.
 * `INFO` : Information showing the noteworthy actions by the App
 * `FINE` : Details that is not usually noteworthy but may be useful in debugging
   e.g. print the actual list instead of just its size
+  
+### Tasks
+All tasks created in TaskForce are immutable. The whole program revolve around Adding and Deleting Tasks. Commands Such as EditCommand
+MarkCommands are extension of Addding and Deleting Tasks.
+
+* Adding and Deleting Tasks will trigger an event to inform and update the Model side that the list is updated.
+* Having commands revolve around Adding and Deleting simplify our implementation as the Model only have to listen to when Tasks are
+added or deleted.
+
+### FindCommand
+Our FindCommand is implemented to replace the old ListCommand found in TaskForce. ListCommand simply list out all the tasks found in 
+TaskForce and this may become a problem when the list get too big. User have to scroll up and down to locate the specified tasks that they are interested. As such our FindCommand are implemented to allow users to filter out tasks in a few ways.
+
+* Keywords Searched are filtered by TagName, Description and TaskName
+* Tasks can be filtered by Event that start/end or are ongoing on a particular day. This include Deadline and Reminders.
+* Tasks can also be filtered by Week, showing all the task that is due/ongoing on a particular Week defined as Monday to Friday.
+
+As such our Findcommand covered everything a ListCommand. The key difference is that instead of listing everything on TaskForce,
+It allow Users to filter out their list by FindType.
+
+
+### UndoCommand
+We have set a limit for UndoCommand to 10. Users can only undo up to 10 previous command that they have inputted while the program is 
+active. Having a ceiling for UndoCommand prevent any form of huge resource hog by TaskForce and this allow Users to multitasks many 
+programs with TaskForce opened at the same time.
+
+### SortedList
+TaskForce wrap around the ObservableList with a FilteredList, this allow Users to filter out keyword using TaskForce's FindCommand.
+The FilteredList is furthur wrapped with a SortedList to ensure the list shown to Users are constantly sorted at all time.
+The nature of the ObservableList allow the list shown to be constantly updated whenever a new changes occured such as Addition/Deletion of a new Tasks
+
+### CdCommand
+The CdCommand recreate the config.json file using default Config Class as a base. The only difference is that the config.json file will contained the new savepath indicated by users. Any modification made directly to the config.json file will be overwritten when
+CdCommand is used. This command is for new users who are not comfortable with editing the config.json file. 
+Advanced Users are adviced to change the config.json directly to meet their needs.
 
 ### Configuration
 
 Certain properties of the application can be controlled (e.g App name, logging level) through the configuration file
-(default: `config.json`):
+(default: `config.json`): 
+Users are allow to edit the config.json file directly such as changing the savepath or setting new activetime.
+However, they are not recommended to edit/change/remove the Keyname of the config file. Doing so will result in the System overwriting the current config file with a default one
+
+This is to prevent the breaking of the system. Certain commands such as freetime will retrieve values found in config using keyname. Hence changing the keyname will break the command if the default config setting is not restored.
 
 
 ## Testing
@@ -277,8 +316,8 @@ Priority | As a ... | I want to ... | So that I can...
 `* *` | user | see free time | be informed of my available time slots
 `* *` | advanced user | set working hours | non-working hours will be automatically blocked out
 `*` | advanced user | set recurring task | so the task can repeat itself without me entering it constantly
-`*` | user | sync to google calendar | know what is going on in all my digital platforms
 `*` | advanced user | use natural language | make planning tasks more natural and intuitive
+'*' | advanced user | modify the config value | to make full use of the app under certain conditions
 
 {More to be added}
 
@@ -516,16 +555,24 @@ Use case ends
 3. Should come with automated unit tests and open source code.
 4. Should favor DOS style commands over Unix-style commands.
 5. Should not take more than 5 seconds when executing find command
+6. Should not use too much memory (less than 250 MB)
+7. Should be able to recreate a new save data in a event of corruption/missing file
+8. Should be open source and allow developer to contribute to the project anytime
+9. Should always maintain an updated version of both UserGuide and DeveloperGuide 
+10. Should come free without having Users pay money to use the software.
 
 ### Project Constraints NFR
-6. Final product should be a result of morphing using level4 code
-7. Software must work on desktop without internet connection
-8. Software must be stand-alone with optional extensions
-9. CommandLine must be the primary mode of input
-10. Software must not use any form of relational database
-11. Data must be stored locally and human editable
+11. Final product should be a result of morphing using level4 code
+12. Software must work on desktop without internet connection
+13. Software must be stand-alone with optional extensions
+14. CommandLine must be the primary mode of input
+15. Software must not use any form of relational database
+16. Data must be stored locally and human editable
+17. All data must be stored locally and be in human editable text file
+18. Project should followed Object-oriented-paradigm
+19. Software must work without any form of installer
+20. Third-party library/framwork are only allowed if they are free and require no form of installation
 
-{More to be added}
 
 ## Appendix D : Glossary
 
@@ -540,8 +587,9 @@ Product Name | Strengths | Weakness
 Todoist | Easily classified todo categories, collaboration, notifications | Labels & reminders are premium. Quest points gamification
 OmniFocus | Allows a large amount of information to be organized | Way too complex for the average, simple user
 Google Keep | Simple to use, lightweigh | Text based with no advanced functionality. No events
-Todo.txt | Purely text based, simple and clean. Command line interface for Jim | Lacks advanced functionality. No events
-Remember the Milk | Allows management of large number of tasks | Too complex for a simple user
-Any.do | Simple, clean, easy to use | Cannot make time blocks
+Todo.txt | <ul><li> Can assign priority to task</li> <li>can associate many small task to a bigger task/project</li> <li> can search by keyword or by association to a projectName</li> <li>visual representation depending on priority of task </li> </ul> | <ul> <li>Require Addon to support task with due dates</li> <li> Require user to follow a strict input format</li> <li> does not tell you what time you are free</li> <li>Does not tell you if your task are overdue</li></ul> 
+Remember the Milk |  <ul> <li>Allows the management of large number of tasks</li> <li> Clean GUI </li> <li> Predefined search terms allows for easy access to tasks that are due in the near future <li> Allows for multiple lists which allows for seperation of tasks according to users perference (such as work-related tasks and personal tasks not in the same list)</li><li>Allows for tranferring of tasks to others using the app which can be used as a collaboration tool in an organisation</li><li>Has a mobile app which allows for usage in multiple devices in different occasions</li> </ul> | <ul> <li>Requires many clicks to add simple deadline that is due on some day not in the near future because of the calendar GUI</li><li>Very confusing for a new user due to functions hidden behind small buttons with icons that are not very intuitive.</li><li>Lots of information is hidden in the UI which requires the user to click on each task individually in order to view them</li><li>Offline mode is only avaliable to paying users</li></ul>
+Any.do | <ul>  <li>Any.do Moment show tasks due TODAY </li> <li>Any.do Moment allows rescheduling, marking as done or delete </li>  <li> Allow users to set reminders </li> <li>Allow users to add sub-tasks to break a bigger task down </li> <li>User can see what due today/tomorrow or upcoming </li></ul>  | <ul> <li>Cannot block timeslots to reserve them </li>  <li>Requires internet connection for syncing of data </li>  <li> Frees user cannot customise recurring tasks</li>  <li> Free user cannot access Any.do Moment</li>  <li>Require monthly/yearly subscription for premium services  </li><li>Requires a lot of clicking</li> </ul> 
+Wunderlist | <ul><li> Ability to add subtask inside reminder.</li> <li>Remind/Notification functionality. </li> </ul> | <ul> <li>  Does not have event/appointment.</li><li>Does not prevent/warn user from creating duplicate item in the list.</li></ul>
 
 In general, most products lack a command line interface, or the customization that Jim needs - the ability to block, the ability to set time properly, etc.

@@ -4,7 +4,6 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.MenuItem;
-import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -32,10 +31,10 @@ public class MainWindow extends UiPart {
     private Logic logic;
 
     // Independent Ui parts residing in this Ui container
-    private BrowserPanel browserPanel;
     private TaskListPanel taskListPanel;
     private ResultDisplay resultDisplay;
     private StatusBarFooter statusBarFooter;
+    
     private CommandBox commandBox;
     private Config config;
     private UserPrefs userPrefs;
@@ -97,7 +96,6 @@ public class MainWindow extends UiPart {
         this.addressBookName = addressBookName;
         this.config = config;
         this.userPrefs = prefs;
-        
         versionNum.setText(MainApp.VERSION.toString());
 
         //Configure the UI
@@ -107,11 +105,11 @@ public class MainWindow extends UiPart {
         setWindowDefaultSize(prefs);
         
         scene = new Scene(rootLayout);
-        
+
         loadCustomTrueTypeFonts();
         
         primaryStage.setScene(scene);
-
+     
         setAccelerators();
     }
     
@@ -124,12 +122,12 @@ public class MainWindow extends UiPart {
     
     // @@author reused
     private void setAccelerators() {
-        //helpMenuItem.setAccelerator(KeyCombination.valueOf("F1"));
+//        helpMenuItem.setAccelerator(KeyCombination.valueOf("F1"));
     }
 
-    void fillInnerParts() {
+    public void fillInnerParts() {
     	//browserPanel = BrowserPanel.load(browserPlaceholder);
-        taskListPanel = TaskListPanel.load(primaryStage, getTaskListPlaceholder(), logic.getFilteredTaskList());
+        taskListPanel = TaskListPanel.load(primaryStage, getTaskListPlaceholder(), logic.getSortedFilteredTaskList());
         resultDisplay = ResultDisplay.load(primaryStage, getResultDisplayPlaceholder());
         statusBarFooter = StatusBarFooter.load(primaryStage, getStatusbarPlaceholder(), config.getTaskForceFilePath());
         commandBox = CommandBox.load(primaryStage, getCommandBoxPlaceholder(), resultDisplay, logic);
@@ -204,6 +202,10 @@ public class MainWindow extends UiPart {
 
     public TaskListPanel getTaskListPanel() {
         return this.taskListPanel;
+    }
+    
+    public ResultDisplay getResultDisplay() {
+        return resultDisplay ;
     }
 
     public void loadTaskPage(ReadOnlyTask task) {

@@ -22,7 +22,6 @@ import seedu.address.model.task.*;
 import seedu.address.storage.StorageManager;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -64,7 +63,7 @@ public class LogicManagerTest {
     }
 
     @Before
-    public void setup() {
+    public void setUp() {
         model = new ModelManager();
         String tempAddressBookFile = saveFolder.getRoot().getPath() + "TempAddressBook.xml";
         String tempPreferencesFile = saveFolder.getRoot().getPath() + "TempPreferences.json";
@@ -74,15 +73,17 @@ public class LogicManagerTest {
         latestSavedAddressBook = new TaskForce(model.getTaskForce()); // last saved assumed to be up to date before.
         helpShown = false;
         targetedJumpIndex = -1; // non yet
+        
+        model.getConfigs().setConfigurationOption("enableSudo", true);
     }
 
     @After
-    public void teardown() {
+    public void tearDown() {
         EventsCenter.clearSubscribers();
     }
 
     @Test
-    public void execute_invalid() throws Exception {
+    public void executeInvalid() throws Exception {
         String invalidCommand = "       ";
         assertCommandBehavior(invalidCommand,
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, HelpCommand.MESSAGE_USAGE));
@@ -109,7 +110,7 @@ public class LogicManagerTest {
                                        List<? extends ReadOnlyTask> expectedShownList) throws Exception {
 
         //Execute the command
-        CommandResult result = logic.invoke(inputCommand);
+        CommandResult result = logic.execute(inputCommand);
         //Confirm the ui display elements should contain the right data
         assertEquals(expectedMessage, result.feedbackToUser);
         assertEquals(expectedShownList, model.getFilteredTaskList());
@@ -120,24 +121,24 @@ public class LogicManagerTest {
 
 
     @Test
-    public void execute_unknownCommandWord() throws Exception {
+    public void executeUnknownCommandWord() throws Exception {
         String unknownCommand = "uicfhmowqewca";
         assertCommandBehavior(unknownCommand, MESSAGE_UNKNOWN_COMMAND);
     }
 
     @Test
-    public void execute_help() throws Exception {
+    public void executeHelp() throws Exception {
         assertCommandBehavior("help", HelpCommand.SHOWING_HELP_MESSAGE);
         assertTrue(helpShown);
     }
 
     @Test
-    public void execute_exit() throws Exception {
+    public void executeExit() throws Exception {
         assertCommandBehavior("exit", ExitCommand.MESSAGE_EXIT_ACKNOWLEDGEMENT);
     }
 
     @Test
-    public void execute_clear() throws Exception {
+    public void executeClear() throws Exception {
         TestDataHelper helper = new TestDataHelper();
         model.addTask(helper.generateTask(1));
         model.addTask(helper.generateTask(2));
@@ -148,7 +149,7 @@ public class LogicManagerTest {
 
 
     @Test
-    public void execute_add_invalidArgsFormat() throws Exception {
+    public void executeAddInvalidArgsFormat() throws Exception {
         String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE);
         assertCommandBehavior(
                 "add wrong args wrong args /t", expectedMessage);
@@ -167,7 +168,7 @@ public class LogicManagerTest {
     }
 
     @Test
-    public void execute_add_invalidPersonData() throws Exception {
+    public void executeAddInvalidPersonData() throws Exception {
     	// NOT APPLICABLE TO THE CURRENT ADD COMMAND
 //        assertCommandBehavior(
 //                "add []\\[;] p/12345 e/valid@e.mail a/valid, address", Name.MESSAGE_NAME_CONSTRAINTS);
@@ -181,21 +182,21 @@ public class LogicManagerTest {
     }
     
     @Test
-    public void execute_add_order_dont_matter () throws Exception {
+    public void executeAddOrderDontMatter () throws Exception {
         TestDataHelper helper = new TestDataHelper();
         TaskForce expectedAB = new TaskForce();
         
         Task john = helper.john() ;
         expectedAB.addTask(john);
         
-        assertCommandBehavior("add John's Birthday party t/friendsParty d/at his house",
+        assertCommandBehavior("add John's Birthday party t/friendsparty d/at his house",
                 String.format(AddCommand.MESSAGE_SUCCESS, john),
                 expectedAB,
                 expectedAB.getTaskList());
     }
     
     @Test
-    public void add_command_optional_args() throws Exception {
+    public void addCommandOptionalArgs() throws Exception {
         
         TestDataHelper helper = new TestDataHelper();
         TaskForce expectedAB = new TaskForce();
@@ -210,7 +211,7 @@ public class LogicManagerTest {
     }
 
     @Test
-    public void execute_add_successful() throws Exception {
+    public void executeAddSuccessful() throws Exception {
         // setup expectations
         TestDataHelper helper = new TestDataHelper();
         Task toBeAdded = helper.adam();
@@ -224,48 +225,27 @@ public class LogicManagerTest {
                 expectedAB.getTaskList());        
 
         
-        Task test_event = helper.test_event();
+        Task test_event = helper.testEvent();
         expectedAB.addTask(test_event);
 
-        Task test_deadline = helper.test_deadline();
+        Task test_deadline = helper.testDeadline();
         expectedAB.addTask(test_deadline);
         
-        Task test_eventWithoutEndDate = helper.test_eventWithoutEndDate() ;
-        expectedAB.addTask(test_eventWithoutEndDate);
+        Task test_eventWithoutEndDate = helper.testEventWithoutEndDate() ;
 
-        CommandResult result = logic.invoke("add event d/this is a event st/13022016 1300 et/13022016 1300");
+        CommandResult result = logic.execute("add event d/this is a event st/02-13-2016 1300 et/02-13-2016 1310");
         assertEquals(String.format(AddCommand.MESSAGE_SUCCESS, test_event), result.feedbackToUser);
 
-        CommandResult result2 = logic.invoke("add deadline d/this is a deadline et/Aug 13 2016 1600");
+        CommandResult result2 = logic.execute("add deadline d/this is a deadline et/Aug 13 2016 1600");
         assertEquals(String.format(AddCommand.MESSAGE_SUCCESS, test_deadline), result2.feedbackToUser);
         
-        CommandResult result3 = logic.invoke("add eventWithoutStartTime st/today 3pm") ;
+        CommandResult result3 = logic.execute("add eventWithoutStartTime st/today 9pm") ;
         assertEquals(String.format(AddCommand.MESSAGE_SUCCESS, test_eventWithoutEndDate), result3.feedbackToUser);
     }
 
-    @Test
-    public void execute_addDuplicate_notAllowed() throws Exception {
-//        // setup expectations
-//        TestDataHelper helper = new TestDataHelper();
-//        Task toBeAdded = helper.adam();
-//        TaskForce expectedAB = new TaskForce();
-//        expectedAB.addTask(toBeAdded);
-//
-//        // setup starting state
-//        model.addTask(toBeAdded); // task already in internal address book
-//
-//        // execute command and verify result
-//        assertCommandBehavior(
-//                helper.generateAddCommand(toBeAdded),
-//                AddCommand.MESSAGE_DUPLICATE_TASK,
-//                expectedAB,
-//                expectedAB.getTaskList());
-
-    }
-
 
     @Test
-    public void execute_list_showsAllPersons() throws Exception {
+    public void executeListShowsAllPersons() throws Exception {
         // prepare expectations
         TestDataHelper helper = new TestDataHelper();
         TaskForce expectedAB = helper.generateAddressBook(2);
@@ -314,18 +294,18 @@ public class LogicManagerTest {
     }
 
     @Test
-    public void execute_selectInvalidArgsFormat_errorMessageShown() throws Exception {
+    public void executeSelectInvalidArgsFormatErrorMessageShown() throws Exception {
         String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, SelectCommand.MESSAGE_USAGE);
         assertIncorrectIndexFormatBehaviorForCommand("select", expectedMessage);
     }
 
     @Test
-    public void execute_selectIndexNotFound_errorMessageShown() throws Exception {
+    public void executeSlectIndexNotFoundErrorMessageShown() throws Exception {
         assertIndexNotFoundBehaviorForCommand("select");
     }
 
     @Test
-    public void execute_select_jumpsToCorrectTask() throws Exception {
+    public void executeSelectJumpsToCorrectTask() throws Exception {
         TestDataHelper helper = new TestDataHelper();
         List<Task> threeTasks = helper.generateTaskList(3);
 
@@ -342,18 +322,18 @@ public class LogicManagerTest {
 
 
     @Test
-    public void execute_deleteInvalidArgsFormat_errorMessageShown() throws Exception {
+    public void executeDeleteInvalidArgsFormatErrorMessageShown() throws Exception {
         String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE);
         assertIncorrectIndexFormatBehaviorForCommand("delete", expectedMessage);
     }
 
     @Test
-    public void execute_deleteIndexNotFound_errorMessageShown() throws Exception {
+    public void executeDeleteIndexNotFoundErrorMessageShown() throws Exception {
         assertIndexNotFoundBehaviorForCommand("delete");
     }
   
     @Test
-    public void execute_delete_removesCorrectTask() throws Exception {
+    public void executeDeleteRemovesCorrectTask() throws Exception {
         TestDataHelper helper = new TestDataHelper();
         List<Task> threeTasks = helper.generateTaskList(3);
 
@@ -434,7 +414,7 @@ public class LogicManagerTest {
     */
     
     @Test
-    public void execute_invalid_block_command() throws Exception {
+    public void executeInvalidBlockCommand() throws Exception {
         TaskForce expectedAB = new TaskForce();
         
         assertCommandBehavior("block st/sadsd et/dasdad",
@@ -444,11 +424,11 @@ public class LogicManagerTest {
     }
     
     @Test
-    public void execute_invalidDates_block_command() throws Exception {
+    public void executeInvalidDatesBlockCommand() throws Exception {
         TaskForce expectedAB = new TaskForce();
         
         assertCommandBehavior("block name st/sadsd et/today 5pm",
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, BlockCommand.MESSAGE_USAGE),
+                AddCommand.INVALID_END_DATE_MESSAGE,
                 expectedAB,
                 expectedAB.getTaskList() ) ;
     }
@@ -456,9 +436,9 @@ public class LogicManagerTest {
     /**
      * A utility class to generate test data.
      */
-    class TestDataHelper{
+    public class TestDataHelper{
 
-        Task adam() throws Exception {
+        public Task adam() throws Exception {
             String name ="Adam Brown" ;
             
             Tag tag1 = new Tag("tag1");
@@ -467,26 +447,25 @@ public class LogicManagerTest {
             return new Task(0, name, " " , tags);
         }
         
-        Task john() throws Exception {
-        	return new Task (0, "John's Birthday party", "at his house", new UniqueTagList(new Tag("friendsParty"))) ;
+        public Task john() throws Exception {
+        	return new Task (0, "John's Birthday party", "at his house", new UniqueTagList(new Tag("friendsparty"))) ;
         }
         
-        Task johnny() throws Exception {
+        public Task johnny() throws Exception {
         	return new Task (0, "Johnny's Birthday party", "at his house", new UniqueTagList() ) ;
         }
         
-
-        Task test_deadline() throws Exception {
+        private Task testDeadline() throws Exception {
         	return new Deadline(0, "deadline", "this is a deadline", DateUtil.parseStringIntoDateTime("13 Aug 16 1300").get(), new UniqueTagList() );
         }
         
-        Task test_eventWithoutEndDate() throws Exception {
-            return new Event(0, "eventWithoutStartTime", "", DateUtil.parseStringIntoDateTime("today 3pm").get(), DateUtil.END_OF_TODAY, new UniqueTagList() );
+        private Task testEventWithoutEndDate() throws Exception {
+            return new Event(0, "eventWithoutStartTime", "", DateUtil.parseStringIntoDateTime("today 9pm").get(), DateUtil.END_OF_TODAY, new UniqueTagList() );
         }
         
-        Task test_event() throws Exception {
-        	LocalDateTime startDate = DateUtil.parseStringIntoDateTime("13022016 1300").get() ;
-        	LocalDateTime endDate = DateUtil.parseStringIntoDateTime("13022016 1300").get();
+        private Task testEvent() throws Exception {
+        	LocalDateTime startDate = DateUtil.parseStringIntoDateTime("02-13-2016 1300").get() ;
+        	LocalDateTime endDate = DateUtil.parseStringIntoDateTime("02-13-2016 1310").get();
         	return new Event(0, "event", "this is a event", startDate, endDate, new UniqueTagList() );
 
         }
@@ -498,7 +477,7 @@ public class LogicManagerTest {
          *
          * @param seed used to generate the person data field values
          */
-        Task generateTask(int seed) throws Exception {
+        public Task generateTask(int seed) throws Exception {
             return new Task(0,
                     "Task " + seed,
                     "description " + seed,
@@ -507,7 +486,7 @@ public class LogicManagerTest {
         }
 
         /** Generates the correct add command based on the person given */
-        String generateAddCommand(Task p) {
+        public String generateAddCommand(Task p) {
             StringBuffer cmd = new StringBuffer();
 
             cmd.append("add ");
@@ -526,7 +505,7 @@ public class LogicManagerTest {
         /**
          * Generates an TaskForce with auto-generated persons.
          */
-        TaskForce generateAddressBook(int numGenerated) throws Exception{
+        public TaskForce generateAddressBook(int numGenerated) throws Exception{
             TaskForce taskForce = new TaskForce();
             addToAddressBook(taskForce, numGenerated);
             return taskForce;
@@ -535,7 +514,7 @@ public class LogicManagerTest {
         /**
          * Generates an TaskForce based on the list of Persons given.
          */
-        TaskForce generateAddressBook(List<Task> tasks) throws Exception{
+        public TaskForce generateAddressBook(List<Task> tasks) throws Exception{
             TaskForce taskForce = new TaskForce();
             addToAddressBook(taskForce, tasks);
             return taskForce;
@@ -545,14 +524,14 @@ public class LogicManagerTest {
          * Adds auto-generated Task objects to the given TaskForce
          * @param taskForce The TaskForce to which the Persons will be added
          */
-        void addToAddressBook(TaskForce taskForce, int numGenerated) throws Exception{
+        public void addToAddressBook(TaskForce taskForce, int numGenerated) throws Exception{
             addToAddressBook(taskForce, generateTaskList(numGenerated));
         }
 
         /**
          * Adds the given list of Persons to the given TaskForce
          */
-        void addToAddressBook(TaskForce taskForce, List<Task> personsToAdd) throws Exception{
+        public void addToAddressBook(TaskForce taskForce, List<Task> personsToAdd) throws Exception{
             for(Task p: personsToAdd){
                 taskForce.addTask(p);
             }
@@ -562,14 +541,14 @@ public class LogicManagerTest {
          * Adds auto-generated Task objects to the given model
          * @param model The model to which the Persons will be added
          */
-        void addToModel(Model model, int numGenerated) throws Exception{
+        public void addToModel(Model model, int numGenerated) throws Exception{
             addToModel(model, generateTaskList(numGenerated));
         }
 
         /**
          * Adds the given list of Persons to the given model
          */
-        void addToModel(Model model, List<Task> personsToAdd) throws Exception{
+        public void addToModel(Model model, List<Task> personsToAdd) throws Exception{
             for(Task p: personsToAdd){
                 model.addTask(p);
             }
@@ -578,7 +557,7 @@ public class LogicManagerTest {
         /**
          * Generates a list of Persons based on the flags.
          */
-        List<Task> generateTaskList(int numGenerated) throws Exception{
+        public List<Task> generateTaskList(int numGenerated) throws Exception{
             List<Task> tasks = new ArrayList<>();
             for(int i = 1; i <= numGenerated; i++){
                 tasks.add(generateTask(i));
@@ -586,14 +565,14 @@ public class LogicManagerTest {
             return tasks;
         }
 
-        List<Task> generatePersonList(Task... persons) {
+        public List<Task> generatePersonList(Task... persons) {
             return Arrays.asList(persons);
         }
 
         /**
          * Generates a Task object with given name. Other fields will have some dummy values.
          */
-        Task generatePersonWithName(String name) throws Exception {
+        public Task generatePersonWithName(String name) throws Exception {
             return new Task(0,
                     name,
                     "description ...",

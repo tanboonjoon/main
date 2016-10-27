@@ -14,22 +14,18 @@ import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT
 public class AddCommandTest extends TaskForceGuiTest {
 
     @Test
-    public void add() {
+    public void addCommandTest() {
         //add one task
-//        TestTask[] currentList = td.getTypicalTasks();
-//        TestTask taskToAdd = TypicalTestTasks.hoon;
-//        assertAddSuccess(taskToAdd, currentList);
-//        currentList = TestUtil.addTasksToList(currentList, taskToAdd);
-//
-//        //add another task
-//        taskToAdd = TypicalTestTasks.ida;
-//        assertAddSuccess(taskToAdd, currentList);
-//        currentList = TestUtil.addTasksToList(currentList, taskToAdd);
+        TestTask[] currentList = td.getTypicalTasks();
+        TestTask taskToAdd = TypicalTestTasks.hoon;
+        assertAddSuccess(taskToAdd, currentList);
+        currentList = TestUtil.addTasksToList(currentList, taskToAdd);
 
-        //add duplicate task (disabled; not possible to have duplicate tasks due to task ID)
-//        commandBox.runCommand(TypicalTestTasks.hoon.getAddCommand());
-//        assertResultMessage(AddCommand.MESSAGE_DUPLICATE_TASK);
-//        assertTrue(taskListPanel.isListMatching(currentList));
+        //add another task
+        taskToAdd = TypicalTestTasks.ida;
+        
+        assertAddSuccess(taskToAdd, currentList);
+        currentList = TestUtil.addTasksToList(currentList, taskToAdd);
 
         //add to empty list
         commandBox.runCommand("clear");
@@ -45,10 +41,12 @@ public class AddCommandTest extends TaskForceGuiTest {
         
         //add a event that has endDate > startDate
         commandBox.runCommand("add testEvent st/today 6pm et/yesterday 6pm");
-        assertResultMessage(AddCommand.INVALID_END_DATE_MESSAGE);
+        assertResultMessage(AddCommand.INVALID_END_DATE_MESSAGE);   
         
-        commandBox.runCommand("add testRecurringDeadline et/tomorrow 6pm recurring/anyhow");
-        assertResultMessage(AddCommand.MISSING_NUMBER_OF_RECURRENCE_MESSAGE);
+    }
+    
+    @Test
+    public void addRecurringTest () {
         
         // invalid recurring argument. 
         commandBox.runCommand("add testRecurringDeadline et/tomorrow 6pm recurring/anyhow repeat/2");
@@ -81,6 +79,9 @@ public class AddCommandTest extends TaskForceGuiTest {
         //invalid command
         commandBox.runCommand("add test task et/now repeat/");
         assertResultMessage(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE));
+        
+        commandBox.runCommand("add testRecurringDeadline et/tomorrow 6pm recurring/anyhow");
+        assertResultMessage(AddCommand.MISSING_NUMBER_OF_RECURRENCE_MESSAGE);   
 
         // missing recurring/
         
@@ -90,8 +91,6 @@ public class AddCommandTest extends TaskForceGuiTest {
         // invalid repeat argument alphanumeric not allowed
         commandBox.runCommand("add testRecurringDeadline et/tomorrow 6pm recurring/weekly repeat/abcd 12");
         assertResultMessage(AddCommand.REPEAT_ARGUMENT_MESSAGE);
-        
-        
     }
 
     private void assertAddSuccess(TestTask taskToAdd, TestTask... currentList) {

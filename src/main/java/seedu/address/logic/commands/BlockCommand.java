@@ -2,15 +2,18 @@ package seedu.address.logic.commands;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
-import com.google.common.collect.Sets;
+import com.google.common.collect.ImmutableList;
 
+import javafx.util.Pair;
 import seedu.address.commons.exceptions.IllegalValueException;
+import seedu.address.commons.util.CollectionUtil;
 import seedu.address.commons.util.DateUtil;
 import seedu.address.model.Model;
 import seedu.address.model.task.Block;
+import seedu.address.model.task.ReadOnlyTask;
 import seedu.address.model.task.UniqueTaskList.DuplicateTaskException;
 import seedu.address.model.task.UniqueTaskList.TaskNotFoundException;
 
@@ -37,6 +40,8 @@ public class BlockCommand extends Command {
     private final List<LocalDateTime> startDates ;
     private final List<LocalDateTime> endDates ;
     
+    private List<Block> blocksToAdd ;
+    
     
     public BlockCommand (String name, List<LocalDateTime> startDates, List<LocalDateTime> endDates) throws IllegalValueException {
         
@@ -44,7 +49,7 @@ public class BlockCommand extends Command {
             throw new IllegalValueException(INVALID_TASK_TYPE_MESSAGE);
         }
         
-        if (!verifyAllDatesDistinct(startDates) || !verifyAllDatesDistinct(endDates) ) {
+        if (!CollectionUtil.elementsAreUnique(startDates) || !CollectionUtil.elementsAreUnique(endDates) ) {
             throw new IllegalValueException(DATES_NOT_DISTINCT_MESSAGE);
         }
         
@@ -59,11 +64,9 @@ public class BlockCommand extends Command {
         assert endDates.size() == startDates.size() ;
         assert model != null ;
         
-        model.recordTaskForce();
-        
         int id = model.getNextTaskId() ;
         
-        List<Block> blocksToAdd = new ArrayList<>(endDates.size()) ;
+        blocksToAdd = new ArrayList<>(endDates.size()) ;
         
         for (int i = 0; i < endDates.size(); i ++) {
             blocksToAdd.add(i, new Block (id, name, startDates.get(i), endDates.get(i)));
@@ -95,35 +98,13 @@ public class BlockCommand extends Command {
         sb.delete(sb.length() - 5, sb.length()) ;
         
         
-        return new CommandResult(String.format(MESSAGE_SUCCESS, name, sb.toString())) ;
+        return new CommandResult(String.format(MESSAGE_SUCCESS, name, sb.toString()), true ) ;
     }
     
-    /**
-     * 
-     * Verifies that all dates contains in the given list are unique and distinct.
-     * In the case of empty or null list, this function will return false.
-     * 
-     * @param datesList     The list of dates
-     * @return  true if all dates contained in the list are all unique and distinct; false otherwise.
-     */
-    private boolean verifyAllDatesDistinct (List<LocalDateTime> datesList) {
-        
-        if (datesList == null || datesList.isEmpty()) {
-            return false ;
-        }
-        
-        Set<LocalDateTime> datesInList = Sets.newHashSetWithExpectedSize(datesList.size()) ;
-        
-        for (LocalDateTime date : datesList) {
-            if (!datesInList.contains(date)) {
-                datesInList.add(date) ;
-                continue ;
-            }
-            
-            return false ;
-        }
-        
-        return true ;
+    
+    @Override
+    public Pair<List<ReadOnlyTask>, List<ReadOnlyTask>> getCommandChanges() {
+        return new Pair<List<ReadOnlyTask>, List<ReadOnlyTask>>(ImmutableList.copyOf(blocksToAdd), Collections.emptyList()) ; 
     }
     
     private static class Transaction {
@@ -165,5 +146,4 @@ public class BlockCommand extends Command {
             }
         }
     }
-
 }

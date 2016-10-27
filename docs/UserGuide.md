@@ -8,7 +8,7 @@
 
 ## Overview
 
-1. TaskForce allows you to manage his tasks through a simple
+1. TaskForce allows you to manage your tasks through a simple
 command-line interface (CLI)-based application.
 2. It allows for 3 main kinds of tasks:  
    * Reminders - a task with no start nor end date  
@@ -18,6 +18,11 @@ command-line interface (CLI)-based application.
 implementation of blocks - events with no name (placeholders).
 4. This app is built on Java, and runs on any Desktop.
 
+### Advanced User
+
+1. Once you have used the program long enough and are comfortable with editing the config.json file directly. You are allowed to do so. 
+2. Please take note that you should only edit the values in the config file (e.g changing path, setting new active time )
+3. Do take note that changing or removing any keyname such as 'taskForceDataFilePath' will result in the system overwriting the config file with a default one instead.
 ## Quick Start
 
 0. Ensure you have Java version `1.8.0_60` or later installed in your Computer.<br>
@@ -35,7 +40,12 @@ implementation of blocks - events with no name (placeholders).
    * **`add`**` wash the toilet ` adds a reminder to wash the toilet to the task list.
    * **`search`**` d/0` searches the task list for all tasks happening today.
    * **`exit`** : exits the app
-6. Refer to the [Features](#features) section below for details of each command.<br>
+6. Many commands requires an `INDEX` which is the number associated to the task in the current list.
+       > <img src = "images/index_example.png" width="600"> <br>
+       > #### The index of a task is the number beside it
+        
+        
+7. Refer to the [Features](#features) section below for details of each command.<br>
 
 
 ## Features
@@ -64,6 +74,7 @@ Event: `add TASKNAME  [d/DESCRIPTION]  [st/START_DATE] [et/END_DATE] [t/TAG]...`
 > - Tasks can have any number of tags (including 0)  
 > - Date format is MM-DD-YYYY HHMM (24 hour Format) e.g. `st/ 10-22-2016 1500`
 > 	- The command also supports natural language dates such as `today 6pm`
+> 	- See the section [On Entering Dates](#On Entering Dates) for more details
 > - If no time is specified, the time will be assumed to be the time right now.
 > - If no start date is specified, it is assumed to be today.
 > - If start date/time is specified but end date/time is not specified, the end date/time will be the same day on 2359.
@@ -84,6 +95,7 @@ Format: `block NAME st/START_DATE et/END_DATE [st/START_DATE et/END_DATE]...`
 > - Each st/ and et/ is a pair, and you can have unlimited pairs
 > - Date format is MM-DD-YYYY HHMM (24 hour Format) e.g. `st/ 10-22-2016 1500`
 > 	- The command also supports natural language dates such as `today 6pm`
+> 	- See the section [On Entering Dates](#On Entering Dates) for more details
 > - If no start time is specified, the time will be assumed to be the time right now.
 > - If no start date is specified, it is assumed to be today.
 > - If no end date/time is specified, the end date/time will be the same day on 2359.
@@ -97,7 +109,7 @@ Examples:
 Confirms a blocked out time and converts it into an event  
 Deletes all other blocked timeslots for the same event
 
-Format: `confirm INDEX st/STARTTIME et/ENDTIME`
+Format: `confirm INDEX st/STARTTIME et/ENDTIME [d/DESCRIPTION][t/TAG]...`
 > - To use this function, you must first list the desired timelot, by either going to the right date to view it, or finding it through keywords
 > - Following which, you can use this command the confirm the desired slot you would like.
 > - All other times associated to the previously blocked out event will be released, even if they are not in the current view.
@@ -107,23 +119,27 @@ Examples:
 
 #### Searching for (a) specific task(s): `find`
 Finds tasks of a specific time, or whose names contain any of the given keywords.  
-Format: `find METHOD/ KEYWORDS`
-KEYWORDS for TYPE 'all' is a word that is contain/part of a task name
+Format: `find METHOD/ KEYWORDS [mark/TRUE]`
+KEYWORDS for TYPE 'name/' 'desc/' 'tag/' is a word that is contain/part of a task name/description/tag
 KEYWORDS for TYPE 'day' and 'week' is a integer number.
 
 Method | Explanation | Example
 -------- | :-------- | :---------
-`day/` | List all events a number of days after today | `find day/ -1` (yesterday)
-`week/` | List all events in a week, after current week | `find week/ 0` (current week)
-`all/` | List all events with word appearing in name | `find all/ shoes`
+`day/` | List all events/deadline a number of days after today | `find day/ -1` (yesterday)
+`week/` | List all events/deadline in a week, after current week | `find week/ 0` (current week)
+`name/` | List all tasks with taskName containing the keywords | `find name/ shoes`
+`tag/` | List all tasks with taskDescription containing the keywords | `find name/ shoes`
+`desc/` | List all tasks with the tags of task containing the keywords | `find name/ shoes`
 
 
-> * The search is not case sensitive. e.g `hans` will match `Hans`
-> * The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
-> * Only the name is searched.
-> * Only full words will be matched e.g. `Han` will not match `Hans`
-> * Persons matching at least one keyword will be returned (i.e. `OR` search).
-    e.g. `Hans` will match `Hans Bo`
+> * The search is not case sensitive. e.g `task` will match `TaSK`
+> * The order of the keywords does not matter. e.g. `is s task` will match `task is a`
+> * Sub-words will be matched e.g. `sk` will match `task`
+> * Tasks matching at least one keyword will be returned (i.e. `OR` search).
+
+> * FindCommand filtered out marked tasks automatically, user can turn off filter by using [mark/TRUE]
+to include marked task in search
+* 'find name/i wan to find marked task mark/true'
 
 
 #### Deleting a task : `delete`
@@ -160,10 +176,10 @@ Examples:
 
 #### Finding free time in a specific day: `freetime`  
 Gives you all the free time blocks in a specific day
-Format: `freetime [d/DAYS_FROM_TODAY]`  
+Format: `freetime [day/DAYS_FROM_TODAY]`  
 > - By default, freetime gives you today's free time  
-> - You can adjust days by using the d/ option  
-> - For example, for yesterday's free time, `freetime d/-1`  
+> - You can adjust days by using the day/ option  
+> - For example, for yesterday's free time, `freetime day/-1`  
 > - DAYS_FROM_TODAY **must be an integer**
 
 #### Undo the previous command : `undo`
@@ -172,13 +188,29 @@ Format: `undo`
 
 #### Changing FileStorage location : `cd`
 Changing the saveData into another location <br>
-Format: `cd FILEPATH\FILENAME.xml`
+Format: `cd [FILEPATH\FILENAME.xml]`
 Examples:
-* `cd C:\Users\Boon\Desktop\newName.xml`
-* `cd C:\Users\Boon\newSaveName.xml`
+* `cd ` will tell you the current location of the saveData
+* `cd C:\Users\Boon\newSaveName.xml`will change the saveData location to specified path
+
+### Changing configuration options : `config`
+Allows for changing of configuration options in config.json <br>
+**Warning: This is for advanced users only!** <br>
+Format : `config CONFG_OPTION v/NEW_VALUE` <br>
+The following table are the config options and its values that is avaliable for modification by this command. <br>
+
+Configuration Option  | Values             | Description
+--------------------- | :------------------|:-----------------
+taskForceDataFilePath | Use the `cd` command | The location of the data save file
+userPrefsFilePath   | A file path | The location of the user preferences file
+activeHoursFrom | 0000 to 2400 | The earliest hour that the freetime command would take into account when computing your freetime
+activeHoursTo | 0000 to 2400 | The latest hour that the freetime command would take into account when computing your freetime
+enableSudo | true or false | When enabled, you can perform the clear command and other commands for advanced users
+
 
 #### Clearing all entries : `clear`
 Clears **ALL** entries from the task list. This command **CANNOT** be undone! <br>
+This requires the sudo to be enabled <br>
 Format: `clear`  
 
 #### Exiting the program : `exit`
@@ -188,6 +220,25 @@ Format: `exit`
 #### Saving the data
 TaskForce saves data in the hard disk automatically after any command that changes the data.  
 There is no need to save manually.
+
+## On Entering Dates
+
+TaskForce supports flexible date inputs and thus allows many natural variations of dates. The following are three broad categories of dates supported by TaskForce
+
+### Formal Dates
+> Format Dates follow the format MM-DD-YYYY HHMM <br>
+> 	* 03-15-2016 1500
+
+### Relaxed Dates
+> Relaxed dates are dates that expressed months in words instead of numbers. If the year is not provided, it is assumed to be this year
+> 	* Oct 20 2016
+> 	* 16 Aug
+
+### Relative dates
+> Relative dates are the most natural variation of the three and supports inputs that is relative to today <br>
+> 	* today 5pm
+> 	* next thursday 3pm
+> 	* tomorrow 9am
 
 ## FAQ
 
@@ -199,15 +250,16 @@ There is no need to save manually.
 
 Command | Format  
 -------- | :--------
-Add | `add EVENT [d/DESCRIPTION] [t/TAG] [st/START_DATE] [et/END_DATE] [t/TAG]...`
-Block | `block NAME s/START_DATE e/END_DATE`
-Confirm | `confirm NAME s/START_DATE e/END_DATE`
+Add | `add EVENT [d/DESCRIPTION][st/START_DATE] [et/END_DATE] [t/TAG] [t/TAG2]...`
+Block | `block NAME st/START_DATE et/END_DATE [st/START_DATE et/END_DATE]...`
+Confirm | `confirm NAME st/START_DATE et/END_DATE [d/DESCRIPTION] [t/TAG]`
 Clear | `clear`
 Delete | `delete INDEX`
 Edit | `edit INDEX [NAME] [s/START_DATE] [e/END_DATE] ...`
-Freetime | `freetime [d/DAYS_FROM_TODAY]`
-Find | `find METHOD/ KEYWORD [MORE_KEYWORDS_FOR_ALL_METHOD]`
-cd   | `cd FILEPATH/FILENAME.xml`
+Freetime | `freetime [day/DAYS_FROM_TODAY]`
+Find | `find METHOD/KEYWORDS [mark/TRUE]`
+cd   | `cd [FILEPATH/FILENAME.xml]`
+config | `config CONFIG_OPTION v/CONFIG_VALUE`
 Undo | `undo`
 Help | `help`
 Exit | `exit`

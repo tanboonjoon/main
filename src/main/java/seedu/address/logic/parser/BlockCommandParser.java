@@ -3,14 +3,16 @@ package seedu.address.logic.parser;
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 import com.google.common.collect.Lists;
 
+import javafx.util.Pair;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.commons.exceptions.IncorrectCommandException;
 import seedu.address.commons.util.DateUtil;
+import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.commands.BlockCommand;
 import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.IncorrectCommand;
@@ -34,11 +36,14 @@ public class BlockCommandParser extends CommandParser{
             return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, BlockCommand.MESSAGE_USAGE));
         }
         
-        List<LocalDateTime> startDateTimes = convertArgsToDateTime (parser, CommandArgs.START_DATETIME) ;
-        List<LocalDateTime> endDateTimes = convertArgsToDateTime (parser, CommandArgs.END_DATETIME) ;
+        List<LocalDateTime> startDateTimes = Lists.newLinkedList() ;
+        List<LocalDateTime> endDateTimes = Lists.newLinkedList() ;
         
-        if (startDateTimes.size() != endDateTimes.size()) {
-            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, BlockCommand.MESSAGE_USAGE));
+        try {
+            convertArgsToDateTime(parser, startDateTimes, endDateTimes) ;
+        
+        } catch (IllegalValueException e) {
+            return new IncorrectCommand(e.getMessage());
         }
         
         try {
@@ -48,24 +53,28 @@ public class BlockCommandParser extends CommandParser{
         }
     }
     
-    private List<LocalDateTime> convertArgsToDateTime (ArgumentsParser parser, CommandArgs date) {
+    private void convertArgsToDateTime (ArgumentsParser parser, List<LocalDateTime> startTimes, List<LocalDateTime> endTimes)
+    throws IllegalValueException {
         
         assert parser != null ;
         
-        List<LocalDateTime> result = Lists.newLinkedList() ;
+        List<String> startStrings = parser.getArgValues(CommandArgs.START_DATETIME).orElse(Collections.emptyList()) ;
+        List<String> endStrings = parser.getArgValues(CommandArgs.END_DATETIME).orElse(Collections.emptyList()) ;
         
-        if (parser.getArgValue(date).isPresent()) {
+        if (!startStrings.isEmpty() && !endStrings.isEmpty() && startStrings.size() == endStrings.size()) {
             
-            for (String dateString : parser.getArgValues(date).get()) {
-                Optional<LocalDateTime> dateTime = DateUtil.parseStringIntoDateTime(dateString) ;
+            for (int i = 0; i < startStrings.size(); i ++) {
+                Pair<LocalDateTime, LocalDateTime> startEndDates =  
+                        DateUtil.determineStartAndEndDateTime(startStrings.get(i), endStrings.get(i), false)
+                        .orElseThrow(() -> new IllegalValueException(AddCommand.INVALID_END_DATE_MESSAGE)) ;
                 
-                if (dateTime.isPresent()) {
-                    result.add(dateTime.get()) ;
-                }
-                
+                startTimes.add(startEndDates.getKey()) ;
+                endTimes.add(startEndDates.getValue()) ;
             }
+            
+        } else {
+            throw new IllegalValueException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, BlockCommand.MESSAGE_USAGE)) ;
         }
         
-        return result ;
     }
 }

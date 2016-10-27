@@ -5,7 +5,7 @@ import seedu.address.commons.exceptions.IllegalValueException;
 
 /**
  * Represents a Tag in the address book.
- * Guarantees: immutable; name is valid as declared in {@link #isValidTagName(String)}
+ * Guarantees: name is valid as declared in {@link #isValidTagName(String)}
  */
 public class Tag {
 
@@ -13,9 +13,8 @@ public class Tag {
     public static final String TAG_VALIDATION_REGEX = "\\p{Alnum}+";
 
     public String tagName;
-
-    public Tag() {
-    }
+    
+    public Tag() {}
 
     /**
      * Validates given tag name.
@@ -24,11 +23,11 @@ public class Tag {
      */
     public Tag(String name) throws IllegalValueException {
         assert name != null;
-        name = name.trim();
-        if (!isValidTagName(name)) {
+        String nameTrimmed = name.trim();
+        if (!isValidTagName(nameTrimmed)) {
             throw new IllegalValueException(MESSAGE_TAG_CONSTRAINTS);
         }
-        this.tagName = name;
+        this.tagName = nameTrimmed;
     }
 
     /**
@@ -36,6 +35,15 @@ public class Tag {
      */
     public static boolean isValidTagName(String test) {
         return test.matches(TAG_VALIDATION_REGEX);
+    }
+    
+    public void setTagName(String name) throws IllegalValueException {
+        assert name != null;
+        String nameTrimmed = name.trim();
+        if (!isValidTagName(nameTrimmed)) {
+            throw new IllegalValueException(MESSAGE_TAG_CONSTRAINTS);
+        }
+        tagName = nameTrimmed;
     }
 
     @Override

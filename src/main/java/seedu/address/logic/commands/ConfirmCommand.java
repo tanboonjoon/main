@@ -1,15 +1,21 @@
 package seedu.address.logic.commands;
 
+import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Sets;
 
+import javafx.util.Pair;
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.UnmodifiableObservableList;
 import seedu.address.commons.exceptions.IllegalValueException;
+import seedu.address.commons.util.DateUtil;
 import seedu.address.logic.filters.Expression;
 import seedu.address.logic.filters.PredicateExpression;
 import seedu.address.logic.filters.TaskIdentifierNumberQualifier;
@@ -43,33 +49,31 @@ public class ConfirmCommand extends Command {
             + "Example: confirm meeting with boss st/today 2pm et/today 4pm" ;
 
     private final int targetIndex ;
-    private final LocalDateTime startDate ;
-    private final LocalDateTime endDate ;
+    private final String startDate ;
+    private final String endDate ;
     private final String description ;
-    private final UniqueTagList taglist ;
+    private final Set<String> taglist ;
+    private final List<ReadOnlyTask> deletedTask, addedTask ;
 
-    public ConfirmCommand (int targetIndex, String description, LocalDateTime startDate, LocalDateTime endDate, Set<String> tags) throws IllegalValueException {
+    public ConfirmCommand (int targetIndex, String description, String startDate, String endDate, Set<String> tags) throws IllegalValueException {
 
         if (startDate == null || endDate == null) {
             throw new IllegalValueException(MESSAGE_DATES_NOT_NULL) ;
-        }
-
-        final Set<Tag> tagSet = Sets.newHashSet() ;
-
-        for (String tagName : tags) {
-            tagSet.add(new Tag(tagName));
         }
 
         this.targetIndex = targetIndex ;
         this.startDate = startDate ;
         this.endDate = endDate ;
         this.description = description ;
-        this.taglist = new UniqueTagList(tagSet) ;
+        this.taglist = tags ;
+        
+        this.deletedTask = new ArrayList<>() ;
+        this.addedTask = new ArrayList<>() ;
     }
 
     @Override
     public CommandResult execute() {
-        UnmodifiableObservableList<ReadOnlyTask> lastShownList = model.getFilteredTaskList();
+        UnmodifiableObservableList<ReadOnlyTask> lastShownList = model.getSortedFilteredTask();
 
         if (lastShownList.size() < targetIndex || targetIndex < 1) {
             indicateAttemptToExecuteIncorrectCommand();
@@ -84,34 +88,54 @@ public class ConfirmCommand extends Command {
             return new CommandResult(MESSAGE_ONLY_BLOCKS) ;
         }
         
-        model.recordTaskForce();
+        Optional<Pair<LocalDateTime, LocalDateTime>> datePair = DateUtil.determineStartAndEndDateTime(startDate, endDate) ;
+        
+        if (!datePair.isPresent()) {
+            return new CommandResult(String.format(MESSAGE_INVALID_COMMAND_FORMAT, ConfirmCommand.MESSAGE_USAGE)) ;
+        }
 
         findAndDeleteOtherBlocks( (Block) blockToConfirm) ;
 
         String name = blockToConfirm.getName() ;
-
-        Task newEvent = new Event(id, name, description, startDate, endDate, taglist) ;
         
-
+        final Set<Tag> newTags = Sets.newHashSet() ;
+        
+        try {
+            for (String tagName : taglist) {
+                newTags.add(model.getTagRegistry().getTagFromString(tagName, true)) ;
+            }
+            
+        }catch (IllegalValueException e) {
+            return new CommandResult(e.getMessage()) ;
+        }
+        
+        Task newEvent = new Event(id, name, description, datePair.get().getKey(), datePair.get().getValue(), new UniqueTagList(newTags)) ;
+        Optional<Event> conflict = DateUtil.checkForConflictingEvents(model, (Event) newEvent) ;
 
         try {
-            model.addTask(newEvent);
+            model.addTask(newEvent) ;
+            addedTask.add(newEvent) ;
 
         } catch (DuplicateTaskException e) {
             return new CommandResult(MESSAGE_DUPLICATE_TASK) ;
         }
-
-        return new CommandResult(String.format(MESSAGE_CONFIRM_SUCCESS, newEvent)) ;
+        
+        String successMessage = String.format(MESSAGE_CONFIRM_SUCCESS, newEvent) ;
+        
+        if ( conflict.isPresent() ) {
+            successMessage = successMessage.concat("\n" + Messages.CONFLICTING_EVENTS_DETECTED + "The event is: " + conflict.get().getName()) ;
+        }
+        return new CommandResult(successMessage, true) ;
     }
 
     private void findAndDeleteOtherBlocks (Block task) {
         List<ReadOnlyTask> list = findAllOtherBlocks (task) ;
 
-        System.out.println(list.size());
-
         for (ReadOnlyTask taskToDelete : list) {
             try {
                 model.deleteTask(taskToDelete) ;
+                deletedTask.add(taskToDelete) ;
+                
             } catch (TaskNotFoundException e) {
 
                 continue ;
@@ -126,9 +150,13 @@ public class ConfirmCommand extends Command {
         int taskId = task.getTaskId() ;
 
         Expression filterByID = new PredicateExpression(new TaskIdentifierNumberQualifier(taskId)) ;
-        model.updateFilteredTaskList(filterByID);
+        model.searchTaskList(filterByID);
 
-        return new ArrayList<>(model.getFilteredTaskList()) ;
+        return new ArrayList<>(model.getSearchedTaskList()) ;
     }
-
+    
+    @Override
+    public Pair<List<ReadOnlyTask>, List<ReadOnlyTask>> getCommandChanges() {
+        return new Pair<List<ReadOnlyTask>, List<ReadOnlyTask>>(ImmutableList.copyOf(addedTask), ImmutableList.copyOf(deletedTask)) ; 
+    }
 }

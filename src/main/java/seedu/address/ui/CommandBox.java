@@ -5,6 +5,10 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import seedu.address.commons.events.ui.IncorrectCommandAttemptedEvent;
@@ -22,7 +26,9 @@ public class CommandBox extends UiPart {
     private AnchorPane placeHolderPane;
     private AnchorPane commandPane;
     private ResultDisplay resultDisplay;
-    String previousCommandTest;
+    private String previousCommandTest;
+    private final KeyCombination undoKeyCombo = new KeyCodeCombination(KeyCode.Z, KeyCombination.SHORTCUT_DOWN);
+    private final KeyCombination redoKeyCombo = new KeyCodeCombination(KeyCode.Z, KeyCombination.SHORTCUT_DOWN, KeyCombination.SHIFT_DOWN);
 
     private Logic logic;
 
@@ -43,7 +49,24 @@ public class CommandBox extends UiPart {
         this.logic = logic;
         commandTextField.getStyleClass().removeAll();
         commandTextField.getStyleClass().add("command-box") ;
+        
+        setKeyComboEventForUndoRedoCommand(logic);
+        
         registerAsAnEventHandler(this);
+    }
+
+    /*
+     * @@author A0140037W
+     */
+    private void setKeyComboEventForUndoRedoCommand(Logic logic) {
+        commandTextField.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
+            if(undoKeyCombo.match(key)){
+                logic.execute(UndoCommand.COMMAND_WORD);
+            }else if(redoKeyCombo.match(key)){
+                logic.execute(RedoCommand.COMMAND_WORD);
+            }
+           }
+        );
     }
 
     private void addToPlaceholder() {
@@ -67,8 +90,7 @@ public class CommandBox extends UiPart {
     public void setPlaceholder(AnchorPane pane) {
         this.placeHolderPane = pane;
     }
-
-
+    
     @FXML
     private void handleCommandInputChanged() {
         //Take a copy of the command text
@@ -78,7 +100,7 @@ public class CommandBox extends UiPart {
          * in the event handling code {@link #handleIncorrectCommandAttempted}
          */
         setStyleToIndicateCorrectCommand();
-        mostRecentResult = logic.invoke(previousCommandTest);
+        mostRecentResult = logic.execute(previousCommandTest);
         resultDisplay.postMessage(mostRecentResult.feedbackToUser);
         logger.info("Result: " + mostRecentResult.feedbackToUser);
     }

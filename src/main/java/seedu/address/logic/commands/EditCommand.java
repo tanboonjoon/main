@@ -1,16 +1,19 @@
 package seedu.address.logic.commands;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
-import seedu.address.commons.core.EventsCenter;
+import javafx.util.Pair;
+
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.UnmodifiableObservableList;
-import seedu.address.commons.events.ui.JumpToListRequestEvent;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.commons.util.DateUtil;
 import seedu.address.model.tag.Tag;
@@ -25,7 +28,7 @@ import seedu.address.model.task.UniqueTaskList.TaskNotFoundException;
 
 /*
  * Edits a existing task in all ways possible
- * @@author: A0111277M
+ * @@author A0111277M
  */
 public class EditCommand extends Command {
     
@@ -50,12 +53,13 @@ public class EditCommand extends Command {
     
     private static final String START_DATE = "startDate" ;
     private static final String END_DATE = "endDate" ;
-
+    private List<ReadOnlyTask> tasksAdded = Lists.newLinkedList();
+    private List<ReadOnlyTask> tasksDeleted = Lists.newLinkedList();
     private final int targetIndex;
     private final String name;
     private final String description;
     private boolean doneStatus;
-    private final Set<Tag> tagSet;
+    private final Set<String> tagNameSet;
     private final Map<String, LocalDateTime> dateMap ;
     
     private boolean hasChanged = false ;
@@ -64,12 +68,8 @@ public class EditCommand extends Command {
         this.targetIndex = targetIndex;
         this.name = name;
         this.description = description;
-        this.tagSet = Sets.newHashSet() ;
+        this.tagNameSet = tags ;
         this.dateMap = Maps.newHashMap() ;
-        
-        for (String tagName : tags) {
-            tagSet.add(new Tag(tagName));
-        }
         
         if (startDate != null) {
             dateMap.put(START_DATE, startDate) ;
@@ -91,7 +91,8 @@ public class EditCommand extends Command {
     
     @Override
     public CommandResult execute() {
-        String newName, newDescription;
+        String newName;
+        String newDescription;
         UniqueTagList newTagSet;
         UnmodifiableObservableList<ReadOnlyTask> lastShownList = model.getFilteredTaskList();
         Task newTask;
@@ -127,25 +128,30 @@ public class EditCommand extends Command {
 	        
 	        doneStatus = taskToEdit.getDoneStatus();
 	        
-	        newTagSet = new UniqueTagList(editOrDeleteTags(taskToEdit.getTags(), tagSet));
+	        try {
+	            newTagSet = new UniqueTagList(editOrDeleteTags(taskToEdit.getTags(), tagNameSet)) ;
+	        
+	        } catch (IllegalValueException e) {
+	            return new CommandResult(e.getMessage());
+	        }
         
         	newTask = createNewTask (newName, newDescription, newTagSet, dateMap.get(START_DATE), dateMap.get(END_DATE));
         }
         
-        /*
-         * Throw the appropriate result if nothing substantial has changed.
-         */
-        if (!hasChanged) {
+
+        
+        if(!hasChanged){
             return new CommandResult(NOTHING_CHANGED);
         }
-        
-    	model.recordTaskForce();
-        try {
 
-        	model.addTask(newTask);
-        	model.deleteTask(taskToEdit);
-            
-            return new CommandResult(String.format(MESSAGE_EDIT_SUCCESS, newTask));
+        try {
+            model.addTask(newTask);
+            tasksAdded.add(newTask);
+
+            model.deleteTask(taskToEdit);
+            tasksDeleted.add(taskToEdit);
+
+            return new CommandResult(String.format(MESSAGE_EDIT_SUCCESS, newTask), true);
 
         } catch (TaskNotFoundException pnfe) {
             return new CommandResult("The target task cannot be missing");
@@ -241,20 +247,26 @@ public class EditCommand extends Command {
     
     }
     
+
     /* 
      * Updates the taglist
      */
-    private Set<Tag> editOrDeleteTags(UniqueTagList currentTags, Set<Tag> tagSet) {
+    private Set<Tag> editOrDeleteTags(UniqueTagList currentTags, Set<String> tagNamesSet) throws IllegalValueException {
+        
+        assert model != null ;
         
         Set<Tag> newTaskTags = Sets.newHashSet(currentTags) ;
         
-        for (Tag tag : tagSet) {
-            if (!currentTags.contains(tag)) {
-                newTaskTags.add(tag) ;
+        for (String names : tagNamesSet) {
+            
+            Tag thisTag = model.getTagRegistry().getTagFromString(names, true) ;
+            
+            if (!currentTags.contains(thisTag)) {
+                newTaskTags.add(thisTag) ;
                 hasChanged = true ;
                 
             } else {
-                newTaskTags.remove(tag) ;
+                newTaskTags.remove(thisTag) ;
                 hasChanged = true ;
             }
             
@@ -263,4 +275,8 @@ public class EditCommand extends Command {
         return newTaskTags ;
     }
 
+    @Override
+    public Pair<List<ReadOnlyTask>, List<ReadOnlyTask>> getCommandChanges() {
+        return new Pair<List<ReadOnlyTask>, List<ReadOnlyTask>>(ImmutableList.copyOf(tasksAdded), ImmutableList.copyOf(tasksDeleted)) ; 
+    }
 }

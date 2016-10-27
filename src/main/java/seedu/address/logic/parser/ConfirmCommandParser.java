@@ -2,16 +2,13 @@ package seedu.address.logic.parser;
 
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 
-import java.time.LocalDateTime;
 import java.util.Collections;
-import java.util.Optional;
 
 import com.google.common.collect.Sets;
 
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.commons.exceptions.IncorrectCommandException;
-import seedu.address.commons.util.DateUtil;
-import seedu.address.logic.commands.AddCommand;
+import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.ConfirmCommand;
 import seedu.address.logic.commands.IncorrectCommand;
@@ -20,14 +17,7 @@ public class ConfirmCommandParser extends CommandParser {
 
     @Override
     public Command prepareCommand(String args) {
-        ArgumentsParser parser = new ArgumentsParser() ;
-        
-        parser
-        .addNoFlagArg(CommandArgs.INDEX)
-        .addRequiredArg(CommandArgs.START_DATETIME)
-        .addRequiredArg(CommandArgs.END_DATETIME)
-        .addOptionalArg(CommandArgs.DESC)
-        .addOptionalArg(CommandArgs.TAGS) ;
+        ArgumentsParser parser = buildArgsParser();
         
         try {
             parser.parse(args);
@@ -39,20 +29,16 @@ public class ConfirmCommandParser extends CommandParser {
             return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, ConfirmCommand.MESSAGE_USAGE));
         }
         
-        int targetIndex = 0 ;
+        int targetIndex ;
         
         try {
-            targetIndex= Integer.parseInt(parser.getArgValue(CommandArgs.INDEX).get()) ;
-        } catch (NumberFormatException e) {
+            targetIndex = getIndexFromArgs(parser);
+        } catch (IncorrectCommandException e) {
             return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, ConfirmCommand.MESSAGE_USAGE));
         }
         
-        LocalDateTime startDate = convertArgStringIntoDate(parser.getArgValue(CommandArgs.START_DATETIME).get()) ;
-        LocalDateTime endDate = convertArgStringIntoDate(parser.getArgValue(CommandArgs.END_DATETIME).get()) ;
-        
-        if (startDate == null || endDate == null) {
-            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, ConfirmCommand.MESSAGE_USAGE)); 
-        }
+        String startDate = parser.getArgValue(CommandArgs.START_DATETIME).get() ;
+        String endDate = parser.getArgValue(CommandArgs.END_DATETIME).get() ;
 
         try {
             
@@ -61,7 +47,7 @@ public class ConfirmCommandParser extends CommandParser {
                     parser.getArgValue(CommandArgs.DESC).isPresent() ? parser.getArgValue(CommandArgs.DESC).get() : "",
                     startDate,
                     endDate,
-                    parser.getArgValue(CommandArgs.TAGS).isPresent() ? Sets.newHashSet(parser.getArgValue(CommandArgs.TAGS).get()) : Collections.EMPTY_SET
+                    parser.getArgValue(CommandArgs.TAGS).isPresent() ? Sets.newHashSet(parser.getArgValue(CommandArgs.TAGS).get()) : Collections.emptySet()
                     );
         
         } catch (IllegalValueException e) {
@@ -69,15 +55,27 @@ public class ConfirmCommandParser extends CommandParser {
         }
 
     }
-    
-    private LocalDateTime convertArgStringIntoDate(String dateString) {
-        Optional<LocalDateTime> dateTime = DateUtil.parseStringIntoDateTime(dateString) ;
+
+    private ArgumentsParser buildArgsParser() {
+        ArgumentsParser parser = new ArgumentsParser() ;
         
-        if (dateTime.isPresent()) {
-            return dateTime.get() ;
-        }
+        parser
+        .addNoFlagArg(CommandArgs.INDEX)
+        .addRequiredArg(CommandArgs.START_DATETIME)
+        .addRequiredArg(CommandArgs.END_DATETIME)
+        .addOptionalArg(CommandArgs.DESC)
+        .addOptionalArg(CommandArgs.TAGS) ;
         
-        return null ;
+        return parser;
     }
 
+    private int getIndexFromArgs(ArgumentsParser parser) throws IncorrectCommandException {
+        String indexString = parser.getArgValue(CommandArgs.INDEX).get() ;
+        
+        if (!StringUtil.isParsable(indexString)) {
+            throw new IncorrectCommandException() ;
+        }
+
+        return Integer.parseInt(indexString) ;
+    }
 }

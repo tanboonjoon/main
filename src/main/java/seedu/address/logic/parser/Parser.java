@@ -3,18 +3,17 @@ package seedu.address.logic.parser;
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 
 import java.util.Map;
-import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.google.common.collect.Maps;
 
-import seedu.address.commons.core.LogsCenter;
 import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.commands.BlockCommand;
 import seedu.address.logic.commands.CdCommand;
 import seedu.address.logic.commands.ClearCommand;
 import seedu.address.logic.commands.Command;
+import seedu.address.logic.commands.ConfigCommand;
 import seedu.address.logic.commands.ConfirmCommand;
 import seedu.address.logic.commands.DeleteCommand;
 import seedu.address.logic.commands.EditCommand;
@@ -33,24 +32,13 @@ import seedu.address.logic.commands.UndoCommand;
  * Parses user input.
  */
 public class Parser {
-	
-	private static final Logger logger = LogsCenter.getLogger(Parser.class);
-	
-	private static final Pattern TASK_INDEX_ARGS_FORMAT = Pattern.compile("(?<targetIndex>.+)");
+
 
     /**
      * Used for initial separation of command word and args.
      */
     private static final Pattern BASIC_COMMAND_FORMAT = Pattern.compile("(?<commandWord>\\S+)(?<arguments>.*)");
 
-    private static final Pattern KEYWORDS_ARGS_FORMAT =
-            Pattern.compile("(?<keywords>\\S+(?:\\s+\\S+)*)"); // one or more keywords separated by whitespace
-
-    private static final Pattern TASK_DATA_ARGS_FORMAT = // '-' dashes are reserved for delimiter prefixes
-            Pattern.compile("^(?<name>[^\\/]+)"
-                    + "((?<description>d\\/[^\\/]+))?"
-                    + "(?<tagArguments>(?:e\\/[^\\/]+)*)$"); // variable number of tags
-    
     private static Map<String, Class<? extends CommandParser>> commandRegistry = Maps.newHashMap();
     
     static {
@@ -70,10 +58,13 @@ public class Parser {
         registerCommand (BlockCommandParser.class, BlockCommand.COMMAND_WORD);
         registerCommand (ConfirmCommandParser.class, ConfirmCommand.COMMAND_WORD);
         registerCommand (FreetimeCommandParser.class, FreetimeCommand.COMMAND_WORD);
+        registerCommand (ConfigCommandParser.class, ConfigCommand.COMMAND_WORD);
 
     }
     
     /**
+     * @@author A0135768R
+     * 
      * Registers all associated command word strings with the provided command parser class.
      * One command parser can be associated with multiple command words such as ("add", "schedule", etc)
      * 
@@ -100,10 +91,8 @@ public class Parser {
     	} catch (Exception e) {
     		return new IncorrectCommandParser() ;
     	}
-    	
     }
 
-    public Parser() {}
 
     /**
      * Parses user input into command for execution.
@@ -113,12 +102,11 @@ public class Parser {
      */
     public Command parseCommand(String userInput) {
         final Matcher matcher = BASIC_COMMAND_FORMAT.matcher(userInput.trim());
+        
         if (!matcher.matches()) {
             return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, HelpCommand.MESSAGE_USAGE));
         }
-        
-        //Preparer preparer = new Preparer(); // abstract class can't be created
-        
+
         final String commandWord = matcher.group("commandWord");
         final String arguments = matcher.group("arguments");
 
