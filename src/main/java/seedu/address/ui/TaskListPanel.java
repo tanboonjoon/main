@@ -19,6 +19,7 @@ import javafx.stage.Stage;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.model.TaskForceTaskListChangedEvent;
 import seedu.address.commons.events.ui.TaskPanelSelectionChangedEvent;
+import seedu.address.model.task.Event;
 import seedu.address.model.task.ReadOnlyTask;
 
 /**
@@ -126,7 +127,7 @@ public class TaskListPanel extends UiPart {
         protected void updateItem(ReadOnlyTask task, boolean empty) {
             super.updateItem(task, empty);
 
-            if (empty || task == null) {
+            if (empty || task == null || task instanceof Event) {
                 setGraphic(null);
                 setText(null);
             } else {

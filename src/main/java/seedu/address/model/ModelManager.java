@@ -44,6 +44,9 @@ public class ModelManager extends ComponentManager implements Model {
     private final FilteredList<Task> filteredTasks;
     private final SortedList<Task> sortedFilteredTasks;
     private final FilteredList<Task> filteredTasksForSearching;
+    private final SortedList<Task> sortedFilteredEvents;
+    private final SortedList<Task> sortedFilteredNonEvents;
+    
     private final Deque<TaskForceCommandExecutedEvent> undoTaskForceHistory = new LinkedList<TaskForceCommandExecutedEvent>();
     private final Deque<TaskForceCommandExecutedEvent> redoTaskForceHistory = new LinkedList<TaskForceCommandExecutedEvent>();
     private final TagRegistrar tagRegistrar = new TagRegistrar() ;
@@ -74,7 +77,9 @@ public class ModelManager extends ComponentManager implements Model {
         tagRegistrar.setAllTags(src.getTagList());
         filteredTasks = new FilteredList<>(taskForce.getTasks());
         sortedFilteredTasks = setUpSortedList();
-        filteredTasksForSearching = new FilteredList<>(taskForce.getTasks());        
+        filteredTasksForSearching = new FilteredList<>(taskForce.getTasks());
+        sortedFilteredEvents = setUpEventsList();
+        sortedFilteredNonEvents = setUpNonEventsList();
     }
 
 	public ModelManager() {
@@ -89,6 +94,8 @@ public class ModelManager extends ComponentManager implements Model {
         filteredTasks = new FilteredList<>(taskForce.getTasks());
         sortedFilteredTasks = setUpSortedList();
         filteredTasksForSearching = new FilteredList<>(taskForce.getTasks());
+        sortedFilteredEvents = setUpEventsList();
+        sortedFilteredNonEvents = setUpNonEventsList();
     }
 
     @Override
@@ -300,11 +307,49 @@ public class ModelManager extends ComponentManager implements Model {
 	}
 	
 	/*
-	 * Allows the Taskforce App to start with today's tasks
-	 * @@author: A0111277M
+	 * Splits the sortedFiltedTasks into two lists, for UI listing
+	 * @@author A0111277M
+	 */
+	
+    private SortedList<Task> setUpEventsList() {
+		// TODO Auto-generated method stub
+    	SortedList<Task> sortedList = new SortedList<> (this.filteredTasks, 
+    			(Task task1, Task task2) ->  {
+        			if (task1 instanceof Event) {
+        				return sortByEvent( (Event)task1, task2);
+        			}
+
+        			if (task1 instanceof Deadline) {
+        				return sortByDeadline( (Deadline)task1, task2);
+        			}
+        			return sortByTask(task1, task2);
+
+        		});
+    	return sortedList;
+    }
+    
+    private SortedList<Task> setUpNonEventsList() {
+		// TODO Auto-generated method stub
+    	SortedList<Task> sortedList = new SortedList<> (this.filteredTasks, 
+    			(Task task1, Task task2) ->  {
+        			if (task1 instanceof Event) {
+        				return sortByEvent( (Event)task1, task2);
+        			}
+
+        			if (task1 instanceof Deadline) {
+        				return sortByDeadline( (Deadline)task1, task2);
+        			}
+        			return sortByTask(task1, task2);
+
+        		});
+    	return sortedList;
+    }
+	
+	/*
+	 * Allows the Taskforce App to start with today's tasks and events
 	 */
 
-    public UnmodifiableObservableList<ReadOnlyTask> startWithTodaysTasks() {
+    public UnmodifiableObservableList<ReadOnlyTask> startWithTodaysEvents() {
     	Set<String> keywordSet = new HashSet<String>();
     	keywordSet.add("0");
     	updateFilteredTaskList(keywordSet, "DAY", false);

@@ -69,6 +69,6 @@ public interface Model {
     
     public UnmodifiableObservableList<ReadOnlyTask> getSearchedTaskList() ;
 
-	public ObservableList<ReadOnlyTask> startWithTodaysTasks();
+	public ObservableList<ReadOnlyTask> startWithTodaysEvents();
 
 }
