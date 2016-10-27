@@ -124,7 +124,7 @@ The `UI` component,
 1. `Logic` invokes the `Parser` class to parse the user command.
 2. Upon recognizing the command, it sends the arguments to the `CommandParser` class, which recognizes the remaining arguments.
 3. This information is then captured in a `Command` object which is executed by the `LogicManager`.
-4. The command execution can affect the `Model` (e.g. adding a person) and/or raise events.
+4. The command execution can affect the `Model` (e.g. adding a task) and/or raise events.
 5. The result of the command execution is encapsulated as a `CommandResult` object which is passed back to the `Ui`.
 
 Given below is the Sequence Diagram for interactions within the `Logic` component for the `execute("delete 1")`
@@ -455,15 +455,20 @@ Use case ends.
 Use case ends.
 
 <!-- A0140037W -->
-### Use case : Clear task list (clear)
+### Use case : Clear all tasks from taskforce storage permanently(clear)
 
 **MSS:**
 
-1. User will enter clear to clear the save data.
+1. User will enter clear to clear the save data completely.
 2. The system will display a confirmation dialog.
-3. If user response "Okay", the system will display 'TaskForce data has been cleared'.
-4. If user response "Cancel", the system will display 'Clear operation canceled!'.
+3. User will press enter to comfirm clear.
+4. The system will display 'TaskForce data has been cleared' .
 
+Use case ends
+
+**Extension:**
+1a. User will cancel to reject clear.
+> The system will display 'Clear operation canceled!' .
 Use case ends
 
 
