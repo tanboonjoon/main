@@ -1,3 +1,5 @@
+<!-- @@author A0111277M -->
+
 # User Guide
 
 * [Overview](#overview)
@@ -23,6 +25,7 @@ implementation of blocks - events with no name (placeholders).
 1. Once you have used the program long enough and are comfortable with editing the config.json file directly. You are allowed to do so. 
 2. Please take note that you should only edit the values in the config file (e.g changing path, setting new active time )
 3. Do take note that changing or removing any keyname such as 'taskForceDataFilePath' will result in the system overwriting the config file with a default one instead.
+4. You are advised to edit config value through ConfigCommand to minimize any risk of corrupting the config file
 ## Quick Start
 
 0. Ensure you have Java version `1.8.0_60` or later installed in your Computer.<br>
@@ -64,6 +67,9 @@ Format: `help [COMMAND]`
 > - If no `COMMAND` is given, help is displayed for all commands available.   
 > - Help is not shown if you enter an incorrect command e.g. `help abcd`
 
+
+<!-- @@author A0111277M -->
+
 #### Adding a task: `add`
 Adds a task to the task list.  
 Format:  
@@ -84,6 +90,7 @@ Examples:
 * `report d/school report et/130116 2200 t/important`<br>
   Add the task into the ToDoList using `add` command.
 
+<!-- @@author A0135768R -->
 #### Blocking out time: `block`
 Blocks out time for a potential event, or to indicate unavailability to others.  
 This command can block multiple timeslots at once, all for one specific event.  
@@ -116,7 +123,7 @@ Format: `confirm INDEX st/STARTTIME et/ENDTIME [d/DESCRIPTION][t/TAG]...`
 
 Examples:
 * `confirm 5 st/6pm et/8pm`
-
+<!-- @@author A0139942W -->
 #### Searching for (a) specific task(s): `find`
 Finds tasks of a specific time, or whose names contain any of the given keywords.  
 Format: `find METHOD/ KEYWORDS [mark/TRUE]`
@@ -141,7 +148,7 @@ Method | Explanation | Example
 to include marked task in search
 * 'find name/i wan to find marked task mark/true'
 
-
+<!-- @@author A0135768R -->
 #### Deleting a task : `delete`
 Deletes the specified task from the task list. Irreversible.  
 Format: `delete INDEX[, INDEX,...]`
@@ -156,6 +163,7 @@ Examples:
   `delete 1`<br>
   Deletes the 1st task in the results of the `find` command.
 
+<!-- @@author A0111277M -->
 #### Editing a task: `edit`  
 Edits a task in the task list.  
 Format: `edit INDEX [NAME] [d/DESCRIPTION] [st/START_DATE] [et/END_DATE] [t/TAGS]`   
@@ -174,6 +182,7 @@ Examples:
 * `edit 1 schoolwork d/change deadline et/220506 2200`
 * `edit 4 dinner d/change location t/important`
 
+<!-- @@author A0139942W -->
 #### Finding free time in a specific day: `freetime`  
 Gives you all the free time blocks in a specific day
 Format: `freetime [day/DAYS_FROM_TODAY]`  
@@ -182,17 +191,22 @@ Format: `freetime [day/DAYS_FROM_TODAY]`
 > - For example, for yesterday's free time, `freetime day/-1`  
 > - DAYS_FROM_TODAY **must be an integer**
 
+<!-- @@author A0140037W -->
 #### Undo the previous command : `undo`
 Undo the last command that was successfully executed. <br>
 Format: `undo`
 
+#### Redo the previous command : `Redo`
+Redo the last command that was successfully executed. <br>
+Format: `Redo`
+<!-- @@author A0139942W-->
 #### Changing FileStorage location : `cd`
 Changing the saveData into another location <br>
 Format: `cd [FILEPATH\FILENAME.xml]`
 Examples:
 * `cd ` will tell you the current location of the saveData
 * `cd C:\Users\Boon\newSaveName.xml`will change the saveData location to specified path
-
+<!-- @@author A0135768R-->
 ### Changing configuration options : `config`
 Allows for changing of configuration options in config.json <br>
 **Warning: This is for advanced users only!** <br>
@@ -207,7 +221,7 @@ activeHoursFrom | 0000 to 2400 | The earliest hour that the freetime command wou
 activeHoursTo | 0000 to 2400 | The latest hour that the freetime command would take into account when computing your freetime
 enableSudo | true or false | When enabled, you can perform the clear command and other commands for advanced users
 
-
+<!-- @@author A0111277M-->
 #### Clearing all entries : `clear`
 Clears **ALL** entries from the task list. This command **CANNOT** be undone! <br>
 This requires the sudo to be enabled <br>
@@ -221,6 +235,7 @@ Format: `exit`
 TaskForce saves data in the hard disk automatically after any command that changes the data.  
 There is no need to save manually.
 
+<!-- @@author A0135768R-->
 ## On Entering Dates
 
 TaskForce supports flexible date inputs and thus allows many natural variations of dates. The following are three broad categories of dates supported by TaskForce
@@ -240,6 +255,8 @@ TaskForce supports flexible date inputs and thus allows many natural variations 
 > 	* next thursday 3pm
 > 	* tomorrow 9am
 
+
+<!-- @@author A0111277M-->
 ## FAQ
 
 **Q**: How do I transfer my data to another Computer?<br>
@@ -261,5 +278,6 @@ Find | `find METHOD/KEYWORDS [mark/TRUE]`
 cd   | `cd [FILEPATH/FILENAME.xml]`
 config | `config CONFIG_OPTION v/CONFIG_VALUE`
 Undo | `undo`
+Redo | 'redo'
 Help | `help`
 Exit | `exit`
