@@ -18,5 +18,21 @@ public class CommandBoxTest extends TaskForceGuiTest {
         assertEquals(commandBox.getCommandInput(), "invalid command");
         //TODO: confirm the text box color turns to red
     }
+    
+    // @@author A0140037W
+    @Test
+    public void commandBox_UpDownArrowKey_retrieveStoredCommandText() {
+        commandBox.runCommand(td.benson.getAddCommand());
+        commandBox.pressUpArrow();
+        assertEquals(commandBox.getCommandInput(),td.benson.getAddCommand());
+        commandBox.runCommand(td.carl.getAddCommand());
+        commandBox.pressUpArrow();
+        assertEquals(commandBox.getCommandInput(),td.carl.getAddCommand());
+        commandBox.pressUpArrow();
+        assertEquals(commandBox.getCommandInput(),td.benson.getAddCommand());
+        commandBox.pressDownArrow();
+        commandBox.pressDownArrow();
+        assertEquals(commandBox.getCommandInput(),td.carl.getAddCommand());
+    }
 
 }
