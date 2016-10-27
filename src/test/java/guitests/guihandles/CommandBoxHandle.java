@@ -29,6 +29,9 @@ public class CommandBoxHandle extends GuiHandle{
     public void runCommand(String command) {
         enterCommand(command);
         pressEnter();
+        if("clear".equals(command)){
+            pressEnter();
+        }
         guiRobot.sleep(200); //Give time for the command to take effect
     }
 
@@ -46,4 +49,5 @@ public class CommandBoxHandle extends GuiHandle{
         guiRobot.type(KeyCode.DOWN).sleep(500);
 
     }
+    
 }
