@@ -454,15 +454,15 @@ Use case ends.
 
 Use case ends.
 
-
+<!-- A0140037W -->
 ### Use case : Clear task list (clear)
 
 **MSS:**
 
 1. User will enter clear to clear the save data.
 2. The system will display a confirmation dialog.
-3a. If user response "Okay", the system will display 'TaskForce data has been cleared'.
-3b. If user response "Cancel", the system will display 'Clear operation canceled!'.
+3. If user response "Okay", the system will display 'TaskForce data has been cleared'.
+4. If user response "Cancel", the system will display 'Clear operation canceled!'.
 
 Use case ends
 
