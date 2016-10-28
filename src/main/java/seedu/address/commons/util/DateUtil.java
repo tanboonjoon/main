@@ -31,7 +31,7 @@ public final class DateUtil {
     public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm a");
     public static final LocalDateTime END_OF_TODAY = parseStringIntoDateTime("today 2359").get() ;
     public static final LocalDateTime NOW = LocalDateTime.now() ;
-	public static final LocalDateTime MARKER_FOR_DELETE = parseStringIntoDateTime("01-01-2000 0000").get();
+	public static final LocalDateTime MARKER_FOR_DELETE = LocalDateTime.MIN ;
 	public static final String STRING_FOR_DELETE = "-"; 
 
     public static Optional<LocalDateTime> parseStringIntoDateTime (String rawString) {
@@ -105,7 +105,7 @@ public final class DateUtil {
 
         Event event = pq.poll() ;
 
-        while (event.getEndDate().isAfter(startTime)) {
+        while (event != null && event.getEndDate().isAfter(startTime)) {
 
             if (event.getStartDate().isBefore(endTime)) {
                 return Optional.of(event);
