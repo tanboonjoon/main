@@ -64,12 +64,6 @@ public final class DateUtil {
 
         return datetime.format(FORMATTER) ;
     }
-    
-    public static String parseLocalDateTimeIntoString (LocalDateTime datetime, DateTimeFormatter formatter) {
-        assert datetime != null ;
-
-        return datetime.format(formatter) ;
-    }
 
     /**
      * Given a new event that is being added/to be added to the model, checks that if any events currently in the model
