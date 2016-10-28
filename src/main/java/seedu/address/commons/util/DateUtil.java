@@ -111,7 +111,7 @@ public final class DateUtil {
 
         Event event = pq.poll() ;
 
-        while (event != null &&event.getEndDate().isAfter(startTime)) {
+        while (event != null && event.getEndDate().isAfter(startTime)) {
 
             if (event.getStartDate().isBefore(endTime)) {
                 return Optional.of(event);
