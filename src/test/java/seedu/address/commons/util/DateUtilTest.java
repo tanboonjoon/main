@@ -129,7 +129,7 @@ public class DateUtilTest {
         Pair<LocalDateTime, LocalDateTime> pair ;
         
         // EP: Start time is after end date
-        DateUtilTest.<Pair<LocalDateTime, LocalDateTime>>assertOptional(DateUtil.determineStartAndEndDateTime("next friday 1500", " friday 2359"), true, null);
+        DateUtilTest.<Pair<LocalDateTime, LocalDateTime>>assertOptional(DateUtil.determineStartAndEndDateTime("next friday 1500", "tomorrow 2359"), true, null);
         
         // EP: null values
         DateUtilTest.<Pair<LocalDateTime, LocalDateTime>>assertOptional(DateUtil.determineStartAndEndDateTime(null, ""), true, null);
@@ -162,7 +162,7 @@ public class DateUtilTest {
 
         if (isEmpty) {
             assertFalse(optional.isPresent()) ;
-        } else {        
+        } else {
             assertTrue (optional.get().equals(value)) ;
         }
     }
