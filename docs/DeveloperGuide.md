@@ -469,7 +469,6 @@ Use case ends.
 
 Use case ends.
 
-<!-- A0140037W -->
 ### Use case : Clear tasks from taskforce storage permanently(clear)
 
 **MSS:**
