@@ -27,7 +27,7 @@ public class FreeTimeLine extends UiPart {
     
     public static final int MAX_TIME_BLOCKS = 48 ;
     
-    private static final String FXML = "FreeTimeBar.fxml";
+    private static final String FXML = "FreetimeBar.fxml";
     
     private AnchorPane timelinepane;
     private AnchorPane placeHolderPane;
