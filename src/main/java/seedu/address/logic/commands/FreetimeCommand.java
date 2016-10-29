@@ -268,6 +268,7 @@ public class FreetimeCommand extends Command{
 			
 			LocalDateTime startDate = roundUpTime(event.getStartDate());
 			LocalDateTime endDate = roundUpTime(event.getEndDate());
+			createNewFreeTimeEntry(startDate, endDate, TimeStatus.NOT_FREE) ;
 			Pair<LocalDateTime, LocalDateTime> datePair = new Pair<LocalDateTime, LocalDateTime> (startDate, endDate);
 			timeList.add(datePair);
 		}
