@@ -20,7 +20,7 @@ import seedu.address.model.task.ReadOnlyTask;
 
 //@@author A0139942W
 /*
- * Finds and list out all the timeslot that the user are free on that particular day
+ * Finds and list out all the timeslot that the user are free on that particular day 
  * All timeslot are rounded up to block of 30min interval
  */
 public class FreetimeCommand extends Command{
@@ -156,7 +156,6 @@ public class FreetimeCommand extends Command{
 		}
 		
 		if (isTimeBeforeActiveHour(activeHourStart, startTime)) {
-			noOfFreeSlot++;
 		    createNewFreeTimeEntry(activeHourStart, startTime, TimeStatus.FREE) ;
 		}
 		
@@ -165,7 +164,6 @@ public class FreetimeCommand extends Command{
 		}
 
 		if (isTimeAfterActiveHour(activeHourEnd, endTime)) {
-			noOfFreeSlot++;
 		    createNewFreeTimeEntry(tempEndTime, activeHourEnd, TimeStatus.FREE) ;
 		}
 
@@ -187,19 +185,18 @@ public class FreetimeCommand extends Command{
 		int endTimeDay = currentEndTime.getDayOfMonth();
 		
 		if (checkOnGoingEvent(startTimeDay, endTimeDay, same_day)) {
-		    createNewFreeTimeEntry(activeHourStart, activeHourEnd, TimeStatus.NOT_FREE) ;
+		    createNewFreeTimeEntry(activeHourStart, activeHourEnd, TimeStatus.NOT_FREE);
 			sb.append(String.format(ONGOING_EVENT_MESSAGE, currentStartTime.format(datetimeFormat), currentEndTime.format(datetimeFormat)));
 			return sb.toString();
 		}
 		
 		if (isTimeBeforeActiveHour(activeHourStart, currentStartTime)) {
 		    createNewFreeTimeEntry(activeHourStart, currentStartTime, TimeStatus.FREE) ;
-			sb.append(String.format(BETWEEN_EVENT_MESSAGE, activeHourStart.format(hourFormat), currentStartTime.format(hourFormat)));
 		}
 		
 		
 		if (isTimeBeforeActiveHour(activeHourEnd, currentEndTime)) {
-			return sb.toString();
+			return sb.append(String.format(NO_OF_FREESLOT_MESSAGE, noOfFreeSlot)).toString();
 		}
 		
 		if (isTimeAfterActiveHour(activeHourStart, currentEndTime)) {
@@ -225,11 +222,10 @@ public class FreetimeCommand extends Command{
 				continue;
 			}
 			
-			createNewFreeTimeEntry(tempCurrEndTime, nextStartTime, TimeStatus.FREE) ;
-			sb.append(String.format(BETWEEN_EVENT_MESSAGE, tempCurrEndTime.format(hourFormat), nextStartTime.format(hourFormat)));
+			createNewFreeTimeEntry(tempCurrEndTime, nextStartTime, TimeStatus.FREE) ;			
 			
 			if (isTimeBeforeActiveHour(activeHourEnd , nextEndTime)) {
-				return sb.toString();
+				return sb.append(String.format(NO_OF_FREESLOT_MESSAGE, noOfFreeSlot)).toString();
 			}
 			
 
@@ -243,22 +239,23 @@ public class FreetimeCommand extends Command{
 
 		}
 		if (isTimeBeforeActiveHour(activeHourEnd , tempCurrEndTime) || activeHourEnd.isEqual(tempCurrEndTime)) {
-		    
-		    if (hasFreetime() != checkFreeTime){
-		        createNewFreeTimeEntry(activeHourStart, activeHourEnd, TimeStatus.NOT_FREE) ;
-		    }
-		    
 			return hasFreetime() == checkFreeTime ? sb.toString() 
-					: sb.append(NO_FREE_TIME_MESSAGE).toString();
+					: noFreeTimeForMutipleEvent(sb);
 		}
 		
-		createNewFreeTimeEntry(tempCurrEndTime, activeHourEnd, TimeStatus.FREE) ;
-		return sb.append(String.format(BETWEEN_EVENT_MESSAGE, tempCurrEndTime.format(hourFormat), activeHourEnd.format(hourFormat))).toString();
+		createNewFreeTimeEntry(tempCurrEndTime, activeHourEnd, TimeStatus.FREE);
+		return sb.append(String.format(NO_OF_FREESLOT_MESSAGE, noOfFreeSlot)).toString();
 		
 	}
 
-
-
+	public String noFreeTimeForMutipleEvent(StringBuilder sb) {
+		createNewFreeTimeEntry(activeHourStart, activeHourEnd, TimeStatus.NOT_FREE);
+		return sb.append(NO_FREE_TIME_MESSAGE).toString();
+	}
+	
+	public void increaseNoOfFreeSlot() {
+		noOfFreeSlot++;
+	}
 
 	private void getAllEvent(List<ReadOnlyTask> filteredList) {
 
@@ -267,6 +264,7 @@ public class FreetimeCommand extends Command{
 			if(!(filteredList.get(list_index) instanceof Event)) {
 				continue;
 			}
+			
 			Event event = (Event) filteredList.get(list_index);
 			if (event.getDoneStatus() == DONE) {
 				continue;
@@ -319,7 +317,7 @@ public class FreetimeCommand extends Command{
 		return true;
 	}
 	
-	private int convertTimeIntoInt (LocalDateTime dateToConvert) {
+	private int convertTimeIntoInt (LocalDateTime dateToConvert) {		
 	    int hour = dateToConvert.getHour();
 	    int totalMinutes = (hour * AN_HOUR) + dateToConvert.getMinute();
 	    return totalMinutes / HALF_AN_HOUR;
@@ -329,7 +327,10 @@ public class FreetimeCommand extends Command{
 	    int start = convertTimeIntoInt(startDate) ;
 	    int end = convertTimeIntoInt(endDate) ;
 	    
-	    freeTimes.put(new Pair<Integer, Integer>(start, end), status) ;
+	    freeTimes.put(new Pair<Integer, Integer>(start, end), status) ;    
+	    if (status.equals(TimeStatus.FREE)) {
+	    	increaseNoOfFreeSlot();
+	    }
 	}
 	
 	//sorting the list by start time
