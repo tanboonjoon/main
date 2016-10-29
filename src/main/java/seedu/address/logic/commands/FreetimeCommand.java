@@ -36,9 +36,6 @@ public class FreetimeCommand extends Command{
 	public static final String ZERO_EVENT_MESSAGE = "You are free for the day, trying clearing some reminders.";
 	public static final String DEFAULT_STARTING_MESSAGE ="on %1$s: ";
 	public static final String NO_OF_FREESLOT_MESSAGE ="you have %1$s freeslots";
-	public static final String FIRST_EVENT_MESSAGE = "before %1$s \n";
-	public static final String LAST_EVENT_MESSAGE = "after %1$s \n";
-	public static final String BETWEEN_EVENT_MESSAGE = "%1$s to %2$s \n";
 	public static final String ONGOING_EVENT_MESSAGE = "There is a ongoing event from %1$s to %2$s \n";
 	public static final String NO_FREE_TIME_MESSAGE = "There no freetime within the freetime period";
 	
@@ -52,6 +49,7 @@ public class FreetimeCommand extends Command{
 	private static final int HALF_AN_HOUR = 30;
 	private static final int AN_HOUR = 60;
 	private static final int EXACT_AN_HOUR = 00;
+	private static final int LAST_TIME_BLOCK = 48;
 	
 	private ArrayList<Pair<LocalDateTime, LocalDateTime>> timeList;
 	private Map<Pair<Integer, Integer>, TimeStatus> freeTimes ;
@@ -59,7 +57,6 @@ public class FreetimeCommand extends Command{
 
 	
 	private DateTimeFormatter dateFormat;
-	private DateTimeFormatter hourFormat;
 	private DateTimeFormatter datetimeFormat;
 	private LocalDateTime activeHourStart;
 	private LocalDateTime activeHourEnd;
@@ -71,7 +68,6 @@ public class FreetimeCommand extends Command{
 		timeList = new  ArrayList<Pair<LocalDateTime, LocalDateTime>> ();
 		freeTimes = Maps.newHashMap() ;
 		dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-		hourFormat = DateTimeFormatter.ofPattern("HHmm");
 		datetimeFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy HHmm");
 		noOfFreeSlot = 0;
 
@@ -324,8 +320,15 @@ public class FreetimeCommand extends Command{
 	}
 	
 	private void createNewFreeTimeEntry(LocalDateTime startDate, LocalDateTime endDate, TimeStatus status) {
+		int startDay = startDate.getDayOfMonth();
+		int endDay = endDate.getDayOfMonth();
+		
 	    int start = convertTimeIntoInt(startDate) ;
 	    int end = convertTimeIntoInt(endDate) ;
+	    
+	    if (end == 0 && startDay != endDay) {
+	    	end = LAST_TIME_BLOCK;
+	    }
 	    
 	    freeTimes.put(new Pair<Integer, Integer>(start, end), status) ;    
 	    if (status.equals(TimeStatus.FREE)) {
