@@ -83,7 +83,7 @@ public class FreetimeCommand extends Command{
 		sortEventList();
 		
 		String freeTime = getFreeTime(onThatDay);
-		return new CommandResult(freeTime);
+		return new CommandResult(freeTime, true);
 	}
 	
 	private LocalDateTime getActiveHour(String key) {
@@ -309,5 +309,25 @@ public class FreetimeCommand extends Command{
 
 		});
 	}
-
+	
+	/**
+	 * Returns a list of timestatus representing the status of each timeslot with the first element
+	 * representing 0000 hrs and the last element representing 2359 hrs on the same day
+	 * 
+	 * The size of the list is either 24 or 48. In the case of list size of 24, each status will represent 1 hour;
+	 * in the case of list size of 48, each status will represent 30 minutes.
+	 * 
+	 */
+	public List<TimeStatus> getFreeTimeLine() {
+	    return null ;
+	}
+	
+	
+	public enum TimeStatus {
+	    
+	    FREE,
+	    NOT_FREE,
+	    OUTSIDE_ACTIVE_HRS ;
+	    
+	}
 }
