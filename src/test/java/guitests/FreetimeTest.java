@@ -118,7 +118,7 @@ public class FreetimeTest extends TaskForceGuiTest{
 		assertResultMessage(sb.toString());
 
 	}
-/*
+
 	@Test
 	public void validCommandMultipleEvent() {
 		commandBox.runCommand("add event st/today 9am et/today 12pm");
@@ -127,10 +127,7 @@ public class FreetimeTest extends TaskForceGuiTest{
 		commandBox.runCommand("freetime day/0");
 		StringBuilder sb = new StringBuilder();
 		sb.append(String.format(FreetimeCommand.DEFAULT_STARTING_MESSAGE, now.format(eventFormatter)))
-		.append(String.format(FreetimeCommand.BETWEEN_EVENT_MESSAGE, "0800", "0900"))
-		.append(String.format(FreetimeCommand.BETWEEN_EVENT_MESSAGE, "1200", "1400"))
-		.append(String.format(FreetimeCommand.BETWEEN_EVENT_MESSAGE, "1700", "2100"));
-		
+		.append(String.format(FreetimeCommand.NO_OF_FREESLOT_MESSAGE, 3));
 		assertResultMessage(sb.toString());
 	}
 	
@@ -155,7 +152,7 @@ public class FreetimeTest extends TaskForceGuiTest{
 		commandBox.runCommand("freetime day/0");
 		StringBuilder sb = new StringBuilder();
 		sb.append(String.format(FreetimeCommand.DEFAULT_STARTING_MESSAGE, now.format(eventFormatter)))
-		.append(String.format(FreetimeCommand.BETWEEN_EVENT_MESSAGE, "1200", "1700"));
+		.append(String.format(FreetimeCommand.NO_OF_FREESLOT_MESSAGE, 1));
 		assertResultMessage(sb.toString());
 	}
 	
@@ -167,13 +164,12 @@ public class FreetimeTest extends TaskForceGuiTest{
 		commandBox.runCommand("freetime day/0");
 		StringBuilder sb = new StringBuilder();
 		sb.append(String.format(FreetimeCommand.DEFAULT_STARTING_MESSAGE, now.format(eventFormatter)))
-		.append(String.format(FreetimeCommand.BETWEEN_EVENT_MESSAGE, "1200", "1700"))
-		.append(String.format(FreetimeCommand.BETWEEN_EVENT_MESSAGE, "1800", "2100"));
+		.append(String.format(FreetimeCommand.NO_OF_FREESLOT_MESSAGE, 2));
 		assertResultMessage(sb.toString());
 	}
 		
 		
-		*/
+
 
 	@After
 	public void clear() {
