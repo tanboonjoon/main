@@ -1,8 +1,11 @@
 package seedu.address.ui;
 
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.TreeMap;
 
 import com.google.common.collect.Lists;
 import com.google.common.eventbus.Subscribe;
@@ -76,33 +79,84 @@ public class FreeTimeLine extends UiPart {
     
     private void drawTimeline(Map <Pair<Integer, Integer>, TimeStatus> timeStatuses) {
         
-        assert time.size() == 24 || time.size() == 48 ;
-        
+        TreeMap<Pair<Integer, Integer>, TimeStatus> sortedMap = sortTimeStatuses(timeStatuses) ;
         removeAllPreviousRects(timeline, rectangles) ;
         
-        for (int i =0 ; i < MAX_TIME_BLOCKS; i ++) {
-            Rectangle rect = new Rectangle(15, 20) ;
-
-            rect.setLayoutX(5 + (15 * i));
-            rect.setLayoutY(0);
-            rect.setStroke(Paint.valueOf("black"));
-            rect.setStrokeWidth(1F);
-            rect.setOpacity(1);
+        Entry<Pair<Integer, Integer>, TimeStatus> thisEntry = sortedMap.pollFirstEntry() ;
+        
+        int blockNo = 0;
+        
+        while (blockNo < MAX_TIME_BLOCKS) {
+            
+            if (thisEntry != null && blockNo >= thisEntry.getKey().getValue()) {
+                thisEntry = sortedMap.pollFirstEntry() ;
+            }
+            
+            Rectangle rect = createNewRect(blockNo) ;
 
             timeline.getChildren().add(rect) ;
             rectangles.add(rect) ;
             
+            Color finalColor = null ;
             
-
-            FillTransition ft = new FillTransition (Duration.millis(100 + (i*100)), rect, Color.TRANSPARENT, finalColor);
+            if (thisEntry != null && blockNo >= thisEntry.getKey().getKey() && blockNo < thisEntry.getKey().getValue()) {
+                                
+                finalColor = determineRectColour(thisEntry.getValue()) ;
+            
+            } else {
+                finalColor = determineRectColour(null) ;
+            }
+            
+            FillTransition ft = new FillTransition (Duration.millis(100 + (blockNo*100)), rect, Color.TRANSPARENT, finalColor);
 
             ft.play();
+            
+            blockNo ++ ;
+            
         }
     }
     
     private static void removeAllPreviousRects (AnchorPane parent, Collection<Rectangle> listOfRect) {
         parent.getChildren().removeAll(listOfRect) ;
         listOfRect.clear();
+    }
+    
+    private static Rectangle createNewRect(int i) {
+        
+        Rectangle rect = new Rectangle(15, 20) ;
+        
+        rect.setLayoutX(5 + (15 * i));
+        rect.setLayoutY(0);
+        rect.setStroke(Paint.valueOf("black"));
+        rect.setStrokeWidth(1F);
+        rect.setOpacity(1);
+        
+        return rect ;
+    }
+    
+    private static TreeMap<Pair<Integer, Integer>, TimeStatus> sortTimeStatuses(Map<Pair<Integer, Integer>, TimeStatus> statusMap) {
+        
+        TreeMap<Pair<Integer, Integer>, TimeStatus> treeMap = new TreeMap<>(new Comparator<Pair<Integer, Integer>>() {
+
+            @Override
+            public int compare(Pair<Integer, Integer> arg0, Pair<Integer, Integer> arg1) {
+               if (arg0.getKey() < arg1.getKey()) {
+                   return -1 ;
+               }
+               
+               if (arg0.getKey() > arg1.getKey()) {
+                   return 1 ;
+               }
+               
+               return 0 ;
+            }
+            
+        }) ;
+        
+        treeMap.putAll(statusMap);
+        
+        return treeMap;
+        
     }
     
     private static Color determineRectColour (TimeStatus status) {

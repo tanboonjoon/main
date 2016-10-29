@@ -312,7 +312,7 @@ public class FreetimeCommand extends Command{
 	}
 	
 	/**
-	 * Returns a map of timestatus representing the status of each timeslot.
+	 * Returns a Map of timestatus representing the status of each timeslot.
 	 * Each pair represents a time slot, with the integer 0 representing 0000 hrs to 48 representing 2359 hrs.
 	 * Each integer is 30 minutes.
 	 * <p>
