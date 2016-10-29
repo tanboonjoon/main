@@ -35,12 +35,12 @@ public class FreetimeCommand extends Command{
 	
 	public static final String INVALID_FREETIME_ARGS = "Please enter a valid number eg. freetime day/5";
 	public static final String ZERO_EVENT_MESSAGE = "You are free for the day, trying clearing some reminders.";
-	public static final String DEFAULT_STARTING_MESSAGE ="for %1$s you are free on: \n";
+	public static final String DEFAULT_STARTING_MESSAGE ="on %1$s: ";
 	public static final String FIRST_EVENT_MESSAGE = "before %1$s \n";
 	public static final String LAST_EVENT_MESSAGE = "after %1$s \n";
 	public static final String BETWEEN_EVENT_MESSAGE = "%1$s to %2$s \n";
-	public static final String ONGOING_EVENT_MESSAGE = "You are not free because you have a ongoing from %1$s to %2$s \n";
-	public static final String NO_FREE_TIME_MESSAGE = "Sorry you do not have any freetime between your active period";
+	public static final String ONGOING_EVENT_MESSAGE = "There is a ongoing event from %1$s to %2$s \n";
+	public static final String NO_FREE_TIME_MESSAGE = "There no freetime within the freetime period";
 	
 	private static final String SEARCH_TYPE = "DAY";
 
@@ -155,7 +155,6 @@ public class FreetimeCommand extends Command{
 		
 		if (isTimeBeforeActiveHour(activeHourStart, startTime)) {
 		    createNewFreeTimeEntry(activeHourStart, startTime, TimeStatus.FREE) ;
-			sb.append(String.format(BETWEEN_EVENT_MESSAGE, activeHourStart.format(hourFormat), startTime.format(hourFormat)));
 		}
 		
 		if (isTimeAfterActiveHour(activeHourStart, endTime)) {
@@ -164,8 +163,6 @@ public class FreetimeCommand extends Command{
 
 		if (isTimeAfterActiveHour(activeHourEnd, endTime)) {
 		    createNewFreeTimeEntry(tempEndTime, activeHourEnd, TimeStatus.FREE) ;
-			sb.append(String.format(BETWEEN_EVENT_MESSAGE, tempEndTime.format(hourFormat), activeHourEnd.format(hourFormat)));
-			return sb.toString();
 		}
 
 		return sb.toString();
@@ -319,12 +316,9 @@ public class FreetimeCommand extends Command{
 	}
 	
 	private int convertTimeIntoInt (LocalDateTime dateToConvert) {
-	    LocalTime time = roundUpTime(dateToConvert).toLocalTime() ;
-	    
-	    int index = time.getHour() * 2 ;
-	    index += (time.getMinute() > 0) ? 1 : 0 ;
-	    
-	    return index ;
+	    int hour = dateToConvert.getHour();
+	    int totalMinutes = (hour * AN_HOUR) + dateToConvert.getMinute();
+	    return totalMinutes / HALF_AN_HOUR;
 	}
 	
 	private void createNewFreeTimeEntry(LocalDateTime startDate, LocalDateTime endDate, TimeStatus status) {

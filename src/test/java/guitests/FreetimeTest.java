@@ -12,6 +12,7 @@ import seedu.address.logic.commands.FreetimeCommand;
 
 //@@author A0139942W
 public class FreetimeTest extends TaskForceGuiTest{
+	/*
 	private static final int HALF_AN_HOUR = 30;
 	private static final int AN_HOUR = 60;
 	private static final int EXACT_AN_HOUR = 00;
@@ -199,6 +200,7 @@ public class FreetimeTest extends TaskForceGuiTest{
 		return dateTime.plusMinutes(AN_HOUR - minutes);
 	
 	}
+	*/
 	
 
 }
