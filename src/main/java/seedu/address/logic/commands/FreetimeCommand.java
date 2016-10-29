@@ -1,7 +1,6 @@
 package seedu.address.logic.commands;
 
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -36,6 +35,7 @@ public class FreetimeCommand extends Command{
 	public static final String INVALID_FREETIME_ARGS = "Please enter a valid number eg. freetime day/5";
 	public static final String ZERO_EVENT_MESSAGE = "You are free for the day, trying clearing some reminders.";
 	public static final String DEFAULT_STARTING_MESSAGE ="on %1$s: ";
+	public static final String NO_OF_FREESLOT_MESSAGE ="you have %1$s freeslots";
 	public static final String FIRST_EVENT_MESSAGE = "before %1$s \n";
 	public static final String LAST_EVENT_MESSAGE = "after %1$s \n";
 	public static final String BETWEEN_EVENT_MESSAGE = "%1$s to %2$s \n";
@@ -63,6 +63,7 @@ public class FreetimeCommand extends Command{
 	private DateTimeFormatter datetimeFormat;
 	private LocalDateTime activeHourStart;
 	private LocalDateTime activeHourEnd;
+	private int noOfFreeSlot;
 	
 	public FreetimeCommand(String searchedDay) {
 		this.searchSet = new HashSet<String>();
@@ -72,6 +73,7 @@ public class FreetimeCommand extends Command{
 		dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		hourFormat = DateTimeFormatter.ofPattern("HHmm");
 		datetimeFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy HHmm");
+		noOfFreeSlot = 0;
 
 	}
 
@@ -154,6 +156,7 @@ public class FreetimeCommand extends Command{
 		}
 		
 		if (isTimeBeforeActiveHour(activeHourStart, startTime)) {
+			noOfFreeSlot++;
 		    createNewFreeTimeEntry(activeHourStart, startTime, TimeStatus.FREE) ;
 		}
 		
@@ -162,10 +165,11 @@ public class FreetimeCommand extends Command{
 		}
 
 		if (isTimeAfterActiveHour(activeHourEnd, endTime)) {
+			noOfFreeSlot++;
 		    createNewFreeTimeEntry(tempEndTime, activeHourEnd, TimeStatus.FREE) ;
 		}
 
-		return sb.toString();
+		return sb.append(String.format(NO_OF_FREESLOT_MESSAGE, noOfFreeSlot)).toString();
 		
 
 	}
