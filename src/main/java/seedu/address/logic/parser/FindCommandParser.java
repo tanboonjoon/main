@@ -44,15 +44,17 @@ public class FindCommandParser extends CommandParser {
 
             parser.parse(args);
             final boolean checkMark = prepareMarkArgs();
-            final String find_type = prepareFindTypes();
-            if (!isValidArgs(find_type, args.trim())) {
+            final String typeOfFind = prepareTypeOfFind();
+            if (!isValidArgs(typeOfFind, args.trim())) {
                 return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
                         FindCommand.MESSAGE_USAGE));
             }
             
             
-            final  Set<String> keywordSet = prepareSets(find_type);
-            return new FindCommand(keywordSet, find_type, checkMark);
+            final  Set<String> keywordSet = prepareSets(typeOfFind);
+            
+
+            return new FindCommand(keywordSet, typeOfFind, checkMark);
             
         } catch (IncorrectCommandException e) {
              return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
@@ -71,9 +73,9 @@ public class FindCommandParser extends CommandParser {
     
 
 
-	private Set<String> prepareSets(String find_type) throws IncorrectCommandException {
+	private Set<String> prepareSets(String typeOfFind) throws IncorrectCommandException {
 		// TODO Auto-generated method stub
-    	final String[] keywords = getKeywords(find_type);
+    	final String[] keywords = getKeywords(typeOfFind);
     	final Set<String> preparedKeywordSet = Sets.newHashSet(Arrays.asList(keywords));
     	preparedKeywordSet.remove(EMPTY_STRING);
 		return preparedKeywordSet;
@@ -88,17 +90,18 @@ public class FindCommandParser extends CommandParser {
     	.addOptionalArg(CommandArgs.FIND_DAY)
     	.addOptionalArg(CommandArgs.FIND_DESC)
     	.addOptionalArg(CommandArgs.FIND_TAG)
-    	.addOptionalArg(CommandArgs.FIND_MARK);
+    	.addOptionalArg(CommandArgs.FIND_MARK)
+    	.addOptionalArg(CommandArgs.FIND_TYPE);
     	return prepareParser;
 	}
 
 	//To check that users does not enter anything between find command and search type
     //eg. find abcd all/KEYWORDS
-    private boolean isValidArgs(String find_type, String args) {
+    private boolean isValidArgs(String typeOfFind, String args) {
 		// TODO Auto-generated method stub
     	int compareCharAt ;
-    	for (compareCharAt = 0 ; compareCharAt < find_type.length() ; compareCharAt++) {
-    		char findType_char = find_type.toLowerCase().charAt(compareCharAt);
+    	for (compareCharAt = 0 ; compareCharAt < typeOfFind.length() ; compareCharAt++) {
+    		char findType_char = typeOfFind.toLowerCase().charAt(compareCharAt);
     		char args_char = args.toLowerCase().charAt(compareCharAt);
  
     		if (findType_char != args_char) {
@@ -110,23 +113,27 @@ public class FindCommandParser extends CommandParser {
 		return args.startsWith(SEPERATOR, seperatorIndex);
 	}
 
-	public String prepareFindTypes() throws IncorrectCommandException {
+	public String prepareTypeOfFind() throws IncorrectCommandException {
     	
 		String name = getNameArg();
 		String week = getWeekArg();
 		String day = getDayArg();
 		String desc = getDescArg();
 		String tag = getTagArg();
+		String type = getTypeArg();
 		
-		return getFindTypesArgs(name, week, day, desc, tag);
+		return getTypeOfFind(name, week, day, desc, tag, type);
       	
     }
 	
-    private boolean prepareMarkArgs() throws IncorrectCommandException {
+
+
+
+
+	private boolean prepareMarkArgs() throws IncorrectCommandException {
 		// TODO Auto-generated method stub
 		String markArgs = getMarkArg();
 		if ("true".equalsIgnoreCase(markArgs)) {
-			System.out.println("hey");
 			return INCLUDE_MARK;
 		}
 		
@@ -174,26 +181,32 @@ public class FindCommandParser extends CommandParser {
 		return parser.getArgValue(CommandArgs.FIND_NAME).isPresent() ? "NAME"  : EMPTY_STRING;
 	}
 	
+    private String getTypeArg() {
+		// TODO Auto-generated method stub
+		return parser.getArgValue(CommandArgs.FIND_TYPE).isPresent() ? "TYPE" : EMPTY_STRING;
+	}
+	
 
-	public String getFindTypesArgs(String... args) throws IncorrectCommandException {
-		List<String> find_type = new ArrayList<String> (Arrays.asList(args));
-    	find_type.removeAll(Arrays.asList(EMPTY_STRING , NULL_STRING));
+	public String getTypeOfFind(String... args) throws IncorrectCommandException {
+		List<String> typeOfFind = new ArrayList<String> (Arrays.asList(args));
+    	typeOfFind.removeAll(Arrays.asList(EMPTY_STRING , NULL_STRING));
     	
-        if(find_type.size() != VALID_FIND_TYPE_NUMBER) {
+        if(typeOfFind.size() != VALID_FIND_TYPE_NUMBER) {
         	throw new IncorrectCommandException() ;
         }
         
-        return find_type.get(FIND_TYPE_INDEX);
+        return typeOfFind.get(FIND_TYPE_INDEX);
 	}
     
 
 
     
 
-    public String[] getKeywords(String find_type) throws IncorrectCommandException {
+    public String[] getKeywords(String typeOfFind) throws IncorrectCommandException {
   
     	
-    	switch (find_type) {
+    	switch (typeOfFind) {
+    	
     	case "NAME":
     		return parser.getArgValue(CommandArgs.FIND_NAME).get().split("\\s+");
     	case "WEEK":
@@ -204,6 +217,11 @@ public class FindCommandParser extends CommandParser {
     		return parser.getArgValue(CommandArgs.FIND_DESC).get().split("\\s+");
     	case "TAG":
     		return parser.getArgValue(CommandArgs.FIND_TAG).get().split("\\s+");
+    	case "TYPE":
+    		if (parser.getArgValue(CommandArgs.FIND_MARK).isPresent()) {
+    			throw new IncorrectCommandException();
+    		}
+    		return parser.getArgValue(CommandArgs.FIND_TYPE).get().split("\\s+");
     	default:
     		throw new IncorrectCommandException() ;
     	}

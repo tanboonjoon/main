@@ -36,6 +36,8 @@ public class FindCommandTest extends TaskForceGuiTest {
     	assertResultMessage(expectedMessage);
     	commandBox.runCommand("find asdf day/123" );
     	assertResultMessage(expectedMessage);
+    	commandBox.runCommand("find type/asd");
+    	assertResultMessage(FindCommand.INVALID_FIND_TYPE_MESSAGE);
 
 
     }
@@ -95,6 +97,20 @@ public class FindCommandTest extends TaskForceGuiTest {
     	commandBox.runCommand("add Not Relevant event st/today 2pm et/today 6pm");
     	commandBox.runCommand("find week/1");
       	assertResultMessage(String.format(Messages.MESSAGE_TASKS_LISTED_OVERVIEW, 3));
+    }
+    
+    @Test
+    public void validCommandFindType() {
+    	commandBox.runCommand("add overdueDeadline et/last week 2pm");
+    	commandBox.runCommand("add floatingTask");
+    	commandBox.runCommand("add LastmarkedTask et/today 5pm");
+    	commandBox.runCommand("mark 2");
+    	commandBox.runCommand("find type/all");
+    	assertResultMessage(String.format(Messages.MESSAGE_TASKS_LISTED_OVERVIEW, 3));
+    	commandBox.runCommand("find type/mark");
+    	assertResultMessage(String.format(Messages.MESSAGE_TASKS_LISTED_OVERVIEW, 1));
+    	commandBox.runCommand("find type/overdue");
+    	assertResultMessage(String.format(Messages.MESSAGE_TASKS_LISTED_OVERVIEW, 1));
     }
     
     

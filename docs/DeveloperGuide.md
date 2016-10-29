@@ -184,8 +184,13 @@ and logging destinations.
 
 <!-- @@author A0139942W -->
 ### Tasks
+A task is split into three category, FLOATING TASK(reminder) EVENT and DEADLINE. 
+
 All tasks created in TaskForce are immutable. The whole program revolve around Adding and Deleting Tasks. Commands Such as EditCommand
 MarkCommands are extension of Addding and Deleting Tasks.
+
+A OVERDUE task is considered as a EVENT that has end date past today date and is not marked done
+
 
 * Adding and Deleting Tasks will trigger an event to inform and update the Model side that the list is updated.
 * Having commands revolve around Adding and Deleting simplify our implementation as the Model only have to listen to when Tasks are
@@ -199,8 +204,11 @@ TaskForce and this may become a problem when the list get too big. User have to 
 * Tasks can be filtered by Event that start/end or are ongoing on a particular day. This include Deadline and Reminders.
 * Tasks can also be filtered by Week, showing all the task that is due/ongoing on a particular Week defined as Monday to Friday.
 
-As such our Findcommand covered everything a ListCommand. The key difference is that instead of listing everything on TaskForce,
-It allow Users to filter out their list by FindType.
+Nevertheless our FindCommand is also capable of replacing ListCommand Completely through the usage of TYPE/OPTION
+
+* A 'find type/all' will be exactly the same as what listCommand does, showing everything stored in the taskForce storage data.
+* A 'find type/mark' will list out every single tasks marked done 
+* A 'find type/overdue' will list out all deadline that are dued and not marked done.
 
 
 ### UndoCommand
@@ -216,6 +224,13 @@ The nature of the ObservableList allow the list shown to be constantly updated w
 ### CdCommand
 The CdCommand recreate the config.json file using default Config Class as a base. The only difference is that the config.json file will contained the new savepath indicated by users. Any modification made directly to the config.json file will be overwritten when
 CdCommand is used.
+
+### AddCommand
+Our Addcommand is used for adding a FLOATING TASK, EVENT and DEADLINE. It also incoporate flexibility and this allow user not having to follow a strick format for adding a task.
+
+Addcommand also has recurring functionality incoporated into it. This function is support for both DEADLINE and EVENT only. 
+
+If the user try recurring on a FLOATING TASKS, the system will only add it once regardless of how many time the user want the task to be added.
 
 <!-- @@author A0140037W -->
 ### ClearCommand
@@ -454,7 +469,6 @@ Use case ends.
 
 Use case ends.
 
-<!-- A0140037W -->
 ### Use case : Clear tasks from taskforce storage permanently(clear)
 
 **MSS:**

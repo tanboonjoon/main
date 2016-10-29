@@ -14,18 +14,20 @@
 command-line interface (CLI)-based application.
 2. It allows for 3 main kinds of tasks:  
    * Reminders - a task with no start nor end date  
-   * Deadline - a task that ends at a specific time  
+   * Deadline - a task that ends at a specific time 
+      > A OVERDUE TASK is a Deadline that is past today date and not marked done. 
    * Event - an event has both a start and end time
 3. You can also block out time from your calendar through this app, through the
 implementation of blocks - events with no name (placeholders).
 4. This app is built on Java, and runs on any Desktop.
 
 ### Advanced User
+1. Once you have used long the program long enough, you can use the ConfigCommand to edit the value of the confit.json
+2. You are advised not to edit the config.json file directly. If it is detected as corrupted or invalidFormat, the current config.json file will be REPLACED by a default one.
+3. Through the configCommand, you can change the name of the program or set your free time .
 
-1. Once you have used the program long enough and are comfortable with editing the config.json file directly. You are allowed to do so. 
-2. Please take note that you should only edit the values in the config file (e.g changing path, setting new active time )
-3. Do take note that changing or removing any keyname such as 'taskForceDataFilePath' will result in the system overwriting the config file with a default one instead.
-4. You are advised to edit config value through ConfigCommand to minimize any risk of corrupting the config file
+1. The recurring functionality in the addcommand is only available to Event and Deadline
+2. If you tried to use recurring functionality on a Reminders, the system will only add it once.
 ## Quick Start
 
 0. Ensure you have Java version `1.8.0_60` or later installed in your Computer.<br>
@@ -147,6 +149,19 @@ Method | Explanation | Example
 > * FindCommand filtered out marked tasks automatically, user can turn off filter by using [mark/TRUE]
 to include marked task in search
 * 'find name/i wan to find marked task mark/true'
+
+
+#### Searching for (a) specific task(s) under certain category: 'find'
+Find tasks that belong to a certain category. 
+Format: 'find TYPE/CATEGORY'
+'CATEGORY' is defined as 'all', 'overdue', 'mark'. Any other category will be classified
+as invalidCommand.
+
+Method | Explanation | Example
+-------- | :-------- | :---------
+'type/all' | List out every task stored in the save data | 'find type/all'
+'type/overdue' | List out all deadline that are overdue and not marked | 'find type/overdue'
+'type/mark' | List out all tasks that are marked done | 'find type/mark'
 
 <!-- @@author A0135768R -->
 #### Deleting a task : `delete`
@@ -276,6 +291,7 @@ Delete | `delete INDEX`
 Edit | `edit INDEX [NAME] [s/START_DATE] [e/END_DATE] ...`
 Freetime | `freetime [day/DAYS_FROM_TODAY]`
 Find | `find METHOD/KEYWORDS [mark/TRUE]`
+Find | 'find TYPE/CATEGORY'
 cd   | `cd [FILEPATH/FILENAME.xml]`
 config | `config CONFIG_OPTION v/CONFIG_VALUE`
 Undo | `undo`
