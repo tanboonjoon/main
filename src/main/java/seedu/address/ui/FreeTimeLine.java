@@ -1,7 +1,6 @@
 package seedu.address.ui;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 import com.google.common.collect.Lists;
@@ -124,6 +123,7 @@ public class FreeTimeLine extends UiPart {
             FreetimeCommand command = (FreetimeCommand) event.commandInstance ;
             
             timeline.setVisible(true);
+            
             drawTimeline(command.getFreeTimeLine()) ;
             
             
