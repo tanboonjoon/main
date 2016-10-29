@@ -12,6 +12,7 @@ import seedu.address.logic.commands.FreetimeCommand;
 
 //@@author A0139942W
 public class FreetimeTest extends TaskForceGuiTest{
+
 	private static final int HALF_AN_HOUR = 30;
 	private static final int AN_HOUR = 60;
 	private static final int EXACT_AN_HOUR = 00;
@@ -74,15 +75,12 @@ public class FreetimeTest extends TaskForceGuiTest{
 		StringBuilder sb = new StringBuilder();
 		commandBox.runCommand("freetime day/0");
 		sb.append(String.format(FreetimeCommand.DEFAULT_STARTING_MESSAGE, now.format(eventFormatter)))
-		.append(String.format(FreetimeCommand.BETWEEN_EVENT_MESSAGE,"0800", "1500"))
-		.append(String.format(FreetimeCommand.BETWEEN_EVENT_MESSAGE,"1700", "2100"));
+		.append(String.format(FreetimeCommand.NO_OF_FREESLOT_MESSAGE, 2));
 		assertResultMessage(sb.toString());
 	}
 	
 	@Test
 	public void validCommandOneOngoingEvent() {
-		
-
 		commandBox.runCommand("add event st/" + yesterday.format(addCommandFormatter) + " et/" + tomorrow.format(addCommandFormatter));
 		StringBuilder sb = new StringBuilder();
 		commandBox.runCommand("freetime day/0");
@@ -94,25 +92,21 @@ public class FreetimeTest extends TaskForceGuiTest{
 	
 	
 	@Test
-	public void validCommandOneEventStartBeforeActiveHour() {
+	public void validCommandOneEventStartEndOutsideActiveHour() {
 		commandBox.runCommand("add event st/yesterday 7am et/today 5pm");
 		StringBuilder sb = new StringBuilder();
 		commandBox.runCommand("freetime day/0");
 		sb.append(String.format(FreetimeCommand.DEFAULT_STARTING_MESSAGE, now.format(eventFormatter)))
-		.append(String.format(FreetimeCommand.BETWEEN_EVENT_MESSAGE, "1700", "2100"));
+		.append(String.format(FreetimeCommand.NO_OF_FREESLOT_MESSAGE, 1));
 		assertResultMessage(sb.toString());
+		commandBox.runCommand("delete 1");
+		commandBox.runCommand("add event st/today 9am et/tomorrow 11pm");
+		commandBox.runCommand("freetime day/0");
+		assertResultMessage(sb.toString());
+		
 	}
 	
-	@Test
-	public void validCommandOneEventEndAfterActiveHour() {
 
-		commandBox.runCommand("add event st/today 9am et/tomorrow 11pm");
-		StringBuilder sb = new StringBuilder();
-		commandBox.runCommand("freetime day/0");
-		sb.append(String.format(FreetimeCommand.DEFAULT_STARTING_MESSAGE, now.format(eventFormatter)))
-		.append(String.format(FreetimeCommand.BETWEEN_EVENT_MESSAGE,"0800", "0900"));
-		assertResultMessage(sb.toString());
-	}
 	
 	@Test
 	public void validCommandOneEventNoFreeTime() {
@@ -133,10 +127,7 @@ public class FreetimeTest extends TaskForceGuiTest{
 		commandBox.runCommand("freetime day/0");
 		StringBuilder sb = new StringBuilder();
 		sb.append(String.format(FreetimeCommand.DEFAULT_STARTING_MESSAGE, now.format(eventFormatter)))
-		.append(String.format(FreetimeCommand.BETWEEN_EVENT_MESSAGE, "0800", "0900"))
-		.append(String.format(FreetimeCommand.BETWEEN_EVENT_MESSAGE, "1200", "1400"))
-		.append(String.format(FreetimeCommand.BETWEEN_EVENT_MESSAGE, "1700", "2100"));
-		
+		.append(String.format(FreetimeCommand.NO_OF_FREESLOT_MESSAGE, 3));
 		assertResultMessage(sb.toString());
 	}
 	
@@ -161,7 +152,7 @@ public class FreetimeTest extends TaskForceGuiTest{
 		commandBox.runCommand("freetime day/0");
 		StringBuilder sb = new StringBuilder();
 		sb.append(String.format(FreetimeCommand.DEFAULT_STARTING_MESSAGE, now.format(eventFormatter)))
-		.append(String.format(FreetimeCommand.BETWEEN_EVENT_MESSAGE, "1200", "1700"));
+		.append(String.format(FreetimeCommand.NO_OF_FREESLOT_MESSAGE, 1));
 		assertResultMessage(sb.toString());
 	}
 	
@@ -173,13 +164,12 @@ public class FreetimeTest extends TaskForceGuiTest{
 		commandBox.runCommand("freetime day/0");
 		StringBuilder sb = new StringBuilder();
 		sb.append(String.format(FreetimeCommand.DEFAULT_STARTING_MESSAGE, now.format(eventFormatter)))
-		.append(String.format(FreetimeCommand.BETWEEN_EVENT_MESSAGE, "1200", "1700"))
-		.append(String.format(FreetimeCommand.BETWEEN_EVENT_MESSAGE, "1800", "2100"));
+		.append(String.format(FreetimeCommand.NO_OF_FREESLOT_MESSAGE, 2));
 		assertResultMessage(sb.toString());
 	}
 		
 		
-	
+
 
 	@After
 	public void clear() {
@@ -199,6 +189,7 @@ public class FreetimeTest extends TaskForceGuiTest{
 		return dateTime.plusMinutes(AN_HOUR - minutes);
 	
 	}
+
 	
 
 }
