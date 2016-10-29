@@ -35,6 +35,9 @@ public class FindCommand extends Command {
     private final String FIND_TYPE_TAG = "TAG";
     private final String FIND_TYPE_DESC = "DESC";
     private final String FIND_TYPE_TYPE = "TYPE";
+    private final String FIND_TYPE_ALL = "all";
+    private final String FIND_TYPE_OVERDUE = "overdue";
+    private final String FIND_TYPE_MARK = "mark";
    
     private final int VALID_NO_OF_DATES_ARGS = 1;
     private final int FIND_ARGS_INDEX = 0;
@@ -57,7 +60,7 @@ public class FindCommand extends Command {
     }
     
     //This method ensure that keyword for type 'day' and 'week' contain only a integer number
-    public boolean checkKeyWord(Set<String> keywords, String typeOfFind) {
+    public boolean checkKeyWord(Set<String> keywords, String typeOfFind) throws IllegalValueException {
     	if (isSearchByKeywords(typeOfFind)) {
     		return VALID_ARG;
     	}
@@ -80,7 +83,7 @@ public class FindCommand extends Command {
     	
     }
     
-    private boolean isSearchByType(String typeOfFind) {
+    private boolean isSearchByType(String typeOfFind) throws IllegalValueException {
 		// TODO Auto-generated method stub
     	if (!typeOfFind.equals(FIND_TYPE_TYPE)) {
     		return false;
@@ -88,9 +91,22 @@ public class FindCommand extends Command {
     	
     	List<String> findTypeList = new ArrayList<String>(keywords);
     	String findType = findTypeList.get(FIND_ARGS_INDEX).trim();
-    	return findType.equalsIgnoreCase("overdue") || findType.equalsIgnoreCase("all")
-    			|| findType.equalsIgnoreCase("mark");
-	
+
+    	if (FIND_TYPE_ALL.equalsIgnoreCase(findType)) {
+    		return VALID_ARG;
+    	}
+    	
+    	if (FIND_TYPE_OVERDUE.equalsIgnoreCase(findType)) {
+    		return VALID_ARG;
+    	}
+    	
+    	if (FIND_TYPE_MARK.equalsIgnoreCase(findType)) {
+    		return VALID_ARG;
+    	}
+    	
+    	throw new IllegalValueException(INVALID_FIND_TYPE_MESSAGE);
+
+
 	}
 
 	public boolean isSearchByKeywords (String typeOfFind) {
