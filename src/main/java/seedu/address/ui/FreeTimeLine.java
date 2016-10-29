@@ -88,7 +88,7 @@ public class FreeTimeLine extends UiPart {
         
         while (blockNo < MAX_TIME_BLOCKS) {
             
-            if (thisEntry != null && blockNo >= thisEntry.getKey().getValue()) {
+            while (thisEntry != null && blockNo >= thisEntry.getKey().getValue()) {
                 thisEntry = sortedMap.pollFirstEntry() ;
             }
             
@@ -100,7 +100,6 @@ public class FreeTimeLine extends UiPart {
             Color finalColor = null ;
             
             if (thisEntry != null && blockNo >= thisEntry.getKey().getKey() && blockNo < thisEntry.getKey().getValue()) {
-                                
                 finalColor = determineRectColour(thisEntry.getValue()) ;
             
             } else {
