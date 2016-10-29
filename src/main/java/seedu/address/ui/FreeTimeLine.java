@@ -2,6 +2,7 @@ package seedu.address.ui;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import com.google.common.collect.Lists;
 import com.google.common.eventbus.Subscribe;
@@ -16,6 +17,7 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import javafx.util.Pair;
 import seedu.address.commons.events.model.TaskForceCommandExecutedEvent;
 import seedu.address.commons.util.FxViewUtil;
 import seedu.address.logic.commands.FreetimeCommand;
@@ -72,7 +74,7 @@ public class FreeTimeLine extends UiPart {
         this.placeHolderPane = pane;
     }
     
-    private void drawTimeline(List<TimeStatus> time) {
+    private void drawTimeline(Map <Pair<Integer, Integer>, TimeStatus> timeStatuses) {
         
         assert time.size() == 24 || time.size() == 48 ;
         
@@ -90,7 +92,7 @@ public class FreeTimeLine extends UiPart {
             timeline.getChildren().add(rect) ;
             rectangles.add(rect) ;
             
-            Color finalColor = determineRectColour((time.size() == 24) ? time.get(i/2) : time.get(i)) ;
+            
 
             FillTransition ft = new FillTransition (Duration.millis(100 + (i*100)), rect, Color.TRANSPARENT, finalColor);
 

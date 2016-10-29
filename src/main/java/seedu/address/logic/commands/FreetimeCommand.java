@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import edu.emory.mathcs.backport.java.util.Collections;
@@ -311,14 +312,17 @@ public class FreetimeCommand extends Command{
 	}
 	
 	/**
-	 * Returns a list of timestatus representing the status of each timeslot with the first element
-	 * representing 0000 hrs and the last element representing 2359 hrs on the same day
+	 * Returns a map of timestatus representing the status of each timeslot.
+	 * Each pair represents a time slot, with the integer 0 representing 0000 hrs to 48 representing 2359 hrs.
+	 * Each integer is 30 minutes.
+	 * <p>
 	 * 
-	 * The size of the list is either 24 or 48. In the case of list size of 24, each status will represent 1 hour;
-	 * in the case of list size of 48, each status will represent 30 minutes.
+	 * 0 -> 1 : 0000 hrs to 0030 hrs.
+	 * <p>
+	 * Slots not in the map are assumed to be outside active hours
 	 * 
 	 */
-	public List<TimeStatus> getFreeTimeLine() {
+	public Map <Pair<Integer, Integer>, TimeStatus> getFreeTimeLine() {
 	    return null ;
 	}
 	
