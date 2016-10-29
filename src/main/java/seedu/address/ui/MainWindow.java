@@ -38,6 +38,7 @@ public class MainWindow extends UiPart {
     private CommandBox commandBox;
     private Config config;
     private UserPrefs userPrefs;
+    private FreeTimeLine freeTimeLine ;
 
     // Handles to elements of this Ui container
     private VBox rootLayout;
@@ -131,6 +132,7 @@ public class MainWindow extends UiPart {
         resultDisplay = ResultDisplay.load(primaryStage, getResultDisplayPlaceholder());
         statusBarFooter = StatusBarFooter.load(primaryStage, getStatusbarPlaceholder(), config.getTaskForceFilePath());
         commandBox = CommandBox.load(primaryStage, getCommandBoxPlaceholder(), resultDisplay, logic);
+        freeTimeLine = FreeTimeLine.load(primaryStage, getResultDisplayPlaceholder()) ;
     }
 
     private AnchorPane getCommandBoxPlaceholder() {

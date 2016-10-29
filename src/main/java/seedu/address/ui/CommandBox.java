@@ -76,7 +76,8 @@ public class CommandBox extends UiPart {
             }
         });
     }
-
+    
+    // @@author reused
     private void addToPlaceholder() {
         SplitPane.setResizableWithParent(placeHolderPane, false);
         placeHolderPane.getChildren().add(commandTextField);
@@ -126,6 +127,7 @@ public class CommandBox extends UiPart {
     }
 
     /**
+     * @@author reused
      * Sets the command box style to indicate a correct command.
      */
     private void setStyleToIndicateCorrectCommand() {
