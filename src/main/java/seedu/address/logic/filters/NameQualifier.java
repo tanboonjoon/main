@@ -149,10 +149,6 @@ public class NameQualifier implements Qualifier {
 			LocalDateTime endDate = ((Deadline) task).getEndDate();
 			return endDate.compareTo(now) <= OVERDUE_TASK;
 		}
-		if (task instanceof Deadline ) {
-			LocalDateTime endDate = ((Event) task).getEndDate();
-			return endDate.compareTo(now) <= OVERDUE_TASK;
-		}
 		
 		return TASK_NOT_FOUND;
 	}

@@ -134,7 +134,6 @@ public class FindCommandParser extends CommandParser {
 		// TODO Auto-generated method stub
 		String markArgs = getMarkArg();
 		if ("true".equalsIgnoreCase(markArgs)) {
-			System.out.println("hey");
 			return INCLUDE_MARK;
 		}
 		
@@ -219,6 +218,9 @@ public class FindCommandParser extends CommandParser {
     	case "TAG":
     		return parser.getArgValue(CommandArgs.FIND_TAG).get().split("\\s+");
     	case "TYPE":
+    		if (parser.getArgValue(CommandArgs.FIND_MARK).isPresent()) {
+    			throw new IncorrectCommandException();
+    		}
     		return parser.getArgValue(CommandArgs.FIND_TYPE).get().split("\\s+");
     	default:
     		throw new IncorrectCommandException() ;

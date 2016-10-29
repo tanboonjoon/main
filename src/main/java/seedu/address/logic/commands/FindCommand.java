@@ -19,12 +19,13 @@ public class FindCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Finds all tasks whose names contain any of "
             + "the specified keywords (case-sensitive) and displays them as a list with index numbers.\n"
-            + "Parameters: " + COMMAND_WORD +" TYPE/KEYWORDS [mark/true]\n"
+            + "Parameters: " + COMMAND_WORD +" OPTION/KEYWORDS [mark/true]\n"
+            + "Parameters: " + COMMAND_WORD +" TYPE/SEARCHTYPE\n"
             + "Example: " + COMMAND_WORD + " name/meeting\n" 
             +  COMMAND_WORD + " day/3\n" 
             +  COMMAND_WORD + " week/-4\n"
             +  COMMAND_WORD + " tag/Done mark/true\n"
-            +  COMMAND_WORD + " tag/Done mark/true\n"
+            +  COMMAND_WORD + " desc/Done mark/true\n"
             +  COMMAND_WORD + " type/all\n"
             +  COMMAND_WORD + " type/mark\n"
             +  COMMAND_WORD + " type/overdue";
