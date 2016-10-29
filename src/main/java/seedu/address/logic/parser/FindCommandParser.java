@@ -52,6 +52,8 @@ public class FindCommandParser extends CommandParser {
             
             
             final  Set<String> keywordSet = prepareSets(typeOfFind);
+            
+
             return new FindCommand(keywordSet, typeOfFind, checkMark);
             
         } catch (IncorrectCommandException e) {
@@ -216,6 +218,8 @@ public class FindCommandParser extends CommandParser {
     		return parser.getArgValue(CommandArgs.FIND_DESC).get().split("\\s+");
     	case "TAG":
     		return parser.getArgValue(CommandArgs.FIND_TAG).get().split("\\s+");
+    	case "TYPE":
+    		return parser.getArgValue(CommandArgs.FIND_TYPE).get().split("\\s+");
     	default:
     		throw new IncorrectCommandException() ;
     	}

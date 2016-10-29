@@ -22,11 +22,11 @@ public class FindCommand extends Command {
             + "Parameters: " + COMMAND_WORD +" TYPE/KEYWORDS [mark/true]\n"
             + "Example: " + COMMAND_WORD + " name/meeting\n" 
             +  COMMAND_WORD + " day/3\n" 
-            +  COMMAND_WORD + " week/-4"
-            +  COMMAND_WORD + " tag/Done mark/true"
-            +  COMMAND_WORD + " tag/Done mark/true"
-            +  COMMAND_WORD + " type/all"
-            +  COMMAND_WORD + " type/mark"
+            +  COMMAND_WORD + " week/-4\n"
+            +  COMMAND_WORD + " tag/Done mark/true\n"
+            +  COMMAND_WORD + " tag/Done mark/true\n"
+            +  COMMAND_WORD + " type/all\n"
+            +  COMMAND_WORD + " type/mark\n"
             +  COMMAND_WORD + " type/overdue";
     
     public final static String INVALID_FIND_DATE_MESSAGE = "Please enter valid number when search by day/week";
@@ -39,7 +39,7 @@ public class FindCommand extends Command {
     private final String FIND_TYPE_OVERDUE = "overdue";
     private final String FIND_TYPE_MARK = "mark";
    
-    private final int VALID_NO_OF_DATES_ARGS = 1;
+    private final int VALID_NO_OF_ARG = 1;
     private final int FIND_ARGS_INDEX = 0;
    
     private final boolean VALID_ARG = true;
@@ -50,7 +50,6 @@ public class FindCommand extends Command {
     private final boolean isMarkCheck;
 
     public FindCommand(Set<String> keywords, String typeOfFind, boolean isMarkCheck) throws IllegalValueException {
-
     	if (!checkKeyWord(keywords, typeOfFind)) {
         	throw new IllegalValueException(INVALID_FIND_DATE_MESSAGE);
         }
@@ -65,11 +64,11 @@ public class FindCommand extends Command {
     		return VALID_ARG;
     	}
     	
-    	if (isSearchByType(typeOfFind)) {
+    	if (isSearchByType(typeOfFind, keywords)) {
     		return VALID_ARG;
     	}
     	
-    	if (keywords.size() != VALID_NO_OF_DATES_ARGS) {
+    	if (keywords.size() != VALID_NO_OF_ARG) {
     		return INVALID_ARG;
     	}
     	
@@ -83,27 +82,22 @@ public class FindCommand extends Command {
     	
     }
     
-    private boolean isSearchByType(String typeOfFind) throws IllegalValueException {
+    private boolean isSearchByType(String typeOfFind, Set<String> keywords) throws IllegalValueException {
 		// TODO Auto-generated method stub
     	if (!typeOfFind.equals(FIND_TYPE_TYPE)) {
     		return false;
     	}
-    	
+    	if (keywords.size() !=  VALID_NO_OF_ARG) {
+    		throw new IllegalValueException(INVALID_FIND_TYPE_MESSAGE);
+    	}
+
     	List<String> findTypeList = new ArrayList<String>(keywords);
     	String findType = findTypeList.get(FIND_ARGS_INDEX).trim();
+    	if (FIND_TYPE_ALL.equalsIgnoreCase(findType) || FIND_TYPE_OVERDUE.equalsIgnoreCase(findType)
+    			|| FIND_TYPE_MARK.equalsIgnoreCase(findType)) {
+    		return VALID_ARG;
+    	}
 
-    	if (FIND_TYPE_ALL.equalsIgnoreCase(findType)) {
-    		return VALID_ARG;
-    	}
-    	
-    	if (FIND_TYPE_OVERDUE.equalsIgnoreCase(findType)) {
-    		return VALID_ARG;
-    	}
-    	
-    	if (FIND_TYPE_MARK.equalsIgnoreCase(findType)) {
-    		return VALID_ARG;
-    	}
-    	
     	throw new IllegalValueException(INVALID_FIND_TYPE_MESSAGE);
 
 
