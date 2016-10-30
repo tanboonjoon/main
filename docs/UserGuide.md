@@ -22,9 +22,9 @@ implementation of blocks - events with no name (placeholders).
 4. This app is built on Java, and runs on any Desktop.
 
 ### Advanced User
-1. Once you have used long the program long enough, you can use the ConfigCommand to edit the value of the confit.json
+1. Once you have used long the program long enough, you can use the ConfigCommand to edit the value of the config.json
 2. You are advised not to edit the config.json file directly. If it is detected as corrupted or invalidFormat, the current config.json file will be REPLACED by a default one.
-3. Through the configCommand, you can change the name of the program or set your free time .
+3. Through the config command, you can change the name of the program or set your free time .
 
 1. The recurring functionality in the addcommand is only available to Event and Deadline
 2. If you tried to use recurring functionality on a Reminders, the system will only add it once.
@@ -221,7 +221,9 @@ Format: `cd [FILEPATH\FILENAME.xml]`
 Examples:
 * `cd ` will tell you the current location of the saveData
 * `cd C:\Users\Boon\newSaveName.xml`will change the saveData location to specified path
+
 <!-- @@author A0135768R-->
+
 ### Changing configuration options : `config`
 Allows for changing of configuration options in config.json <br>
 **Warning: This is for advanced users only!** <br>
