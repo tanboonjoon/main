@@ -214,6 +214,7 @@ Format: `undo`
 #### Redo the previous command : `Redo`
 Redo the last command that was successfully executed. <br>
 Format: `Redo`
+
 <!-- @@author A0139942W-->
 #### Changing FileStorage location : `cd`
 Changing the saveData into another location <br>
@@ -224,7 +225,7 @@ Examples:
 
 <!-- @@author A0135768R-->
 
-### Changing configuration options : `config`
+#### Changing configuration options : `config`
 Allows for changing of configuration options in config.json <br>
 **Warning: This is for advanced users only!** <br>
 Format : `config CONFG_OPTION v/NEW_VALUE` <br>
@@ -242,7 +243,7 @@ enableSudo | true or false | When enabled, you can perform the clear command and
 #### Clearing all entries : `clear`
 Clears **ALL** entries from the task list. This command **CANNOT** be undone! <br>
 This requires the sudo to be enabled <br>
-A confirmation dialog will appear. Be adviced to use arrow key and space bar to select confirmation responses. 
+A confirmation dialog will appear. You can use arrow key and space bar to select confirmation responses. <br>
 Format: `clear`  
 
 #### Exiting the program : `exit`
