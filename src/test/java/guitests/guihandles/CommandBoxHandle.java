@@ -52,14 +52,4 @@ public class CommandBoxHandle extends GuiHandle {
 
     }
 
-    public void pressControlZ_testUndoKeyCombo() {
-//        guiRobot.push(new KeyCodeCombination(KeyCode.Z, KeyCombination.SHORTCUT_ANY)).sleep(200);
-        guiRobot.push(KeyCode.SHORTCUT, KeyCode.Z).sleep(200);
-    }   
-
-    public void pressControlShiftZ_testRedoKeyCombo() {
-        guiRobot.push(new KeyCodeCombination(KeyCode.Z, KeyCombination.SHORTCUT_ANY, KeyCombination.SHIFT_ANY))
-                .sleep(200);
-    }
-
 }
