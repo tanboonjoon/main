@@ -61,8 +61,9 @@ public class HelpWindow extends UiPart {
         mainPane.getChildren().add(browser);
     }
 
+    // @@author A0140037W
     /*
-     * @@author A0140037W
+     * Set key event for closing help window.
      */
     private void setKeyEventForClosingWindow() {
         dialogStage.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
