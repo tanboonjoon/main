@@ -69,11 +69,11 @@ public class AddCommand extends Command {
     private String recurringFrequency;
     private int repeat;
     private int id;
-
     private List<Task> taskList = new ArrayList<>();
 
+    
+    // @@author A0135768R
     /**
-     * @@author A0135768R
      * 
      * Convenience constructor using raw values.
      *
@@ -90,7 +90,6 @@ public class AddCommand extends Command {
         } else if (startDate == null && endDate != null) {
 
             Optional<Pair<LocalDateTime, LocalDateTime>> datePair = DateUtil.determineStartAndEndDateTime(null, endDate) ;
-
             setNewTaskWithDetails(name, description, datePair.get().getValue(), tags);     	
 
         } else if (startDate !=null) {
@@ -102,6 +101,7 @@ public class AddCommand extends Command {
             }
 
             setNewTaskWithDetails (name, description, datePair.get().getKey(), datePair.get().getValue(), tags) ;
+            
         } else {
             throw new IllegalValueException(INVALID_TASK_TYPE_MESSAGE);
         }

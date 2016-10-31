@@ -121,7 +121,7 @@ public final class DateUtil {
     }
 
 
-    private static Optional<Pair<LocalDateTime, LocalDateTime>> determineStartAndEndDateTime(Optional<LocalDateTime> startDate, Optional<LocalDateTime> endDate, boolean canBeEmpty) {
+    private static Optional<Pair<LocalDateTime, LocalDateTime>> determineStartAndEndDateTime(Optional<LocalDateTime> startDate, Optional<LocalDateTime> endDate, boolean isEmptyAllowed) {
 
         LocalDateTime computedStartDate ;
         LocalDateTime computedEndDate ;
@@ -130,7 +130,7 @@ public final class DateUtil {
             return Optional.empty() ;
         }
 
-        if (!canBeEmpty && (!startDate.isPresent() || !endDate.isPresent())) {
+        if (!isEmptyAllowed && (!startDate.isPresent() || !endDate.isPresent())) {
             return Optional.empty() ;
         }
 
@@ -253,34 +253,34 @@ public final class DateUtil {
 
             long duration = Math.abs(miliseconds) ;
 
-            StringBuffer sb = new StringBuffer();
+            StringBuffer buffer = new StringBuffer();
 
             for(int i = 0; i < TIMES.size(); i ++) {
                 Long current = TIMES.get(i);
                 long temp = duration/current;
 
                 if(temp>0) {
-                    sb.append(temp) ;
-                    sb.append(" ") ;
-                    sb.append( TIME_STIRNGS.get(i) ) ;
-                    sb.append(temp > 1 ? "s" : "") ;
+                    buffer.append(temp) ;
+                    buffer.append(" ") ;
+                    buffer.append( TIME_STIRNGS.get(i) ) ;
+                    buffer.append(temp > 1 ? "s" : "") ;
 
                     break;
                 }
             }
 
-            if( "".equals(sb.toString()) ) {
+            if( "".equals(buffer.toString()) ) {
                 return "0 second ago";
             } 
 
             if (miliseconds > 0) {
-                sb.append(" later") ;
+                buffer.append(" later") ;
 
             } else {
-                sb.append(" ago") ;
+                buffer.append(" ago") ;
             }
 
-            return sb.toString();
+            return buffer.toString();
         }
     }
 }
