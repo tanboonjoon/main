@@ -1,183 +1,431 @@
+<link rel="stylesheet" href="help.css">
 <!-- @@author A0111277M -->
-<html>
-<head></head>
-<style>
-table {
-    table-layout: auto;
-    border-collapse: collapse;
-    width: 100%;
-}
-table th {
-    border: 1px solid #ccc;
-}
-table td {
-    border: 1px solid #ccc;
-}
-table td.absorbing-column {
-    width: 100%;
-}
-</style>
-<body>
-    <h1 id="Help">Help</h1>
-
-    <ul>
-        <li><a href="#Help">Help</a></li>
-        <li><a href="#Add">Add</a></li>
-        <li><a href="#Delete">Delete</a></li>
-        <li><a href="#Find">Find</a></li>
-        <li><a href="#Clear">Clear</a></li>
-        <li><a href="#Edit">Edit</a></li>
-        <li><a href="#Freetime">Freetime</a></li>
-        <li><a href="#Block">Block</a></li>
-        <li><a href="#Exit">Exit</a></li>
-        <li><a href="#command-summary">Command Summary</a></li>
-
-    </ul>
-
-    <h2 id ="Help">Help</h2>
-    <h3>Display the help menu</h3>
-    <p>Example:</p>
-    <li><code>help</code></li>
-
-    <h2 id ="Add">Add</h2>
-    <h3>Adding a task into TaskForce</h3>
 
 
-    <p>Format:</p>
-    <p>
-        Reminder: <code>add TASKNAME  [d/DESCRIPTION] [t/TAG]...</code> <br />
-        Deadline: <code>add TASKNAME  [d/DESCRIPTION] [et/END_DATE] [t/TAG]...</code> <br />
-        Event: <code> add TASKNAME  [d/DESCRIPTION] [st/START_DATE] [et/END_DATE] [t/TAG]...</code> <br /> </p>
-        <p>Example:</p>
-        <li><code>add cleaning House d/pocket money t/important</code></li>
-        <li><code>add concert d/justin biber  st/130116 2100 et/130116 2200 t/important t/expensive</code></li>
-        <li><code>add report d/cs2105 et/130116 1300 t/important t/schoolwork</code></li>
-
-        <h2 id ="Delete">Delete</h2>
-        <h3>To Delete a task from TaskForce</h3>
-        <p>Format: delete INDEX</p>
-        <li><code>delete 2</code></li>
-
-
-        <h2 id ="Find">Find</h2>
-
-        <h3>To Find a tasks in the TaskForce using a keyword</h3>
-        <h3>A KEYWORD refer to a word contain in TASKNAME or a number that refer to DAYS or WEEKS</h3>
-        <p>Format : 'find METHOD KEYWORD'</p>
-        <table style="width:50%">
-          <tr>
-            <th>'d/'</th>
-            <th>List all events a number of days after today</th> 
-            <th>`find d/ -1`</th>
-        </tr>
-        <tr>
-            <td>'w/'</td>
-            <td>List all events in a week, after current week</td> 
-            <td>`find w/ 0`</td>
-        </tr>
-
-        <tr>
-            <td>`e/`</td>
-            <td>List all events with word appearing in name </td> 
-            <td>`find e/ ceremony`</td>
-        </tr>
-        <tr>
-            <td>'dl/'</td>
-            <td>List all deadlines with word appearing in name</td> 
-            <td>`find dl/ homework`</td>
-        </tr>
-        <tr>
-            <td>'r/'</td>
-            <td>List all reminders with word appearing in name</td> 
-            <td>`find r/ shine`</td>
-        </tr>
-        <tr>
-            <td>'a/'</td>
-            <td>List all events with word appearing in name</td> 
-            <td>`find a/ shoes`</td>
-        </tr>
-    </table>
-    <p>> * The search is not case sensitive. e.g `hans` will match `Hans`</p>
-    <p>> * The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`</p>
-    <p>> * Only the name is searched.</p>
-    <p>> * Only full words will be matched e.g. `Han` will not match `Hans`</p>
-    <p>> * Persons matching at least one keyword will be returned (i.e. `OR` search).
-        e.g. `Hans` will match `Hans Bo`</p>
-
-
-        <h2 id ="Clear">Clear</h2>
-        <h3>To clear the entire taskForce's data</h3>
-        <p>Example:</p>
-        <li><code>clear</code></li>
-
-        <h2 id ="Edit">Edit</h2>
-        <h3>To edit a Task in the TaskForce</h3>
-        <p>Format : edit INDEX [TASKNAME] [d/DESCRIPTION] [s/START_DATE] [e/END_DATE] [t/TAG].... </p>
-        <p>Example:</p>
-        <li><code>edit 2 housework d/get more pocket money t/changed </code></li>
-
-        <h2 id ="Freetime">Freetime</h2>
-        <h3>give you all the free time block in a specific day</h3>
-        <p>Format: freetime [d/DAYS_FROM_TODAY]</p>
-        <p>default command giveu today's free time </p>
-        <p>Example:</p>
-        <li><code>free d/4</code></li>
-
-        <h2 id ="Block">Block</h2>
-        <h3>Block out time for a potential event </h3>
-        <p>Format: block st/START_DATE et/END_DATE </p>
-        <p>Example:</p>
-        <li><code>block meeting with boss s/1400 e/16004</code></li>
-        <li><code>block potential compliance audits s/1300 e/1800</code></li>
-
-        <h2 id ="Exit">exit</h2>
-        <h3>To exit the TaskForce program</h3>
-        <p>Example:</p>
-        <li><code>exit</code></li>
+<h1 id="user-guide">User Guide</h1>
+<ul>
+<li><a href="#overview">Overview</a><br /></li>
+<li><a href="#quick-start">Quick Start</a><br /></li>
+<li><a href="#features">Features</a><br /></li>
+<li><a href="#faq">FAQ</a><br /></li>
+<li><a href="#command-summary">Command Summary</a></li>
+</ul>
+<h2 id="overview">Overview</h2>
+<ol>
+<li>TaskForce allows you to manage your tasks through a simple<br />command-line interface (CLI)-based application.<br /></li>
+<li>It allows for 3 main kinds of tasks:<br /></li>
+</ol>
+<ul>
+<li>Reminders - a task with no start nor end date<br /></li>
+<li>Deadline - a task that ends at a specific time<br /> &gt; A OVERDUE TASK is a Deadline that is past today date and not marked done.<br /></li>
+<li>Event - an event has both a start and end time<br /></li>
+</ul>
+<ol>
+<li>You can also block out time from your calendar through this app, through the<br />implementation of blocks - events with no name (placeholders).<br /></li>
+<li>This app is built on Java, and runs on any Desktop.</li>
+</ol>
+<h3 id="advanced-user">Advanced User</h3>
+<ol>
+<li>Once you have used long the program long enough, you can use the ConfigCommand to edit the value of the config.json<br /></li>
+<li>You are advised not to edit the config.json file directly. If it is detected as corrupted or invalidFormat, the current config.json file will be REPLACED by a default one.<br /></li>
+<li><p>Through the config command, you can change the name of the program or set your free time .</p></li>
+<li>The recurring functionality in the addcommand is only available to Event and Deadline<br /></li>
+<li><p>If you tried to use recurring functionality on a Reminders, the system will only add it once.</p>
+<h2>Quick Start</h2></li>
+<li><p>Ensure you have Java version <code>1.8.0_60</code> or later installed in your Computer.<br></p>
+<blockquote>
+<p>Having any Java 8 version is not enough. <br><br /> This app will not work with earlier versions of Java 8.</p>
+</blockquote></li>
+<li>Download the latest <code>taskforce.jar</code> from the <a href="../../../releases">releases</a> tab.<br /></li>
+<li>Copy the file to the folder you want to use as the home folder for your TaskForce app.<br /></li>
+<li><p>Double-click the file to start the app. The GUI should appear in a few seconds.</p>
+<blockquote>
+<p><img src="images/taskforce_gui_3.PNG" width="600"></p>
+</blockquote></li>
+<li>Type the command in the command box and press <kbd>Enter</kbd> to execute it. <br><br /> e.g. typing <strong><code>help</code></strong> and pressing <kbd>Enter</kbd> will open the help window.<br /></li>
+<li>Some example commands you can try:<br /></li>
+</ol>
+<ul>
+<li><strong><code>add</code></strong><code>wash the toilet</code> adds a reminder to wash the toilet to the task list.<br /></li>
+<li><strong><code>search</code></strong><code>d/0</code> searches the task list for all tasks happening today.<br /></li>
+<li><strong><code>exit</code></strong> : exits the app<br /></li>
+</ul>
+<ol>
+<li><p>Many commands requires an <code>INDEX</code> which is the number associated to the task in the current list.<br /> &gt; <img src = "images/index_example.png" width="600"> <br><br /> &gt; #### The index of a task is the number beside it</p></li>
+<li><p>Refer to the <a href="#features">Features</a> section below for details of each command.<br></p></li>
+</ol>
+<h2 id="features">Features</h2>
+<blockquote>
+<p><strong>Command Format</strong></p>
+<ul>
+<li>Words in <code>UPPER_CASE</code> are the parameters.<br /></li>
+<li>Items in <code>[SQUARE_BRACKETS]</code> are optional.<br /></li>
+<li>Items with <code>...</code> after them can have multiple instances.<br /></li>
+<li>The order of parameters are not fixed.</li>
+</ul>
+</blockquote>
+<h4 id="viewing-help-help">Viewing help : <code>help</code></h4>
+<p>Displays information on how to use commands.<br />Format: <code>help [COMMAND]</code></p>
+<blockquote>
+<ul>
+<li>If a <code>COMMAND</code> is given, help is displayed for that command only.<br /></li>
+<li>If no <code>COMMAND</code> is given, help is displayed for all commands available.<br /></li>
+<li>Help is not shown if you enter an incorrect command e.g. <code>help abcd</code></li>
+</ul>
+</blockquote>
+<!-- @@author A0111277M -->
 
 
-        <h2 id ="command-summary">commanry summary</h2>
-        <h3>A summary of all the command syntax</h3>
-        <table style="width:70%">
-          <tr>
-            <th>Command</th>
-            <th>Format</th> 
-        </tr>
-        <tr>
-            <td>Add</td>
-            <td>`add EVENT [d/DESCRIPTION] [st/START_DATE] [et/END_DATE] [t/TAG]...`</td>
-            <tr>
-                <td>Block</td>
-                <td>`block s/START_DATE e/END_DATE`</td> 
-            </tr>
-            <tr>
-                <td>Clear</td>
-                <td> `clear`</td> 
-            </tr>
-            <tr>
-                <td>Delete</td>
-                <td>`delete INDEX`</td> 
-            </tr>
-            <tr>
-                <td>Edit</td>
-                <td>`edit INDEX [NAME] [s/START_DATE] [e/END_DATE]....`</td> 
-            </tr>
-            <tr>
-                <td>Freetime</td>
-                <td>`freetime [d/DAYS_FROM_TODAY]</td> 
-            </tr>
-            <tr>
-                <td>Search</td>
-                <td>`find KEYWORD [MORE_KEYWORDS]`</td> 
-            </tr>
-            <tr>
-                <td>Help</td>
-                <td>`help`</td> 
-            </tr>
-            <tr>
-                <td>Exit </td>
-                <td>`exit`</td> 
-            </tr>
-        </table>
-    </body>
-    </html>
+<h4 id="adding-a-task-add">Adding a task: <code>add</code></h4>
+<p>Adds a task to the task list.<br />Format:<br />Reminder: <code>add TASKNAME  [d/DESCRIPTION] [t/TAG]...</code><br />Deadline: <code>add TASKNAME  [d/DESCRIPTION] [et/END_DATE] [t/TAG]...</code><br />Event: <code>add TASKNAME  [d/DESCRIPTION]  [st/START_DATE] [et/END_DATE] [t/TAG]...</code></p>
+<blockquote>
+<ul>
+<li>Tasks can have any number of tags (including 0)<br /></li>
+<li>Date format is MM-DD-YYYY HHMM (24 hour Format) e.g. <code>st/ 10-22-2016 1500</code><br /></li>
+<li>The command also supports natural language dates such as <code>today 6pm</code><br /></li>
+<li>See the section <a href="#On%20Entering%20Dates">On Entering Dates</a> for more details<br /></li>
+<li>If no time is specified, the time will be assumed to be the time right now.<br /></li>
+<li>If no start date is specified, it is assumed to be today.<br /></li>
+<li>If start date/time is specified but end date/time is not specified, the end date/time will be the same day on 2359.</li>
+</ul>
+</blockquote>
+<p>Examples:</p>
+<ul>
+<li><code>add housework d/to get pocket money t/important</code><br><br /></li>
+<li><code>report d/school report et/130116 2200 t/important</code><br><br /> Add the task into the ToDoList using <code>add</code> command.</li>
+</ul>
+<!-- @@author A0135768R -->
+
+<h4 id="blocking-out-time-block">Blocking out time: <code>block</code></h4>
+<p>Blocks out time for a potential event, or to indicate unavailability to others.<br />This command can block multiple timeslots at once, all for one specific event.<br />If multiple timeslots were blocked, when one timeslot is confirmed, all other timeslots are released (further explained in the <kbd>confirm</kbd> command)</p>
+<p>Format: <code>block NAME st/START_DATE et/END_DATE [st/START_DATE et/END_DATE]...</code></p>
+<blockquote>
+<ul>
+<li>Blocked out time is only blocked and cannot be tagged.<br /></li>
+<li>Each st/ and et/ is a pair, and you can have unlimited pairs<br /></li>
+<li>Date format is MM-DD-YYYY HHMM (24 hour Format) e.g. <code>st/ 10-22-2016 1500</code><br /></li>
+<li>The command also supports natural language dates such as <code>today 6pm</code><br /></li>
+<li>See the section <a href="#On%20Entering%20Dates">On Entering Dates</a> for more details<br /></li>
+<li>If no start time is specified, the time will be assumed to be the time right now.<br /></li>
+<li>If no start date is specified, it is assumed to be today.<br /></li>
+<li>If no end date/time is specified, the end date/time will be the same day on 2359.<br /></li>
+<li>You must have the <code>st/</code> &amp; <code>et/</code> tag even if you use default for both date and time</li>
+</ul>
+</blockquote>
+<p>Examples:</p>
+<ul>
+<li><code>block meeting with boss st/1400 et/1600 st/tommorrow 1400 et/1600</code><br /></li>
+<li><code>block study period st/1300 et/1800 st/tomorrow 2000 et/</code></li>
+</ul>
+<h4 id="confirming-previously-blocked-time-confirm">Confirming previously blocked time: <code>confirm</code></h4>
+<p>Confirms a blocked out time and converts it into an event<br />Deletes all other blocked timeslots for the same event</p>
+<p>Format: <code>confirm INDEX st/STARTTIME et/ENDTIME [d/DESCRIPTION][t/TAG]...</code></p>
+<blockquote>
+<ul>
+<li>To use this function, you must first list the desired timelot, by either going to the right date to view it, or finding it through keywords<br /></li>
+<li>Following which, you can use this command the confirm the desired slot you would like.<br /></li>
+<li>All other times associated to the previously blocked out event will be released, even if they are not in the current view.</li>
+</ul>
+</blockquote>
+<p>Examples:</p>
+<ul>
+<li><p><code>confirm 5 st/6pm et/8pm</code><br /><!-- @@author A0139942W --></p>
+<h4>Searching for (a) specific task(s): <code>find</code></h4>
+<p>Finds tasks of a specific time, or whose names contain any of the given keywords.<br />Format: <code>find METHOD/ KEYWORDS [mark/TRUE]</code><br />KEYWORDS for TYPE 'name/' 'desc/' 'tag/' is a word that is contain/part of a task name/description/tag<br />KEYWORDS for TYPE 'day' and 'week' is a integer number.</p></li>
+</ul>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Method</th>
+<th align="left">Explanation</th>
+<th align="left">Example</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><code>day/</code></td>
+<td align="left">List all events/deadline a number of days after today</td>
+<td align="left"><code>find day/ -1</code> (yesterday)</td>
+</tr>
+<tr class="even">
+<td align="left"><code>week/</code></td>
+<td align="left">List all events/deadline in a week, after current week</td>
+<td align="left"><code>find week/ 0</code> (current week)</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>name/</code></td>
+<td align="left">List all tasks with taskName containing the keywords</td>
+<td align="left"><code>find name/ shoes</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>tag/</code></td>
+<td align="left">List all tasks with taskDescription containing the keywords</td>
+<td align="left"><code>find name/ shoes</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><code>desc/</code></td>
+<td align="left">List all tasks with the tags of task containing the keywords</td>
+<td align="left"><code>find name/ shoes</code></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<ul>
+<li>The search is not case sensitive. e.g <code>task</code> will match <code>TaSK</code><br /></li>
+<li>The order of the keywords does not matter. e.g. <code>is s task</code> will match <code>task is a</code><br /></li>
+<li>Sub-words will be matched e.g. <code>sk</code> will match <code>task</code><br /></li>
+<li>Tasks matching at least one keyword will be returned (i.e. <code>OR</code> search).</li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li>FindCommand filtered out marked tasks automatically, user can turn off filter by using [mark/TRUE]<br />to include marked task in search</li>
+</ul>
+</blockquote>
+<ul>
+<li>'find name/i wan to find marked task mark/true'</li>
+</ul>
+<h4 id="searching-for-a-specific-tasks-under-certain-category-find">Searching for (a) specific task(s) under certain category: 'find'</h4>
+<p>Find tasks that belong to a certain category.<br />Format: 'find TYPE/CATEGORY'<br />'CATEGORY' is defined as 'all', 'overdue', 'mark'. Any other category will be classified<br />as invalidCommand.</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Method</th>
+<th align="left">Explanation</th>
+<th align="left">Example</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">'type/all'</td>
+<td align="left">List out every task stored in the save data</td>
+<td align="left">'find type/all'</td>
+</tr>
+<tr class="even">
+<td align="left">'type/overdue'</td>
+<td align="left">List out all deadline that are overdue and not marked</td>
+<td align="left">'find type/overdue'</td>
+</tr>
+<tr class="odd">
+<td align="left">'type/mark'</td>
+<td align="left">List out all tasks that are marked done</td>
+<td align="left">'find type/mark'</td>
+</tr>
+</tbody>
+</table>
+<!-- @@author A0135768R -->
+
+<h4 id="deleting-a-task-delete">Deleting a task : <code>delete</code></h4>
+<p>Deletes the specified task from the task list. Irreversible.<br />Format: <code>delete INDEX[, INDEX,...]</code></p>
+<blockquote>
+<ul>
+<li>Delete the task at the specified <code>INDEX</code>.<br /></li>
+<li>To delete more than one task, seperate the tasks indexes with commas.<br /></li>
+<li>The index refers to the index number shown in the most recent listing.<br><br /></li>
+<li>The index <strong>must be a positive integer</strong> 1, 2, 3, ...</li>
+</ul>
+</blockquote>
+<p>Examples:</p>
+<ul>
+<li><code>find all/ Meeting</code><br><br /> <code>delete 1</code><br><br /> Deletes the 1st task in the results of the <code>find</code> command.</li>
+</ul>
+<!-- @@author A0111277M -->
+
+<h4 id="editing-a-task-edit">Editing a task: <code>edit</code></h4>
+<p>Edits a task in the task list.<br />Format: <code>edit INDEX [NAME] [d/DESCRIPTION] [st/START_DATE] [et/END_DATE] [t/TAGS]</code></p>
+<blockquote>
+<ul>
+<li>Follows index format of delete - The index refers to the index number shown in the most recent listing.<br /></li>
+<li>Only enter in the details you want to edit. Details not specified in this command will not be changed.<br /></li>
+<li>The index <strong>must be a positive integer</strong> 1, 2, 3, ...<br /></li>
+<li>You can modify a reminder into a deadline/event by adding start &amp; end dates:<br /></li>
+<li><code>edit INDEX st/1700 et/1900</code><br /></li>
+<li>For tags, the edit command follows the following rules:<br /></li>
+<li>If the task does not have a tag specified in the edit command, the edit command shall add that tag to the task.<br /></li>
+<li>If the task does have a tag specified in the edit command, the edit command will remove that tag from the task.<br /></li>
+<li>If the task posesses some tags not specified in the edit command, they will be left unchanged by this command.</li>
+</ul>
+</blockquote>
+<p>Examples:</p>
+<ul>
+<li><code>edit 1 schoolwork d/change deadline et/220506 2200</code><br /></li>
+<li><code>edit 4 dinner d/change location t/important</code></li>
+</ul>
+<!-- @@author A0139942W -->
+
+<h4 id="finding-free-time-in-a-specific-day-freetime">Finding free time in a specific day: <code>freetime</code></h4>
+<p>Gives you all the free time blocks in a specific day<br />Format: <code>freetime [day/DAYS_FROM_TODAY]</code></p>
+<blockquote>
+<ul>
+<li>By default, freetime gives you today's free time<br /></li>
+<li>You can adjust days by using the day/ option<br /></li>
+<li>For example, for yesterday's free time, <code>freetime day/-1</code><br /></li>
+<li>DAYS_FROM_TODAY <strong>must be an integer</strong></li>
+</ul>
+</blockquote>
+<!-- @@author A0140037W -->
+
+<h4 id="undo-the-previous-command-undo">Undo the previous command : <code>undo</code></h4>
+<p>Undo the last command that was successfully executed. <br><br />Format: <code>undo</code></p>
+<h4 id="redo-the-previous-command-redo">Redo the previous command : <code>Redo</code></h4>
+<p>Redo the last command that was successfully executed. <br><br />Format: <code>Redo</code></p>
+<!-- @@author A0139942W-->
+
+<h4 id="changing-filestorage-location-cd">Changing FileStorage location : <code>cd</code></h4>
+<p>Changing the saveData into another location <br><br />Format: <code>cd [FILEPATH\FILENAME.xml]</code><br />Examples:</p>
+<ul>
+<li><code>cd</code> will tell you the current location of the saveData<br /></li>
+<li><code>cd C:\Users\Boon\newSaveName.xml</code>will change the saveData location to specified path</li>
+</ul>
+<!-- @@author A0135768R-->
+
+
+<h4 id="changing-configuration-options-config">Changing configuration options : <code>config</code></h4>
+<p>Allows for changing of configuration options in config.json <br><br /><strong>Warning: This is for advanced users only!</strong> <br><br />Format : <code>config CONFG_OPTION v/NEW_VALUE</code> <br><br />The following table are the config options and its values that is avaliable for modification by this command. <br></p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Configuration Option</th>
+<th align="left">Values</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">taskForceDataFilePath</td>
+<td align="left">Use the <code>cd</code> command</td>
+<td align="left">The location of the data save file</td>
+</tr>
+<tr class="even">
+<td align="left">userPrefsFilePath</td>
+<td align="left">A file path</td>
+<td align="left">The location of the user preferences file</td>
+</tr>
+<tr class="odd">
+<td align="left">activeHoursFrom</td>
+<td align="left">0000 to 2400</td>
+<td align="left">The earliest hour that the freetime command would take into account when computing your freetime</td>
+</tr>
+<tr class="even">
+<td align="left">activeHoursTo</td>
+<td align="left">0000 to 2400</td>
+<td align="left">The latest hour that the freetime command would take into account when computing your freetime</td>
+</tr>
+<tr class="odd">
+<td align="left">enableSudo</td>
+<td align="left">true or false</td>
+<td align="left">When enabled, you can perform the clear command and other commands for advanced users</td>
+</tr>
+</tbody>
+</table>
+<!-- @@author A0111277M -->
+
+<h4 id="clearing-all-entries-clear">Clearing all entries : <code>clear</code></h4>
+<p>Clears <strong>ALL</strong> entries from the task list. This command <strong>CANNOT</strong> be undone! <br><br />This requires the sudo to be enabled <br><br />A confirmation dialog will appear. You can use arrow key and space bar to select confirmation responses. <br><br />Format: <code>clear</code></p>
+<h4 id="exiting-the-program-exit">Exiting the program : <code>exit</code></h4>
+<p>Exits the program.<br><br />Format: <code>exit</code></p>
+<h4 id="saving-the-data">Saving the data</h4>
+<p>TaskForce saves data in the hard disk automatically after any command that changes the data.<br />There is no need to save manually.</p>
+<!-- @@author A0135768R-->
+
+<h2 id="on-entering-dates">On Entering Dates</h2>
+<p>TaskForce supports flexible date inputs and thus allows many natural variations of dates. The following are three broad categories of dates supported by TaskForce</p>
+<h3 id="formal-dates">Formal Dates</h3>
+<blockquote>
+<p>Format Dates follow the format MM-DD-YYYY HHMM <br></p>
+<ul>
+<li>03-15-2016 1500</li>
+</ul>
+</blockquote>
+<h3 id="relaxed-dates">Relaxed Dates</h3>
+<blockquote>
+<p>Relaxed dates are dates that expressed months in words instead of numbers. If the year is not provided, it is assumed to be this year</p>
+<ul>
+<li>Oct 20 2016<br /></li>
+<li>16 Aug</li>
+</ul>
+</blockquote>
+<h3 id="relative-dates">Relative dates</h3>
+<blockquote>
+<p>Relative dates are the most natural variation of the three and supports inputs that is relative to today <br></p>
+<ul>
+<li>today 5pm<br /></li>
+<li>next thursday 3pm<br /></li>
+<li>tomorrow 9am</li>
+</ul>
+</blockquote>
+<!-- @@author A0111277M-->
+
+<h2 id="faq">FAQ</h2>
+<p><strong>Q</strong>: How do I transfer my data to another Computer?<br><br /><strong>A</strong>: Install the app in the other computer and overwrite the empty data file it creates with<br /> the file that contains the data of your previous TaskForce folder.</p>
+<h2 id="command-summary">Command Summary</h2>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Command</th>
+<th align="left">Format</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Add</td>
+<td align="left"><code>add EVENT [d/DESCRIPTION][st/START_DATE] [et/END_DATE] [t/TAG] [t/TAG2]...</code></td>
+</tr>
+<tr class="even">
+<td align="left">Block</td>
+<td align="left"><code>block NAME st/START_DATE et/END_DATE [st/START_DATE et/END_DATE]...</code></td>
+</tr>
+<tr class="odd">
+<td align="left">Confirm</td>
+<td align="left"><code>confirm NAME st/START_DATE et/END_DATE [d/DESCRIPTION] [t/TAG]</code></td>
+</tr>
+<tr class="even">
+<td align="left">Clear</td>
+<td align="left"><code>clear</code></td>
+</tr>
+<tr class="odd">
+<td align="left">Delete</td>
+<td align="left"><code>delete INDEX</code></td>
+</tr>
+<tr class="even">
+<td align="left">Edit</td>
+<td align="left"><code>edit INDEX [NAME] [s/START_DATE] [e/END_DATE] ...</code></td>
+</tr>
+<tr class="odd">
+<td align="left">Freetime</td>
+<td align="left"><code>freetime [day/DAYS_FROM_TODAY]</code></td>
+</tr>
+<tr class="even">
+<td align="left">Find</td>
+<td align="left"><code>find METHOD/KEYWORDS [mark/TRUE]</code></td>
+</tr>
+<tr class="odd">
+<td align="left">Find</td>
+<td align="left">'find TYPE/CATEGORY'</td>
+</tr>
+<tr class="even">
+<td align="left">cd</td>
+<td align="left"><code>cd [FILEPATH/FILENAME.xml]</code></td>
+</tr>
+<tr class="odd">
+<td align="left">config</td>
+<td align="left"><code>config CONFIG_OPTION v/CONFIG_VALUE</code></td>
+</tr>
+<tr class="even">
+<td align="left">Undo</td>
+<td align="left"><code>undo</code></td>
+</tr>
+<tr class="odd">
+<td align="left">Redo</td>
+<td align="left">'redo'</td>
+</tr>
+<tr class="even">
+<td align="left">Help</td>
+<td align="left"><code>help</code></td>
+</tr>
+<tr class="odd">
+<td align="left">Exit</td>
+<td align="left"><code>exit</code></td>
+</tr>
+</tbody>
+</table>
