@@ -27,15 +27,21 @@ import seedu.address.model.task.ReadOnlyTask;
 // @@author A0135768R
 public final class DateUtil {
 
-
     public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm a");
-    
-    public static final LocalDateTime END_OF_TODAY = parseStringIntoDateTime("today 2359").get() ;
-    public static final LocalDateTime NOW = LocalDateTime.now() ;
-    public static final LocalDateTime MARKER_FOR_DELETE = LocalDateTime.MIN ;
-    
-    public static final String STRING_FOR_DELETE = "-"; 
 
+    public static final LocalDateTime NOW = LocalDateTime.now() ;
+    public static final LocalDateTime END_OF_TODAY = NOW.withHour(23).withMinute(59) ;
+    public static final LocalDateTime MARKER_FOR_DELETE = LocalDateTime.MIN ;
+
+    public static final String STRING_FOR_DELETE = "-";
+    
+    private static final Parser NATTY_PARSER_INSTANCE = new Parser() ;
+    
+    /**
+     * Passes the natural language date string to the Natty's library for parsing.
+     * If the date string provided is not valid (or not parsable by Natty), this will return
+     * {@code Optional.empty()}
+     */
     public static Optional<LocalDateTime> parseStringIntoDateTime (String rawString) {
 
         if (rawString == null) {
@@ -46,10 +52,7 @@ public final class DateUtil {
             return Optional.of(MARKER_FOR_DELETE);
         }
 
-
-        Parser dateParser = new Parser() ;
-
-        List<DateGroup> dates = dateParser.parse(rawString) ;
+        List<DateGroup> dates = NATTY_PARSER_INSTANCE.parse(rawString) ;
 
         try {
             Date date = dates.get(0).getDates().get(0) ;
