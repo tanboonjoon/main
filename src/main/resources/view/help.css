@@ -1,0 +1,25 @@
+@font-face{
+	src:url("../images/OpenSans-Light.ttf");
+	font-family: "OpenSans" ;
+}
+
+h1 {
+	font-family: "OpenSans" ;
+	font-weight: 400;
+}
+
+h2 {
+	font-family: "OpenSans" ;
+	font-weight: 400;
+}
+
+h3 {
+	font-family: "OpenSans" ;
+	font-weight: 400;
+}
+
+body {
+	font-family: "OpenSans" ;
+	font-size: 12pt ;
+	background: #ececec ;
+}
