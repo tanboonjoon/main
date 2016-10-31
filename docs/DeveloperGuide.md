@@ -224,10 +224,10 @@ Since the undo command can also be reduced to a sequence of tasks additions and 
 
 The following is the sequence diagram for a typical command executed.
 
-<img src="images/UndoCommandLogicEvents.png" width="800"> <br>
+<img src="images/UndoCommandLogicEvents.PNG" width="800"> <br>
 > Whenever any command is exectued, an event is raised. The Model, which listens to this event will then record down the changes in a stack
 
-<img src="images/UndoCommandLogic.png" width="800">  <br>
+<img src="images/UndoCommandLogic.PNG" width="800">  <br>
 > When the undo command is executed, the undo command will call the revertChanges method in the Model which will then pop from the stack of changes and returns it to UndoCommand
 > which will then undo the changes
 
