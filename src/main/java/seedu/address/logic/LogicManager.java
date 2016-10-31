@@ -1,9 +1,6 @@
 package seedu.address.logic;
 
-
-
 import java.util.logging.Logger;
-
 
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.ComponentManager;
@@ -38,17 +35,17 @@ public class LogicManager extends ComponentManager implements Logic {
         command.setData(model);
 
         CommandResult result = command.execute();
-        BaseEvent commandExecuted = new TaskForceCommandExecutedEvent(command, result) ;
+        BaseEvent commandExecuted = new TaskForceCommandExecutedEvent(command, result);
 
-        model.raiseEvent(commandExecuted) ;
+        model.raiseEvent(commandExecuted);
 
-        return result ;
+        return result;
 
     }
 
     @Override
     public ObservableList<ReadOnlyTask> getFilteredTaskList() {
-        return getSortedFilteredTaskList() ;
+        return getSortedFilteredTaskList();
     }
 
     @Override

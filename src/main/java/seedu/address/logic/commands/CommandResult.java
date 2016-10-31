@@ -6,20 +6,20 @@ package seedu.address.logic.commands;
 public class CommandResult {
 
     public final String feedbackToUser;
-    public final boolean commandSuccess ;
+    public final boolean commandSuccess;
 
     public CommandResult(String feedbackToUser, boolean success) {
         assert feedbackToUser != null;
         this.feedbackToUser = feedbackToUser;
-        this.commandSuccess = success ;
+        this.commandSuccess = success;
     }
-    
+
     public CommandResult(String feedbackToUser) {
-        this (feedbackToUser, false) ;
+        this(feedbackToUser, false);
     }
-    
-    public boolean isSuccessfulCommand () {
-        return this.commandSuccess ;
+
+    public boolean isSuccessfulCommand() {
+        return this.commandSuccess;
     }
 
 }

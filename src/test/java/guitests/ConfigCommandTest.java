@@ -16,20 +16,20 @@ public class ConfigCommandTest extends TaskForceGuiTest {
         // EP: empty values
         commandBox.runCommand("config");
         assertResultMessage(String.format(Messages.MESSAGE_INVALID_COMMAND_FORMAT, ConfigCommand.MESSAGE_USAGE));
-        
+
         // EP: invalid options
         commandBox.runCommand("config trolololol v/true");
-        assertResultMessage(String.format(ConfigCommand.INVALID_CONFIG)) ;
+        assertResultMessage(String.format(ConfigCommand.INVALID_CONFIG));
 
     }
-    
+
     @Test
     public void validCommandOptions() {
         commandBox.runCommand("config enableSudo v/true");
-        assertResultMessage(String.format(ConfigCommand.MESSAGE_SUCCESS, "enableSudo", "true")) ;
-        
+        assertResultMessage(String.format(ConfigCommand.MESSAGE_SUCCESS, "enableSudo", "true"));
+
         commandBox.runCommand("config appName v/New TaskForce");
-        assertResultMessage(String.format(ConfigCommand.MESSAGE_SUCCESS, "appName", "New TaskForce")) ;
+        assertResultMessage(String.format(ConfigCommand.MESSAGE_SUCCESS, "appName", "New TaskForce"));
     }
 
 }

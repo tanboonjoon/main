@@ -11,20 +11,21 @@ import seedu.address.logic.commands.MarkCommand;
 import seedu.address.testutil.TestTask;
 
 public class MarkCommandTest extends TaskForceGuiTest {
-	
-	@Before
-	public void clearList() {
-		commandBox.runCommand("clear");
-	}
+
+    @Before
+    public void clearList() {
+        commandBox.runCommand("clear");
+    }
+
     @Test
     public void mark() {
         TestTask[] currentList = td.getTypicalTasks();
-        
+
         commandBox.runCommand("add task");
         commandBox.runCommand("mark 1");
-       // currentList[0].markAsDone() ;
-        
-       // assetMarkSucess(currentList[0], 1, currentList) ;
+        // currentList[0].markAsDone() ;
+
+        // assetMarkSucess(currentList[0], 1, currentList) ;
         assertResultMessage(String.format(MarkCommand.MESSAGE_MARK_TASK_SUCCESS_DONE, "task"));
         commandBox.runCommand("list");
         commandBox.runCommand("mark 1");
@@ -39,12 +40,11 @@ public class MarkCommandTest extends TaskForceGuiTest {
         commandBox.runCommand("mark 2");
         assertResultMessage(String.format(MarkCommand.MESSAGE_MARK_TASK_SUCCESS_DONE, "event"));
 
-        
     }
-    
+
     @After
     public void clear() {
-    	commandBox.runCommand("clear");
+        commandBox.runCommand("clear");
     }
 
 }

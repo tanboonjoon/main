@@ -6,35 +6,36 @@ import seedu.address.model.tag.UniqueTagList;
 import java.util.Objects;
 
 /**
- * Represents a Task in the taskForce.
- * Guarantees: details are present and not null, field values are validated.
+ * Represents a Task in the taskForce. Guarantees: details are present and not
+ * null, field values are validated.
  */
 public class Task implements ReadOnlyTask {
 
     private final String name;
-    private final String description ;
-    private final int taskId ;
+    private final String description;
+    private final int taskId;
     private boolean doneStatus;
     private UniqueTagList tags;
 
     /**
-     * Every field must be present and not null. 
-     */      
+     * Every field must be present and not null.
+     */
     public Task(int taskId, String name, String description, UniqueTagList tags, boolean doneStatus) {
         assert !CollectionUtil.isAnyNull(name, tags);
         this.name = name;
-        this.description = description ;
-        this.taskId = taskId ;
-        this.tags = new UniqueTagList(tags); // protect internal tags from changes in the arg list
+        this.description = description;
+        this.taskId = taskId;
+        this.tags = new UniqueTagList(tags); // protect internal tags from
+                                             // changes in the arg list
         this.doneStatus = doneStatus;
     }
-    
+
     public Task(int taskId, String name, String description, UniqueTagList tags) {
-        this (taskId, name, description, tags, false);
+        this(taskId, name, description, tags, false);
     }
-    
+
     public Task(int taskId, String name, UniqueTagList tags) {
-    	this (taskId, name, "", tags) ;
+        this(taskId, name, "", tags);
     }
 
     /**
@@ -58,11 +59,11 @@ public class Task implements ReadOnlyTask {
     public UniqueTagList getTags() {
         return new UniqueTagList(tags);
     }
-    
-	@Override
-	public boolean getDoneStatus() {
-		return doneStatus;
-	}
+
+    @Override
+    public boolean getDoneStatus() {
+        return doneStatus;
+    }
 
     /**
      * Replaces this task's tags with the tags in the argument tag list.
@@ -75,12 +76,13 @@ public class Task implements ReadOnlyTask {
     public boolean equals(Object other) {
         return other == this // short circuit if same object
                 || (other instanceof ReadOnlyTask // instanceof handles nulls
-                && this.isSameStateAs((ReadOnlyTask) other)) ;
+                        && this.isSameStateAs((ReadOnlyTask) other));
     }
 
     @Override
     public int hashCode() {
-        // use this method for custom fields hashing instead of implementing your own
+        // use this method for custom fields hashing instead of implementing
+        // your own
         return Objects.hash(name, description, tags);
     }
 
@@ -91,6 +93,6 @@ public class Task implements ReadOnlyTask {
 
     @Override
     public int getTaskId() {
-        return taskId ;
+        return taskId;
     }
 }

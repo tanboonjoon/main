@@ -19,11 +19,12 @@ import seedu.address.model.task.ReadOnlyTask;
 /**
  *
  * 
- * A general qualifier used by the filteredList wrapper to filter tasks according to user's input
+ * A general qualifier used by the filteredList wrapper to filter tasks
+ * according to user's input
  *
  */
 public class NameQualifier implements Qualifier {
-    
+
     public static final String FILTER_BY_DAY = "DAY";
     public static final String SEARCH_NAME = "NAME";
     public static final String SEARCH_DESC = "DESC";
@@ -32,12 +33,12 @@ public class NameQualifier implements Qualifier {
     public static final String SEARCH_TYPE_ALL = "all";
     public static final String SEARCH_TYPE_OVERDUE = "overdue";
     public static final String SEARCH_TYPE_MARK = "mark";
-    
+
     private static final boolean TASK_NOT_FOUND = false;
     private static final boolean TASK_FOUND = true;
     private static final boolean MARKED_TASK = true;
     private static final boolean MARK_NOT_FILTERED = false;
-    private static final int STARTING_INDEX  = 0;
+    private static final int STARTING_INDEX = 0;
     private static final int LAST_DAY_INDEX = 7;
 
     private static final int SAME_DAY_VALUE = 0;
@@ -67,19 +68,18 @@ public class NameQualifier implements Qualifier {
 
     @Override
     public boolean run(ReadOnlyTask task) {
-    	
+
         if (isTypeSearch(typeOfFind)) {
-        	return filterByType(task);
+            return filterByType(task);
         }
-        
-    	if (isMarkCheck == MARK_NOT_FILTERED && task.getDoneStatus() == MARKED_TASK) {
-    		return TASK_NOT_FOUND;
-    	}
+
+        if (isMarkCheck == MARK_NOT_FILTERED && task.getDoneStatus() == MARKED_TASK) {
+            return TASK_NOT_FOUND;
+        }
         if (isKeywordSearch(typeOfFind)) {
             Trie keywordTrie = buildKeyword();
             return filterByKeyWord(task, keywordTrie, typeOfFind);
         }
-        
 
         getDateForCompare();
         getFormattedDate();
@@ -98,18 +98,14 @@ public class NameQualifier implements Qualifier {
         return TASK_FOUND;
 
     }
-    
 
+    private boolean isTypeSearch(String searchType) {
+        // TODO Auto-generated method stub
+        return searchType.equals(SEARCH_TYPE);
+    }
 
- private boolean isTypeSearch(String searchType) {
-		// TODO Auto-generated method stub
-		return searchType.equals(SEARCH_TYPE);
-	}
-
-	private boolean isKeywordSearch(String searchType) {
-    	return  searchType.equals(SEARCH_NAME) ||
-    			searchType.equals(SEARCH_TAG) ||
-    			searchType.equals(SEARCH_DESC);
+    private boolean isKeywordSearch(String searchType) {
+        return searchType.equals(SEARCH_NAME) || searchType.equals(SEARCH_TAG) || searchType.equals(SEARCH_DESC);
     }
 
     private Trie buildKeyword() {
@@ -123,61 +119,61 @@ public class NameQualifier implements Qualifier {
         }
         return trie.caseInsensitive().removeOverlaps().build();
     }
-    
+
     private boolean filterByType(ReadOnlyTask task) {
- 		// TODO Auto-generated method stub
-    	List<String> findTypeList = new ArrayList<String>(nameKeyWords);
-    	String findType = findTypeList.get(ARGS_INDEX);
-    	if (SEARCH_TYPE_ALL.equalsIgnoreCase(findType)) {
-    		return TASK_FOUND;
-    	}
-    	
-    	if (SEARCH_TYPE_MARK.equalsIgnoreCase(findType)) {
-    		return  task.getDoneStatus() == MARKED_TASK;
-    	}
-    	
-    	return filterByOverdue(task);
- 	}
+        // TODO Auto-generated method stub
+        List<String> findTypeList = new ArrayList<String>(nameKeyWords);
+        String findType = findTypeList.get(ARGS_INDEX);
+        if (SEARCH_TYPE_ALL.equalsIgnoreCase(findType)) {
+            return TASK_FOUND;
+        }
 
-   private boolean filterByOverdue(ReadOnlyTask task) {
-		// TODO Auto-generated method stub
-	   if (task.getDoneStatus() == MARKED_TASK) {
-		   return TASK_NOT_FOUND;
-	   }
-	   LocalDateTime now = LocalDateTime.now();
-		if (task instanceof Deadline ) {
-			LocalDateTime endDate = ((Deadline) task).getEndDate();
-			return endDate.compareTo(now) <= OVERDUE_TASK;
-		}
-		
-		return TASK_NOT_FOUND;
-	}
+        if (SEARCH_TYPE_MARK.equalsIgnoreCase(findType)) {
+            return task.getDoneStatus() == MARKED_TASK;
+        }
 
- private boolean filterByKeyWord(ReadOnlyTask task, Trie keywordTrie, String searchType) {
-    	if (searchType.equals(SEARCH_NAME)) {
-    		return keywordTrie.containsMatch(task.getName());
-    	}
-    	
-    	if (searchType.equals(SEARCH_DESC)) {
-    		return keywordTrie.containsMatch(task.getDescription());
-    	}
-    	
-    	return filterByTag(task, keywordTrie);
+        return filterByOverdue(task);
+    }
+
+    private boolean filterByOverdue(ReadOnlyTask task) {
+        // TODO Auto-generated method stub
+        if (task.getDoneStatus() == MARKED_TASK) {
+            return TASK_NOT_FOUND;
+        }
+        LocalDateTime now = LocalDateTime.now();
+        if (task instanceof Deadline) {
+            LocalDateTime endDate = ((Deadline) task).getEndDate();
+            return endDate.compareTo(now) <= OVERDUE_TASK;
+        }
+
+        return TASK_NOT_FOUND;
+    }
+
+    private boolean filterByKeyWord(ReadOnlyTask task, Trie keywordTrie, String searchType) {
+        if (searchType.equals(SEARCH_NAME)) {
+            return keywordTrie.containsMatch(task.getName());
+        }
+
+        if (searchType.equals(SEARCH_DESC)) {
+            return keywordTrie.containsMatch(task.getDescription());
+        }
+
+        return filterByTag(task, keywordTrie);
     }
 
     private boolean filterByTag(ReadOnlyTask task, Trie keywordTrie) {
-		UniqueTagList tagList = task.getTags();
-		
-		for	(Tag tag : tagList) {
-			if (keywordTrie.containsMatch(tag.tagName)) {
-				return TASK_FOUND;
-			}
-		}
-		
-		return TASK_NOT_FOUND;
-	}
+        UniqueTagList tagList = task.getTags();
 
-	public boolean filterDeadLine(String taskStartDate) {
+        for (Tag tag : tagList) {
+            if (keywordTrie.containsMatch(tag.tagName)) {
+                return TASK_FOUND;
+            }
+        }
+
+        return TASK_NOT_FOUND;
+    }
+
+    public boolean filterDeadLine(String taskStartDate) {
 
         if ("DAY".equals(typeOfFind)) {
             return formattedDateList.get(FORMATTED_DATE_INDEX).compareTo(taskStartDate) == SAME_DAY_VALUE;
@@ -192,42 +188,44 @@ public class NameQualifier implements Qualifier {
 
         return TASK_NOT_FOUND;
     }
+
     /**
-     * filter out event that start or end on that particular date
-     * filter out ongoing event that is happening during that particular date
+     * filter out event that start or end on that particular date filter out
+     * ongoing event that is happening during that particular date
      */
     public boolean filterEvent(String taskStartDate, String taskEndDate) {
 
         if (FILTER_BY_DAY.equals(typeOfFind)) {
-        	String formattedDate = formattedDateList.get(FORMATTED_DATE_INDEX);
-        	return isEventFound(formattedDate, taskStartDate, taskEndDate);
-            
+            String formattedDate = formattedDateList.get(FORMATTED_DATE_INDEX);
+            return isEventFound(formattedDate, taskStartDate, taskEndDate);
+
         }
 
         for (int day_index = STARTING_INDEX; day_index < LAST_DAY_INDEX; day_index++) {
             String formattedDate = formattedDateList.get(day_index);
             if (isEventFound(formattedDate, taskStartDate, taskEndDate)) {
-            	return TASK_FOUND;
+                return TASK_FOUND;
             }
 
         }
 
         return TASK_NOT_FOUND;
     }
-    
+
     private boolean isEventFound(String comparedDate, String startDate, String endDate) {
-    	if (comparedDate.compareTo(startDate) == SAME_DAY_VALUE) {
-    		return TASK_FOUND;
-    	}
-    	
-       	if (comparedDate.compareTo(endDate) == SAME_DAY_VALUE) {
-    		return TASK_FOUND;
-    	}
-       	
-       	if (comparedDate.compareTo(startDate) >= AFTER_START_DATE && comparedDate.compareTo(endDate) <= BEFORE_END_DATE) {
-       		return TASK_FOUND;
-       	}
-    	return TASK_NOT_FOUND;
+        if (comparedDate.compareTo(startDate) == SAME_DAY_VALUE) {
+            return TASK_FOUND;
+        }
+
+        if (comparedDate.compareTo(endDate) == SAME_DAY_VALUE) {
+            return TASK_FOUND;
+        }
+
+        if (comparedDate.compareTo(startDate) >= AFTER_START_DATE
+                && comparedDate.compareTo(endDate) <= BEFORE_END_DATE) {
+            return TASK_FOUND;
+        }
+        return TASK_NOT_FOUND;
     }
 
     private void getFormattedDate() {
@@ -242,13 +240,11 @@ public class NameQualifier implements Qualifier {
         LocalDateTime dateForCompare = dateToday;
         Long timeToAdd = parseTimeToLong(nameKeyWords);
 
-
         if (FILTER_BY_DAY.equals(typeOfFind)) {
             dateForCompare = dateToday.plusDays(timeToAdd);
             dateToCompareList.add(dateForCompare);
             return;
         }
-
 
         LocalDateTime startOfTheWeek = getToDesiredWeek(timeToAdd, dateToday);
 
@@ -258,10 +254,10 @@ public class NameQualifier implements Qualifier {
         }
 
     }
-    
-    public LocalDateTime getToDesiredWeek (Long addedTime, LocalDateTime now ) {
-    	LocalDateTime dateOfThatWeek = now.plusWeeks(addedTime);
-    	int dayOfThatWeek = dateOfThatWeek.getDayOfWeek().getValue();
+
+    public LocalDateTime getToDesiredWeek(Long addedTime, LocalDateTime now) {
+        LocalDateTime dateOfThatWeek = now.plusWeeks(addedTime);
+        int dayOfThatWeek = dateOfThatWeek.getDayOfWeek().getValue();
         LocalDateTime previousWeek = dateOfThatWeek.minusDays(dayOfThatWeek);
         return previousWeek.plusDays(GET_TO_MONDAY_INDEX);
     }

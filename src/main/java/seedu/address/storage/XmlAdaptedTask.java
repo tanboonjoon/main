@@ -15,9 +15,9 @@ import java.util.List;
  * JAXB-friendly version of the Task.
  */
 public class XmlAdaptedTask {
-    
+
     @XmlElement(required = true)
-    private int taskId ;
+    private int taskId;
     @XmlElement(required = true)
     private String name;
     @XmlElement(required = true)
@@ -29,7 +29,7 @@ public class XmlAdaptedTask {
     @XmlElement
     private boolean doneStatus;
     @XmlElement
-    private boolean isBlock ;
+    private boolean isBlock;
 
     @XmlElement
     private List<XmlAdaptedTag> tagged = new ArrayList<>();
@@ -37,85 +37,90 @@ public class XmlAdaptedTask {
     /**
      * No-arg constructor for JAXB use.
      */
-    public XmlAdaptedTask() {}
-
+    public XmlAdaptedTask() {
+    }
 
     /**
      * Converts a given Task into this class for JAXB use.
      *
-     * @param source future changes to this will not affect the created XmlAdaptedTask
+     * @param source
+     *            future changes to this will not affect the created
+     *            XmlAdaptedTask
      */
     public XmlAdaptedTask(ReadOnlyTask source) {
         name = source.getName();
-        description = source.getDescription() ;
-        taskId = source.getTaskId() ;
+        description = source.getDescription();
+        taskId = source.getTaskId();
         doneStatus = source.getDoneStatus();
         tagged = new ArrayList<>();
-        
+
         for (Tag tag : source.getTags()) {
             tagged.add(new XmlAdaptedTag(tag));
         }
-        
+
         if (source instanceof Deadline) {
-            endDateTime = ((Deadline) source).getEndDate().toString() ;
+            endDateTime = ((Deadline) source).getEndDate().toString();
         }
-        
-        if (source instanceof Event ) {
-            startDateTime = ((Event) source).getStartDate().toString() ;
-            endDateTime = ((Event) source).getEndDate().toString() ;
+
+        if (source instanceof Event) {
+            startDateTime = ((Event) source).getStartDate().toString();
+            endDateTime = ((Event) source).getEndDate().toString();
         }
-        
+
         if (source instanceof Block) {
-            isBlock = true ;
+            isBlock = true;
         }
     }
 
     /**
      * @@author A0135768R
      * 
-     * Converts this jaxb-friendly adapted task object into the model's Task object.
+     *          Converts this jaxb-friendly adapted task object into the model's
+     *          Task object.
      *
-     * @throws IllegalValueException if there were any data constraints violated in the adapted task
+     * @throws IllegalValueException
+     *             if there were any data constraints violated in the adapted
+     *             task
      */
     public Task toModelType() throws IllegalValueException {
-        
-        Task task ;
-        LocalDateTime start = null ;
-        LocalDateTime end = null ;
-        
+
+        Task task;
+        LocalDateTime start = null;
+        LocalDateTime end = null;
+
         final List<Tag> taskTags = new ArrayList<>();
         for (XmlAdaptedTag tag : tagged) {
             taskTags.add(tag.toModelType());
         }
-        
-        final String name = this.name ;
-        final String description = this.description ;
+
+        final String name = this.name;
+        final String description = this.description;
         final boolean doneStatus = this.doneStatus;
-        final boolean isBlock = this.isBlock ;
+        final boolean isBlock = this.isBlock;
         final UniqueTagList tags = new UniqueTagList(taskTags);
-        final int id = this.taskId ;
-        
+        final int id = this.taskId;
+
         if (this.startDateTime != null) {
-            start = LocalDateTime.parse(this.startDateTime) ;
+            start = LocalDateTime.parse(this.startDateTime);
         }
-        
+
         if (this.endDateTime != null) {
-            end = LocalDateTime.parse(this.endDateTime) ;
+            end = LocalDateTime.parse(this.endDateTime);
         }
-        
+
         if (isBlock) {
-            task = new Block(id, name, start, end) ;
-        
+            task = new Block(id, name, start, end);
+
         } else if (start != null && end != null) {
-            task = new Event (id, name, description, start, end, tags, doneStatus) ; 
-        
+            task = new Event(id, name, description, start, end, tags, doneStatus);
+
         } else if (start == null && end != null) {
-            task = new Deadline (id, name, description, end, tags, doneStatus) ;
-        
+            task = new Deadline(id, name, description, end, tags, doneStatus);
+
         } else {
             task = new Task(id, name, description, tags, doneStatus);
         }
-        
-        return task ;
+
+        return task;
     }
 }

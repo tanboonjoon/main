@@ -30,9 +30,9 @@ public interface Storage extends TaskForceStorage, UserPrefsStorage {
     void saveTaskForce(ReadOnlyTaskForce taskForce) throws IOException;
 
     /**
-     * Saves the current version of the Address Book to the hard disk.
-     *   Creates the data file if it is missing.
-     * Raises {@link DataSavingExceptionEvent} if there was an error during saving.
+     * Saves the current version of the Address Book to the hard disk. Creates
+     * the data file if it is missing. Raises {@link DataSavingExceptionEvent}
+     * if there was an error during saving.
      */
     void handleTaskForceChangedEvent(TaskForceChangedEvent abce);
 }

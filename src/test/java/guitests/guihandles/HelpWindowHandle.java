@@ -29,6 +29,7 @@ public class HelpWindowHandle extends GuiHandle {
         guiRobot.sleep(500);
         return true;
     }
+
     public void closeWindow() {
         super.closeWindow();
         guiRobot.sleep(500);

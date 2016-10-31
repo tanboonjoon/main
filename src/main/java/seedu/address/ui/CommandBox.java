@@ -76,7 +76,7 @@ public class CommandBox extends UiPart {
             }
         });
     }
-    
+
     // @@author reused
     private void addToPlaceholder() {
         SplitPane.setResizableWithParent(placeHolderPane, false);
@@ -127,8 +127,7 @@ public class CommandBox extends UiPart {
     }
 
     /**
-     * @@author reused
-     * Sets the command box style to indicate a correct command.
+     * @@author reused Sets the command box style to indicate a correct command.
      */
     private void setStyleToIndicateCorrectCommand() {
         commandTextField.getStyleClass().remove("error");

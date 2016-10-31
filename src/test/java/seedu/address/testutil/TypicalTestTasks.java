@@ -13,7 +13,7 @@ public class TypicalTestTasks {
 
     public TypicalTestTasks() {
         try {
-            alice =  new TaskBuilder().withName("Alice Pauline").withDescription("123, Jurong West Ave 6, #08111")
+            alice = new TaskBuilder().withName("Alice Pauline").withDescription("123, Jurong West Ave 6, #08111")
                     .withTags("friends").build();
             benson = new TaskBuilder().withName("Benson Meier").withDescription("311, Clementi Ave 2, #0225")
                     .withTags("owesMoney", "friends").build();
@@ -23,7 +23,7 @@ public class TypicalTestTasks {
             fiona = new TaskBuilder().withName("Fiona Kunz").withDescription("little tokyo").build();
             george = new TaskBuilder().withName("George Best").withDescription("4th street").build();
 
-            //Manually added
+            // Manually added
             hoon = new TaskBuilder().withName("Hoon Meier").withDescription("little india").build();
             ida = new TaskBuilder().withName("Ida Mueller").withDescription("chicago ave").build();
         } catch (IllegalValueException e) {
@@ -48,10 +48,10 @@ public class TypicalTestTasks {
     }
 
     public TestTask[] getTypicalTasks() {
-        return new TestTask[]{alice, benson, carl, daniel, elle, fiona, george};
+        return new TestTask[] { alice, benson, carl, daniel, elle, fiona, george };
     }
 
-    public TaskForce getTypicalTaskForce(){
+    public TaskForce getTypicalTaskForce() {
         TaskForce ab = new TaskForce();
         loadTaskForceWithSampleData(ab);
         return ab;

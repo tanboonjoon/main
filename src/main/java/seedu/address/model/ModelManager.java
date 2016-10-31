@@ -1,6 +1,5 @@
 package seedu.address.model;
 
-
 import java.util.Deque;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -37,8 +36,8 @@ import seedu.address.model.task.UniqueTaskList.TaskNotFoundException;
  */
 public class ModelManager extends ComponentManager implements Model {
     private static final Logger logger = LogsCenter.getLogger(ModelManager.class);
-    
-    public static final int MAX_UNDOS_REDOS = 10 ;
+
+    public static final int MAX_UNDOS_REDOS = 10;
 
     private final TaskForce taskForce;
     private final FilteredList<Task> filteredTasks;
@@ -46,16 +45,16 @@ public class ModelManager extends ComponentManager implements Model {
     private final FilteredList<Task> filteredTasksForSearching;
     private final Deque<TaskForceCommandExecutedEvent> undoTaskForceHistory = new LinkedList<TaskForceCommandExecutedEvent>();
     private final Deque<TaskForceCommandExecutedEvent> redoTaskForceHistory = new LinkedList<TaskForceCommandExecutedEvent>();
-    private final TagRegistrar tagRegistrar = new TagRegistrar() ;
-    private final Config config ;
-    
+    private final TagRegistrar tagRegistrar = new TagRegistrar();
+    private final Config config;
+
     private static final int TASK_LESS_THAN_DEADLINE = -1;
     private static final int TASK_LESS_THAN_EVENT = -2;
     private static final int DEADLINE_MORE_THAN_TASK = 1;
     private static final int DEADLINE_LESS_THAN_EVENT = -1;
     private static final int EVENT_MORE_THAN_TASK = 2;
     private static final int EVENT_MORE_THAN_DEADLINE = 1;
-    
+
     /**
      * Initializes a ModelManager with the given TaskForce TaskForce and its
      * variables should not be null
@@ -67,23 +66,23 @@ public class ModelManager extends ComponentManager implements Model {
         assert config != null;
 
         logger.fine("Initializing with address book: " + src);
-        
-        this.config = config ;
+
+        this.config = config;
 
         taskForce = new TaskForce(src);
         tagRegistrar.setAllTags(src.getTagList());
         filteredTasks = new FilteredList<>(taskForce.getTasks());
         sortedFilteredTasks = setUpSortedList();
-        filteredTasksForSearching = new FilteredList<>(taskForce.getTasks());        
+        filteredTasksForSearching = new FilteredList<>(taskForce.getTasks());
     }
 
-	public ModelManager() {
+    public ModelManager() {
         this(new TaskForce(), new Config());
     }
 
     public ModelManager(ReadOnlyTaskForce initialData, Config config) {
-        this.config = config ;
-        
+        this.config = config;
+
         taskForce = new TaskForce(initialData);
         tagRegistrar.setAllTags(initialData.getTagList());
         filteredTasks = new FilteredList<>(taskForce.getTasks());
@@ -104,20 +103,20 @@ public class ModelManager extends ComponentManager implements Model {
     public ReadOnlyTaskForce getTaskForce() {
         return taskForce;
     }
-    
+
     @Override
     public Config getConfigs() {
-        return config ;
+        return config;
     }
-    
+
     @Override
     public ReadOnlyTagRegistrar getTagRegistry() {
-        return tagRegistrar ;
+        return tagRegistrar;
     }
-    
+
     @Override
     public int getNextTaskId() {
-        return taskForce.getNextTagId() ;
+        return taskForce.getNextTagId();
     }
 
     /** Raises an event to indicate the model has changed */
@@ -135,24 +134,23 @@ public class ModelManager extends ComponentManager implements Model {
         taskForce.removeTask(target);
         indicateTaskForceChanged();
     }
-    
+
     @Override
     public synchronized void addTask(Task task) throws UniqueTaskList.DuplicateTaskException {
         taskForce.addTask(task);
-       // sortFilteredList(taskForce.getTasks());
+        // sortFilteredList(taskForce.getTasks());
         indicateTaskForceChanged();
     }
-    
-    
+
     @Override
     public TaskForceCommandExecutedEvent revertChanges() {
 
         if (undoTaskForceHistory.peekFirst() != null) {
 
-            return  undoTaskForceHistory.pollFirst();
-            
-        } 
-        return null;   
+            return undoTaskForceHistory.pollFirst();
+
+        }
+        return null;
     }
 
     @Override
@@ -163,22 +161,22 @@ public class ModelManager extends ComponentManager implements Model {
         return null;
     }
 
-    
-    public void saveChanges(Deque<TaskForceCommandExecutedEvent> history,TaskForceCommandExecutedEvent event, int size){
+    public void saveChanges(Deque<TaskForceCommandExecutedEvent> history, TaskForceCommandExecutedEvent event,
+            int size) {
         history.push(event);
-        if(history.size() > size){
+        if (history.size() > size) {
             history.removeLast();
         }
     }
-    
-    
+
     private void saveCommandChanges(TaskForceCommandExecutedEvent event) {
-        if(!(event.commandInstance.getCommandChanges().getKey().isEmpty() && event.commandInstance.getCommandChanges().getValue().isEmpty())){
-            if(event.commandInstance.getClass().getSimpleName().equals("RedoCommand")) {
+        if (!(event.commandInstance.getCommandChanges().getKey().isEmpty()
+                && event.commandInstance.getCommandChanges().getValue().isEmpty())) {
+            if (event.commandInstance.getClass().getSimpleName().equals("RedoCommand")) {
                 saveChanges(undoTaskForceHistory, event, MAX_UNDOS_REDOS);
-            }else if(event.commandInstance.getClass().getSimpleName().equals("UndoCommand")){
+            } else if (event.commandInstance.getClass().getSimpleName().equals("UndoCommand")) {
                 saveChanges(redoTaskForceHistory, event, MAX_UNDOS_REDOS);
-            }else{
+            } else {
                 saveChanges(undoTaskForceHistory, event, MAX_UNDOS_REDOS);
                 redoTaskForceHistory.clear();
             }
@@ -206,112 +204,106 @@ public class ModelManager extends ComponentManager implements Model {
     private void updateFilteredTaskList(Expression expression) {
         filteredTasks.setPredicate(expression::satisfies);
     }
-    
-	@Override
+
+    @Override
     public void searchTaskList(Expression expression) {
         filteredTasksForSearching.setPredicate(expression::satisfies);
     }
-    
+
     @Override
     public UnmodifiableObservableList<ReadOnlyTask> getSearchedTaskList() {
         return new UnmodifiableObservableList<>(filteredTasksForSearching);
     }
-    
-    
-    
+
     // ===============================================================
     // ======================= Event Listeners =======================
     // ===============================================================
-   
+
     @Subscribe
-    public void onCommandExecutedEvent (TaskForceCommandExecutedEvent event) {
+    public void onCommandExecutedEvent(TaskForceCommandExecutedEvent event) {
         if (event.result.isSuccessfulCommand()) {
             saveCommandChanges(event);
         }
     }
     // ===============================================================
-    // ======================= Comparators  ==========================
+    // ======================= Comparators ==========================
     // ===============================================================
-    
-    
-    
-    //@@A0139942W
+
+    // @@A0139942W
     /*
-     * Wrapping a SortedList around the FilteredList that wrap the ObservableList
-     * return a sortedLists sorted by type, follow by dates
-     * The ranking of class is as followed, Task < Deadline < Event
+     * Wrapping a SortedList around the FilteredList that wrap the
+     * ObservableList return a sortedLists sorted by type, follow by dates The
+     * ranking of class is as followed, Task < Deadline < Event
      */
 
     private SortedList<Task> setUpSortedList() {
-		// TODO Auto-generated method stub
-    	SortedList<Task> sortedList = new SortedList<> (this.filteredTasks, 
-    			(Task task1, Task task2) ->  {
-        			if (task1 instanceof Event) {
-        				return sortByEvent( (Event)task1, task2);
-        			}
+        // TODO Auto-generated method stub
+        SortedList<Task> sortedList = new SortedList<>(this.filteredTasks, (Task task1, Task task2) -> {
+            if (task1 instanceof Event) {
+                return sortByEvent((Event) task1, task2);
+            }
 
-        			if (task1 instanceof Deadline) {
-        				return sortByDeadline( (Deadline)task1, task2);
-        			}
-        			return sortByTask(task1, task2);
+            if (task1 instanceof Deadline) {
+                return sortByDeadline((Deadline) task1, task2);
+            }
+            return sortByTask(task1, task2);
 
-        		});
-    	return sortedList;
+        });
+        return sortedList;
     }
 
-
     public int sortByTask(Task task1, Task task2) {
-    	if (task2 instanceof Deadline) {
-    		return TASK_LESS_THAN_DEADLINE;
-    	}
-    	if (task2 instanceof Event) {
-    		return TASK_LESS_THAN_EVENT;
-    	}
-    	return task1.getName().compareTo(task2.getName());
+        if (task2 instanceof Deadline) {
+            return TASK_LESS_THAN_DEADLINE;
+        }
+        if (task2 instanceof Event) {
+            return TASK_LESS_THAN_EVENT;
+        }
+        return task1.getName().compareTo(task2.getName());
     }
 
     public int sortByDeadline(Deadline deadline, Task task) {
-    	if (task instanceof Deadline) {
-    		Deadline deadline2 = (Deadline) task;
-    		return deadline.getEndDate().compareTo(deadline2.getEndDate());
-    	}
+        if (task instanceof Deadline) {
+            Deadline deadline2 = (Deadline) task;
+            return deadline.getEndDate().compareTo(deadline2.getEndDate());
+        }
 
-    	if (task instanceof Event) {
-    		return  DEADLINE_LESS_THAN_EVENT;
-    	}
+        if (task instanceof Event) {
+            return DEADLINE_LESS_THAN_EVENT;
+        }
 
-    	return  DEADLINE_MORE_THAN_TASK;
+        return DEADLINE_MORE_THAN_TASK;
     }
 
     public int sortByEvent(Event event, Task task) {
-    	if (task instanceof Event) {
-    		Event event2 = (Event) task;
-    		return event.getStartDate().compareTo(event2.getStartDate());
-    	}
+        if (task instanceof Event) {
+            Event event2 = (Event) task;
+            return event.getStartDate().compareTo(event2.getStartDate());
+        }
 
-    	if (task instanceof Deadline) {
-    		return EVENT_MORE_THAN_DEADLINE;
-    	}
-    	return EVENT_MORE_THAN_TASK;
+        if (task instanceof Deadline) {
+            return EVENT_MORE_THAN_DEADLINE;
+        }
+        return EVENT_MORE_THAN_TASK;
     }
 
-	@Override
-	public UnmodifiableObservableList<ReadOnlyTask> getSortedFilteredTask() {
-		// TODO Auto-generated method stub
-		return new UnmodifiableObservableList<>(sortedFilteredTasks);
-	}
-	
-	/*
-	 * Allows the Taskforce App to start with today's tasks
-	 * @@author: A0111277M
-	 */
+    @Override
+    public UnmodifiableObservableList<ReadOnlyTask> getSortedFilteredTask() {
+        // TODO Auto-generated method stub
+        return new UnmodifiableObservableList<>(sortedFilteredTasks);
+    }
+
+    /*
+     * Allows the Taskforce App to start with today's tasks
+     * 
+     * @@author: A0111277M
+     */
 
     public UnmodifiableObservableList<ReadOnlyTask> startWithTodaysTasks() {
-    	Set<String> keywordSet = new HashSet<String>();
-    	keywordSet.add("0");
-    	updateFilteredTaskList(keywordSet, "DAY", false);
-    	return getSortedFilteredTask();
+        Set<String> keywordSet = new HashSet<String>();
+        keywordSet.add("0");
+        updateFilteredTaskList(keywordSet, "DAY", false);
+        return getSortedFilteredTask();
     }
 
 }
-

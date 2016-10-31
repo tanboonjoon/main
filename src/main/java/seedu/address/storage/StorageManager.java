@@ -21,7 +21,6 @@ public class StorageManager extends ComponentManager implements Storage {
     private TaskForceStorage taskForceStorage;
     private UserPrefsStorage userPrefsStorage;
 
-
     public StorageManager(TaskForceStorage taskForceStorage, UserPrefsStorage userPrefsStorage) {
         super();
         this.taskForceStorage = taskForceStorage;
@@ -43,7 +42,6 @@ public class StorageManager extends ComponentManager implements Storage {
     public void saveUserPrefs(UserPrefs userPrefs) throws IOException {
         userPrefsStorage.saveUserPrefs(userPrefs);
     }
-
 
     // ================ TaskForce methods ==============================
 
@@ -73,13 +71,11 @@ public class StorageManager extends ComponentManager implements Storage {
         logger.fine("Attempting to write to data file: " + filePath);
         taskForceStorage.saveTaskForce(taskForce, filePath);
     }
-    
-    
+
     public void setTaskForceDirectory(String newTaskForcePath) {
         this.taskForceStorage = new XmlTaskForceStorage(newTaskForcePath);
 
     }
-
 
     @Override
     @Subscribe
@@ -91,7 +87,5 @@ public class StorageManager extends ComponentManager implements Storage {
             raise(new DataSavingExceptionEvent(e));
         }
     }
-
-
 
 }
