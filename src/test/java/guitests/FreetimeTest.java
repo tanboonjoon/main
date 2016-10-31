@@ -78,7 +78,7 @@ public class FreetimeTest extends TaskForceGuiTest{
 		.append(String.format(FreetimeCommand.NO_OF_FREESLOT_MESSAGE, 2));
 		assertResultMessage(sb.toString());
 	}
-	
+	/*
 	@Test
 	public void validCommandOneOngoingEvent() {
 		commandBox.runCommand("add event st/" + yesterday.format(addCommandFormatter) + " et/" + tomorrow.format(addCommandFormatter));
@@ -88,7 +88,7 @@ public class FreetimeTest extends TaskForceGuiTest{
 		.append(String.format(FreetimeCommand.ONGOING_EVENT_MESSAGE, yesterday.format(ongoingEventFormatter), tomorrow.format(ongoingEventFormatter)));
 		assertResultMessage(sb.toString());
 	}
-	
+	*/
 	
 	
 	@Test
@@ -130,7 +130,7 @@ public class FreetimeTest extends TaskForceGuiTest{
 		.append(String.format(FreetimeCommand.NO_OF_FREESLOT_MESSAGE, 3));
 		assertResultMessage(sb.toString());
 	}
-	
+	/*
 	@Test
 	public void validCommandLongEventWithManyEvent() {
 		commandBox.runCommand("add event st/today 3am et/today 12pm");
@@ -143,7 +143,7 @@ public class FreetimeTest extends TaskForceGuiTest{
 		assertResultMessage(sb.toString());
 		
 	}
-	
+	*/
 	@Test
 	public void validCommandMutipleEventEndLater() {
 		commandBox.runCommand("add event st/today 9:30am et/today 11am");
