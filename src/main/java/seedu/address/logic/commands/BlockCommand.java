@@ -18,6 +18,10 @@ import seedu.address.model.task.UniqueTaskList.DuplicateTaskException;
 import seedu.address.model.task.UniqueTaskList.TaskNotFoundException;
 
 // @@author A0135768R
+/**
+ * Allows users to "reserve" multiple timeslots for an unconfirmed event
+ *
+ */
 public class BlockCommand extends Command {
     
     public static final String[] COMMAND_WORD = {

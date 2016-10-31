@@ -84,7 +84,6 @@ public class ConfirmCommand extends Command {
         final ReadOnlyTask blockToConfirm = lastShownList.get(targetIndex - 1);
         
         if (!(blockToConfirm instanceof Block) ) {
-
             return new CommandResult(MESSAGE_ONLY_BLOCKS) ;
         }
         
