@@ -31,6 +31,10 @@ import seedu.address.model.task.UniqueTaskList.TaskNotFoundException;
  * Edits a existing task in all ways possible
  */
 public class EditCommand extends Command {
+    
+    /*
+     * variables used in commands
+     */
 
     public static final String[] COMMAND_WORD = {
             "edit",
@@ -48,7 +52,6 @@ public class EditCommand extends Command {
     public static final String MESSAGE_EDIT_SUCCESS = "Edit saved!";
     public static final String MESSAGE_DUPLICATE_TASK = "This task already exists in the taskforce";
     public static final String MESSAGE_BLOCK_CANNOT_REMOVE_DATE = "The target is a block, and dates cannot be removed.";
-    public static final String MESSAGE_ST_WITHOUT_ET = "You input a start date without an end date!";
     public static final String MESSAGE_CANNOT_HAVE_ST_ONLY = "You can't only have the start time in a task!";
 
     private static final String START_DATE = "startDate" ;
@@ -63,6 +66,13 @@ public class EditCommand extends Command {
     private final Map<String, LocalDateTime> dateMap ;
 
     private boolean hasChanged = false ;
+    
+    private String newName;
+    private String newDescription;
+    private UniqueTagList newTagSet;
+    private UnmodifiableObservableList<ReadOnlyTask> lastShownList = model.getFilteredTaskList();
+    private Task newTask;
+    private ReadOnlyTask taskToEdit;
 
     public EditCommand(int targetIndex, String name, String description, Set<String> tags, LocalDateTime startDate, LocalDateTime endDate) throws IllegalValueException {
         this.targetIndex = targetIndex;
@@ -91,53 +101,17 @@ public class EditCommand extends Command {
 
     @Override
     public CommandResult execute() {
-        String newName;
-        String newDescription;
-        UniqueTagList newTagSet;
-        UnmodifiableObservableList<ReadOnlyTask> lastShownList = model.getFilteredTaskList();
-        Task newTask;
-
         /* determine target task to delete based on lastShownList */
-        if (lastShownList.size() < targetIndex || targetIndex < 1) {
-            indicateAttemptToExecuteIncorrectCommand();
+
+        if (!getTaskByIndex(targetIndex)) {
             return new CommandResult(Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
         }
-
-        ReadOnlyTask taskToEdit = lastShownList.get(targetIndex - 1);  
-
-        newName = checkUpdate(taskToEdit.getName(), name);
-
-        determineDateTimeOfNewTask(taskToEdit);
-
-        if (taskToEdit instanceof Block) {
-            if (dateMap.get(START_DATE) == null || dateMap.get(END_DATE) == null) {
-                return new CommandResult(MESSAGE_BLOCK_CANNOT_REMOVE_DATE);
-            }
-
-            newTask = new Block(taskToEdit.getTaskId(), newName, dateMap.get(START_DATE), dateMap.get(END_DATE));
-
-        } else {
-
-            if (dateMap.get(START_DATE) != null && dateMap.get(END_DATE) == null) {
-                return new CommandResult(MESSAGE_CANNOT_HAVE_ST_ONLY);
-            }
-
-
-            newDescription = checkUpdate(taskToEdit.getDescription(), description);
-
-            doneStatus = taskToEdit.getDoneStatus();
-
-            try {
-                newTagSet = new UniqueTagList(editOrDeleteTags(taskToEdit.getTags(), tagNameSet)) ;
-
-            } catch (IllegalValueException e) {
-                return new CommandResult(e.getMessage());
-            }
-
-            newTask = createNewTask (newName, newDescription, newTagSet, dateMap.get(START_DATE), dateMap.get(END_DATE));
-        }
-
-
+        
+        try {
+            buildTaskToAdd();
+        } catch (Exception e) {
+            return new CommandResult(e.getMessage());
+        } 
 
         if(!hasChanged){
             return new CommandResult(NOTHING_CHANGED);
@@ -149,7 +123,6 @@ public class EditCommand extends Command {
 
             model.deleteTask(taskToEdit);
             tasksDeleted.add(taskToEdit);
-
             return new CommandResult(String.format(MESSAGE_EDIT_SUCCESS, newTask), true);
 
         } catch (TaskNotFoundException pnfe) {
@@ -163,33 +136,72 @@ public class EditCommand extends Command {
     private boolean isValidString (String s) {
         return s.length() > INVALID_VALUE_LENGTH ;
     }
+    
+    private boolean getTaskByIndex(int targetIndex) {
+        if (lastShownList.size() < targetIndex || targetIndex < 1) {
+            indicateAttemptToExecuteIncorrectCommand();
+            return false;
+        }
 
-    private String checkUpdate(String origin, String changed) {
+        taskToEdit = lastShownList.get(targetIndex - 1);  
+        return true;
+    }
+
+    private void checkUpdateName(String origin, String changed) {
         if (isValidString(changed)) {
             hasChanged = true;
-            return changed;
+            this.newDescription = changed;
         } else {
-            return origin;
+            this.newDescription = origin;
+        }
+    }
+    
+    private void checkUpdateDesc(String origin, String changed) {
+        if (isValidString(changed)) {
+            hasChanged = true;
+            this.newName = changed;
+        } else {
+            this.newName = origin;
+        }
+    }
+    
+    private void buildTaskToAdd() throws IllegalValueException, EventWithOnlyStartTimeException, BlockRemoveTimeException {
+
+        checkUpdateName(taskToEdit.getName(), name);
+        determineDateTimeOfNewTask(taskToEdit);
+        
+        if (taskToEdit instanceof Block) {
+            if (dateMap.get(START_DATE) == null || dateMap.get(END_DATE) == null) {
+                throw new BlockRemoveTimeException();
+            }
+            newTask = new Block(taskToEdit.getTaskId(), newName, dateMap.get(START_DATE), dateMap.get(END_DATE));
+        } else {
+            if (dateMap.get(START_DATE) != null && dateMap.get(END_DATE) == null) {
+                throw new EventWithOnlyStartTimeException();
+            }
+
+            checkUpdateDesc(taskToEdit.getDescription(), description);
+            doneStatus = taskToEdit.getDoneStatus();
+
+            newTagSet = new UniqueTagList(editOrDeleteTags(taskToEdit.getTags(), tagNameSet)) ;
+            
+            newTask = createNewTask (newName, newDescription, newTagSet, dateMap.get(START_DATE), dateMap.get(END_DATE));
         }
     }
 
     private Task createNewTask (String name, String description, UniqueTagList tag, LocalDateTime startTime, LocalDateTime endTime) {
 
-        int id = model.getNextTaskId() ;
+        int id = model.getNextTaskId();
 
         if (startTime != null && endTime != null) {
-
-            return new Event (id, name, description, startTime, endTime, tag, doneStatus) ;
-
+            return new Event (id, name, description, startTime, endTime, tag, doneStatus);
         } 
 
         if (endTime != null && startTime == null) {
-            return new Deadline (id, name, description, endTime, tag, doneStatus) ;
-
+            return new Deadline (id, name, description, endTime, tag, doneStatus);
         } 
 
-        return new Task (id, name, description, tag, doneStatus) ;
-
+        return new Task (id, name, description, tag, doneStatus);
     }
 
     /*
@@ -252,30 +264,44 @@ public class EditCommand extends Command {
      */
     private Set<Tag> editOrDeleteTags(UniqueTagList currentTags, Set<String> tagNamesSet) throws IllegalValueException {
 
-        assert model != null ;
-
-        Set<Tag> newTaskTags = Sets.newHashSet(currentTags) ;
+        assert model != null;
+        Set<Tag> newTaskTags = Sets.newHashSet(currentTags);
 
         for (String names : tagNamesSet) {
-
-            Tag thisTag = model.getTagRegistry().getTagFromString(names, true) ;
+            Tag thisTag = model.getTagRegistry().getTagFromString(names, true);
 
             if (!currentTags.contains(thisTag)) {
-                newTaskTags.add(thisTag) ;
-                hasChanged = true ;
+                newTaskTags.add(thisTag);
+                hasChanged = true;
 
             } else {
-                newTaskTags.remove(thisTag) ;
-                hasChanged = true ;
+                newTaskTags.remove(thisTag);
+                hasChanged = true;
             }
-
         }
-
-        return newTaskTags ;
+        return newTaskTags;
     }
 
     @Override
     public Pair<List<ReadOnlyTask>, List<ReadOnlyTask>> getCommandChanges() {
         return new Pair<List<ReadOnlyTask>, List<ReadOnlyTask>>(ImmutableList.copyOf(tasksAdded), ImmutableList.copyOf(tasksDeleted)) ; 
+    }
+    
+    private class BlockRemoveTimeException extends Exception {
+        /**
+         * @param message should contain relevant information on the failed constraint(s)
+         */
+        public BlockRemoveTimeException() {
+            super(MESSAGE_BLOCK_CANNOT_REMOVE_DATE);
+        }
+    }
+    
+    private class EventWithOnlyStartTimeException extends Exception {
+        /**
+         * @param message should contain relevant information on the failed constraint(s)
+         */
+        public EventWithOnlyStartTimeException() {
+            super(MESSAGE_CANNOT_HAVE_ST_ONLY);
+        }
     }
 }
