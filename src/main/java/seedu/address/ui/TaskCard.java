@@ -18,11 +18,16 @@ import seedu.address.model.task.Deadline;
 import seedu.address.model.task.Event;
 import seedu.address.model.task.ReadOnlyTask;
 
+// @@author A0135768R
+/**
+ * The individual card element in GUI to display details of each task
+ *
+ */
 public class TaskCard extends UiPart{
 
     private static final String FXML = "TaskListCard.fxml";
 
-    public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("d MMM h:mm a");
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("d MMM h:mm a");
 
     @FXML
     private HBox cardPane;
@@ -49,8 +54,6 @@ public class TaskCard extends UiPart{
     private ReadOnlyTask task;
     private int displayedIndex;
 
-
-
     public static TaskCard load(ReadOnlyTask task, int displayedIndex){
         TaskCard card = new TaskCard();
         card.task = task;
@@ -63,22 +66,15 @@ public class TaskCard extends UiPart{
         setDefaultStyle() ;
 
         if (task.getDoneStatus()) {
-            isDone.setVisible(true);
-            FxViewUtil.setNodeStyle(name, NodeStyle.TITLE_DONE) ;
-            FxViewUtil.setNodeStyle(circle, NodeStyle.CIRCLE_DONE) ;
-            FxViewUtil.setNodeStyle(startline, NodeStyle.TIME_DONE) ;
+            setTaskCardToDone() ;
         }
 
         setTaskTitle();
-        id.setText(displayedIndex + ".");
-
-        setDescriptionText();
-
-        displayTagString();
-
-        displayStartAndEndDates();
+        displayTaskId() ;
+        setDescriptionText() ;
+        displayTagString() ;
+        displayStartAndEndDates() ;
     }
-
 
     public HBox getLayout() {
         return cardPane;
@@ -93,6 +89,17 @@ public class TaskCard extends UiPart{
     public String getFxmlPath() {
         return FXML;
     }
+    
+    private void setTaskCardToDone() {
+        isDone.setVisible(true);
+        FxViewUtil.setNodeStyle(name, NodeStyle.TITLE_DONE) ;
+        FxViewUtil.setNodeStyle(circle, NodeStyle.CIRCLE_DONE) ;
+        FxViewUtil.setNodeStyle(startline, NodeStyle.TIME_DONE) ;
+    }
+    
+    private void displayTaskId() {
+        id.setText(displayedIndex + ".");
+    }
 
     private void setDefaultStyle () {
         startline.setVisible(false);
@@ -105,14 +112,10 @@ public class TaskCard extends UiPart{
     private void setTaskTitle() {
         name.setText(task.getName());
 
-        if (task instanceof Deadline) {
-            Deadline deadline = (Deadline) task ;
-
-            if (deadline.isDeadlineOverdue()) {
-                FxViewUtil.setNodeStyle(name, NodeStyle.TITLE_OVERDUE) ;
-                FxViewUtil.setNodeStyle(circle, NodeStyle.CIRCLE_HIGH) ;
-                FxViewUtil.setNodeStyle(startline, NodeStyle.TIME_OVERDUE) ;
-            }
+        if (task instanceof Deadline && ((Deadline) task).isDeadlineOverdue()) {
+            FxViewUtil.setNodeStyle(name, NodeStyle.TITLE_OVERDUE) ;
+            FxViewUtil.setNodeStyle(circle, NodeStyle.CIRCLE_HIGH) ;
+            FxViewUtil.setNodeStyle(startline, NodeStyle.TIME_OVERDUE) ;
         }
 
         if (task instanceof Block) {
@@ -140,14 +143,11 @@ public class TaskCard extends UiPart{
             long difference = DateUtil.getTimeDifferenceFromNow(deadline, ChronoUnit.SECONDS) ;
 
             if (Math.abs(difference) > 5 * 3600) {
-                // If task is more than 5 hours from now, display the absolute dates
-                
+                // If task is more than 5 hours from now, display the absolute dates 
                 startline.setText( deadline.format(FORMATTER).toString());
 
             } else {
-
                 FxViewUtil.setNodeStyle(startline, (difference > 0) ? NodeStyle.TIME_UPCOMING : null) ;
-
                 startline.setText(DateUtil.getRelativeDateFromNow(deadline));
             }
         }
@@ -156,8 +156,8 @@ public class TaskCard extends UiPart{
             startline.setVisible(true);
             clock.setVisible(true);
 
-            String text = ((Event) task).getStartDate().format(FORMATTER).toString() + " to " + ((Event) task).getEndDate().format(FORMATTER).toString() ;
-            startline.setText(text);
+            String dateTimeText = formatEventDateString( ((Event) task).getStartDate(), ((Event) task).getEndDate()) ;
+            startline.setText(dateTimeText);
 
         }
     }
@@ -170,6 +170,16 @@ public class TaskCard extends UiPart{
         if (tagString.length() == 0) {
             tags.setVisible(false);
         }
+    }
+    
+    private String formatEventDateString(LocalDateTime startDateTime, LocalDateTime endDateTime) {
+        StringBuilder buffer = new StringBuilder() ;
+        
+        buffer.append(startDateTime.format(FORMATTER)) ;
+        buffer.append(" to ") ;
+        buffer.append(endDateTime.format(FORMATTER)) ;
+        
+        return buffer.toString() ;
     }
 
 }
