@@ -27,9 +27,7 @@ public class HelpWindowTest extends TaskForceGuiTest {
         helpWindowHandle.closeWindow();
     }
 
-    /*
-     * @@author A0140037W
-     */
+    //  @@author A0140037W
     private void assertHelpWindowClose(HelpWindowHandle helpWindowHandle) {
         assertTrue(helpWindowHandle.closeWindowWithESCKey());
     }

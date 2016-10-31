@@ -293,10 +293,9 @@ public class ModelManager extends ComponentManager implements Model {
         return new UnmodifiableObservableList<>(sortedFilteredTasks);
     }
 
+    // @@author: A0111277M
     /*
      * Allows the Taskforce App to start with today's tasks
-     * 
-     * @@author: A0111277M
      */
 
     public UnmodifiableObservableList<ReadOnlyTask> startWithTodaysTasks() {

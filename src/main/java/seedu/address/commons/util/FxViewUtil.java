@@ -10,8 +10,9 @@ import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
 import seedu.address.ui.NodeStyle;
 
+// @@author A0135768R
 /**
- * @@author A0135768R
+ * 
  * 
  *          Contains utility methods for JavaFX views
  */

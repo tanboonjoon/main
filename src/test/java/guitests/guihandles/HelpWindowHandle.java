@@ -21,9 +21,7 @@ public class HelpWindowHandle extends GuiHandle {
         return getNode(HELP_WINDOW_ROOT_FIELD_ID) != null;
     }
 
-    /*
-     * @@author A0140037W
-     */
+    // @@author A0140037W
     public boolean closeWindowWithESCKey() {
         guiRobot.press(KeyCode.ESCAPE);
         guiRobot.sleep(500);

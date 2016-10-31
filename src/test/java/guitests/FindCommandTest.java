@@ -112,7 +112,7 @@ public class FindCommandTest extends TaskForceGuiTest {
         assertResultMessage(String.format(Messages.MESSAGE_TASKS_LISTED_OVERVIEW, 1));
     }
 
-    // @@author A0135768R
+// @@author A0135768R
 
     @Test
     public void findEmptyList() {

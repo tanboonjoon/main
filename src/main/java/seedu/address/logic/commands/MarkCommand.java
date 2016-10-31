@@ -17,9 +17,10 @@ import seedu.address.model.task.Task;
 import seedu.address.model.task.UniqueTaskList;
 import seedu.address.model.task.UniqueTaskList.TaskNotFoundException;
 
+// @@author: A0111277M
 /*
  *  Marks a task as done, so it does not show up in the usual list, unless specified.
- *  @@author: A0111277M
+ *  
  */
 public class MarkCommand extends Command {
 

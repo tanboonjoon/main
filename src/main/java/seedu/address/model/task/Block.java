@@ -4,8 +4,8 @@ import java.time.LocalDateTime;
 
 import seedu.address.model.tag.UniqueTagList;
 
+// @@author A0135768R
 /**
- * @@author A0135768R
  * 
  *          A block is a special event that is unconfirmed.
  *

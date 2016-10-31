@@ -29,10 +29,10 @@ import seedu.address.model.task.Task;
 import seedu.address.model.task.UniqueTaskList.DuplicateTaskException;
 import seedu.address.model.task.UniqueTaskList.TaskNotFoundException;
 
+// @@author A0135768R
 /**
- * @@author A0135768R
  *
- *          A command to confirm a previously blocked out timeslot(s)
+ * A command to confirm a previously blocked out timeslot(s)
  *
  */
 public class ConfirmCommand extends Command {

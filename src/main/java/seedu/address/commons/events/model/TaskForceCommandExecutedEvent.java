@@ -4,8 +4,9 @@ import seedu.address.commons.events.BaseEvent;
 import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.CommandResult;
 
+//  @@author A0135768R
 /**
- * @@author A0135768R
+ *
  *          <p>
  *          This event is fired right after a command is executed.
  * 

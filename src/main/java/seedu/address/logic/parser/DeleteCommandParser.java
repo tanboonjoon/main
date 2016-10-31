@@ -11,9 +11,8 @@ import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.DeleteCommand;
 import seedu.address.logic.commands.IncorrectCommand;
 
-/*
- * @@author A0135768R
- * 
+// @@author A0135768R
+/* 
  * parsing arguments to and preparing them for delete command
  */
 public class DeleteCommandParser extends CommandParser {

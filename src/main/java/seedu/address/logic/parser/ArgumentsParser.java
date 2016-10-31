@@ -14,14 +14,12 @@ import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
 
 import seedu.address.commons.exceptions.IncorrectCommandException;
-
+// @@author A0135768R
 /**
- * @@author A0135768R
  * 
  *          Given a command string with arguments, this class will extract the
  *          values from the string for easy retrieval
  * 
- *
  */
 public class ArgumentsParser {
 

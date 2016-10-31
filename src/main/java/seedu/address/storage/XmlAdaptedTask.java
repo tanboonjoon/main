@@ -72,8 +72,8 @@ public class XmlAdaptedTask {
         }
     }
 
+    // @@author A0135768R
     /**
-     * @@author A0135768R
      * 
      *          Converts this jaxb-friendly adapted task object into the model's
      *          Task object.

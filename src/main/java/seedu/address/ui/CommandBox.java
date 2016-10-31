@@ -129,8 +129,9 @@ public class CommandBox extends UiPart {
 
     }
 
+    // @@author reused
     /**
-     * @@author reused Sets the command box style to indicate a correct command.
+     *  Sets the command box style to indicate a correct command.
      */
     private void setStyleToIndicateCorrectCommand() {
         commandTextField.getStyleClass().remove("error");

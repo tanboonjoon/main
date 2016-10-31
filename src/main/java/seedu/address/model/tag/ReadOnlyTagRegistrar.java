@@ -2,9 +2,8 @@ package seedu.address.model.tag;
 
 import seedu.address.commons.exceptions.IllegalValueException;
 
+//  @@author A0135768R
 /**
- * @@author A0135768R
- * 
  *          A tag registry that disallows classes to reset the whole registry.
  */
 public interface ReadOnlyTagRegistrar {

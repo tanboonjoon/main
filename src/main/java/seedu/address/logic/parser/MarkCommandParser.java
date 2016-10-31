@@ -8,10 +8,10 @@ import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.MarkCommand;
 import seedu.address.logic.commands.IncorrectCommand;
 
-/*
- * @@author: A0111277M
+// @@author: A0111277M
+/**
+ * Mark Command Parser class.
  */
-
 public class MarkCommandParser extends CommandParser {
     /**
      * Parses arguments in the context of the mark task as done command.

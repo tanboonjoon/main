@@ -61,8 +61,9 @@ public class Parser {
 
     }
 
+    
+    // @@author A0135768R
     /**
-     * @@author A0135768R
      * 
      *          Registers all associated command word strings with the provided
      *          command parser class. One command parser can be associated with
