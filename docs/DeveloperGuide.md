@@ -87,6 +87,7 @@ command `delete 1`.
 
 The diagram below shows how the `EventsCenter` reacts to that event, which eventually results in the updates
 being saved to the hard disk and the status bar of the UI being updated to reflect the 'Last Updated' time. <br>
+
 <img src="images\SDforDeletePersonEventHandling.png" width="800">
 
 > Note how the event is propagated through the `EventsCenter` to the `Storage` and `UI` without `Model` having
@@ -216,9 +217,12 @@ We have set a limit for UndoCommand to 10. Users can only undo up to 10 previous
 active. Having a ceiling for UndoCommand prevent any form of huge resource hog by TaskForce and this allow Users to multitasks many 
 programs with TaskForce opened at the same time.
 
-The undo command uses the Event Driven approach in order to reduce the coupling between command classes. In this implementation, all commands is required to declare
-their changes to the TaskForce system. Since all Tasks object in the TaskForce system are immutable, a Command can only add or delete a task. If a command does not add or delete a task,
-the command is not undoable. The undo command, if executed, will then simply do the opposite to the declared changes - delete what is added and add what is deleted. In this manner, the undo command does not need to know what command is executed. This also eliminates the need to implement a Undoable interface to all commands - if the command declares that it does nothing to the data, then the undo command cannot undo its actions.
+The undo command uses the Event Driven approach in order to reduce the coupling between command classes. 
+
+Under this implementation, all commands is required to declare their changes to the TaskForce system. Since all Tasks object in the TaskForce system are immutable, a Command can only add or delete a task. If a command does not add or delete a task,
+the command is not undoable. 
+
+The undo command, if executed, will then simply do the opposite to the declared changes - delete what is added and add what is deleted. In this manner, the undo command does not need to know what command is executed. This also eliminates the need to implement a Undoable interface to all commands - if the command declares that it does nothing to the data, then the undo command cannot undo its actions.
 
 Since the undo command can also be reduced to a sequence of tasks additions and deletions - needless to say, the redo command can do the same to redo any changes.
 
@@ -232,16 +236,16 @@ The following is the sequence diagram for a typical command executed.
 > which will then undo the changes
 
 ### SortedList
-TaskForce wrap around the ObservableList with a FilteredList, this allow Users to filter out keyword using TaskForce's FindCommand.
+TaskForce wraps the ObservableList with a FilteredList, this allow Users to filter out keyword using TaskForce's FindCommand.
 The FilteredList is furthur wrapped with a SortedList to ensure the list shown to Users are constantly sorted at all time.
 The nature of the ObservableList allow the list shown to be constantly updated whenever a new changes occured such as Addition/Deletion of a new Tasks
 
 ### CdCommand
-The CdCommand recreate the config.json file using default Config Class as a base. The only difference is that the config.json file will contained the new savepath indicated by users. Any modification made directly to the config.json file will be overwritten when
+The CdCommand will recreate the config.json file using default Config Class as a base. The only difference is that the config.json file will contained the new savepath indicated by users. Any modification made directly to the config.json file will be overwritten when
 CdCommand is used.
 
 ### AddCommand
-Our Addcommand is used for adding a FLOATING TASK, EVENT and DEADLINE. It also incoporate flexibility and this allow user not having to follow a strick format for adding a task.
+Our Addcommand is used for adding a FLOATING TASK, EVENT and DEADLINE. It incoporates arguments flexibility and this allow user not having to follow a strict format for adding a task.
 
 Addcommand also has recurring functionality incoporated into it. This function is support for both DEADLINE and EVENT only. 
 
@@ -250,7 +254,7 @@ If the user try recurring on a FLOATING TASKS, the system will only add it once 
 <!-- @@author A0140037W -->
 ### ClearCommand
 The ClearCommand will erase TaskForce data and history upon executed. A confirmation dialog will appear to get user's confirmation before proceed to do the irreversable operation. 
-User is adviced to use arrow key and space bar to select the option on the confirmation dialog in the absent of a mouse.
+The user can use arrow key and space bar to select the options on the confirmation dialog.
 
 <!-- @@author A0135768R -->
 
@@ -258,8 +262,8 @@ User is adviced to use arrow key and space bar to select the option on the confi
 
 Certain properties of the application can be controlled (e.g App name, logging level) through the configuration file
 (default: `config.json`): 
-Users are allow to edit the config.json file directly such as changing the savepath or setting new activetime.
-However, they are not recommended to edit/change/remove the Keyname of the config file. Doing so will result in the System overwriting the current config file with a default one
+Users are allowed to edit the config.json file directly such as changing the savepath or setting new activetime.
+However, they are not recommended to edit/change/remove the Keyname of the config file. Doing so will result in invaliding the configuration option and the system will overwrite the current config file with a default one
 
 This is to prevent the breaking of the system. Certain commands such as freetime will retrieve values found in config using keyname. Hence changing the keyname will break the command if the default config setting is not restored.
 
