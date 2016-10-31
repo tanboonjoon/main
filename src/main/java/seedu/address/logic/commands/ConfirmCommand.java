@@ -19,6 +19,7 @@ import seedu.address.commons.util.DateUtil;
 import seedu.address.logic.filters.Expression;
 import seedu.address.logic.filters.PredicateExpression;
 import seedu.address.logic.filters.TaskIdentifierNumberQualifier;
+import seedu.address.model.Model;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.tag.UniqueTagList;
 import seedu.address.model.task.Block;
@@ -79,12 +80,10 @@ public class ConfirmCommand extends Command {
             indicateAttemptToExecuteIncorrectCommand();
             return new CommandResult(Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
         }
-
-        ReadOnlyTask blockToConfirm = lastShownList.get(targetIndex - 1);
-        int id = model.getNextTaskId() ;
-
+        
+        final ReadOnlyTask blockToConfirm = lastShownList.get(targetIndex - 1);
+        
         if (!(blockToConfirm instanceof Block) ) {
-
             return new CommandResult(MESSAGE_ONLY_BLOCKS) ;
         }
         
@@ -93,41 +92,53 @@ public class ConfirmCommand extends Command {
         if (!datePair.isPresent()) {
             return new CommandResult(String.format(MESSAGE_INVALID_COMMAND_FORMAT, ConfirmCommand.MESSAGE_USAGE)) ;
         }
-
+        
         findAndDeleteOtherBlocks( (Block) blockToConfirm) ;
-
-        String name = blockToConfirm.getName() ;
-        
-        final Set<Tag> newTags = Sets.newHashSet() ;
         
         try {
-            for (String tagName : taglist) {
-                newTags.add(model.getTagRegistry().getTagFromString(tagName, true)) ;
-            }
             
-        }catch (IllegalValueException e) {
-            return new CommandResult(e.getMessage()) ;
-        }
-        
-        Task newEvent = new Event(id, name, description, datePair.get().getKey(), datePair.get().getValue(), new UniqueTagList(newTags)) ;
-        Optional<Event> conflict = DateUtil.checkForConflictingEvents(model, (Event) newEvent) ;
+            final Task newEvent = constructNewTask(blockToConfirm, datePair.get().getKey(), datePair.get().getValue());
+            
+            Optional<Event> conflict = DateUtil.checkForConflictingEvents(model, (Event) newEvent) ;
 
-        try {
             model.addTask(newEvent) ;
             addedTask.add(newEvent) ;
+            
+            String successMessage = String.format(MESSAGE_CONFIRM_SUCCESS, newEvent) ;
+            
+            if ( conflict.isPresent() ) {
+                successMessage = successMessage.concat("\n" + Messages.CONFLICTING_EVENTS_DETECTED + "The event is: " + conflict.get().getName()) ;
+            }
+            return new CommandResult(successMessage, true) ;
 
         } catch (DuplicateTaskException e) {
             return new CommandResult(MESSAGE_DUPLICATE_TASK) ;
+        } catch (IllegalValueException e) {
+            return new CommandResult(e.getMessage()) ;
         }
-        
-        String successMessage = String.format(MESSAGE_CONFIRM_SUCCESS, newEvent) ;
-        
-        if ( conflict.isPresent() ) {
-            successMessage = successMessage.concat("\n" + Messages.CONFLICTING_EVENTS_DETECTED + "The event is: " + conflict.get().getName()) ;
-        }
-        return new CommandResult(successMessage, true) ;
     }
 
+    private Task constructNewTask(final ReadOnlyTask blockToConfirm, LocalDateTime startDateTime, LocalDateTime endDateTime) 
+            throws IllegalValueException {
+        
+        final int id = model.getNextTaskId() ;
+        final Set<Tag> newTags = getTagList(model, taglist) ;
+        final String name = blockToConfirm.getName() ;
+        final Task newEvent = new Event(id, name, description, startDateTime, endDateTime, new UniqueTagList(newTags)) ;
+        
+        return newEvent;
+    }
+    
+    private Set<Tag> getTagList (Model model, Iterable<String> tagStrings) throws IllegalValueException {
+        Set<Tag> newTags = Sets.newHashSet() ;
+        
+        for (String tagName : taglist) {
+            newTags.add(model.getTagRegistry().getTagFromString(tagName, true)) ;
+        }
+        
+        return newTags ;
+    }
+    
     private void findAndDeleteOtherBlocks (Block task) {
         List<ReadOnlyTask> list = findAllOtherBlocks (task) ;
 

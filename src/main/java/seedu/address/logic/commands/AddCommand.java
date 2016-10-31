@@ -69,11 +69,11 @@ public class AddCommand extends Command {
     private String recurringFrequency;
     private int repeat;
     private int id;
-
     private List<Task> taskList = new ArrayList<>();
 
+    
+    // @@author A0135768R
     /**
-     * @@author A0135768R
      * 
      * Convenience constructor using raw values.
      *
@@ -90,18 +90,15 @@ public class AddCommand extends Command {
         } else if (startDate == null && endDate != null) {
 
             Optional<Pair<LocalDateTime, LocalDateTime>> datePair = DateUtil.determineStartAndEndDateTime(null, endDate) ;
-
             setNewTaskWithDetails(name, description, datePair.get().getValue(), tags);     	
 
         } else if (startDate !=null) {
 
-            Optional<Pair<LocalDateTime, LocalDateTime>> datePair = DateUtil.determineStartAndEndDateTime(startDate, endDate) ;
+            Pair<LocalDateTime, LocalDateTime> datePair = DateUtil.determineStartAndEndDateTime(startDate, endDate)
+                    .orElseThrow(() ->  new IllegalValueException(INVALID_END_DATE_MESSAGE) ) ;
 
-            if (!datePair.isPresent()) {
-                throw new IllegalValueException(INVALID_END_DATE_MESSAGE);
-            }
-
-            setNewTaskWithDetails (name, description, datePair.get().getKey(), datePair.get().getValue(), tags) ;
+            setNewTaskWithDetails (name, description, datePair.getKey(), datePair.getValue(), tags) ;
+            
         } else {
             throw new IllegalValueException(INVALID_TASK_TYPE_MESSAGE);
         }
@@ -115,7 +112,6 @@ public class AddCommand extends Command {
 
         if(recurringFrequency != null && repeat == 0) {
             return new CommandResult(MISSING_NUMBER_OF_RECURRENCE_MESSAGE) ;
-
         } 
 
         try {
@@ -124,8 +120,7 @@ public class AddCommand extends Command {
                 this.createRecurringEvent(model, recurringFrequency, repeat) ;
             
             } else {
-                this.taskList.add(getNewTask(model)) ;
-                
+                this.taskList.add(getNewTask(model)) ;      
             }
             
         } catch (IllegalValueException e) {
@@ -163,14 +158,7 @@ public class AddCommand extends Command {
 
     private Task getNewTask (Model model) throws IllegalValueException {
 
-        Set<Tag> tagSet = Sets.newHashSet() ;
-
-        for (String name : tagNames) {
-            tagSet.add(model.getTagRegistry().getTagFromString(name, true)) ;
-
-        }
-
-        UniqueTagList tagList = new UniqueTagList(tagSet) ;
+        UniqueTagList tagList = getTagList(tagNames) ;
 
         if (startDate == null && endDate != null) {
             return new Deadline (id, name, description, endDate, tagList) ;
@@ -179,6 +167,7 @@ public class AddCommand extends Command {
         if (startDate != null && endDate != null) {
             return new Event (id, name, description, startDate, endDate, tagList) ;
         }
+        
         return new Task (id, name, description, tagList) ;
     }
 
@@ -209,6 +198,16 @@ public class AddCommand extends Command {
 
 
         return sb.toString() ;
+    }
+    
+    private UniqueTagList getTagList(Iterable<String> tagNames) throws IllegalValueException {
+        Set<Tag> tagSet = Sets.newHashSet() ;
+
+        for (String name : tagNames) {
+            tagSet.add(model.getTagRegistry().getTagFromString(name, true)) ;
+        }
+
+        return new UniqueTagList(tagSet) ;
     }
 
     @Override

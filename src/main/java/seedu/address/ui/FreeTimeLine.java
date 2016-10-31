@@ -27,6 +27,10 @@ import seedu.address.logic.commands.FreetimeCommand;
 import seedu.address.logic.commands.FreetimeCommand.TimeStatus;
 
 // @@author A0135768R
+/**
+ * The main controller for the freetime command result visuals
+ *
+ */
 public class FreeTimeLine extends UiPart {
     
     public static final int MAX_TIME_BLOCKS = 48 ;

@@ -11,19 +11,19 @@ import seedu.address.logic.commands.CommandResult;
  * 
  */
 public class TaskForceCommandExecutedEvent extends BaseEvent {
-	
-	public final Command commandInstance ;
-	public final CommandResult result ;
-	
-	public TaskForceCommandExecutedEvent (Command commandInstance, CommandResult result) {
-		this.commandInstance = commandInstance ;
-		this.result = result ;
-		
-	}
 
-	@Override
-	public String toString() {
-	    return "Command Executed: " + commandInstance.getClass().getSimpleName() + ". Command Success:" + result.isSuccessfulCommand() ;
-	}
+    public final Command commandInstance ;
+    public final CommandResult result ;
+
+    public TaskForceCommandExecutedEvent (Command commandInstance, CommandResult result) {
+        this.commandInstance = commandInstance ;
+        this.result = result ;
+
+    }
+
+    @Override
+    public String toString() {
+        return "Command Executed: " + commandInstance.getClass().getSimpleName() + ". Command Success:" + result.isSuccessfulCommand() ;
+    }
 
 }

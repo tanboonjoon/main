@@ -7,6 +7,10 @@ import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.commons.util.ConfigUtil;
 
 // @@author A0135768R
+/**
+ * Allows users to modify existing configuration values without modifying config.json
+ *
+ */
 public class ConfigCommand extends Command {
     
     public static final String COMMAND_WORD = "config";

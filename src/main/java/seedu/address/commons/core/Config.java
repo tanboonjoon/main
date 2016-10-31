@@ -10,9 +10,11 @@ import com.google.common.collect.Maps;
 
 import javafx.util.Pair;
 
+// @@author A0135768R
 /**
- * @@author A0135768R
- * Config values used by the app
+ * A class that contains the config values used by the app.
+ * If initalized, this class will be loaded with the saved values in config.json
+ * 
  */
 public class Config {
 

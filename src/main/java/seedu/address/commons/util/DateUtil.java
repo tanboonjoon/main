@@ -27,27 +27,32 @@ import seedu.address.model.task.ReadOnlyTask;
 // @@author A0135768R
 public final class DateUtil {
 
-
     public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm a");
-    public static final LocalDateTime END_OF_TODAY = parseStringIntoDateTime("today 2359").get() ;
-    public static final LocalDateTime NOW = LocalDateTime.now() ;
-	public static final LocalDateTime MARKER_FOR_DELETE = LocalDateTime.MIN ;
-	public static final String STRING_FOR_DELETE = "-"; 
 
+    public static final LocalDateTime NOW = LocalDateTime.now() ;
+    public static final LocalDateTime END_OF_TODAY = NOW.withHour(23).withMinute(59) ;
+    public static final LocalDateTime MARKER_FOR_DELETE = LocalDateTime.MIN ;
+
+    public static final String STRING_FOR_DELETE = "-";
+    
+    private static final Parser NATTY_PARSER_INSTANCE = new Parser() ;
+    
+    /**
+     * Passes the natural language date string to the Natty's library for parsing.
+     * If the date string provided is not valid (or not parsable by Natty), this will return
+     * {@code Optional.empty()}
+     */
     public static Optional<LocalDateTime> parseStringIntoDateTime (String rawString) {
 
         if (rawString == null) {
             return Optional.empty() ;
         }
-        
-	    if (rawString.equals(STRING_FOR_DELETE)) {	
-	    	return Optional.of(MARKER_FOR_DELETE);
-	    }
-	    
 
-        Parser dateParser = new Parser() ;
+        if (rawString.equals(STRING_FOR_DELETE)) {	
+            return Optional.of(MARKER_FOR_DELETE);
+        }
 
-        List<DateGroup> dates = dateParser.parse(rawString) ;
+        List<DateGroup> dates = NATTY_PARSER_INSTANCE.parse(rawString) ;
 
         try {
             Date date = dates.get(0).getDates().get(0) ;
@@ -86,7 +91,7 @@ public final class DateUtil {
 
         model.searchTaskList(new PredicateExpression(new NameQualifier(Sets.newHashSet(days.toString()), NameQualifier.FILTER_BY_DAY, false)) );
 
-        PriorityQueue<Event> pq = new PriorityQueue<>(new EventComparator()) ;
+        PriorityQueue<Event> eventQueue = new PriorityQueue<>(new EventComparator()) ;
 
         for (ReadOnlyTask task : model.getSearchedTaskList()) {
 
@@ -94,16 +99,16 @@ public final class DateUtil {
                 continue ;
             }
 
-            pq.add((Event) task) ;
+            eventQueue.add((Event) task) ;
 
         }
 
         // Don't need to do anything if there is no events occuring on this time period
-        if (pq.isEmpty()) {
+        if (eventQueue.isEmpty()) {
             return Optional.empty() ;
         }
 
-        Event event = pq.poll() ;
+        Event event = eventQueue.poll() ;
 
         while (event != null && event.getEndDate().isAfter(startTime)) {
 
@@ -111,7 +116,7 @@ public final class DateUtil {
                 return Optional.of(event);
             }
 
-            event = pq.poll() ;
+            event = eventQueue.poll() ;
         }
 
         return Optional.empty() ;
@@ -119,7 +124,7 @@ public final class DateUtil {
     }
 
 
-    private static Optional<Pair<LocalDateTime, LocalDateTime>> determineStartAndEndDateTime(Optional<LocalDateTime> startDate, Optional<LocalDateTime> endDate, boolean canBeEmpty) {
+    private static Optional<Pair<LocalDateTime, LocalDateTime>> determineStartAndEndDateTime(Optional<LocalDateTime> startDate, Optional<LocalDateTime> endDate, boolean isEmptyAllowed) {
 
         LocalDateTime computedStartDate ;
         LocalDateTime computedEndDate ;
@@ -127,8 +132,8 @@ public final class DateUtil {
         if (!startDate.isPresent() && !endDate.isPresent()) {
             return Optional.empty() ;
         }
-        
-        if (!canBeEmpty && (!startDate.isPresent() || !endDate.isPresent())) {
+
+        if (!isEmptyAllowed && (!startDate.isPresent() || !endDate.isPresent())) {
             return Optional.empty() ;
         }
 
@@ -189,7 +194,7 @@ public final class DateUtil {
     public static Optional<Pair<LocalDateTime, LocalDateTime>> determineStartAndEndDateTime(String startString, String endString) {
         return determineStartAndEndDateTime(parseStringIntoDateTime(startString), parseStringIntoDateTime(endString), true) ;
     }
-    
+
     public static Optional<Pair<LocalDateTime, LocalDateTime>> determineStartAndEndDateTime(String startString, String endString, boolean allowEmptyValues) {
         return determineStartAndEndDateTime(parseStringIntoDateTime(startString), parseStringIntoDateTime(endString), allowEmptyValues) ;
     }
@@ -200,16 +205,16 @@ public final class DateUtil {
 
         return now.equals(givenDate) ;
     }
-    
+
     public static String getRelativeDateFromNow (LocalDateTime dateTime) {
         Long milis = ChronoUnit.MILLIS.between(NOW, dateTime) ;
-        
+
         return RelativeTimeConverter.toDuration(milis) ;
     }
-    
+
     public static long getTimeDifferenceFromNow (LocalDateTime dateTime, ChronoUnit units) {
         long diff = units.between(NOW, dateTime) ;
-        
+
         return diff ;
     }
 
@@ -235,7 +240,7 @@ public final class DateUtil {
     }
 
     private static class RelativeTimeConverter {
-        
+
         public static final ImmutableList<Long> TIMES = ImmutableList.of(
                 TimeUnit.DAYS.toMillis(365),
                 TimeUnit.DAYS.toMillis(30),
@@ -243,42 +248,42 @@ public final class DateUtil {
                 TimeUnit.HOURS.toMillis(1),
                 TimeUnit.MINUTES.toMillis(1),
                 TimeUnit.SECONDS.toMillis(1) );
-        
+
         public static final ImmutableList<String> TIME_STIRNGS = ImmutableList.of("year","month","day","hour","minute","second");
 
-        
+
         public static String toDuration(long miliseconds) {
-            
+
             long duration = Math.abs(miliseconds) ;
 
-            StringBuffer sb = new StringBuffer();
-            
+            StringBuffer buffer = new StringBuffer();
+
             for(int i = 0; i < TIMES.size(); i ++) {
                 Long current = TIMES.get(i);
                 long temp = duration/current;
-                
+
                 if(temp>0) {
-                    sb.append(temp) ;
-                    sb.append(" ") ;
-                    sb.append( TIME_STIRNGS.get(i) ) ;
-                    sb.append(temp > 1 ? "s" : "") ;
-                    
+                    buffer.append(temp) ;
+                    buffer.append(" ") ;
+                    buffer.append( TIME_STIRNGS.get(i) ) ;
+                    buffer.append(temp > 1 ? "s" : "") ;
+
                     break;
                 }
             }
-            
-            if( "".equals(sb.toString()) ) {
+
+            if( "".equals(buffer.toString()) ) {
                 return "0 second ago";
             } 
-            
+
             if (miliseconds > 0) {
-                sb.append(" later") ;
-            
+                buffer.append(" later") ;
+
             } else {
-                sb.append(" ago") ;
+                buffer.append(" ago") ;
             }
-            
-            return sb.toString();
+
+            return buffer.toString();
         }
     }
 }

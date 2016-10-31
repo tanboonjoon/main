@@ -12,9 +12,10 @@ import seedu.address.commons.core.UnmodifiableObservableList;
 import seedu.address.model.task.ReadOnlyTask;
 import seedu.address.model.task.UniqueTaskList.TaskNotFoundException;
 
+// @@author A0135768R
+
 /**
- * @@author A0135768R
- * 
+ *  
  * Deletes a task identified using it's last displayed index from the taskForce list.
  */
 public class DeleteCommand extends Command {

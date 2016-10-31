@@ -17,8 +17,6 @@ public class ClearCommand extends Command {
     public static final String MESSAGE_SUCCESS = "TaskForce data has been cleared!";
     public static final String SUDO_REQUIRED = "SUDO mode needs to be required to perform this action." ;
 
-    
-
     @Override
     public CommandResult execute() {
         assert model != null;
