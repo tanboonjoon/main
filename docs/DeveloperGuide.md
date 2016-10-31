@@ -186,8 +186,8 @@ and logging destinations.
 ### Tasks
 A task is split into three category, FLOATING TASK(reminder) EVENT and DEADLINE. 
 
-All tasks created in TaskForce are immutable. The whole program revolve around Adding and Deleting Tasks. Commands Such as EditCommand
-MarkCommands are extension of Addding and Deleting Tasks.
+All tasks created in TaskForce are immutable. Therefore the whole program revolves around two operations - adding and deleting tasks. As such, advanced commands Such as edit command
+mark command are extensions of addding and deleting Tasks.
 
 A OVERDUE task is considered as a EVENT that has end date past today date and is not marked done
 
@@ -211,10 +211,25 @@ Nevertheless our FindCommand is also capable of replacing ListCommand Completely
 * A 'find type/overdue' will list out all deadline that are dued and not marked done.
 
 
-### UndoCommand
+### UndoCommand and RedoCommand
 We have set a limit for UndoCommand to 10. Users can only undo up to 10 previous command that they have inputted while the program is 
 active. Having a ceiling for UndoCommand prevent any form of huge resource hog by TaskForce and this allow Users to multitasks many 
 programs with TaskForce opened at the same time.
+
+The undo command uses the Event Driven approach in order to reduce the coupling between command classes. In this implementation, all commands is required to declare
+their changes to the TaskForce system. Since all Tasks object in the TaskForce system are immutable, a Command can only add or delete a task. If a command does not add or delete a task,
+the command is not undoable. The undo command, if executed, will then simply do the opposite to the declared changes - delete what is added and add what is deleted. In this manner, the undo command does not need to know what command is executed. This also eliminates the need to implement a Undoable interface to all commands - if the command declares that it does nothing to the data, then the undo command cannot undo its actions.
+
+Since the undo command can also be reduced to a sequence of tasks additions and deletions - needless to say, the redo command can do the same to redo any changes.
+
+The following is the sequence diagram for a typical command executed.
+
+<img src="images/UndoCommandLogicEvents.png" width="800"> <br>
+> Whenever any command is exectued, an event is raised. The Model, which listens to this event will then record down the changes in a stack
+
+<img src="images/UndoCommandLogic.png" width="800">  <br>
+> When the undo command is executed, the undo command will call the revertChanges method in the Model which will then pop from the stack of changes and returns it to UndoCommand
+> which will then undo the changes
 
 ### SortedList
 TaskForce wrap around the ObservableList with a FilteredList, this allow Users to filter out keyword using TaskForce's FindCommand.
