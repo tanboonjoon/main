@@ -100,7 +100,7 @@ public class BlockCommand extends Command {
         List<Block> blocks = Lists.newArrayList() ;
         
         for (int i = 0; i < endDates.size(); i++) {
-            blocksToAdd.add(i, new Block(id, name, startDates.get(i), endDates.get(i)));
+            blocks.add(i, new Block(id, name, startDates.get(i), endDates.get(i)));
         }
         
         return blocks ;
