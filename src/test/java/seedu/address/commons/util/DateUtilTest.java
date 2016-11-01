@@ -116,8 +116,6 @@ public class DateUtilTest {
         model.addTask(eventToBeAdded);
 
         DateUtilTest.<Event>assertOptional(DateUtil.checkForConflictingEvents(model, eventToBeAdded), true, null);
-
-        assertTrue(true);
     }
 
     @Test
@@ -152,8 +150,6 @@ public class DateUtilTest {
         pair = getStartAndEndDates("next friday 1500", "next friday 2359");
         DateUtilTest.<Pair<LocalDateTime, LocalDateTime>>assertOptional(
                 DateUtil.determineStartAndEndDateTime("next friday 1500", "2359"), false, pair);
-
-        assertTrue(true);
     }
 
     /**
