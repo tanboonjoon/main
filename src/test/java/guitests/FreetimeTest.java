@@ -11,7 +11,7 @@ import java.time.format.DateTimeFormatter;
 import seedu.address.logic.commands.FreetimeCommand;
 
 //@@author A0139942W
-public class FreetimeTest extends TaskForceGuiTest {
+public class FreetimeTest extends TaskForceGuiTest{
 
     private static final int HALF_AN_HOUR = 30;
     private static final int AN_HOUR = 60;
@@ -25,26 +25,30 @@ public class FreetimeTest extends TaskForceGuiTest {
     private DateTimeFormatter ongoingEventFormatter;
     private DateTimeFormatter eventFormatter;
 
-    @Before
+
+    @Before 
     public void clearList() {
         commandBox.runCommand("clear");
     }
 
+
     @Before
     public void setUp() {
 
+
         addCommandFormatter = DateTimeFormatter.ofPattern("MM-dd-yyy HHmm");
         ongoingEventFormatter = DateTimeFormatter.ofPattern("dd/MM/yyy HHmm");
-        eventFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        eventFormatter =  DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
         now = LocalDateTime.now();
         yesterday = roundUpTime(now.minusDays(1));
         tomorrow = roundUpTime(now.plusDays(1));
     }
 
+
     @Test
     public void invalidCommand() {
-        String invalidCommand = String.format(MESSAGE_INVALID_COMMAND_FORMAT, FreetimeCommand.MESSAGE_USAGE);
+        String invalidCommand = String.format(MESSAGE_INVALID_COMMAND_FORMAT , FreetimeCommand.MESSAGE_USAGE);
         String invalidArgs = String.format(FreetimeCommand.INVALID_FREETIME_ARGS, FreetimeCommand.MESSAGE_USAGE);
         commandBox.runCommand("freetime assd day/");
         assertResultMessage(invalidCommand);
@@ -63,28 +67,29 @@ public class FreetimeTest extends TaskForceGuiTest {
         assertResultMessage(FreetimeCommand.ZERO_EVENT_MESSAGE);
     }
 
+
+
     @Test
     public void validCommandOneEvent() {
         commandBox.runCommand("add event st/today 3pm et/today 5pm");
         StringBuilder sb = new StringBuilder();
         commandBox.runCommand("freetime day/0");
         sb.append(String.format(FreetimeCommand.DEFAULT_STARTING_MESSAGE, now.format(eventFormatter)))
-                .append(String.format(FreetimeCommand.NO_OF_FREESLOT_MESSAGE, 2));
+        .append(String.format(FreetimeCommand.NO_OF_FREESLOT_MESSAGE, 2));
         assertResultMessage(sb.toString());
     }
-    /*
-     * @Test public void validCommandOneOngoingEvent() {
-     * commandBox.runCommand("add event st/" +
-     * yesterday.format(addCommandFormatter) + " et/" +
-     * tomorrow.format(addCommandFormatter)); StringBuilder sb = new
-     * StringBuilder(); commandBox.runCommand("freetime day/0");
-     * sb.append(String.format(FreetimeCommand.DEFAULT_STARTING_MESSAGE,
-     * now.format(eventFormatter)))
-     * .append(String.format(FreetimeCommand.ONGOING_EVENT_MESSAGE,
-     * yesterday.format(ongoingEventFormatter),
-     * tomorrow.format(ongoingEventFormatter)));
-     * assertResultMessage(sb.toString()); }
-     */
+
+    @Test
+    public void validCommandOneOngoingEvent() {
+        commandBox.runCommand("add event st/" + yesterday.format(addCommandFormatter) + " et/" + tomorrow.format(addCommandFormatter));
+        StringBuilder sb = new StringBuilder();
+        commandBox.runCommand("freetime day/0");
+        sb.append(String.format(FreetimeCommand.DEFAULT_STARTING_MESSAGE, now.format(eventFormatter)))
+        .append(String.format(FreetimeCommand.ONGOING_EVENT_MESSAGE, yesterday.format(ongoingEventFormatter), tomorrow.format(ongoingEventFormatter)));
+        assertResultMessage(sb.toString());
+    }
+
+
 
     @Test
     public void validCommandOneEventStartEndOutsideActiveHour() {
@@ -92,7 +97,7 @@ public class FreetimeTest extends TaskForceGuiTest {
         StringBuilder sb = new StringBuilder();
         commandBox.runCommand("freetime day/0");
         sb.append(String.format(FreetimeCommand.DEFAULT_STARTING_MESSAGE, now.format(eventFormatter)))
-                .append(String.format(FreetimeCommand.NO_OF_FREESLOT_MESSAGE, 1));
+        .append(String.format(FreetimeCommand.NO_OF_FREESLOT_MESSAGE, 1));
         assertResultMessage(sb.toString());
         commandBox.runCommand("delete 1");
         commandBox.runCommand("add event st/today 9am et/tomorrow 11pm");
@@ -101,13 +106,15 @@ public class FreetimeTest extends TaskForceGuiTest {
 
     }
 
+
+
     @Test
     public void validCommandOneEventNoFreeTime() {
         commandBox.runCommand("add event st/6am et/11pm");
         commandBox.runCommand("freetime day/0");
         StringBuilder sb = new StringBuilder();
         sb.append(String.format(FreetimeCommand.DEFAULT_STARTING_MESSAGE, now.format(eventFormatter)))
-                .append(FreetimeCommand.NO_FREE_TIME_MESSAGE);
+        .append(FreetimeCommand.NO_FREE_TIME_MESSAGE);
         assertResultMessage(sb.toString());
 
     }
@@ -120,27 +127,23 @@ public class FreetimeTest extends TaskForceGuiTest {
         commandBox.runCommand("freetime day/0");
         StringBuilder sb = new StringBuilder();
         sb.append(String.format(FreetimeCommand.DEFAULT_STARTING_MESSAGE, now.format(eventFormatter)))
-                .append(String.format(FreetimeCommand.NO_OF_FREESLOT_MESSAGE, 3));
+        .append(String.format(FreetimeCommand.NO_OF_FREESLOT_MESSAGE, 3));
         assertResultMessage(sb.toString());
     }
 
-    /*
-     * @Test public void validCommandLongEventWithManyEvent() {
-     * commandBox.runCommand("add event st/today 3am et/today 12pm");
-     * commandBox.runCommand("add event2 st/today 2:30am et/today 11pm");
-     * commandBox.runCommand("add event st/" +
-     * yesterday.format(addCommandFormatter) + " et/" +
-     * tomorrow.format(addCommandFormatter)); StringBuilder sb = new
-     * StringBuilder(); commandBox.runCommand("freetime day/0");
-     * sb.append(String.format(FreetimeCommand.DEFAULT_STARTING_MESSAGE,
-     * now.format(eventFormatter)))
-     * .append(String.format(FreetimeCommand.ONGOING_EVENT_MESSAGE,
-     * yesterday.format(ongoingEventFormatter),
-     * tomorrow.format(ongoingEventFormatter)));
-     * assertResultMessage(sb.toString());
-     * 
-     * }
-     */
+    @Test
+    public void validCommandLongEventWithManyEvent() {
+        commandBox.runCommand("add event st/today 3am et/today 12pm");
+        commandBox.runCommand("add event2 st/today 2:30am et/today 11pm");
+        commandBox.runCommand("add event st/" + yesterday.format(addCommandFormatter) + " et/" + tomorrow.format(addCommandFormatter));
+        StringBuilder sb = new StringBuilder();
+        commandBox.runCommand("freetime day/0");
+        sb.append(String.format(FreetimeCommand.DEFAULT_STARTING_MESSAGE, now.format(eventFormatter)))
+        .append(String.format(FreetimeCommand.ONGOING_EVENT_MESSAGE, yesterday.format(ongoingEventFormatter), tomorrow.format(ongoingEventFormatter)));
+        assertResultMessage(sb.toString());
+
+    }
+
     @Test
     public void validCommandMutipleEventEndLater() {
         commandBox.runCommand("add event st/today 9:30am et/today 11am");
@@ -149,7 +152,7 @@ public class FreetimeTest extends TaskForceGuiTest {
         commandBox.runCommand("freetime day/0");
         StringBuilder sb = new StringBuilder();
         sb.append(String.format(FreetimeCommand.DEFAULT_STARTING_MESSAGE, now.format(eventFormatter)))
-                .append(String.format(FreetimeCommand.NO_OF_FREESLOT_MESSAGE, 1));
+        .append(String.format(FreetimeCommand.NO_OF_FREESLOT_MESSAGE, 1));
         assertResultMessage(sb.toString());
     }
 
@@ -161,9 +164,12 @@ public class FreetimeTest extends TaskForceGuiTest {
         commandBox.runCommand("freetime day/0");
         StringBuilder sb = new StringBuilder();
         sb.append(String.format(FreetimeCommand.DEFAULT_STARTING_MESSAGE, now.format(eventFormatter)))
-                .append(String.format(FreetimeCommand.NO_OF_FREESLOT_MESSAGE, 2));
+        .append(String.format(FreetimeCommand.NO_OF_FREESLOT_MESSAGE, 2));
         assertResultMessage(sb.toString());
     }
+
+
+
 
     @After
     public void clear() {
@@ -183,5 +189,7 @@ public class FreetimeTest extends TaskForceGuiTest {
         return dateTime.plusMinutes(AN_HOUR - minutes);
 
     }
+
+
 
 }
