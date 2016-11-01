@@ -40,7 +40,7 @@ public class DateUtilTest {
     }
 
     @Test
-    public void testParseStringIntoDateTime() {
+    public void stringToDate_invalidInputs_emptyOptionals() {
 
         LocalDateTime expected;
 
@@ -61,13 +61,10 @@ public class DateUtilTest {
 
         expected = LocalDateTime.now().withHour(0).withMinute(0).withSecond(0).withNano(0);
         DateUtilTest.<LocalDateTime>assertOptional(DateUtil.parseStringIntoDateTime("00000"), false, expected);
-
-        assertTrue(true);
-
     }
 
     @Test
-    public void testCheckForConflictingEvents() throws Exception {
+    public void conflictCheck_validEvents_success() throws Exception {
         Pair<LocalDateTime, LocalDateTime> pair;
 
         // Add some sample events
@@ -124,7 +121,7 @@ public class DateUtilTest {
     }
 
     @Test
-    public void testDetermineStartAndEndDateTime() {
+    public void determineDateTime_validInputs_success() {
 
         Pair<LocalDateTime, LocalDateTime> pair;
 
