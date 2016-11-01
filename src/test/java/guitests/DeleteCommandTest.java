@@ -65,12 +65,7 @@ public class DeleteCommandTest extends TaskForceGuiTest {
      *            A copy of the current list of tasks (before deletion).
      */
     private void assertDeleteSuccess(int targetIndexOneIndexed, final TestTask[] currentList) {
-        TestTask taskToDelete = currentList[targetIndexOneIndexed - 1]; // -1
-                                                                        // because
-                                                                        // array
-                                                                        // uses
-                                                                        // zero
-                                                                        // indexing
+        TestTask taskToDelete = currentList[targetIndexOneIndexed - 1]; 
         TestTask[] expectedRemainder = TestUtil.removeTaskFromList(currentList, targetIndexOneIndexed);
 
         commandBox.runCommand("delete " + targetIndexOneIndexed);
@@ -102,12 +97,8 @@ public class DeleteCommandTest extends TaskForceGuiTest {
         for (int i = 0; i < targetIndexOneIndexed.length; i++) {
 
             if (targetIndexOneIndexed[i] <= currentList.length) {
-                TestTask taskToDelete = currentList[targetIndexOneIndexed[i] - 1]; // -1
-                                                                                   // because
-                                                                                   // array
-                                                                                   // uses
-                                                                                   // zero
-                                                                                   // indexing
+                // Correct for zero indexing
+                TestTask taskToDelete = currentList[targetIndexOneIndexed[i] - 1]; 
                 expectedRemainder = TestUtil.removeTaskFromList(expectedRemainder, targetIndexOneIndexed[i] - i);
                 builder.addDeletedTaskDetails(taskToDelete.getName());
             } else {
