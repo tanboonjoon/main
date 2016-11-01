@@ -60,8 +60,10 @@ public class CommandBox extends UiPart {
         registerAsAnEventHandler(this);
     }
 
-    /*
-     * @@author A0140037W
+    // @@author A0140037W
+    /**
+     * Attach Key event to command text field and set listener to vavrious key
+     * events.
      */
     private void setKeyComboEvent(Logic logic) {
         commandTextField.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
@@ -76,7 +78,7 @@ public class CommandBox extends UiPart {
             }
         });
     }
-    
+
     // @@author reused
     private void addToPlaceholder() {
         SplitPane.setResizableWithParent(placeHolderPane, false);
@@ -116,8 +118,9 @@ public class CommandBox extends UiPart {
         logger.info("Result: " + mostRecentResult.feedbackToUser);
     }
 
+    // @@author A0140037W
     /*
-     * @@author A0140037W
+     * Save command Text into command history list.
      */
     private void saveCommandText() {
         previousCommandText = commandTextField.getText();
@@ -126,9 +129,9 @@ public class CommandBox extends UiPart {
 
     }
 
+    // @@author reused
     /**
-     * @@author reused
-     * Sets the command box style to indicate a correct command.
+     *  Sets the command box style to indicate a correct command.
      */
     private void setStyleToIndicateCorrectCommand() {
         commandTextField.getStyleClass().remove("error");
@@ -149,8 +152,9 @@ public class CommandBox extends UiPart {
         commandTextField.setText(previousCommandText);
     }
 
+    // @@author A0140037W
     /*
-     * @@author A0140037W
+     * Iterate to next command text in the list.
      */
     private void nextStoredCommand() {
         if (commandIterator.hasPrevious()) {
@@ -159,8 +163,9 @@ public class CommandBox extends UiPart {
         }
     }
 
+    // @@author A0140037W
     /*
-     * @@author A0140037W
+     * Iterate to previous command text in the list.
      */
     private void previousStoredCommand() {
         if (commandIterator.hasNext()) {

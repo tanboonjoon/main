@@ -20,37 +20,43 @@ public class XmlTaskForceStorage implements TaskForceStorage {
 
     private String filePath;
 
-    public XmlTaskForceStorage(String filePath){
+    public XmlTaskForceStorage(String filePath) {
         this.filePath = filePath;
     }
 
-    public String getTaskForceFilePath(){
+    public String getTaskForceFilePath() {
         return filePath;
     }
 
     /**
      * Similar to {@link #readTaskForce()}
-     * @param filePath location of the data. Cannot be null
-     * @throws DataConversionException if the file is not in the correct format.
+     * 
+     * @param filePath
+     *            location of the data. Cannot be null
+     * @throws DataConversionException
+     *             if the file is not in the correct format.
      */
-    public Optional<ReadOnlyTaskForce> readTaskForce(String filePath) throws DataConversionException, FileNotFoundException {
+    public Optional<ReadOnlyTaskForce> readTaskForce(String filePath)
+            throws DataConversionException, FileNotFoundException {
         assert filePath != null;
 
-        File addressBookFile = new File(filePath);
+        File taskForceFile = new File(filePath);
 
-        if (!addressBookFile.exists()) {
-            logger.info("TaskForce file "  + addressBookFile + " not found");
+        if (!taskForceFile.exists()) {
+            logger.info("TaskForce file " + taskForceFile + " not found");
             return Optional.empty();
         }
 
-        ReadOnlyTaskForce addressBookOptional = XmlFileStorage.loadDataFromSaveFile(new File(filePath));
+        ReadOnlyTaskForce taskForceOptional = XmlFileStorage.loadDataFromSaveFile(new File(filePath));
 
-        return Optional.of(addressBookOptional);
+        return Optional.of(taskForceOptional);
     }
 
     /**
      * Similar to {@link #saveTaskForce(ReadOnlyTaskForce)}
-     * @param filePath location of the data. Cannot be null
+     * 
+     * @param filePath
+     *            location of the data. Cannot be null
      */
     public void saveTaskForce(ReadOnlyTaskForce taskforce, String filePath) throws IOException {
         assert taskforce != null;

@@ -29,47 +29,48 @@ import seedu.address.model.task.Task;
 import seedu.address.model.task.UniqueTaskList.DuplicateTaskException;
 import seedu.address.model.task.UniqueTaskList.TaskNotFoundException;
 
-
+// @@author A0135768R
 /**
- * @@author A0135768R
  *
  * A command to confirm a previously blocked out timeslot(s)
  *
  */
 public class ConfirmCommand extends Command {
 
-    public static final String COMMAND_WORD = "confirm" ;
+    public static final String COMMAND_WORD = "confirm";
 
     public static final String MESSAGE_DUPLICATE_TASK = "This task already exists in the ToDo list!";
-    public static final String MESSAGE_CONFIRM_SUCCESS = "The following event is successfully confirmed: %1$s" ;
-    public static final String MESSAGE_DATES_NOT_NULL = "Please enter in a pair of valid start and end dates/times!" ;
-    public static final String MESSAGE_ONLY_BLOCKS = "You can only confirm an unconfirmed event!" ;
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Confirms a previously blocked timeslot into an event. \n"
+    public static final String MESSAGE_CONFIRM_SUCCESS = "The following event is successfully confirmed: %1$s";
+    public static final String MESSAGE_DATES_NOT_NULL = "Please enter in a pair of valid start and end dates/times!";
+    public static final String MESSAGE_ONLY_BLOCKS = "You can only confirm an unconfirmed event!";
+    public static final String MESSAGE_USAGE = COMMAND_WORD
+            + ": Confirms a previously blocked timeslot into an event. \n"
             + "The start and end date provided is the confirmed dates. \n"
             + "Format: confirm INDEX st/START TIME et/END TIME [d/DESCRIPTION] [t/tag...] \n"
-            + "Example: confirm meeting with boss st/today 2pm et/today 4pm" ;
+            + "Example: confirm meeting with boss st/today 2pm et/today 4pm";
 
-    private final int targetIndex ;
-    private final String startDate ;
-    private final String endDate ;
-    private final String description ;
-    private final Set<String> taglist ;
-    private final List<ReadOnlyTask> deletedTask, addedTask ;
+    private final int targetIndex;
+    private final String startDate;
+    private final String endDate;
+    private final String description;
+    private final Set<String> taglist;
+    private final List<ReadOnlyTask> deletedTask, addedTask;
 
-    public ConfirmCommand (int targetIndex, String description, String startDate, String endDate, Set<String> tags) throws IllegalValueException {
+    public ConfirmCommand(int targetIndex, String description, String startDate, String endDate, Set<String> tags)
+            throws IllegalValueException {
 
         if (startDate == null || endDate == null) {
-            throw new IllegalValueException(MESSAGE_DATES_NOT_NULL) ;
+            throw new IllegalValueException(MESSAGE_DATES_NOT_NULL);
         }
 
-        this.targetIndex = targetIndex ;
-        this.startDate = startDate ;
-        this.endDate = endDate ;
-        this.description = description ;
-        this.taglist = tags ;
-        
-        this.deletedTask = new ArrayList<>() ;
-        this.addedTask = new ArrayList<>() ;
+        this.targetIndex = targetIndex;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.description = description;
+        this.taglist = tags;
+
+        this.deletedTask = new ArrayList<>();
+        this.addedTask = new ArrayList<>();
     }
 
     @Override
@@ -80,94 +81,97 @@ public class ConfirmCommand extends Command {
             indicateAttemptToExecuteIncorrectCommand();
             return new CommandResult(Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
         }
-        
-        final ReadOnlyTask blockToConfirm = lastShownList.get(targetIndex - 1);
-        
-        if (!(blockToConfirm instanceof Block) ) {
-            return new CommandResult(MESSAGE_ONLY_BLOCKS) ;
-        }
-        
-        Optional<Pair<LocalDateTime, LocalDateTime>> datePair = DateUtil.determineStartAndEndDateTime(startDate, endDate) ;
-        
-        if (!datePair.isPresent()) {
-            return new CommandResult(String.format(MESSAGE_INVALID_COMMAND_FORMAT, ConfirmCommand.MESSAGE_USAGE)) ;
-        }
-        
-        findAndDeleteOtherBlocks( (Block) blockToConfirm) ;
-        
-        try {
-            
-            final Task newEvent = constructNewTask(blockToConfirm, datePair.get().getKey(), datePair.get().getValue());
-            
-            Optional<Event> conflict = DateUtil.checkForConflictingEvents(model, (Event) newEvent) ;
 
-            model.addTask(newEvent) ;
-            addedTask.add(newEvent) ;
-            
-            String successMessage = String.format(MESSAGE_CONFIRM_SUCCESS, newEvent) ;
-            
-            if ( conflict.isPresent() ) {
-                successMessage = successMessage.concat("\n" + Messages.CONFLICTING_EVENTS_DETECTED + "The event is: " + conflict.get().getName()) ;
+        final ReadOnlyTask blockToConfirm = lastShownList.get(targetIndex - 1);
+
+        if (!(blockToConfirm instanceof Block)) {
+            return new CommandResult(MESSAGE_ONLY_BLOCKS);
+        }
+
+        Optional<Pair<LocalDateTime, LocalDateTime>> datePair = DateUtil.determineStartAndEndDateTime(startDate,
+                endDate);
+
+        if (!datePair.isPresent()) {
+            return new CommandResult(String.format(MESSAGE_INVALID_COMMAND_FORMAT, ConfirmCommand.MESSAGE_USAGE));
+        }
+
+        findAndDeleteOtherBlocks((Block) blockToConfirm);
+
+        try {
+
+            final Task newEvent = constructNewTask(blockToConfirm, datePair.get().getKey(), datePair.get().getValue());
+
+            Optional<Event> conflict = DateUtil.checkForConflictingEvents(model, (Event) newEvent);
+
+            model.addTask(newEvent);
+            addedTask.add(newEvent);
+
+            String successMessage = String.format(MESSAGE_CONFIRM_SUCCESS, newEvent);
+
+            if (conflict.isPresent()) {
+                successMessage = successMessage.concat(
+                        "\n" + Messages.CONFLICTING_EVENTS_DETECTED + "The event is: " + conflict.get().getName());
             }
-            return new CommandResult(successMessage, true) ;
+            return new CommandResult(successMessage, true);
 
         } catch (DuplicateTaskException e) {
-            return new CommandResult(MESSAGE_DUPLICATE_TASK) ;
+            return new CommandResult(MESSAGE_DUPLICATE_TASK);
         } catch (IllegalValueException e) {
-            return new CommandResult(e.getMessage()) ;
+            return new CommandResult(e.getMessage());
         }
     }
 
-    private Task constructNewTask(final ReadOnlyTask blockToConfirm, LocalDateTime startDateTime, LocalDateTime endDateTime) 
-            throws IllegalValueException {
-        
-        final int id = model.getNextTaskId() ;
-        final Set<Tag> newTags = getTagList(model, taglist) ;
-        final String name = blockToConfirm.getName() ;
-        final Task newEvent = new Event(id, name, description, startDateTime, endDateTime, new UniqueTagList(newTags)) ;
-        
+    private Task constructNewTask(final ReadOnlyTask blockToConfirm, LocalDateTime startDateTime,
+            LocalDateTime endDateTime) throws IllegalValueException {
+
+        final int id = model.getNextTaskId();
+        final Set<Tag> newTags = getTagList(model, taglist);
+        final String name = blockToConfirm.getName();
+        final Task newEvent = new Event(id, name, description, startDateTime, endDateTime, new UniqueTagList(newTags));
+
         return newEvent;
     }
-    
-    private Set<Tag> getTagList (Model model, Iterable<String> tagStrings) throws IllegalValueException {
-        Set<Tag> newTags = Sets.newHashSet() ;
-        
+
+    private Set<Tag> getTagList(Model model, Iterable<String> tagStrings) throws IllegalValueException {
+        Set<Tag> newTags = Sets.newHashSet();
+
         for (String tagName : taglist) {
-            newTags.add(model.getTagRegistry().getTagFromString(tagName, true)) ;
+            newTags.add(model.getTagRegistry().getTagFromString(tagName, true));
         }
-        
-        return newTags ;
+
+        return newTags;
     }
-    
-    private void findAndDeleteOtherBlocks (Block task) {
-        List<ReadOnlyTask> list = findAllOtherBlocks (task) ;
+
+    private void findAndDeleteOtherBlocks(Block task) {
+        List<ReadOnlyTask> list = findAllOtherBlocks(task);
 
         for (ReadOnlyTask taskToDelete : list) {
             try {
-                model.deleteTask(taskToDelete) ;
-                deletedTask.add(taskToDelete) ;
-                
+                model.deleteTask(taskToDelete);
+                deletedTask.add(taskToDelete);
+
             } catch (TaskNotFoundException e) {
 
-                continue ;
+                continue;
             }
         }
     }
 
-    private List<ReadOnlyTask> findAllOtherBlocks (Block task) {
+    private List<ReadOnlyTask> findAllOtherBlocks(Block task) {
 
-        assert model != null ;
+        assert model != null;
 
-        int taskId = task.getTaskId() ;
+        int taskId = task.getTaskId();
 
-        Expression filterByID = new PredicateExpression(new TaskIdentifierNumberQualifier(taskId)) ;
+        Expression filterByID = new PredicateExpression(new TaskIdentifierNumberQualifier(taskId));
         model.searchTaskList(filterByID);
 
-        return new ArrayList<>(model.getSearchedTaskList()) ;
+        return new ArrayList<>(model.getSearchedTaskList());
     }
-    
+
     @Override
     public Pair<List<ReadOnlyTask>, List<ReadOnlyTask>> getCommandChanges() {
-        return new Pair<List<ReadOnlyTask>, List<ReadOnlyTask>>(ImmutableList.copyOf(addedTask), ImmutableList.copyOf(deletedTask)) ; 
+        return new Pair<List<ReadOnlyTask>, List<ReadOnlyTask>>(ImmutableList.copyOf(addedTask),
+                ImmutableList.copyOf(deletedTask));
     }
 }

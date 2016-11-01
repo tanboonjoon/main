@@ -53,9 +53,8 @@ public class TaskListPanel extends UiPart {
     }
 
     public static TaskListPanel load(Stage primaryStage, AnchorPane taskListPlaceholder,
-                                       ObservableList<ReadOnlyTask> taskList) {
-        TaskListPanel taskListPanel =
-                UiPartLoader.loadUiPart(primaryStage, taskListPlaceholder, new TaskListPanel());
+            ObservableList<ReadOnlyTask> taskList) {
+        TaskListPanel taskListPanel = UiPartLoader.loadUiPart(primaryStage, taskListPlaceholder, new TaskListPanel());
         taskListPanel.configure(taskList);
         return taskListPanel;
     }
@@ -69,19 +68,19 @@ public class TaskListPanel extends UiPart {
         taskListView.setItems(taskList);
         taskListView.setCellFactory(listView -> new TaskListViewCell());
         setEventHandlerForSelectionChangeEvent();
-        
+
         taskList.addListener(new ListChangeListener<ReadOnlyTask>() {
             @Override
             public void onChanged(ListChangeListener.Change change) {
-                List<ReadOnlyTask> tasksAdded = Lists.newArrayList() ;
-                List<ReadOnlyTask> tasksDeleted = Lists.newArrayList() ;
-                
+                List<ReadOnlyTask> tasksAdded = Lists.newArrayList();
+                List<ReadOnlyTask> tasksDeleted = Lists.newArrayList();
+
                 while (change.next()) {
-                    tasksAdded.addAll(change.getAddedSubList()) ;
-                    tasksDeleted.addAll(change.getRemoved()) ;
+                    tasksAdded.addAll(change.getAddedSubList());
+                    tasksDeleted.addAll(change.getRemoved());
                 }
-                
-                raise(new TaskForceTaskListChangedEvent(tasksAdded, tasksDeleted)) ;
+
+                raise(new TaskForceTaskListChangedEvent(tasksAdded, tasksDeleted));
             }
         });
     }
@@ -106,12 +105,12 @@ public class TaskListPanel extends UiPart {
             taskListView.getSelectionModel().clearAndSelect(index);
         });
     }
-    
+
     public void scrollToTask(ReadOnlyTask task) {
         Platform.runLater(() -> {
-            
-            int index = taskListView.getItems().indexOf(task) ;
-            
+
+            int index = taskListView.getItems().indexOf(task);
+
             taskListView.scrollTo(index);
             taskListView.getSelectionModel().clearAndSelect(index);
         });
@@ -130,7 +129,7 @@ public class TaskListPanel extends UiPart {
                 setGraphic(null);
                 setText(null);
             } else {
-                TaskCard newCard = TaskCard.load(task, getIndex() + 1) ;
+                TaskCard newCard = TaskCard.load(task, getIndex() + 1);
                 setGraphic(newCard.getLayout());
             }
         }

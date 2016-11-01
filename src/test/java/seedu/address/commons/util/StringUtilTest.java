@@ -16,7 +16,8 @@ public class StringUtilTest {
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 
-    //---------------- Tests for isUnsignedPositiveInteger --------------------------------------
+    // ---------------- Tests for isUnsignedPositiveInteger
+    // --------------------------------------
 
     @Test
     public void isUnsignedPositiveInteger() {
@@ -40,51 +41,53 @@ public class StringUtilTest {
         assertFalse(StringUtil.isUnsignedInteger("+1"));
 
         // EP: numbers with white space
-        assertFalse(StringUtil.isUnsignedInteger(" 10 ")); // Leading/trailing spaces
-        assertFalse(StringUtil.isUnsignedInteger("1 0"));  // Spaces in the middle
+        assertFalse(StringUtil.isUnsignedInteger(" 10 ")); // Leading/trailing
+                                                           // spaces
+        assertFalse(StringUtil.isUnsignedInteger("1 0")); // Spaces in the
+                                                          // middle
 
         // EP: valid numbers, should return true
         assertTrue(StringUtil.isUnsignedInteger("1")); // Boundary value
         assertTrue(StringUtil.isUnsignedInteger("10"));
     }
-    
+
     // @@author A0135768R
     @Test
     public void isStringParsable() {
         // Equivalence partition: null
         assertFalse(StringUtil.isParsable(null));
-        
+
         // EP: empty strings
         assertFalse(StringUtil.isParsable("")); // Boundary value
         assertFalse(StringUtil.isParsable("  "));
-        
+
         // EP: not a number
         assertFalse(StringUtil.isParsable("a"));
         assertFalse(StringUtil.isParsable("aaa"));
-        
+
         // EP: numbers with white space
         assertFalse(StringUtil.isParsable(" 10 ")); // Leading/trailing spaces
-        assertFalse(StringUtil.isParsable("1 0"));  // Spaces in the middle
-        
+        assertFalse(StringUtil.isParsable("1 0")); // Spaces in the middle
+
         // EP: valid numbers, should return true
         assertTrue(StringUtil.isParsable("0")); // Boundary value
         assertTrue(StringUtil.isParsable("-10"));
         assertTrue(StringUtil.isParsable("322"));
 
     }
-    
 
     // @@author reused
-    //---------------- Tests for containsWordIgnoreCase --------------------------------------
+    // ---------------- Tests for containsWordIgnoreCase
+    // --------------------------------------
 
     /*
      * Invalid equivalence partitions for word: null, empty, multiple words
-     * Invalid equivalence partitions for sentence: null
-     * The four test cases below test one invalid input at a time.
+     * Invalid equivalence partitions for sentence: null The four test cases
+     * below test one invalid input at a time.
      */
 
     @Test
-    public void containsWordIgnoreCaseNullWordExceptionThrown(){
+    public void containsWordIgnoreCaseNullWordExceptionThrown() {
         assertExceptionThrown("typical sentence", null, "Word parameter cannot be null");
     }
 
@@ -95,86 +98,103 @@ public class StringUtilTest {
     }
 
     @Test
-    public void containsWordIgnoreCaseEmptyWordExceptionThrown(){
+    public void containsWordIgnoreCaseEmptyWordExceptionThrown() {
         assertExceptionThrown("typical sentence", "  ", "Word parameter cannot be empty");
     }
 
     @Test
-    public void containsWordIgnoreCaseMultipleWordsExceptionThrown(){
+    public void containsWordIgnoreCaseMultipleWordsExceptionThrown() {
         assertExceptionThrown("typical sentence", "aaa BBB", "Word parameter should be a single word");
     }
 
     @Test
-    public void containsWordIgnoreCaseNullSentenceExceptionThrown(){
+    public void containsWordIgnoreCaseNullSentenceExceptionThrown() {
         assertExceptionThrown(null, "abc", "Sentence parameter cannot be null");
     }
 
     /*
-     * Valid equivalence partitions for word:
-     *   - any word
-     *   - word containing symbols/numbers
-     *   - word with leading/trailing spaces
+     * Valid equivalence partitions for word: - any word - word containing
+     * symbols/numbers - word with leading/trailing spaces
      *
-     * Valid equivalence partitions for sentence:
-     *   - empty string
-     *   - one word
-     *   - multiple words
-     *   - sentence with extra spaces
+     * Valid equivalence partitions for sentence: - empty string - one word -
+     * multiple words - sentence with extra spaces
      *
-     * Possible scenarios returning true:
-     *   - matches first word in sentence
-     *   - last word in sentence
-     *   - middle word in sentence
-     *   - matches multiple words
+     * Possible scenarios returning true: - matches first word in sentence -
+     * last word in sentence - middle word in sentence - matches multiple words
      *
-     * Possible scenarios returning false:
-     *   - query word matches part of a sentence word
-     *   - sentence word matches part of the query word
+     * Possible scenarios returning false: - query word matches part of a
+     * sentence word - sentence word matches part of the query word
      *
-     * The test method below tries to verify all above with a reasonably low number of test cases.
+     * The test method below tries to verify all above with a reasonably low
+     * number of test cases.
      */
 
     @Test
-    public void containsWordIgnoreCaseValidInputsCorrectResult(){
+    public void containsWordIgnoreCaseValidInputsCorrectResult() {
 
         // Empty sentence
-        assertFalse(StringUtil.containsWordIgnoreCase("", "abc")); // Boundary case
+        assertFalse(StringUtil.containsWordIgnoreCase("", "abc")); // Boundary
+                                                                   // case
         assertFalse(StringUtil.containsWordIgnoreCase("    ", "123"));
 
         // Matches a partial word only
-        assertFalse(StringUtil.containsWordIgnoreCase("aaa bbb ccc", "bb")); // Sentence word bigger than query word
-        assertFalse(StringUtil.containsWordIgnoreCase("aaa bbb ccc", "bbbb")); // Query word bigger than sentence word
+        assertFalse(StringUtil.containsWordIgnoreCase("aaa bbb ccc", "bb")); // Sentence
+                                                                             // word
+                                                                             // bigger
+                                                                             // than
+                                                                             // query
+                                                                             // word
+        assertFalse(StringUtil.containsWordIgnoreCase("aaa bbb ccc", "bbbb")); // Query
+                                                                               // word
+                                                                               // bigger
+                                                                               // than
+                                                                               // sentence
+                                                                               // word
 
         // Matches word in the sentence, different upper/lower case letters
-        assertTrue(StringUtil.containsWordIgnoreCase("aaa bBb ccc", "Bbb")); // First word (boundary case)
-        assertTrue(StringUtil.containsWordIgnoreCase("aaa bBb ccc@1", "CCc@1")); // Last word (boundary case)
-        assertTrue(StringUtil.containsWordIgnoreCase("  AAA   bBb   ccc  ", "aaa")); // Sentence has extra spaces
-        assertTrue(StringUtil.containsWordIgnoreCase("Aaa", "aaa")); // Only one word in sentence (boundary case)
-        assertTrue(StringUtil.containsWordIgnoreCase("aaa bbb ccc", "  ccc  ")); // Leading/trailing spaces
+        assertTrue(StringUtil.containsWordIgnoreCase("aaa bBb ccc", "Bbb")); // First
+                                                                             // word
+                                                                             // (boundary
+                                                                             // case)
+        assertTrue(StringUtil.containsWordIgnoreCase("aaa bBb ccc@1", "CCc@1")); // Last
+                                                                                 // word
+                                                                                 // (boundary
+                                                                                 // case)
+        assertTrue(StringUtil.containsWordIgnoreCase("  AAA   bBb   ccc  ", "aaa")); // Sentence
+                                                                                     // has
+                                                                                     // extra
+                                                                                     // spaces
+        assertTrue(StringUtil.containsWordIgnoreCase("Aaa", "aaa")); // Only one
+                                                                     // word in
+                                                                     // sentence
+                                                                     // (boundary
+                                                                     // case)
+        assertTrue(StringUtil.containsWordIgnoreCase("aaa bbb ccc", "  ccc  ")); // Leading/trailing
+                                                                                 // spaces
 
         // Matches multiple words in sentence
         assertTrue(StringUtil.containsWordIgnoreCase("AAA bBb ccc  bbb", "bbB"));
     }
 
-    //---------------- Tests for getDetails --------------------------------------
+    // ---------------- Tests for getDetails
+    // --------------------------------------
 
     /*
      * Equivalence Partitions: null, valid throwable object
      */
 
     @Test
-    public void getDetailsExceptionGiven(){
+    public void getDetailsExceptionGiven() {
         assertThat(StringUtil.getDetails(new FileNotFoundException("file not found")),
                 containsString("java.io.FileNotFoundException: file not found"));
     }
 
     @Test
-    public void getDetailsNullGivenAssertionError(){
+    public void getDetailsNullGivenAssertionError() {
         thrown.expect(AssertionError.class);
         StringUtil.getDetails(null);
-        
-        assert true ;
-    }
 
+        assert true;
+    }
 
 }

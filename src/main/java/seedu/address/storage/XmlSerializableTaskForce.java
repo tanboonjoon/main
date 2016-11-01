@@ -31,7 +31,8 @@ public class XmlSerializableTaskForce implements ReadOnlyTaskForce {
     /**
      * Empty constructor required for marshalling
      */
-    public XmlSerializableTaskForce() {}
+    public XmlSerializableTaskForce() {
+    }
 
     /**
      * Conversion
@@ -46,7 +47,7 @@ public class XmlSerializableTaskForce implements ReadOnlyTaskForce {
         try {
             return new UniqueTagList(tags);
         } catch (UniqueTagList.DuplicateTagException e) {
-            //TODO: better error handling
+            // TODO: better error handling
             e.printStackTrace();
             return null;
         }
@@ -59,7 +60,7 @@ public class XmlSerializableTaskForce implements ReadOnlyTaskForce {
             try {
                 lists.add(p.toModelType());
             } catch (IllegalValueException e) {
-                //TODO: better error handling
+                // TODO: better error handling
             }
         }
         return lists;
@@ -72,7 +73,7 @@ public class XmlSerializableTaskForce implements ReadOnlyTaskForce {
                 return p.toModelType();
             } catch (IllegalValueException e) {
                 e.printStackTrace();
-                //TODO: better error handling
+                // TODO: better error handling
                 return null;
             }
         }).collect(Collectors.toCollection(ArrayList::new));

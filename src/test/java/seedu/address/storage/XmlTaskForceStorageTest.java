@@ -1,6 +1,5 @@
 package seedu.address.storage;
 
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
@@ -31,7 +30,7 @@ public class XmlTaskForceStorageTest {
     public TemporaryFolder testFolder = new TemporaryFolder();
 
     @Test
-    public void readAddressBookNullFilePathAssertionFailure() throws Exception {
+    public void readTaskForceNullFilePathAssertionFailure() throws Exception {
         thrown.expect(AssertionError.class);
         readListData(null);
     }
@@ -41,9 +40,7 @@ public class XmlTaskForceStorageTest {
     }
 
     private String addToTestDataPathIfNotNull(String prefsFileInTestDataFolder) {
-        return prefsFileInTestDataFolder != null
-                ? TEST_DATA_FOLDER + prefsFileInTestDataFolder
-                : null;
+        return prefsFileInTestDataFolder != null ? TEST_DATA_FOLDER + prefsFileInTestDataFolder : null;
     }
 
     @Test
@@ -57,64 +54,68 @@ public class XmlTaskForceStorageTest {
         thrown.expect(DataConversionException.class);
         readListData("NotXmlFormatTaskForce.xml");
 
-        /* IMPORTANT: Any code below an exception-throwing line (like the one above) will be ignored.
-         * That means you should not have more than one exception test in one method
+        /*
+         * IMPORTANT: Any code below an exception-throwing line (like the one
+         * above) will be ignored. That means you should not have more than one
+         * exception test in one method
          */
     }
 
     @Test
-    public void readAndSaveAddressBook_allInOrder_success() throws Exception {
-        String filePath = testFolder.getRoot().getPath() + "TempAddressBook.xml";
+    public void readAndSaveTaskForce_allInOrder_success() throws Exception {
+        String filePath = testFolder.getRoot().getPath() + "TempTaskForce.xml";
         TypicalTestTasks td = new TypicalTestTasks();
         TaskForce original = td.getTypicalTaskForce();
         XmlTaskForceStorage xmlTaskForceStorage = new XmlTaskForceStorage(filePath);
 
-        //Save in new file and read back
+        // Save in new file and read back
         xmlTaskForceStorage.saveTaskForce(original, filePath);
         ReadOnlyTaskForce readBack = xmlTaskForceStorage.readTaskForce(filePath).get();
         assertEquals(original, new TaskForce(readBack));
 
-        //Modify data, overwrite exiting file, and read back
+        // Modify data, overwrite exiting file, and read back
         original.addTask(new Task(TypicalTestTasks.hoon));
         original.removeTask(new Task(TypicalTestTasks.alice));
         xmlTaskForceStorage.saveTaskForce(original, filePath);
         readBack = xmlTaskForceStorage.readTaskForce(filePath).get();
         assertEquals(original, new TaskForce(readBack));
-        
-        //Modify data, overwrite exiting file, and read back
-        original.addTask(new Deadline(0,TypicalTestTasks.hoon.getName(),TypicalTestTasks.hoon.getDescription(), LocalDateTime.now(), TypicalTestTasks.hoon.getTags()));
-        xmlTaskForceStorage.saveTaskForce(original, filePath);
-        readBack = xmlTaskForceStorage.readTaskForce(filePath).get();
-        assertEquals(original, new TaskForce(readBack));
-        
-        original.addTask(new Event(0,TypicalTestTasks.hoon.getName(),TypicalTestTasks.hoon.getDescription(), LocalDateTime.now(), LocalDateTime.now(), TypicalTestTasks.hoon.getTags()));
+
+        // Modify data, overwrite exiting file, and read back
+        original.addTask(new Deadline(0, TypicalTestTasks.hoon.getName(), TypicalTestTasks.hoon.getDescription(),
+                LocalDateTime.now(), TypicalTestTasks.hoon.getTags()));
         xmlTaskForceStorage.saveTaskForce(original, filePath);
         readBack = xmlTaskForceStorage.readTaskForce(filePath).get();
         assertEquals(original, new TaskForce(readBack));
 
-        //Save and read without specifying file path
+        original.addTask(new Event(0, TypicalTestTasks.hoon.getName(), TypicalTestTasks.hoon.getDescription(),
+                LocalDateTime.now(), LocalDateTime.now(), TypicalTestTasks.hoon.getTags()));
+        xmlTaskForceStorage.saveTaskForce(original, filePath);
+        readBack = xmlTaskForceStorage.readTaskForce(filePath).get();
+        assertEquals(original, new TaskForce(readBack));
+
+        // Save and read without specifying file path
         original.addTask(new Task(TypicalTestTasks.ida));
-        xmlTaskForceStorage.saveTaskForce(original); //file path not specified
-        readBack = xmlTaskForceStorage.readTaskForce().get(); //file path not specified
+        xmlTaskForceStorage.saveTaskForce(original); // file path not specified
+        readBack = xmlTaskForceStorage.readTaskForce().get(); // file path not
+                                                              // specified
         assertEquals(original, new TaskForce(readBack));
 
     }
 
     @Test
-    public void saveAddressBookNullAddressBookAssertionFailure() throws IOException {
+    public void saveTaskForceNullTaskForceAssertionFailure() throws IOException {
         thrown.expect(AssertionError.class);
-        saveAddressBook(null, "SomeFile.xml");
+        saveTaskForce(null, "SomeFile.xml");
     }
 
-    private void saveAddressBook(ReadOnlyTaskForce addressBook, String filePath) throws IOException {
-        new XmlTaskForceStorage(filePath).saveTaskForce(addressBook, addToTestDataPathIfNotNull(filePath));
+    private void saveTaskForce(ReadOnlyTaskForce taskForce, String filePath) throws IOException {
+        new XmlTaskForceStorage(filePath).saveTaskForce(taskForce, addToTestDataPathIfNotNull(filePath));
     }
 
     @Test
-    public void saveAddressBookNullFilePathAssertionFailure() throws IOException {
+    public void saveTaskForceNullFilePathAssertionFailure() throws IOException {
         thrown.expect(AssertionError.class);
-        saveAddressBook(new TaskForce(), null);
+        saveTaskForce(new TaskForce(), null);
     }
-
 
 }

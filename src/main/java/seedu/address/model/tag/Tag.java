@@ -1,11 +1,10 @@
 package seedu.address.model.tag;
 
-
 import seedu.address.commons.exceptions.IllegalValueException;
 
 /**
- * Represents a Tag in the address book.
- * Guarantees: name is valid as declared in {@link #isValidTagName(String)}
+ * Represents a Tag in the address book. Guarantees: name is valid as declared
+ * in {@link #isValidTagName(String)}
  */
 public class Tag {
 
@@ -13,13 +12,15 @@ public class Tag {
     public static final String TAG_VALIDATION_REGEX = "\\p{Alnum}+";
 
     public String tagName;
-    
-    public Tag() {}
+
+    public Tag() {
+    }
 
     /**
      * Validates given tag name.
      *
-     * @throws IllegalValueException if the given tag name string is invalid.
+     * @throws IllegalValueException
+     *             if the given tag name string is invalid.
      */
     public Tag(String name) throws IllegalValueException {
         assert name != null;
@@ -36,7 +37,7 @@ public class Tag {
     public static boolean isValidTagName(String test) {
         return test.matches(TAG_VALIDATION_REGEX);
     }
-    
+
     public void setTagName(String name) throws IllegalValueException {
         assert name != null;
         String nameTrimmed = name.trim();
@@ -50,7 +51,8 @@ public class Tag {
     public boolean equals(Object other) {
         return other == this // short circuit if same object
                 || (other instanceof Tag // instanceof handles nulls
-                && this.tagName.equals(((Tag) other).tagName)); // state check
+                        && this.tagName.equals(((Tag) other).tagName)); // state
+                                                                        // check
     }
 
     @Override

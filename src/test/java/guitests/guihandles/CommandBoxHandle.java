@@ -7,7 +7,7 @@ import javafx.stage.Stage;
 /**
  * A handle to the Command Box in the GUI.
  */
-public class CommandBoxHandle extends GuiHandle{
+public class CommandBoxHandle extends GuiHandle {
 
     private static final String COMMAND_INPUT_FIELD_ID = "#commandTextField";
 
@@ -29,10 +29,10 @@ public class CommandBoxHandle extends GuiHandle{
     public void runCommand(String command) {
         enterCommand(command);
         pressEnter();
-        if("clear".equals(command)){
+        if ("clear".equals(command)) {
             pressEnter();
         }
-        guiRobot.sleep(200); //Give time for the command to take effect
+        guiRobot.sleep(200); // Give time for the command to take effect
     }
 
     public HelpWindowHandle runHelpCommand() {
@@ -40,14 +40,14 @@ public class CommandBoxHandle extends GuiHandle{
         pressEnter();
         return new HelpWindowHandle(guiRobot, primaryStage);
     }
-    
+
     public void pressUpArrow() {
-        guiRobot.type(KeyCode.UP).sleep(500);
+        guiRobot.type(KeyCode.UP).sleep(200);
     }
-    
-    public void pressDownArrow(){
-        guiRobot.type(KeyCode.DOWN).sleep(500);
+
+    public void pressDownArrow() {
+        guiRobot.type(KeyCode.DOWN).sleep(200);
 
     }
-    
+
 }

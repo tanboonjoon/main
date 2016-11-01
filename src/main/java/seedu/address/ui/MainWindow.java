@@ -18,8 +18,8 @@ import seedu.address.model.UserPrefs;
 import seedu.address.model.task.ReadOnlyTask;
 
 /**
- * The Main Window. Provides the basic application layout containing
- * a menu bar and space where other JavaFX elements can be placed.
+ * The Main Window. Provides the basic application layout containing a menu bar
+ * and space where other JavaFX elements can be placed.
  */
 public class MainWindow extends UiPart {
 
@@ -34,17 +34,17 @@ public class MainWindow extends UiPart {
     private TaskListPanel taskListPanel;
     private ResultDisplay resultDisplay;
     private StatusBarFooter statusBarFooter;
-    
+
     private CommandBox commandBox;
     private Config config;
     private UserPrefs userPrefs;
-    private FreeTimeLine freeTimeLine ;
+    private FreeTimeLine freeTimeLine;
 
     // Handles to elements of this Ui container
     private VBox rootLayout;
     private Scene scene;
 
-    private String addressBookName;
+    private String taskForceName;
 
     @FXML
     private AnchorPane browserPlaceholder;
@@ -63,10 +63,9 @@ public class MainWindow extends UiPart {
 
     @FXML
     private AnchorPane statusbarPlaceholder;
-    
-    @FXML
-    private Text versionNum ;
 
+    @FXML
+    private Text versionNum;
 
     public MainWindow() {
         super();
@@ -89,50 +88,49 @@ public class MainWindow extends UiPart {
         return mainWindow;
     }
 
-    private void configure(String appTitle, String addressBookName, Config config, UserPrefs prefs,
-                           Logic logic) {
+    private void configure(String appTitle, String taskForceName, Config config, UserPrefs prefs, Logic logic) {
 
-        //Set dependencies
+        // Set dependencies
         this.logic = logic;
-        this.addressBookName = addressBookName;
+        this.taskForceName = taskForceName;
         this.config = config;
         this.userPrefs = prefs;
         versionNum.setText(MainApp.VERSION.toString());
 
-        //Configure the UI
+        // Configure the UI
         setTitle(appTitle);
         setIcon(ICON);
         setWindowMinSize();
         setWindowDefaultSize(prefs);
-        
+
         scene = new Scene(rootLayout);
 
         loadCustomTrueTypeFonts();
-        
+
         primaryStage.setScene(scene);
-     
+
         setAccelerators();
     }
-    
+
     // @@author A0135768R
     private void loadCustomTrueTypeFonts() {
         // Loads the Open sans custom truetype font
-        Font.loadFont(this.getClass().getResourceAsStream("/images/OpenSans-Light.ttf"), 12) ;
-        Font.loadFont(this.getClass().getResourceAsStream("/images/OpenSans-Semibold.ttf"), 12) ;
+        Font.loadFont(this.getClass().getResourceAsStream("/images/OpenSans-Light.ttf"), 12);
+        Font.loadFont(this.getClass().getResourceAsStream("/images/OpenSans-Semibold.ttf"), 12);
     }
-    
+
     // @@author reused
     private void setAccelerators() {
-//        helpMenuItem.setAccelerator(KeyCombination.valueOf("F1"));
+        // helpMenuItem.setAccelerator(KeyCombination.valueOf("F1"));
     }
 
     public void fillInnerParts() {
-    	//browserPanel = BrowserPanel.load(browserPlaceholder);
+        // browserPanel = BrowserPanel.load(browserPlaceholder);
         taskListPanel = TaskListPanel.load(primaryStage, getTaskListPlaceholder(), logic.getInitialTodaysTaskList());
         resultDisplay = ResultDisplay.load(primaryStage, getResultDisplayPlaceholder());
         statusBarFooter = StatusBarFooter.load(primaryStage, getStatusbarPlaceholder(), config.getTaskForceFilePath());
         commandBox = CommandBox.load(primaryStage, getCommandBoxPlaceholder(), resultDisplay, logic);
-        freeTimeLine = FreeTimeLine.load(primaryStage, getResultDisplayPlaceholder()) ;
+        freeTimeLine = FreeTimeLine.load(primaryStage, getResultDisplayPlaceholder());
     }
 
     private AnchorPane getCommandBoxPlaceholder() {
@@ -180,8 +178,8 @@ public class MainWindow extends UiPart {
      * Returns the current size and the position of the main Window.
      */
     public GuiSettings getCurrentGuiSetting() {
-        return new GuiSettings(primaryStage.getWidth(), primaryStage.getHeight(),
-                (int) primaryStage.getX(), (int) primaryStage.getY());
+        return new GuiSettings(primaryStage.getWidth(), primaryStage.getHeight(), (int) primaryStage.getX(),
+                (int) primaryStage.getY());
     }
 
     @FXML
@@ -205,16 +203,16 @@ public class MainWindow extends UiPart {
     public TaskListPanel getTaskListPanel() {
         return this.taskListPanel;
     }
-    
+
     public ResultDisplay getResultDisplay() {
-        return resultDisplay ;
+        return resultDisplay;
     }
 
     public void loadTaskPage(ReadOnlyTask task) {
-        //browserPanel.loadTaskPage(task);
+        // browserPanel.loadTaskPage(task);
     }
 
     public void releaseResources() {
-        //browserPanel.freeResources();
+        // browserPanel.freeResources();
     }
 }

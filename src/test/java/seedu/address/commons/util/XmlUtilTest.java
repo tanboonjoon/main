@@ -80,14 +80,15 @@ public class XmlUtilTest {
         XmlSerializableTaskForce dataToWrite = new XmlSerializableTaskForce(new TaskForce());
         XmlUtil.saveDataToFile(TEMP_FILE, dataToWrite);
         XmlSerializableTaskForce dataFromFile = XmlUtil.getDataFromFile(TEMP_FILE, XmlSerializableTaskForce.class);
-        assertEquals((new TaskForce(dataToWrite)).toString(),(new TaskForce(dataFromFile)).toString());
-        //TODO: use equality instead of string comparisons
+        assertEquals((new TaskForce(dataToWrite)).toString(), (new TaskForce(dataFromFile)).toString());
+        // TODO: use equality instead of string comparisons
 
         TaskForceBuilder builder = new TaskForceBuilder(new TaskForce());
-        dataToWrite = new XmlSerializableTaskForce(builder.withTask(TestUtil.generateSampleTaskData().get(0)).withTag("Friends").build());
+        dataToWrite = new XmlSerializableTaskForce(
+                builder.withTask(TestUtil.generateSampleTaskData().get(0)).withTag("Friends").build());
 
         XmlUtil.saveDataToFile(TEMP_FILE, dataToWrite);
         dataFromFile = XmlUtil.getDataFromFile(TEMP_FILE, XmlSerializableTaskForce.class);
-        assertEquals((new TaskForce(dataToWrite)).toString(),(new TaskForce(dataFromFile)).toString());
+        assertEquals((new TaskForce(dataToWrite)).toString(), (new TaskForce(dataFromFile)).toString());
     }
 }

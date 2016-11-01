@@ -43,15 +43,16 @@ public class HelpWindow extends UiPart {
         return FXML;
     }
 
-    private void configure(){
+    private void configure() {
         Scene scene = new Scene(mainPane);
-        //Null passed as the parent stage to make it non-modal.
+        // Null passed as the parent stage to make it non-modal.
         dialogStage = createDialogStage(TITLE, null, scene);
         dialogStage.setMaxHeight(850);
         dialogStage.setMaxWidth(850);
-        dialogStage.setMaximized(true); //TODO: set a more appropriate initial size
+        dialogStage.setMaximized(true); // TODO: set a more appropriate initial
+                                        // size
         setIcon(dialogStage, ICON);
-        
+
         setKeyEventForClosingWindow();
 
         WebView browser = new WebView();
@@ -60,12 +61,13 @@ public class HelpWindow extends UiPart {
         mainPane.getChildren().add(browser);
     }
 
+    // @@author A0140037W
     /*
-     * @@author A0140037W
+     * Set key event for closing help window.
      */
     private void setKeyEventForClosingWindow() {
         dialogStage.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
-            if(key.getCode()==KeyCode.ESCAPE){
+            if (key.getCode() == KeyCode.ESCAPE) {
                 dialogStage.close();
             }
         });
