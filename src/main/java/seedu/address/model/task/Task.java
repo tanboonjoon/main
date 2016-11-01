@@ -21,12 +21,12 @@ public class Task implements ReadOnlyTask {
      * Every field must be present and not null.
      */
     public Task(int taskId, String name, String description, UniqueTagList tags, boolean doneStatus) {
+        
         assert !CollectionUtil.isAnyNull(name, tags);
         this.name = name;
         this.description = description;
-        this.taskId = taskId;
-        this.tags = new UniqueTagList(tags); // protect internal tags from
-                                             // changes in the arg list
+        this.taskId = taskId;      
+        this.tags = new UniqueTagList(tags); 
         this.doneStatus = doneStatus;
     }
 

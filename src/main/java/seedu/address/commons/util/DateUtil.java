@@ -191,7 +191,7 @@ public final class DateUtil {
      * return Optional.empty()
      * <p>
      * 
-     * If the boolean allowEmptyValues is set to false, however, then if any
+     * If the boolean isEmptyValuesAllowed is set to false, however, then if any
      * dates is empty, this will return {@link Optional.empty()} This is set to
      * true by default if not specified
      * 
@@ -211,9 +211,9 @@ public final class DateUtil {
     }
 
     public static Optional<Pair<LocalDateTime, LocalDateTime>> determineStartAndEndDateTime(String startString,
-            String endString, boolean allowEmptyValues) {
+            String endString, boolean isEmptyValuesAllowed) {
         return determineStartAndEndDateTime(parseStringIntoDateTime(startString), parseStringIntoDateTime(endString),
-                allowEmptyValues);
+                isEmptyValuesAllowed);
     }
 
     private static boolean isDateComponentSameAsNow(LocalDateTime dateTime) {

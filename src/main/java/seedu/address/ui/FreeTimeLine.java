@@ -36,6 +36,10 @@ public class FreeTimeLine extends UiPart {
     public static final int MAX_TIME_BLOCKS = 48;
 
     private static final String FXML = "FreetimeBar.fxml";
+    
+    private static final int RECT_WIDTH = 15 ;
+    private static final int RECT_HEIGHT = 25 ;
+    private static final int STARTING_POS = 5 ;
 
     private AnchorPane timelinepane;
     private AnchorPane placeHolderPane;
@@ -128,9 +132,9 @@ public class FreeTimeLine extends UiPart {
 
     private static Rectangle createNewRect(int i) {
 
-        Rectangle rect = new Rectangle(15, 20);
+        Rectangle rect = new Rectangle(RECT_WIDTH, RECT_HEIGHT);
 
-        rect.setLayoutX(5 + (15 * i));
+        rect.setLayoutX(STARTING_POS + (RECT_WIDTH * i));
         rect.setLayoutY(0);
         rect.setStroke(Paint.valueOf("black"));
         rect.setStrokeWidth(1F);

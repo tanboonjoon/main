@@ -44,11 +44,12 @@ public class Event extends Task {
     @Override
     public String getAsText() {
         final StringBuilder builder = new StringBuilder();
-        builder.append(getName()).append(" Task Name: ").append(getName()).append(" Description: ")
-                .append(getDescription()).append(" From: ")
-                .append(DateUtil.parseLocalDateTimeIntoString(getStartDate())).append(" To: ")
-                .append(DateUtil.parseLocalDateTimeIntoString(getEndDate())).append(" Tags: ");
-        getTags().forEach(builder::append);
+        
+        builder.append(super.getAsText()) ;
+        builder.append(" From: ") ;
+        builder.append(DateUtil.parseLocalDateTimeIntoString(getStartDate())) ;
+        builder.append(" To: ") ;
+        builder.append(DateUtil.parseLocalDateTimeIntoString(getEndDate())) ;
         return builder.toString();
     }
 

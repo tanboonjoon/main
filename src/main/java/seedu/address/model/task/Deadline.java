@@ -40,10 +40,10 @@ public class Deadline extends Task {
     @Override
     public String getAsText() {
         final StringBuilder builder = new StringBuilder();
-        builder.append(getName()).append(" Task Name: ").append(getName()).append(" Description: ")
-                .append(getDescription()).append(" Due by: ")
-                .append(DateUtil.parseLocalDateTimeIntoString(getEndDate())).append(" Tags: ");
-        getTags().forEach(builder::append);
+        
+        builder.append(super.getAsText()) ;
+        builder.append(" Due by: ") ;
+        builder.append(DateUtil.parseLocalDateTimeIntoString(getEndDate())) ;
         return builder.toString();
     }
 }
