@@ -8,6 +8,8 @@ import seedu.address.model.tag.UniqueTagList;
  * validated.
  */
 public interface ReadOnlyTask {
+    
+    public static final String EMPTY_DESCRIPTION = "" ;
 
     public String getName();
 
@@ -41,13 +43,23 @@ public interface ReadOnlyTask {
     }
 
     /**
-     * Formats the task as text, showing all contact details.
+     * Formats the task as text, showing all task details.
      */
     default String getAsText() {
         final StringBuilder builder = new StringBuilder();
-        builder.append(getName()).append(" Task Name: ").append(getName()).append(" Description: ")
-                .append(getDescription()).append(" Tags: ");
-        getTags().forEach(builder::append);
+        
+        builder.append(getName()) ;
+        
+        if ( !EMPTY_DESCRIPTION.equals(getDescription()) ) {
+            builder.append(" Description: ") ;
+            builder.append(getDescription()) ;
+        }
+        
+        if (!getTags().getInternalList().isEmpty()) {
+            builder.append(" Tags: ") ;
+            getTags().forEach(builder::append);
+        }
+        
         return builder.toString();
     }
 
