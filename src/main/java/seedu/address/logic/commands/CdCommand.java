@@ -47,24 +47,19 @@ public class CdCommand extends Command {
     private Config config;
     private StorageManager storageManager;
 
-    public CdCommand(String filepath, String commandType)
-            throws IllegalValueException, ParseException, FileNotFoundException, IOException {
-
+    public CdCommand(String filepath, String commandType) throws IllegalValueException, ParseException, IOException {
         if (commandType.equals(CD_CHANGE)) {
             checkForInvalidArgs(filepath);
         }
-
         this.commandType = commandType;
         this.config = new Config();
         this.newStoragePath = filepath;
     }
 
     private void checkForInvalidArgs(String filepath) throws IllegalValueException, ParseException {
-        // TODO Auto-generated method stub
         if (!checkFileType(filepath)) {
             throw new IllegalValueException(MESSAGE_FAILURE_FILE_TYPE);
         }
-
         if (!isValidPath(filepath)) {
             throw new IllegalValueException(MESSAGE_FAILURE_FILE_PATH);
         }
@@ -72,29 +67,20 @@ public class CdCommand extends Command {
 
     @Override
     public CommandResult execute() {
-
         String currentSavePath = model.getConfigs().getTaskForceFilePath();
-
         if (this.commandType.equals(CD_CHECK)) {
-
             return new CommandResult(String.format(MESSAGE_SUCCESS_CHECK, currentSavePath));
         }
-
         try {
             String originalJsonPath = config.getUserPrefsFilePath();
             this.storageManager = new StorageManager(this.newStoragePath, originalJsonPath);
-
             storageManager.saveTaskForce(model.getTaskForce());
-
             config.setTaskForceFilePath(this.newStoragePath);
             ConfigUtil.saveConfig(config, CONFIG_JSON_PATH);
-
             return new CommandResult(String.format(MESSAGE_SUCCESS_CHANGE, this.newStoragePath));
-
         } catch (IOException e) {
             return new CommandResult(MESSAGE_FAILURE_FILE_PATH);
         }
-
     }
 
     private boolean isValidPath(String filepath) {
@@ -103,14 +89,12 @@ public class CdCommand extends Command {
             return INVALID_FILE_ARGS;
         }
         File fileDir = new File(file.getParent());
-
         return fileDir.exists();
     }
 
     public boolean checkFileType(String filepath) {
         try {
             Path path = Paths.get(filepath);
-
             return path.toString().toLowerCase().endsWith(".xml");
         } catch (InvalidPathException e) {
             return INVALID_FILE_ARGS;
@@ -120,12 +104,9 @@ public class CdCommand extends Command {
 
     // @@author A0139942W-unused
     private String readConfig() throws FileNotFoundException, IOException, ParseException {
-        // TODO Auto-generated method stub
-
         JSONParser parser = new JSONParser();
         Object obj = parser.parse(new FileReader(CONFIG_JSON_PATH));
         JSONObject configJson = (JSONObject) obj;
-
         String taskForceDataFilePath = (String) configJson.get("taskForceDataFilePath");
         return taskForceDataFilePath;
     }
