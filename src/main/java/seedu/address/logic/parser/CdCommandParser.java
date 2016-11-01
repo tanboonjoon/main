@@ -1,6 +1,6 @@
 package seedu.address.logic.parser;
 
-import java.io.FileNotFoundException;
+
 import java.io.IOException;
 
 import org.json.simple.parser.ParseException;
@@ -15,21 +15,14 @@ public class CdCommandParser extends CommandParser {
 
     @Override
     public Command prepareCommand(String args) {
-
         String commandType = getType(args.trim());
         try {
             return new CdCommand(args.trim(), commandType);
-
         } catch (IllegalValueException e) {
             return new IncorrectCommand((e.getMessage() + "\n" + CdCommand.MESSAGE_USAGE));
         } catch (ParseException e) {
-            // TODO Auto-generated catch block
-            return new IncorrectCommand(CdCommand.MESSAGE_FAILURE_PARSE);
-        } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
             return new IncorrectCommand(CdCommand.MESSAGE_FAILURE_PARSE);
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             return new IncorrectCommand(CdCommand.MESSAGE_FAILURE_PARSE);
         }
 
@@ -39,7 +32,6 @@ public class CdCommandParser extends CommandParser {
         if (args.isEmpty()) {
             return CdCommand.CD_CHECK;
         }
-
         return CdCommand.CD_CHANGE;
     }
 
