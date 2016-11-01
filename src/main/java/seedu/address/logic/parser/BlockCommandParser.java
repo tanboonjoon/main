@@ -25,29 +25,25 @@ public class BlockCommandParser extends CommandParser {
 
         ArgumentsParser parser = new ArgumentsParser(true);
 
-        parser.addNoFlagArg(CommandArgs.NAME).addRequiredArg(CommandArgs.END_DATETIME)
-                .addRequiredArg(CommandArgs.START_DATETIME);
+        parser
+        .addNoFlagArg(CommandArgs.NAME)
+        .addRequiredArg(CommandArgs.END_DATETIME)
+        .addRequiredArg(CommandArgs.START_DATETIME);
 
         try {
             parser.parse(args);
+
+
+            List<LocalDateTime> startDateTimes = Lists.newLinkedList();
+            List<LocalDateTime> endDateTimes = Lists.newLinkedList();
+            convertArgsToDateTime(parser, startDateTimes, endDateTimes);
+            
+            return new BlockCommand(parser.getArgValue(CommandArgs.NAME).get(), startDateTimes, endDateTimes);
+            
+        } catch (IllegalValueException e) {
+            return new IncorrectCommand(e.getMessage());           
         } catch (IncorrectCommandException e) {
             return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, BlockCommand.MESSAGE_USAGE));
-        }
-
-        List<LocalDateTime> startDateTimes = Lists.newLinkedList();
-        List<LocalDateTime> endDateTimes = Lists.newLinkedList();
-
-        try {
-            convertArgsToDateTime(parser, startDateTimes, endDateTimes);
-
-        } catch (IllegalValueException e) {
-            return new IncorrectCommand(e.getMessage());
-        }
-
-        try {
-            return new BlockCommand(parser.getArgValue(CommandArgs.NAME).get(), startDateTimes, endDateTimes);
-        } catch (IllegalValueException e) {
-            return new IncorrectCommand(e.getMessage());
         }
     }
 

@@ -22,17 +22,15 @@ public class ConfigCommandParser extends CommandParser {
 
         try {
             parser.parse(args);
-        } catch (IncorrectCommandException e) {
-            return new IncorrectCommand(
-                    String.format(Messages.MESSAGE_INVALID_COMMAND_FORMAT, ConfigCommand.MESSAGE_USAGE));
-        }
-
-        try {
+            
             return new ConfigCommand(parser.getArgValue(CommandArgs.NAME).get(),
                     parser.getArgValue(CommandArgs.VALUES).get());
 
         } catch (IllegalValueException e) {
             return new IncorrectCommand(e.getMessage());
+        } catch (IncorrectCommandException e) {
+            return new IncorrectCommand(
+                    String.format(Messages.MESSAGE_INVALID_COMMAND_FORMAT, ConfigCommand.MESSAGE_USAGE));
         }
 
     }

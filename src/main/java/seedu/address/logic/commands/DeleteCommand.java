@@ -55,13 +55,7 @@ public class DeleteCommand extends Command {
 
         DeleteMessageBuilder messageBuilder = new DeleteMessageBuilder();
 
-        for (int targetIndex : targetIndexes) {
-            if (lastShownList.size() < targetIndex) {
-                messageBuilder.addIgnoredIndex(targetIndex);
-            } else {
-                tasksToDelete.add(lastShownList.get(targetIndex - 1));
-            }
-        }
+        populateTaskToDeleteList(lastShownList, tasksToDelete, messageBuilder) ;
 
         if (tasksToDelete.isEmpty()) {
             indicateAttemptToExecuteIncorrectCommand();
@@ -81,6 +75,18 @@ public class DeleteCommand extends Command {
         }
 
         return new CommandResult(messageBuilder.getDeleteCommandResultString(), true);
+    }
+    
+    private void populateTaskToDeleteList(List<ReadOnlyTask> lastShownList, List<ReadOnlyTask> tasksToDelete, 
+            DeleteMessageBuilder builder) {
+        
+        for (int targetIndex : targetIndexes) {
+            if (lastShownList.size() < targetIndex) {
+                builder.addIgnoredIndex(targetIndex);
+            } else {
+                tasksToDelete.add(lastShownList.get(targetIndex - 1));
+            }
+        }
     }
 
     /**

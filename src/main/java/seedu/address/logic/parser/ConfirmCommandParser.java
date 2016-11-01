@@ -22,33 +22,24 @@ public class ConfirmCommandParser extends CommandParser {
 
         try {
             parser.parse(args);
-        } catch (IncorrectCommandException e) {
-            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, ConfirmCommand.MESSAGE_USAGE));
-        }
 
-        if (!parser.getArgValue(CommandArgs.INDEX).isPresent()) {
-            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, ConfirmCommand.MESSAGE_USAGE));
-        }
+            if (!parser.getArgValue(CommandArgs.INDEX).isPresent()) {
+                return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, ConfirmCommand.MESSAGE_USAGE));
+            }
 
-        int targetIndex;
+            int targetIndex = getIndexFromArgs(parser);
 
-        try {
-            targetIndex = getIndexFromArgs(parser);
-        } catch (IncorrectCommandException e) {
-            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, ConfirmCommand.MESSAGE_USAGE));
-        }
-
-        String startDate = parser.getArgValue(CommandArgs.START_DATETIME).get();
-        String endDate = parser.getArgValue(CommandArgs.END_DATETIME).get();
-
-        try {
+            String startDate = parser.getArgValue(CommandArgs.START_DATETIME).get();
+            String endDate = parser.getArgValue(CommandArgs.END_DATETIME).get();
 
             return new ConfirmCommand(targetIndex,
                     parser.getArgValue(CommandArgs.DESC).isPresent() ? parser.getArgValue(CommandArgs.DESC).get() : "",
-                    startDate, endDate, parser.getArgValue(CommandArgs.TAGS).isPresent()
+                            startDate, endDate, parser.getArgValue(CommandArgs.TAGS).isPresent()
                             ? Sets.newHashSet(parser.getArgValue(CommandArgs.TAGS).get()) : Collections.emptySet());
 
-        } catch (IllegalValueException e) {
+        } catch (IncorrectCommandException e) {
+            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, ConfirmCommand.MESSAGE_USAGE));
+        }catch (IllegalValueException e) {
             return new IncorrectCommand(e.getMessage());
         }
 

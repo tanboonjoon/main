@@ -11,7 +11,7 @@ import seedu.address.logic.commands.ConfigCommand;
 public class ConfigCommandTest extends TaskForceGuiTest {
 
     @Test
-    public void invalidCommandOptions() {
+    public void configCommand_invalidCommandOptions_invalidConfigMessage() {
 
         // EP: empty values
         commandBox.runCommand("config");
@@ -24,7 +24,7 @@ public class ConfigCommandTest extends TaskForceGuiTest {
     }
 
     @Test
-    public void validCommandOptions() {
+    public void configCommand_validCommandOptions_success() {
         commandBox.runCommand("config enableSudo v/true");
         assertResultMessage(String.format(ConfigCommand.MESSAGE_SUCCESS, "enableSudo", "true"));
 

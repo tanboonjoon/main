@@ -15,7 +15,7 @@ import static seedu.address.logic.commands.DeleteCommand.MESSAGE_DELETE_TASK_SUC
 public class DeleteCommandTest extends TaskForceGuiTest {
 
     @Test
-    public void delete() {
+    public void deleteCommand_validInputs_success() {
 
         // delete the first in the list
         TestTask[] currentList = td.getTypicalTasks();
@@ -47,7 +47,7 @@ public class DeleteCommandTest extends TaskForceGuiTest {
     }
 
     @Test
-    public void deleteValidIndexWithInvalid() {
+    public void deleteCommand_ValidIndex_success() {
 
         TestTask[] currentList = td.getTypicalTasks();
         int targetIndex = 1;
