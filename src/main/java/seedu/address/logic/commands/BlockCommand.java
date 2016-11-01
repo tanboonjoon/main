@@ -1,11 +1,11 @@
 package seedu.address.logic.commands;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 
 import javafx.util.Pair;
 import seedu.address.commons.exceptions.IllegalValueException;
@@ -68,11 +68,7 @@ public class BlockCommand extends Command {
 
         int id = model.getNextTaskId();
 
-        blocksToAdd = new ArrayList<>(endDates.size());
-
-        for (int i = 0; i < endDates.size(); i++) {
-            blocksToAdd.add(i, new Block(id, name, startDates.get(i), endDates.get(i)));
-        }
+        blocksToAdd = createBlocks(id) ;
 
         Transaction transaction = new Transaction(blocksToAdd);
 
@@ -98,6 +94,16 @@ public class BlockCommand extends Command {
         sb.delete(sb.length() - 5, sb.length());
 
         return new CommandResult(String.format(MESSAGE_SUCCESS, name, sb.toString()), true);
+    }
+    
+    private List<Block> createBlocks(int id) {
+        List<Block> blocks = Lists.newArrayList() ;
+        
+        for (int i = 0; i < endDates.size(); i++) {
+            blocksToAdd.add(i, new Block(id, name, startDates.get(i), endDates.get(i)));
+        }
+        
+        return blocks ;
     }
 
     @Override
