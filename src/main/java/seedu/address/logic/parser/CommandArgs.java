@@ -3,13 +3,25 @@ package seedu.address.logic.parser;
 import com.google.common.collect.ImmutableList;
 
 public enum CommandArgs {
-    NAME(""), INDEX(""), DESC("d/"), TAGS("t/", "tag/"), START_DATETIME("st/"), END_DATETIME("et/"),
+    
+    NAME(""), 
+    INDEX(""), 
+    DESC("d/"), 
+    TAGS("t/", "tag/"), 
+    START_DATETIME("st/"), 
+    END_DATETIME("et/"),
 
-    RECURRING("recurring/", "recur/"), REPETITION("repeat/", "r/"),
+    RECURRING("recurring/", "recur/"), 
+    REPETITION("repeat/", "r/"),
 
     // Arguments for find command to parse
-    FIND_DAY("day/"), FIND_WEEK("week/"), FIND_NAME("name/"), FIND_DESC("desc/"), FIND_TAG("tag/"), FIND_MARK(
-            "mark/"), FIND_TYPE("type/"),
+    FIND_DAY("day/"), 
+    FIND_WEEK("week/"), 
+    FIND_NAME("name/"), 
+    FIND_DESC("desc/"), 
+    FIND_TAG("tag/"), 
+    FIND_MARK("mark/"), 
+    FIND_TYPE("type/"),
 
     VALUES("v/"),
 
