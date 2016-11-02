@@ -265,36 +265,6 @@ public class ModelManager extends ComponentManager implements Model {
         });
         return sortedList;
     }
-    
-    private SortedList<Task> setUpSortedTasksOnlyList() {
-        // TODO Auto-generated method stub
-        SortedList<Task> sortedList = new SortedList<>(this.filteredTasksForTasksDisplay, (Task task1, Task task2) -> {
-            if (task1 instanceof Event) {
-                return sortByEvent((Event) task1, task2);
-            }
-
-            if (task1 instanceof Deadline) {
-                return sortByDeadline((Deadline) task1, task2);
-            }
-            return sortByTask(task1, task2);
-        });
-        return sortedList;
-    }
-    
-    private SortedList<Task> setUpSortedEventsOnlyList() {
-        // TODO Auto-generated method stub
-        SortedList<Task> sortedList = new SortedList<>(this.filteredTasksForEventsDisplay, (Task task1, Task task2) -> {
-            if (task1 instanceof Event) {
-                return sortByEvent((Event) task1, task2);
-            }
-
-            if (task1 instanceof Deadline) {
-                return sortByDeadline((Deadline) task1, task2);
-            }
-            return sortByTask(task1, task2);
-        });
-        return sortedList;
-    }
 
     public int sortByTask(Task task1, Task task2) {
         if (task2 instanceof Deadline) {
@@ -357,19 +327,46 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     private FilteredList<Task> setUpEventsOnlyList() {
-		FilteredList<Task> eventsOnlyFilteredList = new FilteredList<Task>(this.filteredTasks, (Task task) -> {
+		FilteredList<Task> eventsOnlyFilteredList = new FilteredList<Task>(this.filteredTasks, (ReadOnlyTask task) -> {
 			return (task instanceof Event);
 		});
 		return eventsOnlyFilteredList;
 	}
 
 	private FilteredList<Task> setUpTasksOnlyList() {
-		FilteredList<Task> tasksOnlyFilteredList = new FilteredList<Task>(this.filteredTasks, (Task task) -> {
+		FilteredList<Task> tasksOnlyFilteredList = new FilteredList<Task>(this.filteredTasks, (ReadOnlyTask task) -> {
 			return !(task instanceof Event);
 		});
 		return tasksOnlyFilteredList;
 	}
-    
-    
+	
+    private SortedList<Task> setUpSortedTasksOnlyList() {
+        // TODO Auto-generated method stub
+        SortedList<Task> sortedList = new SortedList<>(this.filteredTasksForTasksDisplay, (Task task1, Task task2) -> {
+            if (task1 instanceof Event) {
+                return sortByEvent((Event) task1, task2);
+            }
 
+            if (task1 instanceof Deadline) {
+                return sortByDeadline((Deadline) task1, task2);
+            }
+            return sortByTask(task1, task2);
+        });
+        return sortedList;
+    }
+    
+    private SortedList<Task> setUpSortedEventsOnlyList() {
+        // TODO Auto-generated method stub
+        SortedList<Task> sortedList = new SortedList<>(this.filteredTasksForEventsDisplay, (Task task1, Task task2) -> {
+            if (task1 instanceof Event) {
+                return sortByEvent((Event) task1, task2);
+            }
+
+            if (task1 instanceof Deadline) {
+                return sortByDeadline((Deadline) task1, task2);
+            }
+            return sortByTask(task1, task2);
+        });
+        return sortedList;
+    }
 }

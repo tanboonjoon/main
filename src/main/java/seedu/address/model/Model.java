@@ -77,4 +77,6 @@ public interface Model {
 
     public ObservableList<ReadOnlyTask> startWithTodaysTasks();
 
+	public ObservableList<ReadOnlyTask> startWithTodaysEvents();
+
 }
