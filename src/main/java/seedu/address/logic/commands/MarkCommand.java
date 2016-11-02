@@ -37,7 +37,7 @@ public class MarkCommand extends Command {
     private final List<ReadOnlyTask> tasksAdded = Lists.newLinkedList();
     private final List<ReadOnlyTask> tasksDeleted = Lists.newLinkedList();
     
-    private UnmodifiableObservableList<ReadOnlyTask> lastShownList = model.getFilteredTaskList();
+    private UnmodifiableObservableList<ReadOnlyTask> lastShownList;
 
     private ReadOnlyTask taskToMark;
 
@@ -48,7 +48,7 @@ public class MarkCommand extends Command {
     @Override
     public CommandResult execute() {
 
-        UnmodifiableObservableList<ReadOnlyTask> lastShownList = model.getFilteredTaskList();
+        lastShownList = model.getFilteredTaskList();
 
         try {
             taskToMark = lastShownList.get(targetIndex - 1);

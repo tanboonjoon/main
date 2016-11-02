@@ -668,13 +668,6 @@
         <isBlock>false</isBlock>
     </tasks>
     <tasks>
-        <taskId>81</taskId>
-        <name>hahaha</name>
-        <description></description>
-        <doneStatus>true</doneStatus>
-        <isBlock>false</isBlock>
-    </tasks>
-    <tasks>
         <taskId>82</taskId>
         <name>remind Eric to study for 4 other modules and do not repeat MA1505 again.</name>
         <description></description>
@@ -693,9 +686,19 @@
         <isBlock>false</isBlock>
     </tasks>
     <tasks>
-        <taskId>89</taskId>
-        <name>laj2203 tutorial B </name>
-        <description></description>
+        <taskId>95</taskId>
+        <name>lul</name>
+        <description>lel</description>
+        <startDateTime>2016-11-02T18:00</startDateTime>
+        <endDateTime>2016-11-02T20:00</endDateTime>
+        <doneStatus>false</doneStatus>
+        <isBlock>false</isBlock>
+    </tasks>
+    <tasks>
+        <taskId>97</taskId>
+        <name>lolol</name>
+        <description>lelel</description>
+        <startDateTime>2016-11-02T15:00</startDateTime>
         <endDateTime>2016-11-02T18:00</endDateTime>
         <doneStatus>false</doneStatus>
         <isBlock>false</isBlock>

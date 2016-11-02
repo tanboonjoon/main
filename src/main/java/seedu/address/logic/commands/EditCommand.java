@@ -144,18 +144,18 @@ public class EditCommand extends Command {
     private void checkUpdateName(String origin, String changed) {
         if (isValidString(changed)) {
             hasChanged = true;
-            this.newDescription = changed;
+            this.newName = changed;
         } else {
-            this.newDescription = origin;
+            this.newName = origin;
         }
     }
     
     private void checkUpdateDesc(String origin, String changed) {
         if (isValidString(changed)) {
             hasChanged = true;
-            this.newName = changed;
+            this.newDescription = changed;
         } else {
-            this.newName = origin;
+            this.newDescription = origin;
         }
     }
     
