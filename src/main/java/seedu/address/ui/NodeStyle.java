@@ -11,8 +11,8 @@ package seedu.address.ui;
 public enum NodeStyle {
     
     CIRCLE_HIGH ("CIRCLE", "circle_high", 0) ,
-    CIRCLE_MED ("CIRCLE", "circle_med", Integer.MAX_VALUE) ,
-    CIRCLE_LOW ("CIRCLE", "circle_low", 0) ,
+    CIRCLE_MED ("CIRCLE", "circle_deadline", Integer.MAX_VALUE) ,
+    CIRCLE_REMINDER ("CIRCLE", "circle_reminder", 0) ,
     CIRCLE_DONE ("CIRCLE", "circle_done", -1) ,
     CIRCLE_BLOCK ("CIRCLE", "circle_block", -1) ,
     

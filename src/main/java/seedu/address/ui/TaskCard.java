@@ -60,6 +60,16 @@ public class TaskCard extends UiPart {
         card.displayedIndex = displayedIndex;
         return UiPartLoader.loadUiPart(card);
     }
+    
+    @Override
+    public void setNode(Node node) {
+        cardPane = (HBox) node;
+    }
+
+    @Override
+    public String getFxmlPath() {
+        return FXML;
+    }
 
     @FXML
     public void initialize() {
@@ -80,16 +90,6 @@ public class TaskCard extends UiPart {
         return cardPane;
     }
 
-    @Override
-    public void setNode(Node node) {
-        cardPane = (HBox) node;
-    }
-
-    @Override
-    public String getFxmlPath() {
-        return FXML;
-    }
-
     private void setTaskCardToDone() {
         isDone.setVisible(true);
         FxViewUtil.setNodeStyle(name, NodeStyle.TITLE_DONE);
@@ -106,7 +106,15 @@ public class TaskCard extends UiPart {
         clock.setVisible(false);
         isDone.setVisible(false);
 
-        circle.getStyleClass().add("circle_med");
+        changeColourOfIndexCircle() ;
+    }
+    
+    private void changeColourOfIndexCircle() {
+        if (task instanceof Deadline || task instanceof Event) {
+            FxViewUtil.setNodeStyle(circle, NodeStyle.CIRCLE_MED);
+        } else {
+            FxViewUtil.setNodeStyle(circle, NodeStyle.CIRCLE_REMINDER);
+        }
     }
 
     private void setTaskTitle() {
