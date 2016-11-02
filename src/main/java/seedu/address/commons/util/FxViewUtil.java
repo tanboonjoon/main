@@ -61,15 +61,17 @@ public class FxViewUtil {
         List<String> classToRemove = new ArrayList<>();
         String classToAdd = style.className;
 
-        for (String CssClass : node.getStyleClass()) {
-            NodeStyle nodeStyle = NODE_STYLES.get(CssClass);
-
-            if (nodeStyle != null && nodeStyle.family.equals(family) && nodeStyle.priority >= style.priority) {
-                classToRemove.add(nodeStyle.className);
+        for (String cssClass : node.getStyleClass()) {
+            NodeStyle nodeStyle = NODE_STYLES.get(cssClass);
+            
+            if (nodeStyle == null) {
+                continue ;
             }
 
-            if (nodeStyle != null && nodeStyle.family.equals(family) && nodeStyle.priority < style.priority) {
-                classToAdd = null;
+            if (nodeStyle.shouldOverwriteStyle(style)) {
+                classToRemove.add(nodeStyle.className);
+            } else {
+                classToAdd = null ;
             }
         }
 
