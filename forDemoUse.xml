@@ -450,15 +450,6 @@
         <isBlock>false</isBlock>
     </tasks>
     <tasks>
-        <taskId>55</taskId>
-        <name>laj2203 tutorial B </name>
-        <description></description>
-        <startDateTime>2016-11-02T16:00</startDateTime>
-        <endDateTime>2016-11-02T18:00</endDateTime>
-        <doneStatus>false</doneStatus>
-        <isBlock>false</isBlock>
-    </tasks>
-    <tasks>
         <taskId>56</taskId>
         <name>laj2203 ORAL </name>
         <description></description>
@@ -587,20 +578,6 @@
         <isBlock>false</isBlock>
     </tasks>
     <tasks>
-        <taskId>68</taskId>
-        <name>remind Eric to study for 4 other modules and do not repeat MA1505 again.</name>
-        <description></description>
-        <doneStatus>false</doneStatus>
-        <isBlock>false</isBlock>
-    </tasks>
-    <tasks>
-        <taskId>69</taskId>
-        <name>study hard</name>
-        <description></description>
-        <doneStatus>false</doneStatus>
-        <isBlock>false</isBlock>
-    </tasks>
-    <tasks>
         <taskId>70</taskId>
         <name>dinner with andy</name>
         <description></description>
@@ -687,6 +664,39 @@
         <description></description>
         <startDateTime>2016-10-11T19:00</startDateTime>
         <endDateTime>2016-10-11T21:00</endDateTime>
+        <doneStatus>false</doneStatus>
+        <isBlock>false</isBlock>
+    </tasks>
+    <tasks>
+        <taskId>81</taskId>
+        <name>hahaha</name>
+        <description></description>
+        <doneStatus>true</doneStatus>
+        <isBlock>false</isBlock>
+    </tasks>
+    <tasks>
+        <taskId>82</taskId>
+        <name>remind Eric to study for 4 other modules and do not repeat MA1505 again.</name>
+        <description></description>
+        <startDateTime>2016-11-02T23:00</startDateTime>
+        <endDateTime>2016-11-02T23:59</endDateTime>
+        <doneStatus>false</doneStatus>
+        <isBlock>false</isBlock>
+    </tasks>
+    <tasks>
+        <taskId>84</taskId>
+        <name>study hard</name>
+        <description></description>
+        <startDateTime>2016-11-02T23:00</startDateTime>
+        <endDateTime>2016-11-02T23:59</endDateTime>
+        <doneStatus>false</doneStatus>
+        <isBlock>false</isBlock>
+    </tasks>
+    <tasks>
+        <taskId>89</taskId>
+        <name>laj2203 tutorial B </name>
+        <description></description>
+        <endDateTime>2016-11-02T18:00</endDateTime>
         <doneStatus>false</doneStatus>
         <isBlock>false</isBlock>
     </tasks>

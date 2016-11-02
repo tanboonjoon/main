@@ -36,6 +36,10 @@ public class MarkCommand extends Command {
     public final int targetIndex;
     private final List<ReadOnlyTask> tasksAdded = Lists.newLinkedList();
     private final List<ReadOnlyTask> tasksDeleted = Lists.newLinkedList();
+    
+    private UnmodifiableObservableList<ReadOnlyTask> lastShownList = model.getFilteredTaskList();
+
+    private ReadOnlyTask taskToMark;
 
     public MarkCommand(int targetIndex) {
         this.targetIndex = targetIndex;
@@ -46,13 +50,9 @@ public class MarkCommand extends Command {
 
         UnmodifiableObservableList<ReadOnlyTask> lastShownList = model.getFilteredTaskList();
 
-        ReadOnlyTask taskToMark;
-
         try {
             taskToMark = lastShownList.get(targetIndex - 1);
-
         } catch (IndexOutOfBoundsException e) {
-
             indicateAttemptToExecuteIncorrectCommand();
             return new CommandResult(Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
         }
@@ -66,23 +66,20 @@ public class MarkCommand extends Command {
             model.addTask(newTask);
             tasksAdded.add(newTask);
 
-            try {
-                model.deleteTask(taskToMark);
-                tasksDeleted.add(taskToMark);
-
-            } catch (TaskNotFoundException pnfe) {
-                assert false : "The target task cannot be missing";
-            }
-
-            if (newTask.getDoneStatus()) {
-                return new CommandResult(String.format(MESSAGE_MARK_TASK_SUCCESS_DONE, newTask.getName()), true);
-            } else {
-                return new CommandResult(String.format(MESSAGE_MARK_TASK_SUCCESS_UNDONE, newTask.getName()), true);
-            }
+            model.deleteTask(taskToMark);
+            tasksDeleted.add(taskToMark);
 
         } catch (UniqueTaskList.DuplicateTaskException e) {
-
             return new CommandResult(String.format("Error: duplicate message"));
+        } catch (TaskNotFoundException pnfe) {
+        	assert false : "The target task cannot be missing";
+        	return new CommandResult(String.format("Error: target task is missing"));
+        }
+        
+        if (newTask.getDoneStatus()) {
+        	return new CommandResult(String.format(MESSAGE_MARK_TASK_SUCCESS_DONE, newTask.getName()), true);
+        } else {
+        	return new CommandResult(String.format(MESSAGE_MARK_TASK_SUCCESS_UNDONE, newTask.getName()), true);
         }
 
     }
