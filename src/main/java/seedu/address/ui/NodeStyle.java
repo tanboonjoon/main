@@ -1,11 +1,18 @@
 package seedu.address.ui;
 
 // @@author A0135768R
+/**
+ * 
+ * A simple Enum to encapsulate information about CSS classes
+ * and the priority to which classes should be applied over another class
+ * of the same type/family
+ * 
+ */
 public enum NodeStyle {
     
     CIRCLE_HIGH ("CIRCLE", "circle_high", 0) ,
-    CIRCLE_MED ("CIRCLE", "circle_med", Integer.MAX_VALUE) ,
-    CIRCLE_LOW ("CIRCLE", "circle_low", 0) ,
+    CIRCLE_MED ("CIRCLE", "circle_deadline", Integer.MAX_VALUE) ,
+    CIRCLE_REMINDER ("CIRCLE", "circle_reminder", 0) ,
     CIRCLE_DONE ("CIRCLE", "circle_done", -1) ,
     CIRCLE_BLOCK ("CIRCLE", "circle_block", -1) ,
     
@@ -32,6 +39,15 @@ public enum NodeStyle {
         this.family = family ;
         this.className = className ;
         this.priority = priority ;
+    }
+    
+    /**
+     * Returns true if the given NodeStyle should overwrite this NodeStyle
+     */
+    public boolean shouldOverwriteStyle(NodeStyle other) {
+        return other != null 
+                && this.family.equals(other.family)
+                && this.priority >= other.priority ;
     }
 
 }

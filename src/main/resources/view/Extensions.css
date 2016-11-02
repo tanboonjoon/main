@@ -50,11 +50,11 @@
  * ====================================================================
  */
 
-.circle_low {
+.circle_reminder {
 	-fx-fill: derive(#4b8bf5, 0%);
 }
 
-.circle_med {
+.circle_deadline {
 	-fx-fill: derive(#ffce43, 0%);
 }
 .circle_high {
