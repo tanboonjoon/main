@@ -53,7 +53,11 @@ public class LogicManager extends ComponentManager implements Logic {
         return model.getSortedFilteredTask();
     }
 
-    public ObservableList<ReadOnlyTask> getInitialTodaysTaskList() {
+    public ObservableList<ReadOnlyTask> getInitialTodaysEventsList() {
+        return model.startWithTodaysTasks();
+    }    
+    
+    public ObservableList<ReadOnlyTask> getInitialTodaysTasksList() {
         return model.startWithTodaysTasks();
     }
 }

@@ -47,6 +47,13 @@ public class ModelManager extends ComponentManager implements Model {
     private final Deque<TaskForceCommandExecutedEvent> redoTaskForceHistory = new LinkedList<TaskForceCommandExecutedEvent>();
     private final TagRegistrar tagRegistrar = new TagRegistrar();
     private final Config config;
+    
+    private final FilteredList<Task> filteredTasksForTasksDisplay;
+    private final FilteredList<Task> filteredTasksForEventsDisplay;
+
+    private final SortedList<Task> sortedFilteredTasksForTasksDisplay;
+    private final SortedList<Task> sortedFilteredTasksForEventsDisplay;
+    
 
     private static final int TASK_LESS_THAN_DEADLINE = -1;
     private static final int TASK_LESS_THAN_EVENT = -2;
@@ -74,6 +81,10 @@ public class ModelManager extends ComponentManager implements Model {
         filteredTasks = new FilteredList<>(taskForce.getTasks());
         sortedFilteredTasks = setUpSortedList();
         filteredTasksForSearching = new FilteredList<>(taskForce.getTasks());
+        filteredTasksForTasksDisplay = setUpTasksOnlyList();
+        filteredTasksForEventsDisplay = setUpEventsOnlyList();
+        sortedFilteredTasksForTasksDisplay = setUpSortedTasksOnlyList();
+        sortedFilteredTasksForEventsDisplay = setUpSortedEventsOnlyList();
     }
 
     public ModelManager() {
@@ -88,9 +99,13 @@ public class ModelManager extends ComponentManager implements Model {
         filteredTasks = new FilteredList<>(taskForce.getTasks());
         sortedFilteredTasks = setUpSortedList();
         filteredTasksForSearching = new FilteredList<>(taskForce.getTasks());
+        filteredTasksForTasksDisplay = setUpTasksOnlyList();
+        filteredTasksForEventsDisplay = setUpEventsOnlyList();
+        sortedFilteredTasksForTasksDisplay = setUpSortedTasksOnlyList();
+        sortedFilteredTasksForEventsDisplay = setUpSortedEventsOnlyList();
     }
 
-    @Override
+	@Override
     public void resetData(ReadOnlyTaskForce newData) {
         taskForce.resetData(newData);
         tagRegistrar.setAllTags(newData.getTagList());
@@ -247,7 +262,36 @@ public class ModelManager extends ComponentManager implements Model {
                 return sortByDeadline((Deadline) task1, task2);
             }
             return sortByTask(task1, task2);
+        });
+        return sortedList;
+    }
+    
+    private SortedList<Task> setUpSortedTasksOnlyList() {
+        // TODO Auto-generated method stub
+        SortedList<Task> sortedList = new SortedList<>(this.filteredTasksForTasksDisplay, (Task task1, Task task2) -> {
+            if (task1 instanceof Event) {
+                return sortByEvent((Event) task1, task2);
+            }
 
+            if (task1 instanceof Deadline) {
+                return sortByDeadline((Deadline) task1, task2);
+            }
+            return sortByTask(task1, task2);
+        });
+        return sortedList;
+    }
+    
+    private SortedList<Task> setUpSortedEventsOnlyList() {
+        // TODO Auto-generated method stub
+        SortedList<Task> sortedList = new SortedList<>(this.filteredTasksForEventsDisplay, (Task task1, Task task2) -> {
+            if (task1 instanceof Event) {
+                return sortByEvent((Event) task1, task2);
+            }
+
+            if (task1 instanceof Deadline) {
+                return sortByDeadline((Deadline) task1, task2);
+            }
+            return sortByTask(task1, task2);
         });
         return sortedList;
     }
@@ -302,7 +346,30 @@ public class ModelManager extends ComponentManager implements Model {
         Set<String> keywordSet = new HashSet<String>();
         keywordSet.add("0");
         updateFilteredTaskList(keywordSet, "DAY", false);
-        return getSortedFilteredTask();
+        return new UnmodifiableObservableList<>(sortedFilteredTasksForTasksDisplay);
     }
+    
+    public UnmodifiableObservableList<ReadOnlyTask> startWithTodaysEvents() {
+        Set<String> keywordSet = new HashSet<String>();
+        keywordSet.add("0");
+        updateFilteredTaskList(keywordSet, "DAY", false);
+        return new UnmodifiableObservableList<>(sortedFilteredTasksForEventsDisplay);
+    }
+
+    private FilteredList<Task> setUpEventsOnlyList() {
+		FilteredList<Task> eventsOnlyFilteredList = new FilteredList<Task>(this.filteredTasks, (Task task) -> {
+			return (task instanceof Event);
+		});
+		return eventsOnlyFilteredList;
+	}
+
+	private FilteredList<Task> setUpTasksOnlyList() {
+		FilteredList<Task> tasksOnlyFilteredList = new FilteredList<Task>(this.filteredTasks, (Task task) -> {
+			return !(task instanceof Event);
+		});
+		return tasksOnlyFilteredList;
+	}
+    
+    
 
 }

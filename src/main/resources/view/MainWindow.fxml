@@ -8,13 +8,13 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox maxHeight="600.0" maxWidth="800.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seedu.address.ui.MainWindow">
+<VBox maxHeight="600.0" maxWidth="1000.0" minHeight="-Infinity" minWidth="1000.0" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seedu.address.ui.MainWindow">
    <stylesheets>
       <URL value="@DarkTheme.css" />
       <URL value="@Extensions.css" />
    </stylesheets>
    <children>
-      <AnchorPane prefHeight="57.0" prefWidth="342.0" styleClass="top_banner">
+      <AnchorPane minWidth="1000.0" prefHeight="57.0" prefWidth="342.0" styleClass="top_banner">
          <children>
             <AnchorPane fx:id="versionNumberPlaceholder" layoutX="190.0" layoutY="4.0" prefHeight="20.0" prefWidth="21.0" AnchorPane.bottomAnchor="33.0" AnchorPane.leftAnchor="180.0" AnchorPane.rightAnchor="131.0" AnchorPane.topAnchor="4.0">
                <children>
@@ -34,7 +34,7 @@
          </children>
       </AnchorPane>
        <AnchorPane fx:id="resultDisplayPlaceholder" maxHeight="100" minHeight="100" prefHeight="100" styleClass="anchor-pane-with-border" VBox.vgrow="NEVER" />
-      <SplitPane id="splitPane" fx:id="splitPane" dividerPositions="0.5" VBox.vgrow="ALWAYS">
+      <SplitPane id="splitPane" fx:id="splitPane" dividerPositions="0.5" minWidth="1000.0" VBox.vgrow="ALWAYS">
          <items>
             <VBox fx:id="taskList" minWidth="340" prefWidth="340">
                 <padding>

@@ -22,6 +22,8 @@ public interface Logic {
 
     ObservableList<ReadOnlyTask> getSortedFilteredTaskList();
 
-    ObservableList<ReadOnlyTask> getInitialTodaysTaskList();
+    ObservableList<ReadOnlyTask> getInitialTodaysEventsList();
+    
+    ObservableList<ReadOnlyTask> getInitialTodaysTasksList();
 
 }
