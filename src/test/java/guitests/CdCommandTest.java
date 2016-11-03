@@ -63,17 +63,14 @@ public class CdCommandTest extends TaskForceGuiTest {
 
     @Test
     public void invalidFileType() {
-
         commandBox.runCommand("cd " + invalidFileType);
         assertResultMessage(INVALID_FILE_TYPE_MESSAGE);
-
         commandBox.runCommand("cd " + invalidMissingFileType);
         assertResultMessage(INVALID_FILE_TYPE_MESSAGE);
     }
 
     @Test
     public void invalidFilePath() {
-
         commandBox.runCommand("cd C:\\INVALID\\DONT_EXIST\\PATH\\saveData.xml");
         assertResultMessage(INVALID_FILE_PATH_MESSAGE);
         commandBox.runCommand("cd asd.xml");
@@ -83,10 +80,8 @@ public class CdCommandTest extends TaskForceGuiTest {
 
     @Test
     public void validFilePath() throws IOException {
-
         commandBox.runCommand("cd " + validPath);
         assertResultMessage(String.format(CdCommand.MESSAGE_SUCCESS_CHANGE, validPath));
-
         File file = new File(String.join(File.separator, "src", "test", "java", "guitests", "forTesting.xml"));
         assertTrue(file.exists());
         file.delete();
@@ -106,7 +101,6 @@ public class CdCommandTest extends TaskForceGuiTest {
         Config config = new Config();
         config.setTaskForceFilePath(forDemoUsePath);
         ConfigUtil.saveConfig(config, "config.json");
-
     }
 
 }

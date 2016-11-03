@@ -11,6 +11,11 @@ import java.time.format.DateTimeFormatter;
 import seedu.address.logic.commands.FreetimeCommand;
 
 //@@author A0139942W
+/*
+ * Testing of FreetimeCommand, Due to the nature of freetiemCommand,
+ * Each test stimulate different sets of event/deadline of different timing.
+ * 
+ */
 public class FreetimeTest extends TaskForceGuiTest{
 
     private static final int HALF_AN_HOUR = 30;
@@ -26,20 +31,13 @@ public class FreetimeTest extends TaskForceGuiTest{
     private DateTimeFormatter eventFormatter;
 
 
-    @Before 
-    public void clearList() {
-        commandBox.runCommand("clear");
-    }
-
 
     @Before
     public void setUp() {
-
-
+        commandBox.runCommand("clear");
         addCommandFormatter = DateTimeFormatter.ofPattern("MM-dd-yyy HHmm");
         ongoingEventFormatter = DateTimeFormatter.ofPattern("dd/MM/yyy HHmm");
         eventFormatter =  DateTimeFormatter.ofPattern("dd/MM/yyyy");
-
         now = LocalDateTime.now();
         yesterday = roundUpTime(now.minusDays(1));
         tomorrow = roundUpTime(now.plusDays(1));
@@ -47,7 +45,7 @@ public class FreetimeTest extends TaskForceGuiTest{
 
 
     @Test
-    public void invalidCommand() {
+    public void freetimeCommand_invalidCommand_displayInvalidMessage() {
         String invalidCommand = String.format(MESSAGE_INVALID_COMMAND_FORMAT , FreetimeCommand.MESSAGE_USAGE);
         String invalidArgs = String.format(FreetimeCommand.INVALID_FREETIME_ARGS, FreetimeCommand.MESSAGE_USAGE);
         commandBox.runCommand("freetime assd day/");
@@ -61,7 +59,7 @@ public class FreetimeTest extends TaskForceGuiTest{
     }
 
     @Test
-    public void validCommnadNoEvent() {
+    public void freetimeCommand_noEvent_displayNoEventMessage() {
         commandBox.runCommand("add floatingTask");
         commandBox.runCommand("freetime day/0");
         assertResultMessage(FreetimeCommand.ZERO_EVENT_MESSAGE);
@@ -70,7 +68,7 @@ public class FreetimeTest extends TaskForceGuiTest{
 
 
     @Test
-    public void validCommandOneEvent() {
+    public void freetimeCommand_oneEvent_displayHasFreeSlot() {
         commandBox.runCommand("add event st/today 3pm et/today 5pm");
         StringBuilder sb = new StringBuilder();
         commandBox.runCommand("freetime day/0");
@@ -80,7 +78,7 @@ public class FreetimeTest extends TaskForceGuiTest{
     }
 
     @Test
-    public void validCommandOneOngoingEvent() {
+    public void freetimeCommand_oneOngoingEvent_displayHasNoFreeSlot() {
         commandBox.runCommand("add event st/" + yesterday.format(addCommandFormatter) + " et/" + tomorrow.format(addCommandFormatter));
         StringBuilder sb = new StringBuilder();
         commandBox.runCommand("freetime day/0");
@@ -92,7 +90,7 @@ public class FreetimeTest extends TaskForceGuiTest{
 
 
     @Test
-    public void validCommandOneEventStartEndOutsideActiveHour() {
+    public void freetimeCommand_oneEventStartEndOutsideActive_displayHasFreeSlot() {
         commandBox.runCommand("add event st/yesterday 7am et/today 5pm");
         StringBuilder sb = new StringBuilder();
         commandBox.runCommand("freetime day/0");
@@ -103,24 +101,22 @@ public class FreetimeTest extends TaskForceGuiTest{
         commandBox.runCommand("add event st/today 9am et/tomorrow 11pm");
         commandBox.runCommand("freetime day/0");
         assertResultMessage(sb.toString());
-
     }
 
 
 
     @Test
-    public void validCommandOneEventNoFreeTime() {
+    public void freetimeCommand_oneEvent_displayHasNoFreeSlot() {
         commandBox.runCommand("add event st/6am et/11pm");
         commandBox.runCommand("freetime day/0");
         StringBuilder sb = new StringBuilder();
         sb.append(String.format(FreetimeCommand.DEFAULT_STARTING_MESSAGE, now.format(eventFormatter)))
         .append(FreetimeCommand.NO_FREE_TIME_MESSAGE);
         assertResultMessage(sb.toString());
-
     }
 
     @Test
-    public void validCommandMultipleEvent() {
+    public void freetimeCommand_mutipleEvent_displayHasFreeSlot() {
         commandBox.runCommand("add event st/today 9am et/today 12pm");
         commandBox.runCommand("add event2 st/today 10:30am et/today 11am");
         commandBox.runCommand("add event3 st/today 2pm et/today 5pm");
@@ -132,7 +128,7 @@ public class FreetimeTest extends TaskForceGuiTest{
     }
 
     @Test
-    public void validCommandLongEventWithManyEvent() {
+    public void freetimeCommand_mutipleLongEvent_displayOngoingEvent() {
         commandBox.runCommand("add event st/today 3am et/today 12pm");
         commandBox.runCommand("add event2 st/today 2:30am et/today 11pm");
         commandBox.runCommand("add event st/" + yesterday.format(addCommandFormatter) + " et/" + tomorrow.format(addCommandFormatter));
@@ -141,11 +137,10 @@ public class FreetimeTest extends TaskForceGuiTest{
         sb.append(String.format(FreetimeCommand.DEFAULT_STARTING_MESSAGE, now.format(eventFormatter)))
         .append(String.format(FreetimeCommand.ONGOING_EVENT_MESSAGE, yesterday.format(ongoingEventFormatter), tomorrow.format(ongoingEventFormatter)));
         assertResultMessage(sb.toString());
-
     }
 
     @Test
-    public void validCommandMutipleEventEndLater() {
+    public void freetimeCommand_mutipleEventEndAfterActive_displayHasFreeSlot() {
         commandBox.runCommand("add event st/today 9:30am et/today 11am");
         commandBox.runCommand("add event2 st/" + yesterday.format(addCommandFormatter) + " et/today 12pm");
         commandBox.runCommand("add event3 st/today 5pm et/today 10pm");
@@ -157,7 +152,7 @@ public class FreetimeTest extends TaskForceGuiTest{
     }
 
     @Test
-    public void validCommandMutipleEventStartEarly() {
+    public void freetimeCommand_mutipleEventStartBeforeActive_displayHasFreeSlot() {
         commandBox.runCommand("add event st/today 2:30am et/today 11am");
         commandBox.runCommand("add event2 st/" + yesterday.format(addCommandFormatter) + " et/today 12pm");
         commandBox.runCommand("add event3 st/today 5pm et/today 6pm");
@@ -170,11 +165,6 @@ public class FreetimeTest extends TaskForceGuiTest{
 
 
 
-
-    @After
-    public void clear() {
-        commandBox.runCommand("clear");
-    }
 
     private LocalDateTime roundUpTime(LocalDateTime dateTime) {
         int minutes = dateTime.getMinute();
