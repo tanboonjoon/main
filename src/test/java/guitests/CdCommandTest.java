@@ -42,55 +42,49 @@ public class CdCommandTest extends TaskForceGuiTest {
     }
 
     @Before
-    public void setUpInvalidMessagePath() {
+    public void cdCommand_invalidMsgPath_displayUsageMessage() {
         StringBuilder sb = new StringBuilder();
         INVALID_FILE_TYPE_MESSAGE = sb.append(CdCommand.MESSAGE_FAILURE_FILE_TYPE).append("\n")
                 .append(CdCommand.MESSAGE_USAGE).toString();
     }
 
     @Before
-    public void setUpInvalidMessageType() {
+    public void cdCommand_invalidMsgType_displayUsageMessage() {
         StringBuilder sb = new StringBuilder();
         INVALID_FILE_PATH_MESSAGE = sb.append(CdCommand.MESSAGE_FAILURE_FILE_PATH).append("\n")
                 .append(CdCommand.MESSAGE_USAGE).toString();
     }
-
+    
     @Test
-    public void validCheckPath() {
-        commandBox.runCommand("cd");
-        assertResultMessage(String.format(CdCommand.MESSAGE_SUCCESS_CHECK, originalSavePath));
-    }
-
-    @Test
-    public void invalidFileType() {
-
+    public void cdCommand_invalidFileType_displayFileTypeMessage() {
         commandBox.runCommand("cd " + invalidFileType);
         assertResultMessage(INVALID_FILE_TYPE_MESSAGE);
-
         commandBox.runCommand("cd " + invalidMissingFileType);
         assertResultMessage(INVALID_FILE_TYPE_MESSAGE);
     }
 
     @Test
-    public void invalidFilePath() {
-
+    public void cdCommand_invalidFilePath_displayFilePathMessage() {
         commandBox.runCommand("cd C:\\INVALID\\DONT_EXIST\\PATH\\saveData.xml");
         assertResultMessage(INVALID_FILE_PATH_MESSAGE);
         commandBox.runCommand("cd asd.xml");
         assertResultMessage(INVALID_FILE_PATH_MESSAGE);
+    }
+    
 
+    @Test
+    public void cdCommand_validCheckCommand_displaySaveDataPath() {
+        commandBox.runCommand("cd");
+        assertResultMessage(String.format(CdCommand.MESSAGE_SUCCESS_CHECK, originalSavePath));
     }
 
     @Test
-    public void validFilePath() throws IOException {
-
+    public void cdCommand_validSaveCommand_displayNewDataPath() throws IOException {
         commandBox.runCommand("cd " + validPath);
         assertResultMessage(String.format(CdCommand.MESSAGE_SUCCESS_CHANGE, validPath));
-
         File file = new File(String.join(File.separator, "src", "test", "java", "guitests", "forTesting.xml"));
         assertTrue(file.exists());
         file.delete();
-
     }
 
     @After
@@ -106,7 +100,6 @@ public class CdCommandTest extends TaskForceGuiTest {
         Config config = new Config();
         config.setTaskForceFilePath(forDemoUsePath);
         ConfigUtil.saveConfig(config, "config.json");
-
     }
 
 }
