@@ -1,4 +1,4 @@
-<!-- @@author A0111277M -->
+<!-- @@author A0111277M-->
 
 # User Guide
 
@@ -7,7 +7,7 @@
 * [Features](#features)
 * [FAQ](#faq)
 * [Command Summary](#command-summary)
-
+* [Command Examples](#command-examples)
 ## Overview
 
 1. TaskForce allows you to manage your tasks through a simple
@@ -70,14 +70,14 @@ Format: `help [COMMAND]`
 > - Help is not shown if you enter an incorrect command e.g. `help abcd`
 
 
-<!-- @@author A0111277M -->
+<!-- @@author A0111277M-->
 
 #### Adding a task: `add`
 Adds a task to the task list.  
 Format:  
 Reminder: `add TASKNAME  [d/DESCRIPTION] [t/TAG]...`  
-Deadline: `add TASKNAME  [d/DESCRIPTION] [et/END_DATE] [t/TAG]...`  
-Event: `add TASKNAME  [d/DESCRIPTION]  [st/START_DATE] [et/END_DATE] [t/TAG]...`  
+Deadline: `add TASKNAME  [d/DESCRIPTION] [et/END_DATE] [t/TAG] [[recur/TYPE] [r/TIME]]...`  
+Event: `add TASKNAME  [d/DESCRIPTION]  [st/START_DATE] [et/END_DATE] [t/TAG] [[recur/TYPE] [r/TIMES]]...`  
 
 > - Tasks can have any number of tags (including 0)  
 > - Date format is MM-DD-YYYY HHMM (24 hour Format) e.g. `st/ 10-22-2016 1500`
@@ -85,14 +85,17 @@ Event: `add TASKNAME  [d/DESCRIPTION]  [st/START_DATE] [et/END_DATE] [t/TAG]...`
 > 	- See the section [On Entering Dates](#On Entering Dates) for more details
 > - If no time is specified, the time will be assumed to be the time right now.
 > - If no start date is specified, it is assumed to be today.
-> - If start date/time is specified but end date/time is not specified, the end date/time will be the same day on 2359.
+> - If start date/time is specified but end date/time is not specified, the end date/time 
+> - FlexiCommand is available for addCommand, refer to [Command Examples](#command-examples) for examples of usage.
+> - You can recur a deadline and event a number of times. 
+will be the same day on 2359.
 
 Examples:
 * `add housework d/to get pocket money t/important`<br>
 * `report d/school report et/130116 2200 t/important`<br>
   Add the task into the ToDoList using `add` command.
 
-<!-- @@author A0135768R -->
+<!-- @@author A0135768R-->
 #### Blocking out time: `block`
 Blocks out time for a potential event, or to indicate unavailability to others.  
 This command can block multiple timeslots at once, all for one specific event.  
@@ -125,7 +128,8 @@ Format: `confirm INDEX st/STARTTIME et/ENDTIME [d/DESCRIPTION][t/TAG]...`
 
 Examples:
 * `confirm 5 st/6pm et/8pm`
-<!-- @@author A0139942W -->
+
+<!-- @@author A0139942W-->
 #### Searching for (a) specific task(s): `find`
 Finds tasks of a specific time, or whose names contain any of the given keywords.  
 Format: `find METHOD/ KEYWORDS [mark/TRUE]`
@@ -163,7 +167,7 @@ Method | Explanation | Example
 'type/overdue' | List out all deadline that are overdue and not marked | 'find type/overdue'
 'type/mark' | List out all tasks that are marked done | 'find type/mark'
 
-<!-- @@author A0135768R -->
+<!-- @@author A0135768R-->
 #### Deleting a task : `delete`
 Deletes the specified task from the task list. Irreversible.  
 Format: `delete INDEX[, INDEX,...]`
@@ -178,7 +182,7 @@ Examples:
   `delete 1`<br>
   Deletes the 1st task in the results of the `find` command.
 
-<!-- @@author A0111277M -->
+<!-- @@author A0111277M-->
 #### Editing a task: `edit`  
 Edits a task in the task list.  
 Format: `edit INDEX [NAME] [d/DESCRIPTION] [st/START_DATE] [et/END_DATE] [t/TAGS]`   
@@ -186,7 +190,7 @@ Format: `edit INDEX [NAME] [d/DESCRIPTION] [st/START_DATE] [et/END_DATE] [t/TAGS
 > - Follows index format of delete - The index refers to the index number shown in the most recent listing.
 > - Only enter in the details you want to edit. Details not specified in this command will not be changed.  
 > - The index **must be a positive integer** 1, 2, 3, ...  
-> - You can modify a reminder into a deadline/event by adding start & end dates:  
+> - You can modify a reminder into a deadline/event by adding start & end dates or change a event to deadline/reminder etc:  
 > 	 * `edit INDEX st/1700 et/1900`    
 > - For tags, the edit command follows the following rules:
 > 	- If the task does not have a tag specified in the edit command, the edit command shall add that tag to the task.
@@ -197,7 +201,7 @@ Examples:
 * `edit 1 schoolwork d/change deadline et/220506 2200`
 * `edit 4 dinner d/change location t/important`
 
-<!-- @@author A0139942W -->
+<!-- @@author A0139942W-->
 #### Finding free time in a specific day: `freetime`  
 Gives you all the free time blocks in a specific day
 Format: `freetime [day/DAYS_FROM_TODAY]`  
@@ -206,7 +210,7 @@ Format: `freetime [day/DAYS_FROM_TODAY]`
 > - For example, for yesterday's free time, `freetime day/-1`  
 > - DAYS_FROM_TODAY **must be an integer**
 
-<!-- @@author A0140037W -->
+<!-- @@author A0140037W-->
 #### Undo the previous command : `undo`
 Undo the last command that was successfully executed. <br>
 Format: `undo`
@@ -237,7 +241,8 @@ taskForceDataFilePath | Use the `cd` command | The location of the data save fil
 userPrefsFilePath   | A file path | The location of the user preferences file
 activeHoursFrom | 0000 to 2400 | The earliest hour that the freetime command would take into account when computing your freetime
 activeHoursTo | 0000 to 2400 | The latest hour that the freetime command would take into account when computing your freetime
-enableSudo | true or false | When enabled, you can perform the clear command and other commands for advanced users
+enableSudo | true or false | When enabled, you can perform the 
+command and other commands for advanced users
 
 <!-- @@author A0111277M -->
 #### Clearing all entries : `clear`
@@ -274,6 +279,21 @@ TaskForce supports flexible date inputs and thus allows many natural variations 
 > 	* next thursday 3pm
 > 	* tomorrow 9am
 
+<!-- @@author A0139942W-->
+## Recurring a deadline and event
+TaskForce enable user to recur a deadline and event mutiple times reducing the hassle to add one by one. recurring functionality support
+the follow type of commandS for [recur/TYPE]: 'TYPE'
+> * daily
+> * weekly
+> * monthly
+> * yearly
+> * alternate day
+> * fortnightly
+> * biweekly
+> * alternate month
+> * bimonthly
+> * alternate year
+> * biyearly
 
 <!-- @@author A0111277M-->
 ## FAQ
@@ -286,7 +306,7 @@ TaskForce supports flexible date inputs and thus allows many natural variations 
 
 Command | Format  
 -------- | :--------
-Add | `add EVENT [d/DESCRIPTION][st/START_DATE] [et/END_DATE] [t/TAG] [t/TAG2]...`
+Add | `add EVENT [d/DESCRIPTION][st/START_DATE] [et/END_DATE] [t/TAG] [t/TAG2] [[recur/TYPE] [r/TIME]]...`
 Block | `block NAME st/START_DATE et/END_DATE [st/START_DATE et/END_DATE]...`
 Confirm | `confirm NAME st/START_DATE et/END_DATE [d/DESCRIPTION] [t/TAG]`
 Clear | `clear`
@@ -301,3 +321,63 @@ Undo | `undo`
 Redo | 'redo'
 Help | `help`
 Exit | `exit`
+
+<!-- @@author A0139942W-->
+
+## Command Examples
+
+* **Add** e.g : <br>
+`add remind me to pay money t/important d/own people money ` <br>
+`remind cs2103 assignment et/today 5pm d/very hard t/programming ` <br>
+`remind cs2103 lecture et/11-03-2016 1600 st/11-03-2016 1400 recur/weekly r/6` <br>
+`add cs2102 lecture et/11-01-2016 1200 st/11-01-2016 1400 recur/weekly r/6` <br>
+
+* **Block/Confirm** e.g : <br>
+`block meeting st/today 2pm et/today 4pm st/tomorrow 4pm et/tomorrow 6pm` <br>
+'confirm 2 st/tomorrow 4:30pm et/tomorrow 6:30pm d/meeting delayed by 30min <br>
+
+* **Delete** e.g : <br>
+`delete 3 ` <br>
+`delete 3,1,5,7 ` <br>
+
+* **Edit** e.g : <br>
+`edit 1 changeIntoCS2103 assignment et/today 6pm d/there is a deadline now ` <br>
+
+* **Find** e.g : <br>
+`find name/CS ` <br>
+`find name/homework mark/true ` <br>
+`find desc/own money  ` <br>
+`find tag/important ` <br>
+`find day/5 ` <br>
+`find week/2 ` <br>
+`find type/all ` <br>
+`find type/overdue ` <br>
+`find type/mark ` <br>
+
+* **Freetime** e.g : <br>
+`freetime ` <br>
+`freetime day/3` <br>
+
+* **cd** e.g : <br>
+`cd ` <br>
+`cd C:\Users\Boon\Desktop\newLocation.xml` <br>
+ 
+* **config** e.g : <br>
+`config activeHoursFrom v/0000 ` <br>
+`config activeHoursTo v/2359 ` <br>
+`config enableSudo v/true` <br>
+
+* **undo/redo** e.g : <br>
+`undo ` <br> 
+`redo ` <br>
+
+* **help** e.g : <br>
+`help ` <br>
+
+* **clear** e.g : <br>
+`config enableSudo v/true` <br>
+`clear ` <br>
+
+* **exit** e.g : <br>
+`exit ` <br>
+

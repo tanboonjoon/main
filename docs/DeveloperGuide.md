@@ -185,10 +185,15 @@ and logging destinations.
 
 <!-- @@author A0139942W -->
 ### Tasks
-A task is split into three category, FLOATING TASK(reminder) EVENT and DEADLINE. 
+
+<img src="images/TaskClass.png" width="600"><br>
+Above image is a simplied class diagram of our task class 
+A task is known as a TASK, FLOATING TASK or REMINDER.
+A task is split into three kind, TASK, EVENT and DEADLINE
+A BLOCK is treated as a EVENT
 
 All tasks created in TaskForce are immutable. Therefore the whole program revolves around two operations - adding and deleting tasks. As such, advanced commands Such as edit command
-mark command are extensions of addding and deleting Tasks.
+mark command are extensions of adding and deleting Tasks.
 
 A OVERDUE task is considered as a EVENT that has end date past today date and is not marked done
 
@@ -196,6 +201,7 @@ A OVERDUE task is considered as a EVENT that has end date past today date and is
 * Adding and Deleting Tasks will trigger an event to inform and update the Model side that the list is updated.
 * Having commands revolve around Adding and Deleting simplify our implementation as the Model only have to listen to when Tasks are
 added or deleted.
+* Immutable Tasks simplify the implementation of Undo/Redo since it just the reversal of actions. Deleted task are added back and Added Task are deleted. 
 
 ### FindCommand
 Our FindCommand is implemented to replace the old ListCommand found in TaskForce. ListCommand simply list out all the tasks found in 
@@ -256,6 +262,7 @@ If the user try recurring on a FLOATING TASKS, the system will only add it once 
 The ClearCommand will erase TaskForce data and history upon executed. A confirmation dialog will appear to get user's confirmation before proceed to do the irreversable operation. 
 The user can use arrow key and space bar to select the options on the confirmation dialog.
 
+ClearCommand also REQUIRE enableSudo to be enabled in the config file using configCommand before clear can be used. 
 <!-- @@author A0135768R -->
 
 ### Configuration
@@ -423,6 +430,20 @@ Use case ends
 
 Use case ends
 
+### Use case: Find tasks - filter by type/TYPES
+
+**MSS:**
+1. User will enter the TYPES he want to look at using CLI.
+2. The System will display a list of tasks that are related to that particular type
+
+Use case ends
+
+**Extension:**
+1a. Invalid TYPES support
+> The System will display "find type only support overdue / all / task ".
+
+Use case ends
+
 ### Use case : Delete a task (one entry)
 
 **MSS:**
@@ -533,7 +554,7 @@ Use case ends
 
 Use case ends
 
-### use case: Help command
+### Use case: Help command
 
 **MSS:**
 
@@ -575,29 +596,54 @@ Use case ends
 
 ### Use case : Undoing previous action
 
+**MSS:**
+
 1. User will enter undo using CLI
 2. The system will display "Undid the most recent command" along with the updated list for display.
 
 Use case ends
 
-** Extension:**
+**Extension:**
 
 1a. There is no previous action
 > System will prompt user that there is no previous action to be undone.
 
 ### Use case: Redoing previously undone action
 
+**MSS:**
+
 1. User will enter redo using CLI
 2. The system will display "Redid the most recent undone command" along with the updated list for display.
 
 Use case ends
 
-** Extension: **
+**Extension:**
 
 1a. There is no previous undone action
 > System will prompt user that there is no previous undone action to be redone.
 
+### Use case: Modifying config file
 
+**MSS:**
+
+1. User will type the option to modify along with new value using CLI.
+2. The system will display 'the following option:[OPTION] has been set to [NEW VALUE]'.
+
+Use case ends
+
+**Extension:**
+
+1a. Invalid option is inputted
+> System will display "The given config option is not valid!".
+
+1b. Invalid new value is inputted
+> System will display "The given config option and or value is not valid!".
+
+1c. The config file is corrupted
+> System will display "Something went wrong when saving the config file! Your file might be corrupted. 
+Please try to delete it and load the app up again for the default config file!".
+
+Use case ends
 
 ## Appendix C : Non Functional Requirements
 
