@@ -85,10 +85,9 @@ Event: `add TASKNAME  [d/DESCRIPTION]  [st/START_DATE] [et/END_DATE] [t/TAG] [[r
 > 	- See the section [On Entering Dates](#On Entering Dates) for more details
 > - If no time is specified, the time will be assumed to be the time right now.
 > - If no start date is specified, it is assumed to be today.
-> - If start date/time is specified but end date/time is not specified, the end date/time 
+> - If start date/time is specified but end date/time is not specified, the end date/time will be the same day on 2359.
 > - FlexiCommand is available for addCommand, refer to [Command Examples](#command-examples) for examples of usage.
 > - You can recur a deadline and event a number of times. 
-will be the same day on 2359.
 
 Examples:
 * `add housework d/to get pocket money t/important`<br>
@@ -132,8 +131,8 @@ Examples:
 <!-- @@author A0139942W-->
 #### Searching for (a) specific task(s): `find`
 Finds tasks of a specific time, or whose names contain any of the given keywords.  
-Format: `find METHOD/ KEYWORDS [mark/TRUE]`
-KEYWORDS for TYPE 'name/' 'desc/' 'tag/' is a word that is contain/part of a task name/description/tag
+Format: `find METHOD/ KEYWORDS [mark/TRUE]` <br>
+KEYWORDS for TYPE 'name/' 'desc/' 'tag/' is a word that is contain/part of a task name/description/tag <br>
 KEYWORDS for TYPE 'day' and 'week' is a integer number.
 
 Method | Explanation | Example
@@ -157,7 +156,7 @@ to include marked task in search
 
 #### Searching for (a) specific task(s) under certain category: 'find'
 Find tasks that belong to a certain category. 
-Format: 'find TYPE/CATEGORY'
+Format: 'find TYPE/CATEGORY' <br>
 'CATEGORY' is defined as 'all', 'overdue', 'mark'. Any other category will be classified
 as invalidCommand.
 
