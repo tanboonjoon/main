@@ -64,7 +64,7 @@ public class FreeTimeLine extends UiPart {
         SplitPane.setResizableWithParent(placeHolderPane, false);
         placeHolderPane.getChildren().add(timeline);
         FxViewUtil.applyAnchorBoundaryParameters(timelinepane, 0.0, 0.0, 0.0, 0.0);
-        FxViewUtil.applyAnchorBoundaryParameters(timeline, 20.0, 0.0, 40.0, 0.0);
+        FxViewUtil.applyAnchorBoundaryParameters(timeline, 200.0, 0.0, 40.0, 0.0);
 
         timeline.setVisible(false);
     }

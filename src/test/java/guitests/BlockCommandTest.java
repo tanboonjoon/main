@@ -89,7 +89,7 @@ public class BlockCommandTest extends TaskForceGuiTest {
         commandBox.runCommand(command);
         commandBox.runCommand("list");
 
-        assertTrue(taskListPanel.isListMatching(list));
+        assertTrue(eventListPanel.isListMatching(list));
     }
 
 }

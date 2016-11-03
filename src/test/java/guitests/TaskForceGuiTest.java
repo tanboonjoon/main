@@ -43,6 +43,7 @@ public abstract class TaskForceGuiTest {
     protected MainGuiHandle mainGui;
     protected MainMenuHandle mainMenu;
     protected TaskListPanelHandle taskListPanel;
+    protected TaskListPanelHandle eventListPanel;
     protected ResultDisplayHandle resultDisplay;
     protected CommandBoxHandle commandBox;
     private Stage stage;
@@ -63,6 +64,7 @@ public abstract class TaskForceGuiTest {
             mainGui = new MainGuiHandle(new GuiRobot(), stage);
             mainMenu = mainGui.getMainMenu();
             taskListPanel = mainGui.getTaskListPanel();
+            eventListPanel = mainGui.getEventListPanel();
             resultDisplay = mainGui.getResultDisplay();
             commandBox = mainGui.getCommandBox();
             this.stage = stage;

@@ -25,7 +25,6 @@ import seedu.address.logic.commands.IncorrectCommand;
 import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.commands.MarkCommand;
 import seedu.address.logic.commands.RedoCommand;
-import seedu.address.logic.commands.SelectCommand;
 import seedu.address.logic.commands.UndoCommand;
 
 /**
@@ -42,7 +41,6 @@ public class Parser {
 
     static {
         registerCommand(AddCommandParser.class, AddCommand.COMMAND_WORD);
-        registerCommand(SelectCommandParser.class, SelectCommand.COMMAND_WORD);
         registerCommand(DeleteCommandParser.class, DeleteCommand.COMMAND_WORD);
         registerCommand(FindCommandParser.class, FindCommand.COMMAND_WORD);
         registerCommand(ClearCommandParser.class, ClearCommand.COMMAND_WORD);
