@@ -1,4 +1,4 @@
-<!-- @@author A0111277M -->
+<!-- @@author A0111277M-->
 
 # User Guide
 
@@ -70,7 +70,7 @@ Format: `help [COMMAND]`
 > - Help is not shown if you enter an incorrect command e.g. `help abcd`
 
 
-<!-- @@author A0111277M -->
+<!-- @@author A0111277M-->
 
 #### Adding a task: `add`
 Adds a task to the task list.  
@@ -95,7 +95,7 @@ Examples:
 * `report d/school report et/130116 2200 t/important`<br>
   Add the task into the ToDoList using `add` command.
 
-<!-- @@author A0135768R -->
+<!-- @@author A0135768R-->
 #### Blocking out time: `block`
 Blocks out time for a potential event, or to indicate unavailability to others.  
 This command can block multiple timeslots at once, all for one specific event.  
@@ -129,7 +129,7 @@ Format: `confirm INDEX st/STARTTIME et/ENDTIME [d/DESCRIPTION][t/TAG]...`
 Examples:
 * `confirm 5 st/6pm et/8pm`
 
-<!-- @@author A0139942W -->
+<!-- @@author A0139942W-->
 #### Searching for (a) specific task(s): `find`
 Finds tasks of a specific time, or whose names contain any of the given keywords.  
 Format: `find METHOD/ KEYWORDS [mark/TRUE]`
@@ -167,7 +167,7 @@ Method | Explanation | Example
 'type/overdue' | List out all deadline that are overdue and not marked | 'find type/overdue'
 'type/mark' | List out all tasks that are marked done | 'find type/mark'
 
-<!-- @@author A0135768R -->
+<!-- @@author A0135768R-->
 #### Deleting a task : `delete`
 Deletes the specified task from the task list. Irreversible.  
 Format: `delete INDEX[, INDEX,...]`
@@ -182,7 +182,7 @@ Examples:
   `delete 1`<br>
   Deletes the 1st task in the results of the `find` command.
 
-<!-- @@author A0111277M -->
+<!-- @@author A0111277M-->
 #### Editing a task: `edit`  
 Edits a task in the task list.  
 Format: `edit INDEX [NAME] [d/DESCRIPTION] [st/START_DATE] [et/END_DATE] [t/TAGS]`   
@@ -201,7 +201,7 @@ Examples:
 * `edit 1 schoolwork d/change deadline et/220506 2200`
 * `edit 4 dinner d/change location t/important`
 
-<!-- @@author A0139942W -->
+<!-- @@author A0139942W-->
 #### Finding free time in a specific day: `freetime`  
 Gives you all the free time blocks in a specific day
 Format: `freetime [day/DAYS_FROM_TODAY]`  
@@ -210,7 +210,7 @@ Format: `freetime [day/DAYS_FROM_TODAY]`
 > - For example, for yesterday's free time, `freetime day/-1`  
 > - DAYS_FROM_TODAY **must be an integer**
 
-<!-- @@author A0140037W -->
+<!-- @@author A0140037W-->
 #### Undo the previous command : `undo`
 Undo the last command that was successfully executed. <br>
 Format: `undo`
@@ -322,7 +322,7 @@ Redo | 'redo'
 Help | `help`
 Exit | `exit`
 
-<!-- @@author A0139942W-- >
+<!-- @@author A0139942W-->
 
 ## Command Examples
 
