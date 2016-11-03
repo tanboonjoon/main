@@ -617,7 +617,7 @@ Use case ends
 
 Use case ends
 
-**Extension: **
+**Extension:**
 
 1a. There is no previous undone action
 > System will prompt user that there is no previous undone action to be redone.
@@ -631,7 +631,8 @@ Use case ends
 
 Use case ends
 
-**Extension: **
+**Extension:**
+
 1a. Invalid option is inputted
 > System will display "The given config option is not valid!".
 
