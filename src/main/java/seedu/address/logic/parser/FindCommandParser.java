@@ -30,20 +30,20 @@ public class FindCommandParser extends CommandParser {
      * @return the prepared command
      */
     private static final String EMPTY_STRING = "";
-    private static final int VALID_FIND_TYPE_NUMBER = 1;
-    private  static final int FIND_TYPE_INDEX = 0;
-    private static final String NULL_STRING = null;
     private static final String SEPERATOR = "/";
     private static final String CHECK_TRUE = "true";
-    public static final boolean INCLUDE_MARK = true;
-    public static final boolean EXCLUDE_MARK = false;
+    private static final String NULL_STRING = null;
+    private static final int VALID_FIND_TYPE_NUMBER = 1;
+    private  static final int FIND_TYPE_INDEX = 0;
+    private static final boolean INCLUDE_MARK = true;
+    private  static final boolean EXCLUDE_MARK = false;
     private ArgumentsParser parser;
     
     @Override
     public Command prepareCommand(String args) {
-        parser = prepareParser();
+ 
         try {
-            parser.parse(args);
+            parser = prepareParser(args);
             final boolean checkMark = prepareMarkArgs();
             final String typeOfFind = prepareTypeOfFind();
             if (!isValidArgs(typeOfFind, args.trim())) {
@@ -65,12 +65,16 @@ public class FindCommandParser extends CommandParser {
         return preparedKeywordSet;
     }
 
-    private ArgumentsParser prepareParser() {
+    private ArgumentsParser prepareParser(String argsToParse) throws IncorrectCommandException {
         ArgumentsParser prepareParser = new ArgumentsParser();
-        prepareParser.addOptionalArg(CommandArgs.FIND_NAME).addOptionalArg(CommandArgs.FIND_WEEK)
-                .addOptionalArg(CommandArgs.FIND_DAY).addOptionalArg(CommandArgs.FIND_DESC)
-                .addOptionalArg(CommandArgs.FIND_TAG).addOptionalArg(CommandArgs.FIND_MARK)
-                .addOptionalArg(CommandArgs.FIND_TYPE);
+        prepareParser.addOptionalArg(CommandArgs.FIND_NAME)
+        .addOptionalArg(CommandArgs.FIND_WEEK)
+        .addOptionalArg(CommandArgs.FIND_DAY)
+        .addOptionalArg(CommandArgs.FIND_DESC)
+        .addOptionalArg(CommandArgs.FIND_TAG)
+        .addOptionalArg(CommandArgs.FIND_MARK)
+        .addOptionalArg(CommandArgs.FIND_TYPE);
+        parser.parse(argsToParse);
         return prepareParser;
     }
 
@@ -103,7 +107,6 @@ public class FindCommandParser extends CommandParser {
     }
 
     private boolean prepareMarkArgs() throws IncorrectCommandException {
-        // TODO Auto-generated method stub
         String markArgs = getMarkArg();
         if (CHECK_TRUE.equalsIgnoreCase(markArgs)) {
             return INCLUDE_MARK;
