@@ -262,6 +262,7 @@ If the user try recurring on a FLOATING TASKS, the system will only add it once 
 The ClearCommand will erase TaskForce data and history upon executed. A confirmation dialog will appear to get user's confirmation before proceed to do the irreversable operation. 
 The user can use arrow key and space bar to select the options on the confirmation dialog.
 
+ClearCommand also REQUIRE enableSudo to be enabled in the config file using configCommand before clear can be used. 
 <!-- @@author A0135768R -->
 
 ### Configuration
@@ -602,7 +603,7 @@ Use case ends
 
 Use case ends
 
-** Extension:**
+**Extension:**
 
 1a. There is no previous action
 > System will prompt user that there is no previous action to be undone.
@@ -616,7 +617,7 @@ Use case ends
 
 Use case ends
 
-** Extension: **
+**Extension: **
 
 1a. There is no previous undone action
 > System will prompt user that there is no previous undone action to be redone.
@@ -630,7 +631,7 @@ Use case ends
 
 Use case ends
 
-** Extension: **
+**Extension: **
 1a. Invalid option is inputted
 > System will display "The given config option is not valid!".
 
