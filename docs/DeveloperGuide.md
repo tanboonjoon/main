@@ -187,9 +187,9 @@ and logging destinations.
 ### Tasks
 
 <img src="images/TaskClass.png" width="600"><br>
-Above image is a simplied class diagram of our task class 
-A task is known as a TASK, FLOATING TASK or REMINDER.
-A task is split into three kind, TASK, EVENT and DEADLINE
+Above image is a simplied class diagram of our task class <br>
+A task is known as a TASK, FLOATING TASK or REMINDER. <br>
+A task is split into three kind, TASK, EVENT and DEADLINE <br>
 A BLOCK is treated as a EVENT
 
 All tasks created in TaskForce are immutable. Therefore the whole program revolves around two operations - adding and deleting tasks. As such, advanced commands Such as edit command
@@ -243,8 +243,11 @@ The following is the sequence diagram for a typical command executed.
 
 ### SortedList
 TaskForce wraps the ObservableList with a FilteredList, this allow Users to filter out keyword using TaskForce's FindCommand.
-The FilteredList is furthur wrapped with a SortedList to ensure the list shown to Users are constantly sorted at all time.
+The FilteredList is further wrapped with a SortedList to ensure the list shown to Users are constantly sorted at all time.
 The nature of the ObservableList allow the list shown to be constantly updated whenever a new changes occured such as Addition/Deletion of a new Tasks
+
+The list are sorted by this order FLOATING TASK --> DEADLINE --> EVENT <br>
+Deadline and Event and further sort by dates.
 
 ### CdCommand
 The CdCommand will recreate the config.json file using default Config Class as a base. The only difference is that the config.json file will contained the new savepath indicated by users. Any modification made directly to the config.json file will be overwritten when
