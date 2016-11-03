@@ -14,11 +14,10 @@
 command-line interface (CLI)-based application.
 2. It allows for 3 main kinds of tasks:  
    * Reminders - a task with no start nor end date  
-   * Deadline - a task that ends at a specific time 
-      > A OVERDUE TASK is a Deadline that is past today date and not marked done. 
-   * Event - an event has both a start and end time
-3. You can also block out time from your calendar through this app, through the
-implementation of blocks - events with no name (placeholders).
+   * Deadline - a task that ends at a specific time <br>
+      >  A OVERDUE TASK is a Deadline that is past today date and not marked done. 
+   * Event - an event has both a start and end time <br>
+      >  A BLOCK is an uncomfirmed event that require you to confirm it.
 4. This app is built on Java, and runs on any Desktop.
 
 ### Advanced User
@@ -155,7 +154,7 @@ to include marked task in search
 
 
 #### Searching for (a) specific task(s) under certain category: 'find'
-Find tasks that belong to a certain category. 
+Find tasks that belong to a certain category. <br>
 Format: 'find TYPE/CATEGORY' <br>
 'CATEGORY' is defined as 'all', 'overdue', 'mark'. Any other category will be classified
 as invalidCommand.
@@ -202,8 +201,8 @@ Examples:
 
 <!-- @@author A0139942W-->
 #### Finding free time in a specific day: `freetime`  
-Gives you all the free time blocks in a specific day
-Format: `freetime [day/DAYS_FROM_TODAY]`  
+Gives you all the free time blocks in a specific day <br>
+Format: `freetime [day/DAYS_FROM_TODAY]`  <br>
 > - By default, freetime gives you today's free time  
 > - You can adjust days by using the day/ option  
 > - For example, for yesterday's free time, `freetime day/-1`  
