@@ -155,7 +155,7 @@ to include marked task in search
 
 #### Searching for (a) specific task(s) under certain category: 'find'
 Find tasks that belong to a certain category. <br>
-Format: 'find TYPE/CATEGORY' <br>
+Format: `find TYPE/CATEGORY` <br>
 'CATEGORY' is defined as 'all', 'overdue', 'mark'. Any other category will be classified
 as invalidCommand.
 
@@ -293,6 +293,7 @@ the follow type of commandS for [recur/TYPE]: 'TYPE'
 > * alternate year
 > * biyearly
 
+Any other type inputted will be treaded as invalidCommand. <br>
 <!-- @@author A0111277M-->
 ## FAQ
 
