@@ -7,7 +7,7 @@
 * [Features](#features)
 * [FAQ](#faq)
 * [Command Summary](#command-summary)
-
+* [Command Examples](#command-examples)
 ## Overview
 
 1. TaskForce allows you to manage your tasks through a simple
@@ -76,8 +76,8 @@ Format: `help [COMMAND]`
 Adds a task to the task list.  
 Format:  
 Reminder: `add TASKNAME  [d/DESCRIPTION] [t/TAG]...`  
-Deadline: `add TASKNAME  [d/DESCRIPTION] [et/END_DATE] [t/TAG]...`  
-Event: `add TASKNAME  [d/DESCRIPTION]  [st/START_DATE] [et/END_DATE] [t/TAG]...`  
+Deadline: `add TASKNAME  [d/DESCRIPTION] [et/END_DATE] [t/TAG] [[recur/TYPE] [r/TIME]]...`  
+Event: `add TASKNAME  [d/DESCRIPTION]  [st/START_DATE] [et/END_DATE] [t/TAG] [[recur/TYPE] [r/TIMES]]...`  
 
 > - Tasks can have any number of tags (including 0)  
 > - Date format is MM-DD-YYYY HHMM (24 hour Format) e.g. `st/ 10-22-2016 1500`
@@ -85,7 +85,10 @@ Event: `add TASKNAME  [d/DESCRIPTION]  [st/START_DATE] [et/END_DATE] [t/TAG]...`
 > 	- See the section [On Entering Dates](#On Entering Dates) for more details
 > - If no time is specified, the time will be assumed to be the time right now.
 > - If no start date is specified, it is assumed to be today.
-> - If start date/time is specified but end date/time is not specified, the end date/time will be the same day on 2359.
+> - If start date/time is specified but end date/time is not specified, the end date/time 
+> - FlexiCommand is available for addCommand, refer to [Command Examples](#command-examples) for examples of usage.
+> - You can recur a deadline and event a number of times. 
+will be the same day on 2359.
 
 Examples:
 * `add housework d/to get pocket money t/important`<br>
@@ -125,6 +128,7 @@ Format: `confirm INDEX st/STARTTIME et/ENDTIME [d/DESCRIPTION][t/TAG]...`
 
 Examples:
 * `confirm 5 st/6pm et/8pm`
+
 <!-- @@author A0139942W -->
 #### Searching for (a) specific task(s): `find`
 Finds tasks of a specific time, or whose names contain any of the given keywords.  
@@ -186,7 +190,7 @@ Format: `edit INDEX [NAME] [d/DESCRIPTION] [st/START_DATE] [et/END_DATE] [t/TAGS
 > - Follows index format of delete - The index refers to the index number shown in the most recent listing.
 > - Only enter in the details you want to edit. Details not specified in this command will not be changed.  
 > - The index **must be a positive integer** 1, 2, 3, ...  
-> - You can modify a reminder into a deadline/event by adding start & end dates:  
+> - You can modify a reminder into a deadline/event by adding start & end dates or change a event to deadline/reminder etc:  
 > 	 * `edit INDEX st/1700 et/1900`    
 > - For tags, the edit command follows the following rules:
 > 	- If the task does not have a tag specified in the edit command, the edit command shall add that tag to the task.
@@ -286,7 +290,7 @@ TaskForce supports flexible date inputs and thus allows many natural variations 
 
 Command | Format  
 -------- | :--------
-Add | `add EVENT [d/DESCRIPTION][st/START_DATE] [et/END_DATE] [t/TAG] [t/TAG2]...`
+Add | `add EVENT [d/DESCRIPTION][st/START_DATE] [et/END_DATE] [t/TAG] [t/TAG2] [[recur/TYPE] [r/TIME]]...`
 Block | `block NAME st/START_DATE et/END_DATE [st/START_DATE et/END_DATE]...`
 Confirm | `confirm NAME st/START_DATE et/END_DATE [d/DESCRIPTION] [t/TAG]`
 Clear | `clear`
@@ -301,3 +305,5 @@ Undo | `undo`
 Redo | 'redo'
 Help | `help`
 Exit | `exit`
+
+## Command Examples
