@@ -9,20 +9,21 @@
 <?import javafx.scene.shape.Rectangle?>
 
 <!-- @@author A0135768R -->
-<HBox id="cardPane" fx:id="cardPane" maxHeight="93.0" maxWidth="575.0" prefHeight="93.0" prefWidth="575.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
+
+<HBox id="cardPane" fx:id="cardPane" maxHeight="93.0" maxWidth="575.0" minWidth="575.0" prefHeight="93.0" prefWidth="575.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1">
     <children>
-      <AnchorPane prefHeight="88.0" prefWidth="104.0">
+      <AnchorPane prefHeight="88.0" prefWidth="105.0">
          <children>
             <Circle fx:id="circle" layoutX="52.0" layoutY="46.0" radius="23.0" stroke="BLACK" strokeType="INSIDE" styleClass="circle_low" AnchorPane.bottomAnchor="24.0" AnchorPane.leftAnchor="29.0" AnchorPane.rightAnchor="29.0" AnchorPane.topAnchor="23.0" />
             <Label fx:id="id" layoutX="46.0" layoutY="36.0" prefHeight="21.0" prefWidth="27.0" styleClass="task_id" text="Label" textAlignment="CENTER" AnchorPane.bottomAnchor="36.0" AnchorPane.leftAnchor="46.0" AnchorPane.rightAnchor="31.0" AnchorPane.topAnchor="36.0" />
          </children>
       </AnchorPane>
-      <AnchorPane prefHeight="93.0" prefWidth="1099.0">
+      <AnchorPane maxWidth="450.0" prefHeight="93.0" prefWidth="450.0">
          <children>
                      <Label fx:id="name" layoutX="2.0" layoutY="7.0" styleClass="cell_big_label" text="\$first" AnchorPane.leftAnchor="2.0" AnchorPane.topAnchor="7.0" />
-            <AnchorPane layoutX="2.0" layoutY="27.0" prefHeight="64.0" prefWidth="549.0">
+            <AnchorPane layoutX="2.0" layoutY="27.0" maxWidth="470.0" prefHeight="64.0" prefWidth="409.0">
                <children>
-                        <Label fx:id="description" layoutX="12.0" layoutY="1.0" prefHeight="21.0" prefWidth="537.0" styleClass="cell_small_label" text="\$description" AnchorPane.leftAnchor="12.0" AnchorPane.topAnchor="1.0" />
+                        <Label fx:id="description" layoutX="12.0" layoutY="1.0" prefHeight="21.0" prefWidth="452.0" styleClass="cell_small_label" text="\$description" AnchorPane.leftAnchor="12.0" AnchorPane.topAnchor="1.0" />
                   <Rectangle fx:id="descBar" arcHeight="5.0" arcWidth="5.0" fill="#f46060" height="20.0" layoutX="3.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="5.0" AnchorPane.leftAnchor="3.0" AnchorPane.topAnchor="3.0" />
                   <ImageView fx:id="clock" fitHeight="20.0" fitWidth="20.0" layoutX="-1.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="17.0" AnchorPane.leftAnchor="-1.0">
                      <image>
@@ -30,13 +31,13 @@
                      </image>
                   </ImageView>
                   <Label fx:id="startline" layoutX="22.0" layoutY="27.0" styleClass="cell_small_label" text="\$startline" AnchorPane.leftAnchor="22.0" AnchorPane.topAnchor="27.0" />
+                  <ImageView fx:id="isDone" fitHeight="28.0" fitWidth="25.0" layoutX="425.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="425.0" AnchorPane.topAnchor="24.0">
+                     <image>
+                        <Image url="@../images/mark.png" />
+                     </image>
+                  </ImageView>
                </children></AnchorPane>
-                    <Label fx:id="tags" layoutX="502.0" layoutY="2.0" style="-fx-border-color: FFFF;" styleClass="cell_small_label" text="\$tags" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="2.0" />
-            <ImageView fx:id="isDone" fitHeight="28.0" fitWidth="25.0" layoutX="600.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="600.0" AnchorPane.topAnchor="40.0">
-               <image>
-                  <Image url="@../images/mark.png" />
-               </image>
-            </ImageView>
+                    <Label fx:id="tags" layoutX="408.0" style="-fx-border-color: FFFF;" styleClass="cell_small_label" text="\$tags" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="0.0" />
          </children>
       </AnchorPane>
     </children>
