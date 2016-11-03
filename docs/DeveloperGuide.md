@@ -429,6 +429,20 @@ Use case ends
 
 Use case ends
 
+### Use case: Find tasks - filter by type/TYPES
+
+**MSS:**
+1. User will enter the TYPES he want to look at using CLI.
+2. The System will display a list of tasks that are related to that particular type
+
+Use case ends
+
+**Extension:**
+1a. Invalid TYPES support
+> The System will display "find type only support overdue / all / task ".
+
+Use case ends
+
 ### Use case : Delete a task (one entry)
 
 **MSS:**
@@ -539,7 +553,7 @@ Use case ends
 
 Use case ends
 
-### use case: Help command
+### Use case: Help command
 
 **MSS:**
 
@@ -581,6 +595,8 @@ Use case ends
 
 ### Use case : Undoing previous action
 
+**MSS:**
+
 1. User will enter undo using CLI
 2. The system will display "Undid the most recent command" along with the updated list for display.
 
@@ -593,6 +609,8 @@ Use case ends
 
 ### Use case: Redoing previously undone action
 
+**MSS:**
+
 1. User will enter redo using CLI
 2. The system will display "Redid the most recent undone command" along with the updated list for display.
 
@@ -603,7 +621,27 @@ Use case ends
 1a. There is no previous undone action
 > System will prompt user that there is no previous undone action to be redone.
 
+### Use case: Modifying config file
 
+**MSS:**
+
+1. User will type the option to modify along with new value using CLI.
+2. The system will display 'the following option:[OPTION] has been set to [NEW VALUE]'.
+
+Use case ends
+
+** Extension: **
+1a. Invalid option is inputted
+> System will display "The given config option is not valid!".
+
+1b. Invalid new value is inputted
+> System will display "The given config option and or value is not valid!".
+
+1c. The config file is corrupted
+> System will display "Something went wrong when saving the config file! Your file might be corrupted. 
+Please try to delete it and load the app up again for the default config file!".
+
+Use case ends
 
 ## Appendix C : Non Functional Requirements
 
