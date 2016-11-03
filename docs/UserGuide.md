@@ -327,14 +327,16 @@ Exit | `exit`
 ## Command Examples
 
 * **Add** e.g : <br>
+`remind to read my novel d/when i got time ` <br>
 `add remind me to pay money t/important d/own people money ` <br>
+`add cs2105 assignment et/next week 2pm ` <br>
 `remind cs2103 assignment et/today 5pm d/very hard t/programming ` <br>
 `remind cs2103 lecture et/11-03-2016 1600 st/11-03-2016 1400 recur/weekly r/6` <br>
 `add cs2102 lecture et/11-01-2016 1200 st/11-01-2016 1400 recur/weekly r/6` <br>
 
 * **Block/Confirm** e.g : <br>
 `block meeting st/today 2pm et/today 4pm st/tomorrow 4pm et/tomorrow 6pm` <br>
-'confirm 2 st/tomorrow 4:30pm et/tomorrow 6:30pm d/meeting delayed by 30min <br>
+`confirm 2 st/tomorrow 4:30pm et/tomorrow 6:30pm d/meeting delayed by 30min`<br>
 
 * **Delete** e.g : <br>
 `delete 3 ` <br>
