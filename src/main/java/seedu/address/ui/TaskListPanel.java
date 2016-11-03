@@ -142,7 +142,7 @@ public class TaskListPanel extends UiPart {
                 setGraphic(null);
                 setText(null);
             } else {
-                TaskCard newCard = TaskCard.load(task, taskList.indexOf(task));
+                TaskCard newCard = TaskCard.load(task, taskList.indexOf(task) + 1);
                 setGraphic(newCard.getLayout());
             }
         }
