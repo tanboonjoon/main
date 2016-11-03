@@ -348,10 +348,8 @@ Exit | `exit`
 `find name/homework mark/true ` <br>
 `find desc/own money  ` <br>
 `find tag/important ` <br>
-
 `find day/5 ` <br>
 `find week/2 ` <br>
-
 `find type/all ` <br>
 `find type/overdue ` <br>
 `find type/mark ` <br>
