@@ -101,12 +101,7 @@ public class EventListPanel extends UiPart {
             if (empty || task == null) {
                 setGraphic(null);
                 setText(null);
-            } else {
-                
-                if (! (task instanceof Event) ){
-                    return ;
-                }
-                
+            } else {                
                 TaskCard newCard = TaskCard.load(task, taskList.indexOf(task) + 1);
                 setGraphic(newCard.getLayout());
             }
