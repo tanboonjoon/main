@@ -278,6 +278,21 @@ TaskForce supports flexible date inputs and thus allows many natural variations 
 > 	* next thursday 3pm
 > 	* tomorrow 9am
 
+<!-- @@author A0139942W-->
+## Recurring a deadline and event
+TaskForce enable user to recur a deadline and event mutiple times reducing the hassle to add one by one. recurring functionality support
+the follow type of commandS for [recur/TYPE]: 'TYPE'
+> * daily
+> * weekly
+> * monthly
+> * yearly
+> * alternate day
+> * fortnightly
+> * biweekly
+> * alternate month
+> * bimonthly
+> * alternate year
+> * biyearly
 
 <!-- @@author A0111277M-->
 ## FAQ
