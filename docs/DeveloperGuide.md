@@ -185,10 +185,15 @@ and logging destinations.
 
 <!-- @@author A0139942W -->
 ### Tasks
-A task is split into three category, FLOATING TASK(reminder) EVENT and DEADLINE. 
+
+<img src="images/TaskClass.png" width="600"><br>
+Above image is a simplied class diagram of our task class 
+A task is known as a TASK, FLOATING TASK or REMINDER.
+A task is split into three kind, TASK, EVENT and DEADLINE
+A BLOCK is treated as a EVENT
 
 All tasks created in TaskForce are immutable. Therefore the whole program revolves around two operations - adding and deleting tasks. As such, advanced commands Such as edit command
-mark command are extensions of addding and deleting Tasks.
+mark command are extensions of adding and deleting Tasks.
 
 A OVERDUE task is considered as a EVENT that has end date past today date and is not marked done
 
@@ -196,6 +201,7 @@ A OVERDUE task is considered as a EVENT that has end date past today date and is
 * Adding and Deleting Tasks will trigger an event to inform and update the Model side that the list is updated.
 * Having commands revolve around Adding and Deleting simplify our implementation as the Model only have to listen to when Tasks are
 added or deleted.
+* Immutable Tasks simplify the implementation of Undo/Redo since it just the reversal of actions. Deleted task are added back and Added Task are deleted. 
 
 ### FindCommand
 Our FindCommand is implemented to replace the old ListCommand found in TaskForce. ListCommand simply list out all the tasks found in 
