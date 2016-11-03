@@ -8,6 +8,7 @@ import com.google.common.collect.Lists;
 import javafx.application.Platform;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.ListCell;
@@ -19,16 +20,24 @@ import javafx.stage.Stage;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.model.TaskForceTaskListChangedEvent;
 import seedu.address.commons.events.ui.TaskPanelSelectionChangedEvent;
+import seedu.address.logic.filters.EventQualifier;
+import seedu.address.logic.filters.Expression;
+import seedu.address.logic.filters.PredicateExpression;
+import seedu.address.logic.filters.Qualifier;
 import seedu.address.model.task.ReadOnlyTask;
 
 /**
  * Panel containing the list of tasks.
  */
 public class TaskListPanel extends UiPart {
+    
+    private static final Qualifier filter = new EventQualifier(false) ;
+    
     private final Logger logger = LogsCenter.getLogger(TaskListPanel.class);
     private static final String FXML = "TaskListPanel.fxml";
     private VBox panel;
     private AnchorPane placeHolderPane;
+    private List<ReadOnlyTask> taskList ;
 
     @FXML
     private ListView<ReadOnlyTask> taskListView;
@@ -65,7 +74,10 @@ public class TaskListPanel extends UiPart {
     }
 
     private void setConnections(ObservableList<ReadOnlyTask> taskList) {
-        taskListView.setItems(taskList);
+        this.taskList = taskList ;
+        
+        Expression expression = new PredicateExpression(filter) ;
+        taskListView.setItems(new FilteredList<ReadOnlyTask>(taskList, expression::satisfies ));
         taskListView.setCellFactory(listView -> new TaskListViewCell());
         setEventHandlerForSelectionChangeEvent();
 
@@ -129,7 +141,7 @@ public class TaskListPanel extends UiPart {
                 setGraphic(null);
                 setText(null);
             } else {
-                TaskCard newCard = TaskCard.load(task, getIndex() + 1);
+                TaskCard newCard = TaskCard.load(task, taskList.indexOf(task) + 1);
                 setGraphic(newCard.getLayout());
             }
         }

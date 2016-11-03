@@ -20,7 +20,7 @@ public class UserPrefs {
     }
 
     public UserPrefs(){
-        this.setGuiSettings(800, 600, 0, 0);
+        this.setGuiSettings(1200, 800, 0, 0);
     }
 
     public void setGuiSettings(double width, double height, int x, int y) {
