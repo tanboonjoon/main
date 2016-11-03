@@ -135,11 +135,9 @@ public class NameQualifier implements Qualifier {
         if (searchType.equals(SEARCH_NAME)) {
             return keywordTrie.containsMatch(task.getName());
         }
-
         if (searchType.equals(SEARCH_DESC)) {
             return keywordTrie.containsMatch(task.getDescription());
         }
-
         return filterByTag(task, keywordTrie);
     }
 
@@ -150,7 +148,6 @@ public class NameQualifier implements Qualifier {
                 return TASK_FOUND;
             }
         }
-
         return TASK_NOT_FOUND;
     }
 
@@ -177,30 +174,28 @@ public class NameQualifier implements Qualifier {
         LocalDate dateToCompare;
         if (FILTER_BY_DAY.equals(typeOfFind)) {
             dateToCompare = localDateLists.get(LOCAL_DATE_INDEX);
-            return isEventFound(dateToCompare, eventStartDate, eventEndDate);
+            return checkEvent(dateToCompare, eventStartDate, eventEndDate);
 
         }
         for (int dayIndex = 0; dayIndex < LAST_DAY_INDEX; dayIndex++) {
             dateToCompare = localDateLists.get(dayIndex);
-            if (isEventFound(dateToCompare, eventStartDate, eventEndDate)) {
+            if (checkEvent(dateToCompare, eventStartDate, eventEndDate)) {
                 return TASK_FOUND;
             }
-
         }
         return TASK_NOT_FOUND;
     }
 
-    private boolean isEventFound(LocalDate comparedDate, LocalDate startDate, LocalDate endDate) {
-        if (comparedDate.equals(startDate) == IS_SAME_DAY) {
-            return TASK_FOUND;
-        }
-        if (comparedDate.equals(endDate) == IS_SAME_DAY) {
-            return TASK_FOUND;
-        }
-        if (comparedDate.isAfter(startDate) == true && comparedDate.isBefore(endDate) == true) {
+    private boolean checkEvent(LocalDate comparedDate, LocalDate startDate, LocalDate endDate) {
+        if (isEventFound(comparedDate, startDate, endDate)) {
             return TASK_FOUND;
         }
         return TASK_NOT_FOUND;
+    }
+    
+    private boolean isEventFound(LocalDate comparedDate, LocalDate startDate, LocalDate endDate) {
+        return comparedDate.equals(startDate) == IS_SAME_DAY || comparedDate.equals(endDate) == IS_SAME_DAY
+                || (comparedDate.isAfter(startDate) == true && comparedDate.isBefore(endDate) == true);
     }
 
     private void getLocalDate() {
