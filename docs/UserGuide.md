@@ -241,7 +241,8 @@ taskForceDataFilePath | Use the `cd` command | The location of the data save fil
 userPrefsFilePath   | A file path | The location of the user preferences file
 activeHoursFrom | 0000 to 2400 | The earliest hour that the freetime command would take into account when computing your freetime
 activeHoursTo | 0000 to 2400 | The latest hour that the freetime command would take into account when computing your freetime
-enableSudo | true or false | When enabled, you can perform the clear command and other commands for advanced users
+enableSudo | true or false | When enabled, you can perform the 
+command and other commands for advanced users
 
 <!-- @@author A0111277M -->
 #### Clearing all entries : `clear`
@@ -321,4 +322,64 @@ Redo | 'redo'
 Help | `help`
 Exit | `exit`
 
+<!-- @@author A0139942W-- >
+
 ## Command Examples
+
+* **Add** e.g :
+`add remind me to pay money t/important d/own people money `
+`remind cs2103 assignment et/today 5pm d/very hard t/programming `
+`remind cs2103 lecture et/11-03-2016 1600 st/11-03-2016 1400 recur/weekly r/6`
+`add cs2102 lecture et/11-01-2016 1200 st/11-01-2016 1400 recur/weekly r/6`
+
+* **Block/Confirm** e.g :
+`block meeting st/today 2pm et/today 4pm st/tomorrow 4pm et/tomorrow 6pm`
+'confirm 2 st/tomorrow 4:30pm et/tomorrow 6:30pm d/meeting delayed by 30min
+
+* **Delete** e.g :
+`delete 3 `
+`delete 3,1,5,7 `
+
+* **Edit** e.g :
+`edit 1 changeIntoCS2103 assignment et/today 6pm d/there is a deadline now `
+
+* **Find** e.g :
+`find name/CS `
+`find name/homework mark/true `
+`find desc/own money  `
+`find tag/important `
+
+`find day/5 `
+`find week/2 `
+
+`find type/all `
+`find type/overdue `
+`find type/mark `
+
+* **Freetime** e.g :
+`freetime `
+`freetime day/3`
+
+* **cd** e.g :
+`cd `
+`cd C:\Users\Boon\Desktop\newLocation.xml`
+
+* **config** e.g :
+`config activeHoursFrom v/0000 `
+`config activeHoursTo v/2359 `
+`config enableSudo v/true`
+
+* **undo/redo** e.g :
+`undo `
+`redo `
+
+* **help** e.g :
+`help `
+
+* **clear** e.g :
+`config enableSudo v/true`
+`clear `
+
+* **exit** e.g :
+`exit `
+
