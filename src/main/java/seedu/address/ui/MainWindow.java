@@ -212,6 +212,10 @@ public class MainWindow extends UiPart {
     public TaskListPanel getTaskListPanel() {
         return this.taskListPanel;
     }
+    
+    public EventListPanel getEventListPanel() {
+        return this.eventListPanel ;
+    }
 
     public ResultDisplay getResultDisplay() {
         return resultDisplay;

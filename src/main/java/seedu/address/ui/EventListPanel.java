@@ -19,7 +19,6 @@ import seedu.address.logic.filters.EventQualifier;
 import seedu.address.logic.filters.Expression;
 import seedu.address.logic.filters.PredicateExpression;
 import seedu.address.logic.filters.Qualifier;
-import seedu.address.model.task.Event;
 import seedu.address.model.task.ReadOnlyTask;
 
 public class EventListPanel extends UiPart {
