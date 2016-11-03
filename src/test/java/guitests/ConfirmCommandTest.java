@@ -115,7 +115,7 @@ public class ConfirmCommandTest extends TaskForceGuiTest {
     private void assertConfirmSuccess(String command, final TestTask[] list) {
         commandBox.runCommand(command);
 
-        assertTrue(taskListPanel.isListMatching(list));
+        assertTrue(eventListPanel.isListMatching(list));
     }
 
 }
