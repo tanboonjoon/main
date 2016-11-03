@@ -75,7 +75,7 @@ public class FreetimeTest extends TaskForceGuiTest{
         StringBuilder sb = new StringBuilder();
         commandBox.runCommand("freetime day/0");
         sb.append(String.format(FreetimeCommand.DEFAULT_STARTING_MESSAGE, now.format(eventFormatter)))
-        .append(String.format(FreetimeCommand.NO_OF_FREESLOT_MESSAGE, 2));
+        .append(String.format(FreetimeCommand.NUM_OF_FREESLOT_MESSAGE, 2));
         assertResultMessage(sb.toString());
     }
 
@@ -97,7 +97,7 @@ public class FreetimeTest extends TaskForceGuiTest{
         StringBuilder sb = new StringBuilder();
         commandBox.runCommand("freetime day/0");
         sb.append(String.format(FreetimeCommand.DEFAULT_STARTING_MESSAGE, now.format(eventFormatter)))
-        .append(String.format(FreetimeCommand.NO_OF_FREESLOT_MESSAGE, 1));
+        .append(String.format(FreetimeCommand.NUM_OF_FREESLOT_MESSAGE, 1));
         assertResultMessage(sb.toString());
         commandBox.runCommand("delete 1");
         commandBox.runCommand("add event st/today 9am et/tomorrow 11pm");
@@ -127,7 +127,7 @@ public class FreetimeTest extends TaskForceGuiTest{
         commandBox.runCommand("freetime day/0");
         StringBuilder sb = new StringBuilder();
         sb.append(String.format(FreetimeCommand.DEFAULT_STARTING_MESSAGE, now.format(eventFormatter)))
-        .append(String.format(FreetimeCommand.NO_OF_FREESLOT_MESSAGE, 3));
+        .append(String.format(FreetimeCommand.NUM_OF_FREESLOT_MESSAGE, 3));
         assertResultMessage(sb.toString());
     }
 
@@ -152,7 +152,7 @@ public class FreetimeTest extends TaskForceGuiTest{
         commandBox.runCommand("freetime day/0");
         StringBuilder sb = new StringBuilder();
         sb.append(String.format(FreetimeCommand.DEFAULT_STARTING_MESSAGE, now.format(eventFormatter)))
-        .append(String.format(FreetimeCommand.NO_OF_FREESLOT_MESSAGE, 1));
+        .append(String.format(FreetimeCommand.NUM_OF_FREESLOT_MESSAGE, 1));
         assertResultMessage(sb.toString());
     }
 
@@ -164,7 +164,7 @@ public class FreetimeTest extends TaskForceGuiTest{
         commandBox.runCommand("freetime day/0");
         StringBuilder sb = new StringBuilder();
         sb.append(String.format(FreetimeCommand.DEFAULT_STARTING_MESSAGE, now.format(eventFormatter)))
-        .append(String.format(FreetimeCommand.NO_OF_FREESLOT_MESSAGE, 2));
+        .append(String.format(FreetimeCommand.NUM_OF_FREESLOT_MESSAGE, 2));
         assertResultMessage(sb.toString());
     }
 
