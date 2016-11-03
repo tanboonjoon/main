@@ -194,8 +194,7 @@ public class FindCommandTest extends TaskForceGuiTest {
         commandBox.runCommand("add tomorrowDeadline et/tomorrow 6pm");
         commandBox.runCommand("add tomorrowEvent st/tomorrow 2pm et/tomorrow 6pm");
         commandBox.runCommand("add yesterdayDeadline et/ yesterday 6pm");
-        commandBox.runCommand("add yesterdayEvent st/yesterday 2pm et/yesterday 6pm");
-        return;      
+        commandBox.runCommand("add yesterdayEvent st/yesterday 2pm et/yesterday 6pm");    
     }
 
 
