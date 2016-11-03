@@ -44,6 +44,7 @@ public class FindCommandParser extends CommandParser {
  
         try {
             parser = prepareParser(args);
+            parser.parse(args);
             final boolean checkMark = prepareMarkArgs();
             final String typeOfFind = prepareTypeOfFind();
             if (!isValidArgs(typeOfFind, args.trim())) {
@@ -74,7 +75,6 @@ public class FindCommandParser extends CommandParser {
         .addOptionalArg(CommandArgs.FIND_TAG)
         .addOptionalArg(CommandArgs.FIND_MARK)
         .addOptionalArg(CommandArgs.FIND_TYPE);
-        parser.parse(argsToParse);
         return prepareParser;
     }
 
