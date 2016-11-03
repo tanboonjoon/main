@@ -326,60 +326,60 @@ Exit | `exit`
 
 ## Command Examples
 
-* **Add** e.g :
-`add remind me to pay money t/important d/own people money `
-`remind cs2103 assignment et/today 5pm d/very hard t/programming `
-`remind cs2103 lecture et/11-03-2016 1600 st/11-03-2016 1400 recur/weekly r/6`
-`add cs2102 lecture et/11-01-2016 1200 st/11-01-2016 1400 recur/weekly r/6`
+* **Add** e.g : <br>
+`add remind me to pay money t/important d/own people money ` <br>
+`remind cs2103 assignment et/today 5pm d/very hard t/programming ` <br>
+`remind cs2103 lecture et/11-03-2016 1600 st/11-03-2016 1400 recur/weekly r/6` <br>
+`add cs2102 lecture et/11-01-2016 1200 st/11-01-2016 1400 recur/weekly r/6` <br>
 
-* **Block/Confirm** e.g :
-`block meeting st/today 2pm et/today 4pm st/tomorrow 4pm et/tomorrow 6pm`
-'confirm 2 st/tomorrow 4:30pm et/tomorrow 6:30pm d/meeting delayed by 30min
+* **Block/Confirm** e.g : <br>
+`block meeting st/today 2pm et/today 4pm st/tomorrow 4pm et/tomorrow 6pm` <br>
+'confirm 2 st/tomorrow 4:30pm et/tomorrow 6:30pm d/meeting delayed by 30min <br>
 
-* **Delete** e.g :
-`delete 3 `
-`delete 3,1,5,7 `
+* **Delete** e.g : <br>
+`delete 3 ` <br>
+`delete 3,1,5,7 ` <br>
 
-* **Edit** e.g :
-`edit 1 changeIntoCS2103 assignment et/today 6pm d/there is a deadline now `
+* **Edit** e.g : <br>
+`edit 1 changeIntoCS2103 assignment et/today 6pm d/there is a deadline now ` <br>
 
-* **Find** e.g :
-`find name/CS `
-`find name/homework mark/true `
-`find desc/own money  `
-`find tag/important `
+* **Find** e.g : <br>
+`find name/CS ` <br>
+`find name/homework mark/true ` <br>
+`find desc/own money  ` <br>
+`find tag/important ` <br>
 
-`find day/5 `
-`find week/2 `
+`find day/5 ` <br>
+`find week/2 ` <br>
 
-`find type/all `
-`find type/overdue `
-`find type/mark `
+`find type/all ` <br>
+`find type/overdue ` <br>
+`find type/mark ` <br>
 
-* **Freetime** e.g :
-`freetime `
-`freetime day/3`
+* **Freetime** e.g : <br>
+`freetime ` <br>
+`freetime day/3` <br>
 
-* **cd** e.g :
-`cd `
-`cd C:\Users\Boon\Desktop\newLocation.xml`
+* **cd** e.g : <br>
+`cd ` <br>
+`cd C:\Users\Boon\Desktop\newLocation.xml` <br>
+ 
+* **config** e.g : <br>
+`config activeHoursFrom v/0000 ` <br>
+`config activeHoursTo v/2359 ` <br>
+`config enableSudo v/true` <br>
 
-* **config** e.g :
-`config activeHoursFrom v/0000 `
-`config activeHoursTo v/2359 `
-`config enableSudo v/true`
+* **undo/redo** e.g : <br>
+`undo ` <br> 
+`redo ` <br>
 
-* **undo/redo** e.g :
-`undo `
-`redo `
+* **help** e.g : <br>
+`help ` <br>
 
-* **help** e.g :
-`help `
+* **clear** e.g : <br>
+`config enableSudo v/true` <br>
+`clear ` <br>
 
-* **clear** e.g :
-`config enableSudo v/true`
-`clear `
-
-* **exit** e.g :
-`exit `
+* **exit** e.g : <br>
+`exit ` <br>
 
