@@ -26,14 +26,14 @@ import seedu.address.model.task.ReadOnlyTask;
  * @return boolean statement depending on if a task is found
  */
 public class NameQualifier implements Qualifier {
-
-    private static final String FILTER_BY_DAY = "DAY";
-    private static final String SEARCH_NAME = "NAME";
-    private static final String SEARCH_DESC = "DESC";
-    private static final String SEARCH_TAG = "TAG";
-    private static final String SEARCH_TYPE = "TYPE";
-    private static final String SEARCH_TYPE_ALL = "all";
-    private static final String SEARCH_TYPE_MARK = "mark";
+    
+    public static final String FILTER_BY_DAY = "DAY";
+    public static final String SEARCH_NAME = "NAME";
+    public static final String SEARCH_DESC = "DESC";
+    public static final String SEARCH_TAG = "TAG";
+    public static final String SEARCH_TYPE = "TYPE";
+    public static final String SEARCH_TYPE_ALL = "all";
+    public static final String SEARCH_TYPE_MARK = "mark";
 
     private static final boolean TASK_NOT_FOUND = false;
     private static final boolean TASK_FOUND = true;

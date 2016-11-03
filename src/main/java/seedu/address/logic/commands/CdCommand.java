@@ -19,10 +19,10 @@ import seedu.address.storage.StorageManager;
 
 //@author A0139942W
 /**
- *
+ *CdCommand will show the current location of saveData or update it with a new Location
  * 
- * This command save the storage file into a different location specified by the
- * user
+ * CdCommand will overwrite the current file if it exists or write a new savedata from scratch
+ * 
  */
 public class CdCommand extends Command {
 
@@ -67,20 +67,28 @@ public class CdCommand extends Command {
 
     @Override
     public CommandResult execute() {
-        String currentSavePath = model.getConfigs().getTaskForceFilePath();
         if (this.commandType.equals(CD_CHECK)) {
+            String currentSavePath = model.getConfigs().getTaskForceFilePath();
             return new CommandResult(String.format(MESSAGE_SUCCESS_CHECK, currentSavePath));
         }
         try {
-            String originalJsonPath = config.getUserPrefsFilePath();
-            this.storageManager = new StorageManager(this.newStoragePath, originalJsonPath);
-            storageManager.saveTaskForce(model.getTaskForce());
-            config.setTaskForceFilePath(this.newStoragePath);
-            ConfigUtil.saveConfig(config, CONFIG_JSON_PATH);
+            saveTaskForce();
+            saveNewConfigSetting();
             return new CommandResult(String.format(MESSAGE_SUCCESS_CHANGE, this.newStoragePath));
         } catch (IOException e) {
             return new CommandResult(MESSAGE_FAILURE_FILE_PATH);
         }
+    }
+    
+    private void saveTaskForce() throws IOException {
+        String originalJsonPath = this.config.getUserPrefsFilePath();
+        this.storageManager = new StorageManager(this.newStoragePath, originalJsonPath);
+        storageManager.saveTaskForce(model.getTaskForce());
+    }
+    
+    private void saveNewConfigSetting() throws IOException {
+        this.config.setTaskForceFilePath(this.newStoragePath);
+        ConfigUtil.saveConfig(config, CONFIG_JSON_PATH);
     }
 
     private boolean isValidPath(String filepath) {
@@ -101,8 +109,11 @@ public class CdCommand extends Command {
         }
 
     }
-
-    // @@author A0139942W-unused
+    //@@author A0139942W-unused
+    /*
+     * model now always store the updated version of config.json file
+     * there no longer any need to read the config.json directly.
+     */
     private String readConfig() throws FileNotFoundException, IOException, ParseException {
         JSONParser parser = new JSONParser();
         Object obj = parser.parse(new FileReader(CONFIG_JSON_PATH));
