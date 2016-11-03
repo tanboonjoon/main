@@ -12,14 +12,15 @@ import seedu.address.testutil.TestUtil;
 import java.util.function.Supplier;
 
 /**
- * This class is meant to override some properties of MainApp so that it will be suited for
- * testing
+ * This class is meant to override some properties of MainApp so that it will be
+ * suited for testing
  */
 public class TestApp extends MainApp {
 
     public static final String SAVE_LOCATION_FOR_TESTING = TestUtil.getFilePathInSandboxFolder("sampleData.xml");
     public static final String CONFIG_LOCATION_FOR_TESTING = TestUtil.getFilePathInSandboxFolder("config.json");
-    protected static final String DEFAULT_PREF_FILE_LOCATION_FOR_TESTING = TestUtil.getFilePathInSandboxFolder("pref_testing.json");
+    protected static final String DEFAULT_PREF_FILE_LOCATION_FOR_TESTING = TestUtil
+            .getFilePathInSandboxFolder("pref_testing.json");
     public static final String APP_TITLE = "Test App";
     protected static final String TASKFORCE_NAME = "Test";
     protected Supplier<ReadOnlyTaskForce> initialDataSupplier = () -> null;
@@ -35,8 +36,7 @@ public class TestApp extends MainApp {
 
         // If some initial local data has been provided, write those to the file
         if (initialDataSupplier.get() != null) {
-            TestUtil.createDataFileWithData(
-                    new XmlSerializableTaskForce(this.initialDataSupplier.get()),
+            TestUtil.createDataFileWithData(new XmlSerializableTaskForce(this.initialDataSupplier.get()),
                     this.saveFileLocation);
         }
     }
@@ -61,7 +61,6 @@ public class TestApp extends MainApp {
         userPrefs.updateLastUsedGuiSetting(new GuiSettings(600.0, 600.0, (int) x, (int) y));
         return userPrefs;
     }
-
 
     @Override
     public void start(Stage primaryStage) {

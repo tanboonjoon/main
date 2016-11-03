@@ -1,7 +1,5 @@
 package seedu.address.logic.commands;
 
-
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -21,17 +19,17 @@ import seedu.address.storage.StorageManager;
 
 //@author A0139942W
 /**
- *
+ *CdCommand will show the current location of saveData or update it with a new Location
  * 
- * This command save the storage file into a different location
- * specified by the user
+ * CdCommand will overwrite the current file if it exists or write a new savedata from scratch
+ * 
  */
 public class CdCommand extends Command {
 
     public final static String COMMAND_WORD = "cd";
     public final static String MESSAGE_USAGE = COMMAND_WORD + ": change the filestorage saving location. \n"
-            + "Parameters : FILEPATH (must be a valid path) \n" 
-            + "Example :" + COMMAND_WORD + "C:\\Users\\Boon\\Desktop\\saveData.xml";
+            + "Parameters : FILEPATH (must be a valid path) \n" + "Example :" + COMMAND_WORD
+            + "C:\\Users\\Boon\\Desktop\\saveData.xml";
     public final static String MESSAGE_SUCCESS_CHANGE = "file has been saved to the location successfully in \n%1$s";
     public final static String MESSAGE_SUCCESS_CHECK = "Your current saveData is located in \n%1$s ";
     public final static String MESSAGE_FAILURE_FILE_TYPE = "please end the the filename with .xml ";
@@ -46,29 +44,22 @@ public class CdCommand extends Command {
     private final String newStoragePath;
     private final String commandType;
 
-    private Config config;	
+    private Config config;
     private StorageManager storageManager;
 
-
-    public CdCommand(String filepath, String commandType) throws IllegalValueException, ParseException, FileNotFoundException, IOException  {
-
+    public CdCommand(String filepath, String commandType) throws IllegalValueException, ParseException, IOException {
         if (commandType.equals(CD_CHANGE)) {
             checkForInvalidArgs(filepath);
         }
-
         this.commandType = commandType;
         this.config = new Config();
         this.newStoragePath = filepath;
     }
 
-
-
     private void checkForInvalidArgs(String filepath) throws IllegalValueException, ParseException {
-        // TODO Auto-generated method stub
         if (!checkFileType(filepath)) {
             throw new IllegalValueException(MESSAGE_FAILURE_FILE_TYPE);
         }
-
         if (!isValidPath(filepath)) {
             throw new IllegalValueException(MESSAGE_FAILURE_FILE_PATH);
         }
@@ -76,32 +67,29 @@ public class CdCommand extends Command {
 
     @Override
     public CommandResult execute() {
-
-        String currentSavePath = model.getConfigs().getTaskForceFilePath() ;
-
         if (this.commandType.equals(CD_CHECK)) {
-
+            String currentSavePath = model.getConfigs().getTaskForceFilePath();
             return new CommandResult(String.format(MESSAGE_SUCCESS_CHECK, currentSavePath));
         }
-
         try {
-            String originalJsonPath = config.getUserPrefsFilePath();
-            this.storageManager = new StorageManager(this.newStoragePath, originalJsonPath );
-
-            storageManager.saveTaskForce(model.getTaskForce());
-
-
-            config.setTaskForceFilePath(this.newStoragePath);
-            ConfigUtil.saveConfig(config, CONFIG_JSON_PATH);
-
-            return new CommandResult(String.format(MESSAGE_SUCCESS_CHANGE , this.newStoragePath));
-
+            saveTaskForce();
+            saveNewConfigSetting();
+            return new CommandResult(String.format(MESSAGE_SUCCESS_CHANGE, this.newStoragePath));
         } catch (IOException e) {
             return new CommandResult(MESSAGE_FAILURE_FILE_PATH);
         }
-
     }
-
+    
+    private void saveTaskForce() throws IOException {
+        String originalJsonPath = this.config.getUserPrefsFilePath();
+        this.storageManager = new StorageManager(this.newStoragePath, originalJsonPath);
+        storageManager.saveTaskForce(model.getTaskForce());
+    }
+    
+    private void saveNewConfigSetting() throws IOException {
+        this.config.setTaskForceFilePath(this.newStoragePath);
+        ConfigUtil.saveConfig(config, CONFIG_JSON_PATH);
+    }
 
     private boolean isValidPath(String filepath) {
         File file = new File(filepath);
@@ -109,30 +97,27 @@ public class CdCommand extends Command {
             return INVALID_FILE_ARGS;
         }
         File fileDir = new File(file.getParent());
-
         return fileDir.exists();
     }
 
     public boolean checkFileType(String filepath) {
         try {
             Path path = Paths.get(filepath);
-
             return path.toString().toLowerCase().endsWith(".xml");
-        }catch (InvalidPathException e) {
+        } catch (InvalidPathException e) {
             return INVALID_FILE_ARGS;
         }
 
-
     }
-
     //@@author A0139942W-unused
-    private String readConfig() throws FileNotFoundException, IOException, ParseException  {
-        // TODO Auto-generated method stub
-
+    /*
+     * model now always store the updated version of config.json file
+     * there no longer any need to read the config.json directly.
+     */
+    private String readConfig() throws FileNotFoundException, IOException, ParseException {
         JSONParser parser = new JSONParser();
         Object obj = parser.parse(new FileReader(CONFIG_JSON_PATH));
         JSONObject configJson = (JSONObject) obj;
-
         String taskForceDataFilePath = (String) configJson.get("taskForceDataFilePath");
         return taskForceDataFilePath;
     }

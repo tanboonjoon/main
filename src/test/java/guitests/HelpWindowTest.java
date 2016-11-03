@@ -10,17 +10,15 @@ public class HelpWindowTest extends TaskForceGuiTest {
     @Test
     public void openHelpWindow() {
 
-//        taskListPanel.clickOnListView();
-//
-//        assertHelpWindowOpen(mainMenu.openHelpWindowUsingAccelerator());
-//
-//        assertHelpWindowOpen(mainMenu.openHelpWindowUsingMenu());
-//
-    	assertHelpWindowOpen(commandBox.runHelpCommand());
-    	
-    	assertHelpWindowClose(commandBox.runHelpCommand());
+        // taskListPanel.clickOnListView();
+        //
+        // assertHelpWindowOpen(mainMenu.openHelpWindowUsingAccelerator());
+        //
+        // assertHelpWindowOpen(mainMenu.openHelpWindowUsingMenu());
+        //
+        assertHelpWindowOpen(commandBox.runHelpCommand());
 
-        
+        assertHelpWindowClose(commandBox.runHelpCommand());
 
     }
 
@@ -28,10 +26,8 @@ public class HelpWindowTest extends TaskForceGuiTest {
         assertTrue(helpWindowHandle.isWindowOpen());
         helpWindowHandle.closeWindow();
     }
-    
-    /*
-     * @@author A0140037W
-     */
+
+    //  @@author A0140037W
     private void assertHelpWindowClose(HelpWindowHandle helpWindowHandle) {
         assertTrue(helpWindowHandle.closeWindowWithESCKey());
     }

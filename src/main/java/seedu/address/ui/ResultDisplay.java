@@ -65,37 +65,34 @@ public class ResultDisplay extends UiPart {
     public void postMessage(String message) {
         displayed.setValue(message);
     }
-    
+
     // @@author A0135768R
-    public void commandExecuted (boolean success) {
-        String addedClass ;
-        
+    public void commandExecuted(boolean success) {
+        String addedClass;
+
         if (!success) {
-            addedClass = "badCommand" ;
+            addedClass = "badCommand";
         } else {
-            addedClass = "validCommand" ; 
+            addedClass = "validCommand";
         }
-        
-        resultDisplayArea.getStyleClass().add(addedClass) ; 
-        
-        Timeline reduceBorder = new Timeline(new KeyFrame(
-                Duration.millis(2500),
-                runnable -> reduceBorderWidth() ));
-        
-        Timeline backToNormal = new Timeline(new KeyFrame(
-                Duration.millis(5000),
-                runnable -> changeBorderBack (addedClass)));
-        
+
+        resultDisplayArea.getStyleClass().add(addedClass);
+
+        Timeline reduceBorder = new Timeline(new KeyFrame(Duration.millis(2500), runnable -> reduceBorderWidth()));
+
+        Timeline backToNormal = new Timeline(
+                new KeyFrame(Duration.millis(5000), runnable -> changeBorderBack(addedClass)));
+
         reduceBorder.play();
         backToNormal.play();
     }
-    
+
     private void changeBorderBack(String classToRemove) {
-        resultDisplayArea.getStyleClass().remove(classToRemove) ;
+        resultDisplayArea.getStyleClass().remove(classToRemove);
     }
-    
-    private void reduceBorderWidth () {
-        resultDisplayArea.setStyle ("-fx-border-width: 2px ;") ;
+
+    private void reduceBorderWidth() {
+        resultDisplayArea.setStyle("-fx-border-width: 2px ;");
     }
 
 }

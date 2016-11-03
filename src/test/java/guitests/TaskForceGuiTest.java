@@ -25,7 +25,10 @@ import static org.junit.Assert.assertTrue;
  */
 public abstract class TaskForceGuiTest {
 
-    /* The TestName Rule makes the current test name available inside test methods */
+    /*
+     * The TestName Rule makes the current test name available inside test
+     * methods
+     */
     @Rule
     public TestName name = new TestName();
 
@@ -34,8 +37,8 @@ public abstract class TaskForceGuiTest {
     protected TypicalTestTasks td = new TypicalTestTasks();
 
     /*
-     *   Handles to GUI elements present at the start up are created in advance
-     *   for easy access from child classes.
+     * Handles to GUI elements present at the start up are created in advance
+     * for easy access from child classes.
      */
     protected MainGuiHandle mainGui;
     protected MainMenuHandle mainMenu;
@@ -67,13 +70,14 @@ public abstract class TaskForceGuiTest {
         EventsCenter.clearSubscribers();
         testApp = (TestApp) FxToolkit.setupApplication(() -> new TestApp(this::getInitialData, getDataFileLocation()));
         FxToolkit.showStage();
-        while (!stage.isShowing());
+        while (!stage.isShowing())
+            ;
         mainGui.focusOnMainApp();
     }
 
     /**
-     * Override this in child classes to set the initial local data.
-     * Return null to use the data in the file specified in {@link #getDataFileLocation()}
+     * Override this in child classes to set the initial local data. Return null
+     * to use the data in the file specified in {@link #getDataFileLocation()}
      */
     protected TaskForce getInitialData() {
         TaskForce ab = TestUtil.generateEmptyTaskForce();
@@ -109,7 +113,8 @@ public abstract class TaskForceGuiTest {
     }
 
     /**
-     * Asserts the message shown in the Result Display area is same as the given string.
+     * Asserts the message shown in the Result Display area is same as the given
+     * string.
      */
     protected void assertResultMessage(String expected) {
         assertEquals(expected, resultDisplay.getText());

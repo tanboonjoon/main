@@ -20,8 +20,8 @@ public class TaskBuilder {
         return this;
     }
 
-    public TaskBuilder withTags(String ... tags) throws IllegalValueException {
-        for (String tag: tags) {
+    public TaskBuilder withTags(String... tags) throws IllegalValueException {
+        for (String tag : tags) {
             task.getTags().add(new Tag(tag));
         }
         return this;
@@ -33,12 +33,12 @@ public class TaskBuilder {
     }
 
     public TaskBuilder withPhone(String phone) throws IllegalValueException {
-//        this.person.setPhone(new Phone(phone));
+        // this.task.setPhone(new Phone(phone));
         return this;
     }
 
     public TaskBuilder withEmail(String email) throws IllegalValueException {
-//        this.person.setEmail(new Email(email));
+        // this.task.setEmail(new Email(email));
         return this;
     }
 
@@ -46,12 +46,12 @@ public class TaskBuilder {
         this.task.setRecurring(recur);
         return this;
     }
-    
+
     public TaskBuilder withRepeat(int rep) throws IllegalValueException {
         this.task.setRepeat(rep);
         return this;
     }
-    
+
     public TestTask build() {
         return this.task;
     }

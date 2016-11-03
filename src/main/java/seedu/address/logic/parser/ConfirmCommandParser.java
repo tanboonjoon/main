@@ -19,64 +19,49 @@ public class ConfirmCommandParser extends CommandParser {
     @Override
     public Command prepareCommand(String args) {
         ArgumentsParser parser = buildArgsParser();
-        
-        try {
-            parser.parse(args);
-        } catch (IncorrectCommandException e) {
-            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, ConfirmCommand.MESSAGE_USAGE));
-        }
-        
-        if (!parser.getArgValue(CommandArgs.INDEX).isPresent()) {
-            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, ConfirmCommand.MESSAGE_USAGE));
-        }
-        
-        int targetIndex ;
-        
-        try {
-            targetIndex = getIndexFromArgs(parser);
-        } catch (IncorrectCommandException e) {
-            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, ConfirmCommand.MESSAGE_USAGE));
-        }
-        
-        String startDate = parser.getArgValue(CommandArgs.START_DATETIME).get() ;
-        String endDate = parser.getArgValue(CommandArgs.END_DATETIME).get() ;
 
         try {
-            
-            return new ConfirmCommand(
-                    targetIndex,
+            parser.parse(args);
+
+            if (!parser.getArgValue(CommandArgs.INDEX).isPresent()) {
+                return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, ConfirmCommand.MESSAGE_USAGE));
+            }
+
+            int targetIndex = getIndexFromArgs(parser);
+
+            String startDate = parser.getArgValue(CommandArgs.START_DATETIME).get();
+            String endDate = parser.getArgValue(CommandArgs.END_DATETIME).get();
+
+            return new ConfirmCommand(targetIndex,
                     parser.getArgValue(CommandArgs.DESC).isPresent() ? parser.getArgValue(CommandArgs.DESC).get() : "",
-                    startDate,
-                    endDate,
-                    parser.getArgValue(CommandArgs.TAGS).isPresent() ? Sets.newHashSet(parser.getArgValue(CommandArgs.TAGS).get()) : Collections.emptySet()
-                    );
-        
-        } catch (IllegalValueException e) {
-            return new IncorrectCommand(e.getMessage()) ;
+                            startDate, endDate, parser.getArgValue(CommandArgs.TAGS).isPresent()
+                            ? Sets.newHashSet(parser.getArgValue(CommandArgs.TAGS).get()) : Collections.emptySet());
+
+        } catch (IncorrectCommandException e) {
+            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, ConfirmCommand.MESSAGE_USAGE));
+        }catch (IllegalValueException e) {
+            return new IncorrectCommand(e.getMessage());
         }
 
     }
 
     private ArgumentsParser buildArgsParser() {
-        ArgumentsParser parser = new ArgumentsParser() ;
-        
-        parser
-        .addNoFlagArg(CommandArgs.INDEX)
-        .addRequiredArg(CommandArgs.START_DATETIME)
-        .addRequiredArg(CommandArgs.END_DATETIME)
-        .addOptionalArg(CommandArgs.DESC)
-        .addOptionalArg(CommandArgs.TAGS) ;
-        
+        ArgumentsParser parser = new ArgumentsParser();
+
+        parser.addNoFlagArg(CommandArgs.INDEX).addRequiredArg(CommandArgs.START_DATETIME)
+                .addRequiredArg(CommandArgs.END_DATETIME).addOptionalArg(CommandArgs.DESC)
+                .addOptionalArg(CommandArgs.TAGS);
+
         return parser;
     }
 
     private int getIndexFromArgs(ArgumentsParser parser) throws IncorrectCommandException {
-        String indexString = parser.getArgValue(CommandArgs.INDEX).get() ;
-        
+        String indexString = parser.getArgValue(CommandArgs.INDEX).get();
+
         if (!StringUtil.isParsable(indexString)) {
-            throw new IncorrectCommandException() ;
+            throw new IncorrectCommandException();
         }
 
-        return Integer.parseInt(indexString) ;
+        return Integer.parseInt(indexString);
     }
 }

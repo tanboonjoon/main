@@ -8,14 +8,13 @@ import java.io.File;
 import java.io.FileNotFoundException;
 
 /**
- * Stores addressbook data in an XML file
+ * Stores task force data in an XML file
  */
 public class XmlFileStorage {
     /**
-     * Saves the given addressbook data to the specified file.
+     * Saves the given Task Force data to the specified file.
      */
-    public static void saveDataToFile(File file, XmlSerializableTaskForce taskforce)
-            throws FileNotFoundException {
+    public static void saveDataToFile(File file, XmlSerializableTaskForce taskforce) throws FileNotFoundException {
         try {
             XmlUtil.saveDataToFile(file, taskforce);
         } catch (JAXBException e) {
@@ -24,10 +23,10 @@ public class XmlFileStorage {
     }
 
     /**
-     * Returns address book in the file or an empty address book
+     * Returns Task Force in the file or an empty Task Force
      */
-    public static XmlSerializableTaskForce loadDataFromSaveFile(File file) throws DataConversionException,
-                                                                            FileNotFoundException {
+    public static XmlSerializableTaskForce loadDataFromSaveFile(File file)
+            throws DataConversionException, FileNotFoundException {
         try {
             return XmlUtil.getDataFromFile(file, XmlSerializableTaskForce.class);
         } catch (JAXBException e) {

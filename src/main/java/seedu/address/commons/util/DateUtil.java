@@ -29,86 +29,92 @@ public final class DateUtil {
 
     public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm a");
 
-    public static final LocalDateTime NOW = LocalDateTime.now() ;
-    public static final LocalDateTime END_OF_TODAY = NOW.withHour(23).withMinute(59) ;
-    public static final LocalDateTime MARKER_FOR_DELETE = LocalDateTime.MIN ;
+    public static final LocalDateTime NOW = LocalDateTime.now();
+    public static final LocalDateTime END_OF_TODAY = NOW.withHour(23).withMinute(59);
+    public static final LocalDateTime MARKER_FOR_DELETE = LocalDateTime.MIN;
 
     public static final String STRING_FOR_DELETE = "-";
-    
-    private static final Parser NATTY_PARSER_INSTANCE = new Parser() ;
-    
+
+    private static final Parser NATTY_PARSER_INSTANCE = new Parser();
+
     /**
-     * Passes the natural language date string to the Natty's library for parsing.
-     * If the date string provided is not valid (or not parsable by Natty), this will return
-     * {@code Optional.empty()}
+     * Passes the natural language date string to the Natty's library for
+     * parsing. If the date string provided is not valid (or not parsable by
+     * Natty), this will return {@code Optional.empty()}
      */
-    public static Optional<LocalDateTime> parseStringIntoDateTime (String rawString) {
+    public static Optional<LocalDateTime> parseStringIntoDateTime(String rawString) {
 
         if (rawString == null) {
-            return Optional.empty() ;
+            return Optional.empty();
         }
 
-        if (rawString.equals(STRING_FOR_DELETE)) {	
+        if (rawString.equals(STRING_FOR_DELETE)) {
             return Optional.of(MARKER_FOR_DELETE);
         }
 
-        List<DateGroup> dates = NATTY_PARSER_INSTANCE.parse(rawString) ;
+        List<DateGroup> dates = NATTY_PARSER_INSTANCE.parse(rawString);
 
         try {
-            Date date = dates.get(0).getDates().get(0) ;
+            Date date = dates.get(0).getDates().get(0);
 
-            return Optional.of(LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault())) ;
+            return Optional.of(LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault()));
 
         } catch (IndexOutOfBoundsException e) {
-            return Optional.empty() ;
+            return Optional.empty();
         }
     }
 
-    public static String parseLocalDateTimeIntoString (LocalDateTime datetime) {
-        assert datetime != null ;
+    public static String parseLocalDateTimeIntoString(LocalDateTime datetime) {
+        assert datetime != null;
 
-        return datetime.format(FORMATTER) ;
+        return datetime.format(FORMATTER);
     }
 
     /**
-     * Given a new event that is being added/to be added to the model, checks that if any events currently in the model
-     * that will conflict with the given event. If the given event is already added to the model, it will be ignored - that is
-     * an event cannot conflict with itself.
+     * Given a new event that is being added/to be added to the model, checks
+     * that if any events currently in the model that will conflict with the
+     * given event. If the given event is already added to the model, it will be
+     * ignored - that is an event cannot conflict with itself.
      * 
-     * @param model     The model of the TaskForce - cannot be null.
-     * @param eventToBeAdded    The event that is being added/or already added to the model.
-     * @return      {@link Optional.empty()} if there is no conflict; otherwise an arbitrary conflicting event is returned.
+     * @param model
+     *            The model of the TaskForce - cannot be null.
+     * @param eventToBeAdded
+     *            The event that is being added/or already added to the model.
+     * @return {@link Optional.empty()} if there is no conflict; otherwise an
+     *         arbitrary conflicting event is returned.
      */
-    public static Optional<Event> checkForConflictingEvents (Model model, Event eventToBeAdded) {
-        assert model != null ;
+    public static Optional<Event> checkForConflictingEvents(Model model, Event eventToBeAdded) {
+        assert model != null;
 
-        LocalDateTime startTime = eventToBeAdded.getStartDate() ;
-        LocalDateTime endTime = eventToBeAdded.getEndDate() ;
+        LocalDateTime startTime = eventToBeAdded.getStartDate();
+        LocalDateTime endTime = eventToBeAdded.getEndDate();
 
-        assert startTime.isBefore(endTime) ;
+        assert startTime.isBefore(endTime);
 
-        Long days = ChronoUnit.DAYS.between(startTime, endTime) ;
+        Long days = ChronoUnit.DAYS.between(startTime, endTime);
 
-        model.searchTaskList(new PredicateExpression(new NameQualifier(Sets.newHashSet(days.toString()), NameQualifier.FILTER_BY_DAY, false)) );
+        model.searchTaskList(new PredicateExpression(
+                new NameQualifier(Sets.newHashSet(days.toString()), NameQualifier.FILTER_BY_DAY, false)));
 
-        PriorityQueue<Event> eventQueue = new PriorityQueue<>(new EventComparator()) ;
+        PriorityQueue<Event> eventQueue = new PriorityQueue<>(new EventComparator());
 
         for (ReadOnlyTask task : model.getSearchedTaskList()) {
 
-            if ( !(task instanceof Event) || task.equals(eventToBeAdded) ) {
-                continue ;
+            if (!(task instanceof Event) || task.equals(eventToBeAdded)) {
+                continue;
             }
 
-            eventQueue.add((Event) task) ;
+            eventQueue.add((Event) task);
 
         }
 
-        // Don't need to do anything if there is no events occuring on this time period
+        // Don't need to do anything if there is no events occuring on this time
+        // period
         if (eventQueue.isEmpty()) {
-            return Optional.empty() ;
+            return Optional.empty();
         }
 
-        Event event = eventQueue.poll() ;
+        Event event = eventQueue.poll();
 
         while (event != null && event.getEndDate().isAfter(startTime)) {
 
@@ -116,106 +122,117 @@ public final class DateUtil {
                 return Optional.of(event);
             }
 
-            event = eventQueue.poll() ;
+            event = eventQueue.poll();
         }
 
-        return Optional.empty() ;
+        return Optional.empty();
 
     }
 
+    private static Optional<Pair<LocalDateTime, LocalDateTime>> determineStartAndEndDateTime(
+            Optional<LocalDateTime> startDate, Optional<LocalDateTime> endDate, boolean isEmptyAllowed) {
 
-    private static Optional<Pair<LocalDateTime, LocalDateTime>> determineStartAndEndDateTime(Optional<LocalDateTime> startDate, Optional<LocalDateTime> endDate, boolean isEmptyAllowed) {
-
-        LocalDateTime computedStartDate ;
-        LocalDateTime computedEndDate ;
+        LocalDateTime computedStartDate;
+        LocalDateTime computedEndDate;
 
         if (!startDate.isPresent() && !endDate.isPresent()) {
-            return Optional.empty() ;
+            return Optional.empty();
         }
 
         if (!isEmptyAllowed && (!startDate.isPresent() || !endDate.isPresent())) {
-            return Optional.empty() ;
+            return Optional.empty();
         }
 
         if (!startDate.isPresent() || !endDate.isPresent()) {
-            computedStartDate = startDate.orElse(DateUtil.NOW) ;
-            computedEndDate = endDate.orElse(computedStartDate.withHour(23).withMinute(59)) ;
+            computedStartDate = startDate.orElse(DateUtil.NOW);
+            computedEndDate = endDate.orElse(computedStartDate.withHour(23).withMinute(59));
 
-            return Optional.of(new Pair<LocalDateTime, LocalDateTime> (computedStartDate, computedEndDate)) ;
+            return Optional.of(new Pair<LocalDateTime, LocalDateTime>(computedStartDate, computedEndDate));
         }
 
         if (endDate.get().isBefore(startDate.get()) && isDateComponentSameAsNow(endDate.get())) {
-            computedStartDate = startDate.get() ;
+            computedStartDate = startDate.get();
 
-            int seconds = endDate.get().getSecond() ;
-            int minutes = endDate.get().getMinute() ;
-            int hours = endDate.get().getHour() ;
+            int seconds = endDate.get().getSecond();
+            int minutes = endDate.get().getMinute();
+            int hours = endDate.get().getHour();
 
-            computedEndDate = startDate.get().withHour(hours).withMinute(minutes).withSecond(seconds) ;
+            computedEndDate = startDate.get().withHour(hours).withMinute(minutes).withSecond(seconds);
 
             if (computedStartDate.isBefore(computedEndDate)) {
-                return Optional.of(new Pair<LocalDateTime, LocalDateTime> (computedStartDate, computedEndDate)) ;
+                return Optional.of(new Pair<LocalDateTime, LocalDateTime>(computedStartDate, computedEndDate));
             }
 
         } else if (endDate.get().isAfter(startDate.get())) {
 
-            return Optional.of(new Pair<LocalDateTime, LocalDateTime> (startDate.get(), endDate.get())) ;
+            return Optional.of(new Pair<LocalDateTime, LocalDateTime>(startDate.get(), endDate.get()));
 
         }
 
-        return Optional.empty() ;
+        return Optional.empty();
 
     }
 
-
     /**
-     * Given one and start and end date, the function will return a corresponding start and end dates following these rules: <p>
+     * Given one and start and end date, the function will return a
+     * corresponding start and end dates following these rules:
+     * <p>
      * 
      * - If both dates are empty, it will return Optional.empty <br>
      * - If only start date is empty, the start date shall assumed to be now.
      * <br>
-     * - If only end date is empty, the end date shall be assumed to be on the same day of the start date at 2359
-     * <br>
-     * - If a start datetime is provided and only end time is provided, the end datetime is assumed to be on the same day as the start
-     * date on the time provided.
+     * - If only end date is empty, the end date shall be assumed to be on the
+     * same day of the start date at 2359 <br>
+     * - If a start datetime is provided and only end time is provided, the end
+     * datetime is assumed to be on the same day as the start date on the time
+     * provided.
      * <p>
-     * If start datetime happens to be after end datetime, this function will return Optional.empty()
-     * <p>
-     * 
-     * If the boolean allowEmptyValues is set to false, however, then if any dates is empty, this will return {@link Optional.empty()}
-     * This is set to true by default if not specified
-     * 
+     * If start datetime happens to be after end datetime, this function will
+     * return Optional.empty()
      * <p>
      * 
-     * @param startString string that will be parsed by natty
-     * @param endString string that will be parsed by natty
-     * @return a LocalDateTime pair with the key being the starting datetime, and the value the ending datetime
+     * If the boolean isEmptyValuesAllowed is set to false, however, then if any
+     * dates is empty, this will return {@link Optional.empty()} This is set to
+     * true by default if not specified
+     * 
+     * <p>
+     * 
+     * @param startString
+     *            string that will be parsed by natty
+     * @param endString
+     *            string that will be parsed by natty
+     * @return a LocalDateTime pair with the key being the starting datetime,
+     *         and the value the ending datetime
      */
-    public static Optional<Pair<LocalDateTime, LocalDateTime>> determineStartAndEndDateTime(String startString, String endString) {
-        return determineStartAndEndDateTime(parseStringIntoDateTime(startString), parseStringIntoDateTime(endString), true) ;
+    public static Optional<Pair<LocalDateTime, LocalDateTime>> determineStartAndEndDateTime(String startString,
+            String endString) {
+        return determineStartAndEndDateTime(parseStringIntoDateTime(startString), parseStringIntoDateTime(endString),
+                true);
     }
 
-    public static Optional<Pair<LocalDateTime, LocalDateTime>> determineStartAndEndDateTime(String startString, String endString, boolean allowEmptyValues) {
-        return determineStartAndEndDateTime(parseStringIntoDateTime(startString), parseStringIntoDateTime(endString), allowEmptyValues) ;
+    public static Optional<Pair<LocalDateTime, LocalDateTime>> determineStartAndEndDateTime(String startString,
+            String endString, boolean isEmptyValuesAllowed) {
+        return determineStartAndEndDateTime(parseStringIntoDateTime(startString), parseStringIntoDateTime(endString),
+                isEmptyValuesAllowed);
     }
 
-    private static boolean isDateComponentSameAsNow (LocalDateTime dateTime) {
-        LocalDate now = LocalDate.now() ;
-        LocalDate givenDate = dateTime.toLocalDate() ;
+    private static boolean isDateComponentSameAsNow(LocalDateTime dateTime) {
+        LocalDate now = LocalDate.now();
+        LocalDate givenDate = dateTime.toLocalDate();
 
-        return now.equals(givenDate) ;
+        return now.equals(givenDate);
     }
 
-    public static String getRelativeDateFromNow (LocalDateTime dateTime) {
-        Long milis = ChronoUnit.MILLIS.between(NOW, dateTime) ;
+    public static String getRelativeDateFromNow(LocalDateTime dateTime) {
+        Long milis = ChronoUnit.MILLIS.between(NOW, dateTime);
 
-        return RelativeTimeConverter.toDuration(milis) ;
+        return RelativeTimeConverter.toDuration(milis);
     }
 
-    public static long getTimeDifferenceFromNow (LocalDateTime dateTime, ChronoUnit units) {
-        long diff = units.between(NOW, dateTime) ;
+    public static long getTimeDifferenceFromNow(LocalDateTime dateTime, ChronoUnit units) {
+        long diff = units.between(NOW, dateTime);
 
-        return diff ;
+        return diff;
     }
 
     // Comparator for priority queue
@@ -223,64 +240,60 @@ public final class DateUtil {
 
         @Override
         public int compare(Event arg0, Event arg1) {
-            LocalDateTime arg0Date = arg0.getEndDate() ;
-            LocalDateTime arg1Date = arg1.getEndDate() ;
+            LocalDateTime arg0Date = arg0.getEndDate();
+            LocalDateTime arg1Date = arg1.getEndDate();
 
             if (arg0Date.isBefore(arg1Date)) {
-                return 1 ;
+                return 1;
             }
 
             if (arg0Date.isAfter(arg1Date)) {
-                return -1 ;
+                return -1;
             }
 
-            return 0 ;
+            return 0;
         }
 
     }
 
     private static class RelativeTimeConverter {
 
-        public static final ImmutableList<Long> TIMES = ImmutableList.of(
-                TimeUnit.DAYS.toMillis(365),
-                TimeUnit.DAYS.toMillis(30),
-                TimeUnit.DAYS.toMillis(1),
-                TimeUnit.HOURS.toMillis(1),
-                TimeUnit.MINUTES.toMillis(1),
-                TimeUnit.SECONDS.toMillis(1) );
+        public static final ImmutableList<Long> TIMES = ImmutableList.of(TimeUnit.DAYS.toMillis(365),
+                TimeUnit.DAYS.toMillis(30), TimeUnit.DAYS.toMillis(1), TimeUnit.HOURS.toMillis(1),
+                TimeUnit.MINUTES.toMillis(1), TimeUnit.SECONDS.toMillis(1));
 
-        public static final ImmutableList<String> TIME_STIRNGS = ImmutableList.of("year","month","day","hour","minute","second");
-
+        public static final ImmutableList<String> TIME_STIRNGS = ImmutableList.of("year", "month", "day", "hour",
+                "minute", "second");
 
         public static String toDuration(long miliseconds) {
 
-            long duration = Math.abs(miliseconds) ;
+            long duration = Math.abs(miliseconds);
 
             StringBuffer buffer = new StringBuffer();
 
-            for(int i = 0; i < TIMES.size(); i ++) {
+            for (int i = 0; i < TIMES.size(); i++) {
                 Long current = TIMES.get(i);
-                long temp = duration/current;
+                long temp = duration / current;
 
-                if(temp>0) {
-                    buffer.append(temp) ;
-                    buffer.append(" ") ;
-                    buffer.append( TIME_STIRNGS.get(i) ) ;
-                    buffer.append(temp > 1 ? "s" : "") ;
+                if (temp > 0) {
+                    buffer.append(temp);
+                    buffer.append(" ");
+                    buffer.append(TIME_STIRNGS.get(i));
+                    buffer.append(temp > 1 ? "s" : "");
 
                     break;
                 }
             }
 
-            if( "".equals(buffer.toString()) ) {
+            if ("".equals(buffer.toString())) {
                 return "0 second ago";
-            } 
+            }
 
             if (miliseconds > 0) {
-                buffer.append(" later") ;
+                buffer.append(" later");
 
             } else {
-                buffer.append(" ago") ;
+                buffer.append(" ago");
             }
 
             return buffer.toString();
