@@ -300,29 +300,10 @@ public class LogicManagerTest {
     }
 
     @Test
-    public void executeSelectInvalidArgsFormatErrorMessageShown() throws Exception {
-        String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, SelectCommand.MESSAGE_USAGE);
-        assertIncorrectIndexFormatBehaviorForCommand("select", expectedMessage);
-    }
-
-    @Test
     public void executeSlectIndexNotFoundErrorMessageShown() throws Exception {
         assertIndexNotFoundBehaviorForCommand("select");
     }
 
-    @Test
-    public void executeSelectJumpsToCorrectTask() throws Exception {
-        TestDataHelper helper = new TestDataHelper();
-        List<Task> threeTasks = helper.generateTaskList(3);
-
-        TaskForce expectedAB = helper.generateTaskForce(threeTasks);
-        helper.addToModel(model, threeTasks);
-
-        assertCommandBehavior("select 2", String.format(SelectCommand.MESSAGE_SELECT_TASK_SUCCESS, 2), expectedAB,
-                expectedAB.getTaskList());
-        assertEquals(1, targetedJumpIndex);
-        assertEquals(model.getFilteredTaskList().get(1), threeTasks.get(1));
-    }
 
     @Test
     public void executeDeleteInvalidArgsFormatErrorMessageShown() throws Exception {
