@@ -195,7 +195,7 @@ public class NameQualifier implements Qualifier {
     
     private boolean isEventFound(LocalDate comparedDate, LocalDate startDate, LocalDate endDate) {
         return comparedDate.equals(startDate) == IS_SAME_DAY || comparedDate.equals(endDate) == IS_SAME_DAY
-                || (comparedDate.isAfter(startDate) == true && comparedDate.isBefore(endDate) == true);
+                || (comparedDate.isAfter(startDate) && comparedDate.isBefore(endDate));
     }
 
     private void getLocalDate() {

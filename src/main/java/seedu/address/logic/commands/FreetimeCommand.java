@@ -180,10 +180,10 @@ public class FreetimeCommand extends Command {
         if (activeHourStart.isAfter(currentEndTime)) {
             currentEndTime = activeHourStart;
         }
-        return getAllFreeSlot(currentEndTime, same_day);
+        return getAllFreeSlot(currentEndTime);
     }
 
-    private String getAllFreeSlot(LocalDateTime currentEventEndTime, int sameDay) {
+    private String getAllFreeSlot(LocalDateTime currentEventEndTime) {
         boolean checkFreeTime = false;
         LocalDateTime tempCurrentEventEndTime = currentEventEndTime;
         LocalDateTime nextEventStartTime;
