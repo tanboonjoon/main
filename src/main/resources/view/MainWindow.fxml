@@ -34,15 +34,9 @@
          </children>
       </AnchorPane>
        <AnchorPane fx:id="resultDisplayPlaceholder" maxHeight="100" minHeight="100" prefHeight="100" styleClass="anchor-pane-with-border" VBox.vgrow="NEVER" />
-<<<<<<< Updated upstream
-      <SplitPane id="splitPane" fx:id="splitPane" VBox.vgrow="ALWAYS">
-         <items>
-            <VBox fx:id="taskList" minWidth="340" prefWidth="340">
-=======
       <HBox prefHeight="619.0" prefWidth="1000.0">
          <children>
             <VBox fx:id="taskList" minWidth="600.0" prefWidth="600.0">
->>>>>>> Stashed changes
                 <padding>
                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                 </padding>
@@ -50,17 +44,6 @@
                   <AnchorPane fx:id="taskListPanelPlaceholder" minWidth="600.0" VBox.vgrow="ALWAYS" />
                </children>
             </VBox>
-<<<<<<< Updated upstream
-            <!--  
-            <AnchorPane fx:id="browserPlaceholder" prefWidth="340">
-                <padding>
-                    <Insets bottom="10" left="10" right="10" top="10" />
-                </padding>
-            </AnchorPane>
-            -->
-         </items>
-      </SplitPane>
-=======
             <VBox fx:id="eventList" minWidth="600.0" prefWidth="600.0">
                <padding>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -71,7 +54,6 @@
             </VBox>
          </children>
       </HBox>
->>>>>>> Stashed changes
       <AnchorPane fx:id="statusbarPlaceholder" VBox.vgrow="NEVER" />
    </children>
 </VBox>
