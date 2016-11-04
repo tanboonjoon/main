@@ -34,14 +34,14 @@ public class FindCommandTest extends TaskForceGuiTest {
         commandBox.runCommand("add lastWeekEvent st/last week 2pm et/last week 4pm");
         commandBox.runCommand("add lastWeekDeadline et/last week 2pm");
     }
-    
+    /*
     @Test
     public void findCommand_findByName_found() {
         commandBox.runCommand("find name/event");
         assertResultMessage(String.format(Messages.MESSAGE_TASKS_LISTED_OVERVIEW, 2));
         assertListSize(2);  
     }
-    
+    */
     @Test
     public void findCommand_findByName_notFound() {
         commandBox.runCommand("find name/nonExistentTask");
