@@ -68,9 +68,11 @@ public class CommandBox extends UiPart {
     private void setKeyComboEvent(Logic logic) {
         commandTextField.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
             if (undoKeyCombo.match(key)) {
-                logic.execute(UndoCommand.COMMAND_WORD);
+                commandTextField.setText(UndoCommand.COMMAND_WORD);
+                handleCommandInputChanged();
             } else if (redoKeyCombo.match(key)) {
-                logic.execute(RedoCommand.COMMAND_WORD);
+                commandTextField.setText(RedoCommand.COMMAND_WORD);
+                handleCommandInputChanged();
             } else if (key.getCode() == KeyCode.UP) {
                 this.previousStoredCommand();
             } else if (key.getCode() == KeyCode.DOWN) {
