@@ -34,14 +34,14 @@ public class FindCommandTest extends TaskForceGuiTest {
         commandBox.runCommand("add lastWeekEvent st/last week 2pm et/last week 4pm");
         commandBox.runCommand("add lastWeekDeadline et/last week 2pm");
     }
-    /*
+  
     @Test
     public void findCommand_findByName_found() {
         commandBox.runCommand("find name/event");
         assertResultMessage(String.format(Messages.MESSAGE_TASKS_LISTED_OVERVIEW, 2));
         assertListSize(2);  
     }
-    */
+  
     @Test
     public void findCommand_findByName_notFound() {
         commandBox.runCommand("find name/nonExistentTask");
@@ -107,7 +107,7 @@ public class FindCommandTest extends TaskForceGuiTest {
         assertResultMessage(String.format(Messages.MESSAGE_TASKS_LISTED_OVERVIEW, 3));
         assertListSize(3);  
     }
-    /*
+   
     @Test
     public void findCommand_findByWeek_found() {
         addMoreTask();
@@ -119,7 +119,7 @@ public class FindCommandTest extends TaskForceGuiTest {
         assertResultMessage(String.format(Messages.MESSAGE_TASKS_LISTED_OVERVIEW, 5));
         assertListSize(5);  
     }
-    */
+   
     @Test
     public void findCommand_findByWeek_notFound() {
         addMoreTask();
@@ -127,14 +127,14 @@ public class FindCommandTest extends TaskForceGuiTest {
         assertResultMessage(String.format(Messages.MESSAGE_TASKS_LISTED_OVERVIEW, 3));
         assertListSize(3);  
     }
-   /*
+  
     @Test
     public void findCommand_findByType_all_found() {
         commandBox.runCommand("find type/all");
         assertResultMessage(String.format(Messages.MESSAGE_TASKS_LISTED_OVERVIEW, 7));
         assertListSize(7);  
     }
-    */
+ 
     @Test
     public void findCommand_findByType_marked_found() {
         commandBox.runCommand("mark 1");

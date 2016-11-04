@@ -110,7 +110,8 @@ public abstract class TaskForceGuiTest {
      * Asserts the size of the task list is equal to the given number.
      */
     protected void assertListSize(int size) {
-        int numberOfTasks = taskListPanel.getNumberOfTask();
+        int numberOfTasks = taskListPanel.getNumberOfTask() + eventListPanel.getNumberOfTask();
+
         assertEquals(size, numberOfTasks);
     }
 
