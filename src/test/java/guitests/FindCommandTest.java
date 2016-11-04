@@ -115,7 +115,7 @@ public class FindCommandTest extends TaskForceGuiTest {
         assertResultMessage(String.format(Messages.MESSAGE_TASKS_LISTED_OVERVIEW, 9));
         assertListSize(9);  
         
-        commandBox.runCommand("find week/-100");
+        commandBox.runCommand("find week/-1");
         assertResultMessage(String.format(Messages.MESSAGE_TASKS_LISTED_OVERVIEW, 5));
         assertListSize(5);  
     }
