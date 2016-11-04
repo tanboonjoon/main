@@ -17,16 +17,19 @@ command-line interface (CLI)-based application.
    * Deadline - a task that ends at a specific time <br>
       >  A OVERDUE TASK is a Deadline that is past today date and not marked done. 
    * Event - an event has both a start and end time <br>
-      >  A BLOCK is an uncomfirmed event that require you to confirm it.
+      >  A BLOCK is an uncomfirmed event that require you to confirm it later on.
 4. This app is built on Java, and runs on any Desktop.
 
 ### Advanced User
-1. Once you have used long the program long enough, you can use the ConfigCommand to edit the value of the config.json
-2. You are advised not to edit the config.json file directly. If it is detected as corrupted or invalidFormat, the current config.json file will be REPLACED by a default one.
-3. Through the config command, you can change the name of the program or set your free time .
+#### [Config command](#command-examples)
+> 1. Once you have used the program long enough, you can use the [Config command](#command-examples) to edit the value of the config.json
+> 2. You are advised not to edit the config.json file directly. If it is detected as corrupted or invalidFormat, the current config.json file will be REPLACED by a default one.
+> 3. Through the config command, you can change the name of the program or set your free time .
 
-1. The recurring functionality in the addcommand is only available to Event and Deadline
-2. If you tried to use recurring functionality on a Reminders, the system will only add it once.
+#### Recurring functionality.
+> 1. The recurring functionality in the [Add command](#command-examples) is only available to Event and Deadline
+> 2. If you try to use recurring functionality on a Reminders (task with no start or end date), the system will only add it once.
+
 ## Quick Start
 
 0. Ensure you have Java version `1.8.0_60` or later installed in your Computer.<br>
@@ -42,7 +45,7 @@ command-line interface (CLI)-based application.
    e.g. typing **`help`** and pressing <kbd>Enter</kbd> will open the help window.
 5. Some example commands you can try:
    * **`add`**` wash the toilet ` adds a reminder to wash the toilet to the task list.
-   * **`search`**` d/0` searches the task list for all tasks happening today.
+   * **`find`**` day/0` searches the task list for all tasks happening today.
    * **`exit`** : exits the app
 6. Many commands requires an `INDEX` which is the number associated to the task in the current list.
        > <img src = "images/index_example.png" width="600"> <br>
@@ -62,54 +65,50 @@ command-line interface (CLI)-based application.
 
 #### Viewing help : `help`
 Displays information on how to use commands.  
-Format: `help [COMMAND]`
-
-> - If a `COMMAND` is given, help is displayed for that command only.  
-> - If no `COMMAND` is given, help is displayed for all commands available.   
-> - Help is not shown if you enter an incorrect command e.g. `help abcd`
+Format: `help`
 
 
 <!-- @@author A0111277M-->
 
-#### Adding a task: `add`
+#### Adding a task: `add | schedule | remind`
 Adds a task to the task list.  
 Format:  
-Reminder: `add TASKNAME  [d/DESCRIPTION] [t/TAG]...`  
-Deadline: `add TASKNAME  [d/DESCRIPTION] [et/END_DATE] [t/TAG] [[recur/TYPE] [r/TIME]]...`  
-Event: `add TASKNAME  [d/DESCRIPTION]  [st/START_DATE] [et/END_DATE] [t/TAG] [[recur/TYPE] [r/TIMES]]...`  
+> Reminder: `add TASKNAME  [d/DESCRIPTION] [t/TAG]...`  
+> Deadline: `add TASKNAME  [d/DESCRIPTION] et/END_DATE [t/TAG...] [recur/TYPE r/TIME]`  
+> Event: `add TASKNAME  [d/DESCRIPTION]  st/START_DATE et/END_DATE [t/TAG...] [recur/TYPE r/TIMES]`  
 
 > - Tasks can have any number of tags (including 0)  
 > - Date format is MM-DD-YYYY HHMM (24 hour Format) e.g. `st/ 10-22-2016 1500`
-> 	- The command also supports natural language dates such as `today 6pm`
+> 	- The command also supports natural language keywords such as `today 6pm`
 > 	- See the section [On Entering Dates](#On Entering Dates) for more details
 > - If no time is specified, the time will be assumed to be the time right now.
 > - If no start date is specified, it is assumed to be today.
 > - If start date/time is specified but end date/time is not specified, the end date/time will be the same day on 2359.
 > - FlexiCommand is available for addCommand, refer to [Command Examples](#command-examples) for examples of usage.
-> - You can recur a deadline and event a number of times. 
+> - You can recur a Deadline and Event a number of times. The number of repetition must be specified using `r/POSITIVE_INTEGER` argument. 
 
 Examples:
 * `add housework d/to get pocket money t/important`<br>
-* `report d/school report et/130116 2200 t/important`<br>
-  Add the task into the ToDoList using `add` command.
+* `add report d/school report et/130116 2200 t/important`<br>
+  Add the task into the TaskForce using `add` command.
 
 <!-- @@author A0135768R-->
 #### Blocking out time: `block`
-Blocks out time for a potential event, or to indicate unavailability to others.  
+Blocks out time for a potential Event.  
 This command can block multiple timeslots at once, all for one specific event.  
-If multiple timeslots were blocked, when one timeslot is confirmed, all other timeslots are released (further explained in the <kbd>confirm</kbd> command)      
+If multiple timeslots were blocked, when one timeslot is confirmed, all other timeslots are released (further explained in the [Confirm command](#command-examples))      
 
 Format: `block NAME st/START_DATE et/END_DATE [st/START_DATE et/END_DATE]...`
 
 > - Blocked out time is only blocked and cannot be tagged.  
-> - Each st/ and et/ is a pair, and you can have unlimited pairs
+> - Each `st/START_DATE` and `et/END_DATE` is a pair, and you can have unlimited pairs.
 > - Date format is MM-DD-YYYY HHMM (24 hour Format) e.g. `st/ 10-22-2016 1500`
 > 	- The command also supports natural language dates such as `today 6pm`
 > 	- See the section [On Entering Dates](#On Entering Dates) for more details
 > - If no start time is specified, the time will be assumed to be the time right now.
 > - If no start date is specified, it is assumed to be today.
 > - If no end date/time is specified, the end date/time will be the same day on 2359.
-> - You must have the `st/` & `et/` tag even if you use default for both date and time
+> - You must have the `st/START_DATE` & `et/END_DATE` tag even if you use default for both date and time
 
 Examples:
 * `block meeting with boss st/1400 et/1600 st/tommorrow 1400 et/1600`
@@ -119,28 +118,29 @@ Examples:
 Confirms a blocked out time and converts it into an event  
 Deletes all other blocked timeslots for the same event
 
-Format: `confirm INDEX st/STARTTIME et/ENDTIME [d/DESCRIPTION][t/TAG]...`
-> - To use this function, you must first list the desired timelot, by either going to the right date to view it, or finding it through keywords
-> - Following which, you can use this command the confirm the desired slot you would like.
-> - All other times associated to the previously blocked out event will be released, even if they are not in the current view.
+Format: `confirm INDEX st/START_TIME et/END_TIME [d/DESCRIPTION][t/TAG...]`
+> - To use this function, you must first list the desired timelot by using [find command](#command-examples).
+> - Following which, you can use this command to confirm your desired slot.
+> - All other times associated to the previously blocked out Event will be released, even if they are not in the current view.
+> - At the same time you can also change Event name, description or add additional tags. 
 
 Examples:
-* `confirm 5 st/6pm et/8pm`
+* `confirm 5 d/venue TBC st/6pm et/8pm t/important`
 
 <!-- @@author A0139942W-->
 #### Searching for (a) specific task(s): `find`
 Finds tasks of a specific time, or whose names contain any of the given keywords.  
 Format: `find METHOD/ KEYWORDS [mark/TRUE]` <br>
-KEYWORDS for TYPE 'name/' 'desc/' 'tag/' is a word that is contain/part of a task name/description/tag <br>
-KEYWORDS for TYPE 'day' and 'week' is a integer number.
+KEYWORDS for TYPE `name/` `desc/` `tag/` is a word that is contain/part of a task name/description/tag <br>
+KEYWORDS for TYPE `day` and `week` is an integer number.
 
 Method | Explanation | Example
 -------- | :-------- | :---------
 `day/` | List all events/deadline a number of days after today | `find day/ -1` (yesterday)
 `week/` | List all events/deadline in a week, after current week | `find week/ 0` (current week)
 `name/` | List all tasks with taskName containing the keywords | `find name/ shoes`
-`tag/` | List all tasks with taskDescription containing the keywords | `find name/ shoes`
-`desc/` | List all tasks with the tags of task containing the keywords | `find name/ shoes`
+`tag/` | List all tasks with taskDescription containing the keywords | `find tag/ important`
+`desc/` | List all tasks with the tags of task containing the keywords | `find desc/ red underwear`
 
 
 > * The search is not case sensitive. e.g `task` will match `TaSK`
@@ -148,7 +148,7 @@ Method | Explanation | Example
 > * Sub-words will be matched e.g. `sk` will match `task`
 > * Tasks matching at least one keyword will be returned (i.e. `OR` search).
 
-> * FindCommand filtered out marked tasks automatically, user can turn off filter by using [mark/TRUE]
+> * Find command filtered out marked tasks automatically, user can turn off filter by using [mark/TRUE]
 to include marked task in search
 * 'find name/i wan to find marked task mark/true'
 
@@ -156,8 +156,8 @@ to include marked task in search
 #### Searching for (a) specific task(s) under certain category: 'find'
 Find tasks that belong to a certain category. <br>
 Format: `find TYPE/CATEGORY` <br>
-'CATEGORY' is defined as 'all', 'overdue', 'mark'. Any other category will be classified
-as invalidCommand.
+`CATEGORY` is defined as `all`, `overdue`, `mark`. Any other category will be classified
+as invalid command.
 
 Method | Explanation | Example
 -------- | :-------- | :---------
@@ -166,8 +166,8 @@ Method | Explanation | Example
 'type/mark' | List out all tasks that are marked done | 'find type/mark'
 
 <!-- @@author A0135768R-->
-#### Deleting a task : `delete`
-Deletes the specified task from the task list. Irreversible.  
+#### Deleting a task : `delete` (undoable)
+Deletes the specified task from the task list. 
 Format: `delete INDEX[, INDEX,...]`
 
 > - Delete the task at the specified `INDEX`.
@@ -178,12 +178,12 @@ Format: `delete INDEX[, INDEX,...]`
 Examples:
 * `find all/ Meeting`<br>
   `delete 1`<br>
-  Deletes the 1st task in the results of the `find` command.
+  Deletes the *1st* task in the results of the `find` command.
 
 <!-- @@author A0111277M-->
 #### Editing a task: `edit`  
 Edits a task in the task list.  
-Format: `edit INDEX [NAME] [d/DESCRIPTION] [st/START_DATE] [et/END_DATE] [t/TAGS]`   
+Format: `edit INDEX [NAME] [d/DESCRIPTION] [st/START_DATE] [et/END_DATE] [t/TAGS...]`   
 
 > - Follows index format of delete - The index refers to the index number shown in the most recent listing.
 > - Only enter in the details you want to edit. Details not specified in this command will not be changed.  
@@ -211,20 +211,21 @@ Format: `freetime [day/DAYS_FROM_TODAY]`  <br>
 <!-- @@author A0140037W-->
 #### Undo the previous command : `undo`
 Undo the last command that was successfully executed. <br>
-Format: `undo`
-
+Format: `undo` <br>
+Keybinding: <kbd>Control-Z OR Meta-Z</kbd>
 #### Redo the previous command : `Redo`
 Redo the last command that was successfully executed. <br>
-Format: `Redo`
+Format: `Redo` <br>
+Keybinding: <kbd>Control-Shift-Z OR Meta-Shift-Z</kbd>
 
 <!-- @@author A0139942W-->
 #### Changing FileStorage location : `cd`
-Changing the saveData into another location <br>
-Format: `cd [FILEPATH\FILENAME.xml]`
+Changing the file path of saved data to another location <br>
+Format: `cd FILEPATH\FILENAME.xml`
 Examples:
-* `cd ` will tell you the current location of the saveData
-* `cd C:\Users\Boon\newSaveName.xml`will change the saveData location to specified path
-
+* `cd ` will tell you the current location of the saved data
+* `cd C:\Users\Boon\newSaveName.xml` will change the saved data location to specified path
+* `cd ./path/to/new/location/on/unix/platform/sampleData.xml` will change the path on unix platform.
 <!-- @@author A0135768R-->
 
 #### Changing configuration options : `config`
@@ -248,6 +249,7 @@ Clears **ALL** entries from the task list. This command **CANNOT** be undone! <b
 This requires the sudo to be enabled <br>
 A confirmation dialog will appear. You can use arrow key and space bar to select confirmation responses. <br>
 Format: `clear`  
+Press <kbd>Enter</kbd> to confirm.
 
 #### Exiting the program : `exit`
 Exits the program.<br>
@@ -278,9 +280,9 @@ TaskForce supports flexible date inputs and thus allows many natural variations 
 > 	* tomorrow 9am
 
 <!-- @@author A0139942W-->
-## Recurring a deadline and event
+## Recurring a Deadline and Event
 TaskForce enable user to recur a deadline and event mutiple times reducing the hassle to add one by one. recurring functionality support
-the follow type of commandS for [recur/TYPE]: 'TYPE'
+the follow type of commands for [recur/TYPE]: `TYPE`
 > * daily
 > * weekly
 > * monthly
@@ -293,7 +295,7 @@ the follow type of commandS for [recur/TYPE]: 'TYPE'
 > * alternate year
 > * biyearly
 
-Any other type inputted will be treaded as invalidCommand. <br>
+Any other type input will be treaded as invalid command. <br>
 <!-- @@author A0111277M-->
 ## FAQ
 
@@ -305,19 +307,19 @@ Any other type inputted will be treaded as invalidCommand. <br>
 
 Command | Format  
 -------- | :--------
-Add | `add EVENT [d/DESCRIPTION][st/START_DATE] [et/END_DATE] [t/TAG] [t/TAG2] [[recur/TYPE] [r/TIME]]...`
+Add | `add EVENT [d/DESCRIPTION][st/START_DATE] [et/END_DATE] [t/TAG...] [recur/TYPE r/TIME]`
 Block | `block NAME st/START_DATE et/END_DATE [st/START_DATE et/END_DATE]...`
-Confirm | `confirm NAME st/START_DATE et/END_DATE [d/DESCRIPTION] [t/TAG]`
+Confirm | `confirm NAME [st/START_DATE et/END_DATE] [d/DESCRIPTION] [t/TAG]`
 Clear | `clear`
-Delete | `delete INDEX`
-Edit | `edit INDEX [NAME] [s/START_DATE] [e/END_DATE] ...`
+Delete | `delete INDEX [,INDEX1, INDEX2]...`
+Edit | `edit INDEX [NAME] [d/DESCRIPTION][s/START_DATE] [e/END_DATE] [t/TAG...]...`
 Freetime | `freetime [day/DAYS_FROM_TODAY]`
 Find | `find METHOD/KEYWORDS [mark/TRUE]`
-Find | 'find TYPE/CATEGORY'
+Find | `find TYPE/CATEGORY`
 cd   | `cd [FILEPATH/FILENAME.xml]`
 config | `config CONFIG_OPTION v/CONFIG_VALUE`
 Undo | `undo`
-Redo | 'redo'
+Redo | `redo`
 Help | `help`
 Exit | `exit`
 
@@ -362,6 +364,7 @@ Exit | `exit`
 * **cd** e.g : <br>
 `cd ` <br>
 `cd C:\Users\Boon\Desktop\newLocation.xml` <br>
+`cd ./path/to/new/location/on/unix/platform/sampleData.xml` <br>
  
 * **config** e.g : <br>
 `config activeHoursFrom v/0000 ` <br>
@@ -378,6 +381,7 @@ Exit | `exit`
 * **clear** e.g : <br>
 `config enableSudo v/true` <br>
 `clear ` <br>
+<kbd>Enter</kbd>
 
 * **exit** e.g : <br>
 `exit ` <br>
