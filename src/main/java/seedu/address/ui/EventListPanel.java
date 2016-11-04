@@ -3,6 +3,8 @@ package seedu.address.ui;
 import java.util.List;
 import java.util.logging.Logger;
 
+import com.google.common.eventbus.Subscribe;
+
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
@@ -14,6 +16,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import seedu.address.commons.core.LogsCenter;
+import seedu.address.commons.events.model.TaskForceTaskListChangedEvent;
 import seedu.address.commons.events.ui.TaskPanelSelectionChangedEvent;
 import seedu.address.logic.filters.EventQualifier;
 import seedu.address.logic.filters.Expression;
@@ -62,6 +65,7 @@ public class EventListPanel extends UiPart {
 
     private void configure(ObservableList<ReadOnlyTask> taskList) {
         setConnections(taskList);
+        registerAsAnEventHandler(this);
         addToPlaceholder();
     }
     
@@ -86,6 +90,13 @@ public class EventListPanel extends UiPart {
                 raise(new TaskPanelSelectionChangedEvent(newValue));
             }
         });
+    }
+    
+    @Subscribe
+    private void onTaskListChangedEvent (TaskForceTaskListChangedEvent event) {
+        ObservableList<ReadOnlyTask> items = eventListView.getItems() ;
+        eventListView.setItems(null);
+        eventListView.setItems(items);
     }
     
     class EventListViewCell extends ListCell<ReadOnlyTask> {
