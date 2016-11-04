@@ -1,25 +1,25 @@
 # reused
 ###### \java\seedu\address\commons\core\Config.java
 ``` java
-    
+
     public String getTaskForceName() {
-        return this.<String>getConfigurationOption("appName") ;
+        return this.<String>getConfigurationOption("appName");
     }
 
     public void setTaskForceName(String taskForceName) {
-        this.<String>setConfigurationOption("appName", taskForceName) ;
+        this.<String>setConfigurationOption("appName", taskForceName);
     }
-    
+
     public String getAppTitle() {
-        return this.<String>getConfigurationOption("appTitle") ;
+        return this.<String>getConfigurationOption("appTitle");
     }
 
     public void setAppTitle(String appTitle) {
-        this.<String>setConfigurationOption("appTitle", appTitle) ;
+        this.<String>setConfigurationOption("appTitle", appTitle);
     }
 
     public Level getLogLevel() {
-        return Level.INFO ;
+        return Level.INFO;
     }
 
     public void setLogLevel(Level logLevel) {
@@ -27,20 +27,20 @@
     }
 
     public String getUserPrefsFilePath() {
-        return this.<String>getConfigurationOption("userPrefsFilePath") ;
+        return this.<String>getConfigurationOption("userPrefsFilePath");
     }
 
     public void setUserPrefsFilePath(String userPrefsFilePath) {
-        this.<String>setConfigurationOption("userPrefsFilePath", userPrefsFilePath) ;
+        this.<String>setConfigurationOption("userPrefsFilePath", userPrefsFilePath);
     }
 
     public String getTaskForceFilePath() {
-        return this.<String>getConfigurationOption("taskForceDataFilePath") ;
+        return this.<String>getConfigurationOption("taskForceDataFilePath");
     }
 
     public void setTaskForceFilePath(String taskForceFilePath) {
-        this.<String>setConfigurationOption("taskForceDataFilePath", taskForceFilePath) ;
-        
+        this.<String>setConfigurationOption("taskForceDataFilePath", taskForceFilePath);
+
     }
 
 }
@@ -55,18 +55,86 @@
     }
 }
 ```
+###### \java\seedu\address\ui\CommandBox.java
+``` java
+    private void addToPlaceholder() {
+        SplitPane.setResizableWithParent(placeHolderPane, false);
+        placeHolderPane.getChildren().add(commandTextField);
+        FxViewUtil.applyAnchorBoundaryParameters(commandPane, 0.0, 0.0, 0.0, 0.0);
+        FxViewUtil.applyAnchorBoundaryParameters(commandTextField, 0.0, 0.0, 0.0, 0.0);
+    }
+
+    @Override
+    public void setNode(Node node) {
+        commandPane = (AnchorPane) node;
+    }
+
+    @Override
+    public String getFxmlPath() {
+        return FXML;
+    }
+
+    @Override
+    public void setPlaceholder(AnchorPane pane) {
+        this.placeHolderPane = pane;
+    }
+
+    @FXML
+    private void handleCommandInputChanged() {
+        // Take a copy of the command text
+        saveCommandText();
+
+        /*
+         * We assume the command is correct. If it is incorrect, the command box
+         * will be changed accordingly in the event handling code {@link
+         * #handleIncorrectCommandAttempted}
+         */
+        setStyleToIndicateCorrectCommand();
+        mostRecentResult = logic.execute(previousCommandText);
+        resultDisplay.postMessage(mostRecentResult.feedbackToUser);
+        logger.info("Result: " + mostRecentResult.feedbackToUser);
+    }
+
+```
+###### \java\seedu\address\ui\CommandBox.java
+``` java
+    /**
+     *  Sets the command box style to indicate a correct command.
+     */
+    private void setStyleToIndicateCorrectCommand() {
+        commandTextField.getStyleClass().remove("error");
+        commandTextField.setText("");
+    }
+
+    @Subscribe
+    private void handleIncorrectCommandAttempted(IncorrectCommandAttemptedEvent event) {
+        logger.info(LogsCenter.getEventHandlingLogMessage(event, "Invalid command: " + previousCommandText));
+        setStyleToIndicateIncorrectCommand();
+        restoreCommandText();
+    }
+
+    /**
+     * Restores the command box text to the previously entered command
+     */
+    private void restoreCommandText() {
+        commandTextField.setText(previousCommandText);
+    }
+
+```
 ###### \java\seedu\address\ui\MainWindow.java
 ``` java
     private void setAccelerators() {
-//        helpMenuItem.setAccelerator(KeyCombination.valueOf("F1"));
+        // helpMenuItem.setAccelerator(KeyCombination.valueOf("F1"));
     }
 
     public void fillInnerParts() {
-    	//browserPanel = BrowserPanel.load(browserPlaceholder);
+        // browserPanel = BrowserPanel.load(browserPlaceholder);
         taskListPanel = TaskListPanel.load(primaryStage, getTaskListPlaceholder(), logic.getInitialTodaysTaskList());
+        eventListPanel = EventListPanel.load(primaryStage, getEventListPlaceholder(), logic.getInitialTodaysTaskList()) ;
         resultDisplay = ResultDisplay.load(primaryStage, getResultDisplayPlaceholder());
         statusBarFooter = StatusBarFooter.load(primaryStage, getStatusbarPlaceholder(), config.getTaskForceFilePath());
         commandBox = CommandBox.load(primaryStage, getCommandBoxPlaceholder(), resultDisplay, logic);
+        freeTimeLine = FreeTimeLine.load(primaryStage, getResultDisplayPlaceholder());
     }
 
     private AnchorPane getCommandBoxPlaceholder() {
@@ -83,6 +151,10 @@
 
     public AnchorPane getTaskListPlaceholder() {
         return taskListPanelPlaceholder;
+    }
+    
+    public AnchorPane getEventListPlaceholder() {
+        return eventListPanelPlaceholder ;
     }
 
     public void hide() {
@@ -114,8 +186,8 @@
      * Returns the current size and the position of the main Window.
      */
     public GuiSettings getCurrentGuiSetting() {
-        return new GuiSettings(primaryStage.getWidth(), primaryStage.getHeight(),
-                (int) primaryStage.getX(), (int) primaryStage.getY());
+        return new GuiSettings(primaryStage.getWidth(), primaryStage.getHeight(), (int) primaryStage.getX(),
+                (int) primaryStage.getY());
     }
 
     @FXML
@@ -140,16 +212,20 @@
         return this.taskListPanel;
     }
     
+    public EventListPanel getEventListPanel() {
+        return this.eventListPanel ;
+    }
+
     public ResultDisplay getResultDisplay() {
-        return resultDisplay ;
+        return resultDisplay;
     }
 
     public void loadTaskPage(ReadOnlyTask task) {
-        //browserPanel.loadTaskPage(task);
+        // browserPanel.loadTaskPage(task);
     }
 
     public void releaseResources() {
-        //browserPanel.freeResources();
+        // browserPanel.freeResources();
     }
 }
 ```
