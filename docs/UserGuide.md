@@ -240,8 +240,7 @@ taskForceDataFilePath | Use the `cd` command | The location of the data save fil
 userPrefsFilePath   | A file path | The location of the user preferences file
 activeHoursFrom | 0000 to 2400 | The earliest hour that the freetime command would take into account when computing your freetime
 activeHoursTo | 0000 to 2400 | The latest hour that the freetime command would take into account when computing your freetime
-enableSudo | true or false | When enabled, you can perform the 
-command and other commands for advanced users
+enableSudo | true or false | When enabled, you can perform the clear command and other commands for advanced users
 
 <!-- @@author A0111277M -->
 #### Clearing all entries : `clear`
