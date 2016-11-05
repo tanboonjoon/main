@@ -1,22 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <taskForceData>
     <tasks>
-        <taskId>3</taskId>
-        <name>CS2105 assignment 2</name>
-        <description></description>
-        <endDateTime>2016-10-14T13:00</endDateTime>
-        <doneStatus>false</doneStatus>
-        <isBlock>false</isBlock>
-    </tasks>
-    <tasks>
-        <taskId>5</taskId>
-        <name>LAJ2203 HM L28 K U28-29(1)</name>
-        <description></description>
-        <endDateTime>2016-10-25T19:27:39.125</endDateTime>
-        <doneStatus>false</doneStatus>
-        <isBlock>false</isBlock>
-    </tasks>
-    <tasks>
         <taskId>7</taskId>
         <name>the flash S03E04</name>
         <description>must download and watch</description>
@@ -35,22 +19,6 @@
         <doneStatus>false</doneStatus>
         <isBlock>false</isBlock>
         <tagged>tvSeries</tagged>
-    </tasks>
-    <tasks>
-        <taskId>9</taskId>
-        <name>CS2103 v0.2</name>
-        <description></description>
-        <endDateTime>2016-10-14T10:00</endDateTime>
-        <doneStatus>false</doneStatus>
-        <isBlock>false</isBlock>
-    </tasks>
-    <tasks>
-        <taskId>10</taskId>
-        <name>CS2103 v0.1</name>
-        <description></description>
-        <endDateTime>2016-10-07T10:00</endDateTime>
-        <doneStatus>false</doneStatus>
-        <isBlock>false</isBlock>
     </tasks>
     <tasks>
         <taskId>11</taskId>
@@ -73,15 +41,6 @@
         <tagged>VERYIMPORTANT</tagged>
     </tasks>
     <tasks>
-        <taskId>13</taskId>
-        <name>own friend money</name>
-        <description>he brought me coffee</description>
-        <doneStatus>false</doneStatus>
-        <isBlock>false</isBlock>
-        <tagged>money</tagged>
-        <tagged>friend</tagged>
-    </tasks>
-    <tasks>
         <taskId>14</taskId>
         <name>CS2102 report</name>
         <description>database project report</description>
@@ -90,30 +49,6 @@
         <isBlock>false</isBlock>
         <tagged>important</tagged>
         <tagged>project</tagged>
-    </tasks>
-    <tasks>
-        <taskId>15</taskId>
-        <name>CS2103 Project Milestone version 0.3</name>
-        <description></description>
-        <endDateTime>2016-10-21T19:24:10.476</endDateTime>
-        <doneStatus>false</doneStatus>
-        <isBlock>false</isBlock>
-    </tasks>
-    <tasks>
-        <taskId>16</taskId>
-        <name>CS2103 Project Milestone version 0.4</name>
-        <description>Last version for new features</description>
-        <endDateTime>2016-10-28T19:24:55.718</endDateTime>
-        <doneStatus>false</doneStatus>
-        <isBlock>false</isBlock>
-    </tasks>
-    <tasks>
-        <taskId>17</taskId>
-        <name>CS2103 Project Milestone version 0.5rc</name>
-        <description>The release candidate</description>
-        <endDateTime>2016-11-04T19:25:20.870</endDateTime>
-        <doneStatus>false</doneStatus>
-        <isBlock>false</isBlock>
     </tasks>
     <tasks>
         <taskId>18</taskId>
@@ -130,17 +65,6 @@
         <endDateTime>2016-11-11T17:00</endDateTime>
         <doneStatus>false</doneStatus>
         <isBlock>false</isBlock>
-    </tasks>
-    <tasks>
-        <taskId>20</taskId>
-        <name>CS2102 project</name>
-        <description>diccuss with teammate</description>
-        <endDateTime>2016-10-25T23:59</endDateTime>
-        <doneStatus>false</doneStatus>
-        <isBlock>false</isBlock>
-        <tagged>important</tagged>
-        <tagged>schoolwork</tagged>
-        <tagged>project</tagged>
     </tasks>
     <tasks>
         <taskId>21</taskId>
@@ -214,14 +138,6 @@
         <doneStatus>false</doneStatus>
         <isBlock>false</isBlock>
         <tagged>mathisfun</tagged>
-    </tasks>
-    <tasks>
-        <taskId>29</taskId>
-        <name>cs2102 v4.0 deadline</name>
-        <description></description>
-        <endDateTime>2016-10-29T10:00</endDateTime>
-        <doneStatus>false</doneStatus>
-        <isBlock>false</isBlock>
     </tasks>
     <tasks>
         <taskId>30</taskId>
@@ -450,15 +366,13 @@
         <isBlock>false</isBlock>
     </tasks>
     <tasks>
-        <taskId>56</taskId>
-        <name>laj2203 ORAL </name>
+        <taskId>55</taskId>
+        <name>laj2203 tutorial B </name>
         <description></description>
-        <startDateTime>2016-11-09T16:00</startDateTime>
-        <endDateTime>2016-11-09T18:00</endDateTime>
+        <startDateTime>2016-11-02T16:00</startDateTime>
+        <endDateTime>2016-11-02T18:00</endDateTime>
         <doneStatus>false</doneStatus>
         <isBlock>false</isBlock>
-        <tagged>important</tagged>
-        <tagged>practice</tagged>
     </tasks>
     <tasks>
         <taskId>57</taskId>
@@ -668,38 +582,266 @@
         <isBlock>false</isBlock>
     </tasks>
     <tasks>
-        <taskId>82</taskId>
-        <name>remind Eric to study for 4 other modules and do not repeat MA1505 again.</name>
+        <taskId>80</taskId>
+        <name>CS2103 v0.1</name>
         <description></description>
-        <startDateTime>2016-11-02T23:00</startDateTime>
-        <endDateTime>2016-11-02T23:59</endDateTime>
-        <doneStatus>false</doneStatus>
+        <endDateTime>2016-10-07T10:00</endDateTime>
+        <doneStatus>true</doneStatus>
+        <isBlock>false</isBlock>
+    </tasks>
+    <tasks>
+        <taskId>81</taskId>
+        <name>CS2103 v0.2</name>
+        <description></description>
+        <endDateTime>2016-10-14T10:00</endDateTime>
+        <doneStatus>true</doneStatus>
+        <isBlock>false</isBlock>
+    </tasks>
+    <tasks>
+        <taskId>82</taskId>
+        <name>CS2105 assignment 2</name>
+        <description></description>
+        <endDateTime>2016-10-14T13:00</endDateTime>
+        <doneStatus>true</doneStatus>
+        <isBlock>false</isBlock>
+    </tasks>
+    <tasks>
+        <taskId>83</taskId>
+        <name>CS2103 Project Milestone version 0.3</name>
+        <description></description>
+        <endDateTime>2016-10-21T19:24:10.476</endDateTime>
+        <doneStatus>true</doneStatus>
         <isBlock>false</isBlock>
     </tasks>
     <tasks>
         <taskId>84</taskId>
+        <name>CS2102 project</name>
+        <description>diccuss with teammate</description>
+        <endDateTime>2016-10-25T23:59</endDateTime>
+        <doneStatus>true</doneStatus>
+        <isBlock>false</isBlock>
+        <tagged>important</tagged>
+        <tagged>schoolwork</tagged>
+        <tagged>project</tagged>
+    </tasks>
+    <tasks>
+        <taskId>85</taskId>
+        <name>LAJ2203 HM L28 K U28-29(1)</name>
+        <description></description>
+        <endDateTime>2016-10-25T19:27:39.125</endDateTime>
+        <doneStatus>true</doneStatus>
+        <isBlock>false</isBlock>
+    </tasks>
+    <tasks>
+        <taskId>86</taskId>
+        <name>CS2103 Project Milestone version 0.4</name>
+        <description>Last version for new features</description>
+        <endDateTime>2016-10-28T19:24:55.718</endDateTime>
+        <doneStatus>true</doneStatus>
+        <isBlock>false</isBlock>
+    </tasks>
+    <tasks>
+        <taskId>87</taskId>
+        <name>cs2102 v4.0 deadline</name>
+        <description></description>
+        <endDateTime>2016-10-29T10:00</endDateTime>
+        <doneStatus>true</doneStatus>
+        <isBlock>false</isBlock>
+    </tasks>
+    <tasks>
+        <taskId>88</taskId>
+        <name>download flash s03 torrent</name>
+        <description></description>
+        <startDateTime>2016-11-03T21:43:54.579</startDateTime>
+        <endDateTime>2016-11-03T21:43:54.582</endDateTime>
+        <doneStatus>false</doneStatus>
+        <isBlock>false</isBlock>
+    </tasks>
+    <tasks>
+        <taskId>88</taskId>
+        <name>download flash s03 torrent</name>
+        <description></description>
+        <startDateTime>2016-11-10T21:43:54.579</startDateTime>
+        <endDateTime>2016-11-10T21:43:54.582</endDateTime>
+        <doneStatus>false</doneStatus>
+        <isBlock>false</isBlock>
+    </tasks>
+    <tasks>
+        <taskId>88</taskId>
+        <name>download flash s03 torrent</name>
+        <description></description>
+        <startDateTime>2016-11-17T21:43:54.579</startDateTime>
+        <endDateTime>2016-11-17T21:43:54.582</endDateTime>
+        <doneStatus>false</doneStatus>
+        <isBlock>false</isBlock>
+    </tasks>
+    <tasks>
+        <taskId>88</taskId>
+        <name>download flash s03 torrent</name>
+        <description></description>
+        <startDateTime>2016-11-24T21:43:54.579</startDateTime>
+        <endDateTime>2016-11-24T21:43:54.582</endDateTime>
+        <doneStatus>false</doneStatus>
+        <isBlock>false</isBlock>
+    </tasks>
+    <tasks>
+        <taskId>89</taskId>
+        <name>CS2103 quiz</name>
+        <description></description>
+        <endDateTime>2016-11-01T21:44:13.041</endDateTime>
+        <doneStatus>false</doneStatus>
+        <isBlock>false</isBlock>
+    </tasks>
+    <tasks>
+        <taskId>90</taskId>
+        <name>LAJ2203 oral reherse</name>
+        <description></description>
+        <startDateTime>2016-11-02T21:45:27.345</startDateTime>
+        <endDateTime>2016-11-02T21:45:27.347</endDateTime>
+        <doneStatus>false</doneStatus>
+        <isBlock>false</isBlock>
+    </tasks>
+    <tasks>
+        <taskId>91</taskId>
+        <name>own friend money</name>
+        <description>he brought me coffee</description>
+        <doneStatus>true</doneStatus>
+        <isBlock>false</isBlock>
+        <tagged>money</tagged>
+        <tagged>friend</tagged>
+    </tasks>
+    <tasks>
+        <taskId>92</taskId>
         <name>study hard</name>
         <description></description>
-        <startDateTime>2016-11-02T23:00</startDateTime>
-        <endDateTime>2016-11-02T23:59</endDateTime>
+        <doneStatus>true</doneStatus>
+        <isBlock>false</isBlock>
+    </tasks>
+    <tasks>
+        <taskId>99</taskId>
+        <name>LAJ2203 hyonjunMondaisu</name>
+        <description></description>
+        <endDateTime>2016-10-30T15:00</endDateTime>
+        <doneStatus>true</doneStatus>
+        <isBlock>false</isBlock>
+    </tasks>
+    <tasks>
+        <taskId>100</taskId>
+        <name>event</name>
+        <description></description>
+        <endDateTime>2016-10-30T22:30</endDateTime>
+        <doneStatus>true</doneStatus>
+        <isBlock>false</isBlock>
+    </tasks>
+    <tasks>
+        <taskId>101</taskId>
+        <name>GW bidding</name>
+        <description></description>
+        <endDateTime>2016-10-30T17:00</endDateTime>
+        <doneStatus>true</doneStatus>
+        <isBlock>false</isBlock>
+    </tasks>
+    <tasks>
+        <taskId>105</taskId>
+        <name>to practice</name>
+        <description>prepartion for oral exam</description>
+        <endDateTime>2016-10-30T23:00</endDateTime>
         <doneStatus>false</doneStatus>
         <isBlock>false</isBlock>
     </tasks>
     <tasks>
-        <taskId>95</taskId>
-        <name>lul</name>
-        <description>lel</description>
-        <startDateTime>2016-11-02T18:00</startDateTime>
-        <endDateTime>2016-11-02T20:00</endDateTime>
+        <taskId>108</taskId>
+        <name>remind Eric to study for 4 other modules and do not repeat MA1505 again.</name>
+        <description></description>
+        <doneStatus>true</doneStatus>
+        <isBlock>false</isBlock>
+    </tasks>
+    <tasks>
+        <taskId>109</taskId>
+        <name>a event</name>
+        <description></description>
+        <endDateTime>2016-10-30T22:00</endDateTime>
         <doneStatus>false</doneStatus>
         <isBlock>false</isBlock>
     </tasks>
     <tasks>
-        <taskId>97</taskId>
-        <name>lolol</name>
-        <description>lelel</description>
-        <startDateTime>2016-11-02T15:00</startDateTime>
-        <endDateTime>2016-11-02T18:00</endDateTime>
+        <taskId>110</taskId>
+        <name>CS2103 Project Milestone version 0.5rc</name>
+        <description>The release candidate</description>
+        <endDateTime>2016-11-04T19:25:20.870</endDateTime>
+        <doneStatus>true</doneStatus>
+        <isBlock>false</isBlock>
+    </tasks>
+    <tasks>
+        <taskId>112</taskId>
+        <name>CS2102 demo</name>
+        <description></description>
+        <startDateTime>2016-11-10T23:53:01.297</startDateTime>
+        <endDateTime>2016-11-10T23:53:01.301</endDateTime>
+        <doneStatus>false</doneStatus>
+        <isBlock>false</isBlock>
+    </tasks>
+    <tasks>
+        <taskId>115</taskId>
+        <name>laj22023 oral</name>
+        <description></description>
+        <startDateTime>2016-11-09T16:00</startDateTime>
+        <endDateTime>2016-11-09T18:00</endDateTime>
+        <doneStatus>true</doneStatus>
+        <isBlock>false</isBlock>
+        <tagged>important</tagged>
+        <tagged>practice</tagged>
+    </tasks>
+    <tasks>
+        <taskId>116</taskId>
+        <name>event LAJ2203 skit</name>
+        <description></description>
+        <startDateTime>2016-11-09T21:21:03.174</startDateTime>
+        <endDateTime>2016-11-09T21:21:03.177</endDateTime>
+        <doneStatus>false</doneStatus>
+        <isBlock>false</isBlock>
+    </tasks>
+    <tasks>
+        <taskId>117</taskId>
+        <name>read my light novel</name>
+        <description>read at least2-3 volume</description>
+        <doneStatus>false</doneStatus>
+        <isBlock>false</isBlock>
+        <tagged>chilling</tagged>
+        <tagged>interest</tagged>
+        <tagged>relaxation</tagged>
+    </tasks>
+    <tasks>
+        <taskId>118</taskId>
+        <name>kirin train</name>
+        <description>granblue fantasy</description>
+        <doneStatus>false</doneStatus>
+        <isBlock>false</isBlock>
+        <tagged>game</tagged>
+    </tasks>
+    <tasks>
+        <taskId>119</taskId>
+        <name>research on ultrabook</name>
+        <description>to replace my oudated laptop</description>
+        <doneStatus>false</doneStatus>
+        <isBlock>false</isBlock>
+        <tagged>informationgathering</tagged>
+    </tasks>
+    <tasks>
+        <taskId>120</taskId>
+        <name>kimi no na wa movie</name>
+        <description></description>
+        <startDateTime>2016-11-04T19:00</startDateTime>
+        <endDateTime>2016-11-05T21:20</endDateTime>
+        <doneStatus>false</doneStatus>
+        <isBlock>false</isBlock>
+    </tasks>
+    <tasks>
+        <taskId>121</taskId>
+        <name>Doctor strange</name>
+        <description></description>
+        <startDateTime>2016-11-12T21:23:42.280</startDateTime>
+        <endDateTime>2016-11-12T21:23:42.281</endDateTime>
         <doneStatus>false</doneStatus>
         <isBlock>false</isBlock>
     </tasks>
@@ -732,5 +874,20 @@
     </tags>
     <tags>
         <tagName>practice</tagName>
+    </tags>
+    <tags>
+        <tagName>chilling</tagName>
+    </tags>
+    <tags>
+        <tagName>interest</tagName>
+    </tags>
+    <tags>
+        <tagName>relaxation</tagName>
+    </tags>
+    <tags>
+        <tagName>game</tagName>
+    </tags>
+    <tags>
+        <tagName>informationgathering</tagName>
     </tags>
 </taskForceData>

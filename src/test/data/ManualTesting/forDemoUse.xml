@@ -742,24 +742,10 @@
         <isBlock>false</isBlock>
     </tasks>
     <tasks>
-        <taskId>103</taskId>
-        <name>task</name>
-        <description></description>
-        <doneStatus>false</doneStatus>
-        <isBlock>false</isBlock>
-    </tasks>
-    <tasks>
         <taskId>105</taskId>
         <name>to practice</name>
         <description>prepartion for oral exam</description>
         <endDateTime>2016-10-30T23:00</endDateTime>
-        <doneStatus>false</doneStatus>
-        <isBlock>false</isBlock>
-    </tasks>
-    <tasks>
-        <taskId>106</taskId>
-        <name>write about relative date</name>
-        <description></description>
         <doneStatus>false</doneStatus>
         <isBlock>false</isBlock>
     </tasks>
@@ -796,22 +782,68 @@
         <isBlock>false</isBlock>
     </tasks>
     <tasks>
-        <taskId>113</taskId>
-        <name>write about</name>
-        <description></description>
-        <doneStatus>false</doneStatus>
-        <isBlock>false</isBlock>
-    </tasks>
-    <tasks>
-        <taskId>114</taskId>
+        <taskId>115</taskId>
         <name>laj22023 oral</name>
         <description></description>
         <startDateTime>2016-11-09T16:00</startDateTime>
         <endDateTime>2016-11-09T18:00</endDateTime>
-        <doneStatus>false</doneStatus>
+        <doneStatus>true</doneStatus>
         <isBlock>false</isBlock>
         <tagged>important</tagged>
         <tagged>practice</tagged>
+    </tasks>
+    <tasks>
+        <taskId>116</taskId>
+        <name>event LAJ2203 skit</name>
+        <description></description>
+        <startDateTime>2016-11-09T21:21:03.174</startDateTime>
+        <endDateTime>2016-11-09T21:21:03.177</endDateTime>
+        <doneStatus>false</doneStatus>
+        <isBlock>false</isBlock>
+    </tasks>
+    <tasks>
+        <taskId>117</taskId>
+        <name>read my light novel</name>
+        <description>read at least2-3 volume</description>
+        <doneStatus>false</doneStatus>
+        <isBlock>false</isBlock>
+        <tagged>chilling</tagged>
+        <tagged>interest</tagged>
+        <tagged>relaxation</tagged>
+    </tasks>
+    <tasks>
+        <taskId>118</taskId>
+        <name>kirin train</name>
+        <description>granblue fantasy</description>
+        <doneStatus>false</doneStatus>
+        <isBlock>false</isBlock>
+        <tagged>game</tagged>
+    </tasks>
+    <tasks>
+        <taskId>119</taskId>
+        <name>research on ultrabook</name>
+        <description>to replace my oudated laptop</description>
+        <doneStatus>false</doneStatus>
+        <isBlock>false</isBlock>
+        <tagged>informationgathering</tagged>
+    </tasks>
+    <tasks>
+        <taskId>120</taskId>
+        <name>kimi no na wa movie</name>
+        <description></description>
+        <startDateTime>2016-11-04T19:00</startDateTime>
+        <endDateTime>2016-11-05T21:20</endDateTime>
+        <doneStatus>false</doneStatus>
+        <isBlock>false</isBlock>
+    </tasks>
+    <tasks>
+        <taskId>121</taskId>
+        <name>Doctor strange</name>
+        <description></description>
+        <startDateTime>2016-11-12T21:23:42.280</startDateTime>
+        <endDateTime>2016-11-12T21:23:42.281</endDateTime>
+        <doneStatus>false</doneStatus>
+        <isBlock>false</isBlock>
     </tasks>
     <tags>
         <tagName>important</tagName>
@@ -842,5 +874,20 @@
     </tags>
     <tags>
         <tagName>practice</tagName>
+    </tags>
+    <tags>
+        <tagName>chilling</tagName>
+    </tags>
+    <tags>
+        <tagName>interest</tagName>
+    </tags>
+    <tags>
+        <tagName>relaxation</tagName>
+    </tags>
+    <tags>
+        <tagName>game</tagName>
+    </tags>
+    <tags>
+        <tagName>informationgathering</tagName>
     </tags>
 </taskForceData>
