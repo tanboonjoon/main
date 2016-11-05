@@ -101,17 +101,17 @@ If multiple timeslots were blocked, when one timeslot is confirmed, all other ti
 Format: `block NAME st/START_DATE et/END_DATE [st/START_DATE et/END_DATE]...`
 
 > - Blocked out time is only blocked and cannot be tagged.  
-> - Each `st/START_DATE` and `et/END_DATE` is a pair, and you can have unlimited pairs.
+> - Each `st/START_DATE` and `et/END_DATE` is a pair, and you can have unlimited pairs. Empty datetimes are not allowed.
 > - Date format is MM-DD-YYYY HHMM (24 hour Format) e.g. `st/ 10-22-2016 1500`
 > 	- The command also supports natural language dates such as `today 6pm`
 > 	- See the section [On Entering Dates](#On Entering Dates) for more details
-> - If no start date is specified, it is assumed to be today on the time provided.
+> - If no start/end date is specified, it is assumed to be today on the time provided.
 > - If no end date is specified, the end date will be the same day as the start date on the time provided.
-> - Failing to provide any start and/or end dates will result in a invalid command.
+> - Failing to provide any start and/or end datetime will result in a invalid command.
 
 Examples:
 * `block meeting with boss st/1400 et/1600 st/tommorrow 1400 et/1600`
-* `block study period st/1300 et/1800 st/tomorrow 2000 et/`
+* `block study period st/1300 et/1800 st/tomorrow 2000 et/2300`
 
 #### Confirming previously blocked time: `confirm`  
 Confirms a blocked out time and converts it into an event  
