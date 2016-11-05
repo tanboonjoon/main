@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import com.google.common.eventbus.Subscribe;
+
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -99,6 +100,22 @@ public class EventListPanel extends UiPart {
         eventListView.setItems(items);
     }
     
+    public void clearSelection() {
+        Platform.runLater(() -> {
+            eventListView.getSelectionModel().clearSelection();
+        }) ;
+    }
+    
+    public void scrollToTask(ReadOnlyTask task) {
+        Platform.runLater(() -> {
+
+            int index = eventListView.getItems().indexOf(task);
+
+            eventListView.scrollTo(index);
+            eventListView.getSelectionModel().clearAndSelect(index);
+        });
+    }
+    
     class EventListViewCell extends ListCell<ReadOnlyTask> {
 
         public EventListViewCell() {
@@ -116,14 +133,6 @@ public class EventListPanel extends UiPart {
                 setGraphic(newCard.getLayout());
             }
         }
-    }
-
-    public void scrollToTask(ReadOnlyTask task) {
-        Platform.runLater(() -> {
-            int index = eventListView.getItems().indexOf(task);
-            eventListView.scrollTo(index);
-            eventListView.getSelectionModel().clearAndSelect(index);
-        });
     }
 
 }

@@ -133,16 +133,19 @@ public class UiManager extends ComponentManager implements Ui {
     private void handleTaskListChangedEvent(TaskForceTaskListChangedEvent event) {
         logger.info(LogsCenter.getEventHandlingLogMessage(event));
 
-        if (event.tasksAdded.isEmpty()) {
+        if (event.tasksAdded.isEmpty() || mainWindow.getTaskListPanel() == null || mainWindow.getEventListPanel() == null) {
             return;
         }
-        ReadOnlyTask task= event.tasksAdded.get(event.tasksAdded.size() - 1);
+        
+        ReadOnlyTask task = event.tasksAdded.get(event.tasksAdded.size() - 1) ;
         
         if (task instanceof Event) {
+            mainWindow.getTaskListPanel().clearSelection();
             mainWindow.getEventListPanel().scrollToTask(task);
-            return;
+        } else {
+            mainWindow.getEventListPanel().clearSelection();
+            mainWindow.getTaskListPanel().scrollToTask(task);
         }
-        mainWindow.getTaskListPanel().scrollToTask(event.tasksAdded.get(event.tasksAdded.size() - 1));
     }
 
     @Subscribe
