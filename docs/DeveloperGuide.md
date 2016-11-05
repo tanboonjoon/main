@@ -133,7 +133,7 @@ Given below is the Sequence Diagram for interactions within the `Logic` componen
 <img src="images/DeletePersonSdForLogic.png" width="800"><br>
 
 
-<img src="images/Parser.png" width="800"><br>
+<img src="images/Parser.PNG" width="800"><br>
 
 * CommandParser make use of ArgumentsParser to parse the command string input by user
 * CommandArgs contain a series of acceptable arguments and this also decide the flexibility of
