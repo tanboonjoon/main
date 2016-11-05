@@ -102,7 +102,7 @@ The sections below give more details of each component.
 
 **API** : [`Ui.java`](../src/main/java/seedu/address/ui/Ui.java)
 
-The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `TaskListPanel`,
+The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `TaskListPanel`, `EventListPanel`
 `StatusBarFooter` etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class
 and they can be loaded using the `UiPartLoader`.
 
@@ -132,6 +132,15 @@ Given below is the Sequence Diagram for interactions within the `Logic` componen
  API call.  
 <img src="images/DeletePersonSdForLogic.png" width="800"><br>
 
+
+<img src="images/Parser.PNG" width="800"><br>
+
+* CommandParser make use of ArgumentsParser to parse the command string input by user
+* CommandArgs contain a series of acceptable arguments and this also decide the flexibility of
+the command parsing.
+* e.g Arguments NAME require 'n/' to be parsed. other variation such as 'name/' , 'taskname' can be added by simply modifying and adding to the enum class. improving the flexibility of each command without much modification.
+* This also eliminate the needs of regex to parse each command arguments String.
+
 ### Model component
 
 <img src="images/ModelClassDiagram.png?v1" width="800"><br>
@@ -139,7 +148,7 @@ Given below is the Sequence Diagram for interactions within the `Logic` componen
 **API** : [`Model.java`](../src/main/java/seedu/address/model/Model.java)
 
 The `Model`,
-* stores a `UserPref` object that represents the user's preferences.
+* stores a `Config` object that represents the user's current config setting.
 * stores the TaskForce app data.
 * exposes a `UnmodifiableObservableList<ReadOnlyTask>` that can be 'observed' e.g. the UI can be bound to this list
   so that the UI automatically updates when the data in the list change.
@@ -148,7 +157,21 @@ The `Model`,
   * Deadlines contain an endDate, Events contain a StartDate and EndDate.
 * The model also holds a list of `Tags` through a `UniqueTagList`.
 
+#### Config
+
+<img src="images/ModeManagerDiagram.png" width="300"><br>
+
+* The Model now store an instance of config class.
+* The instance of the config class always contained the updated setting set by User
+* Commands such as freetimeCommand will access the values of config class through the model using getter method.
+* Commands no longer have to find the location of config.json, parse and reading the file.
+* The original Config class always contain DEFAULT value everytime the program is rerun.
+The programs has no way to find out the latest config setting other than parsing the config.json file directly and reading it. Storing an instance of the latest config class in the Model eliminate the need to read and parse external file.
+
+
 ### Storage component
+
+The 'Config.java'
 
 <img src="images/StorageClassDiagram.png" width="800">  
 
@@ -186,7 +209,7 @@ and logging destinations.
 <!-- @@author A0139942W -->
 ### Tasks
 
-<img src="images/TaskClass.png" width="600"><br>
+<img src="images/TaskClass.png" width="500"><br>
 Above image is a simplied class diagram of our task class <br>
 A task is known as a TASK, FLOATING TASK or REMINDER. <br>
 A task is split into three kind, TASK, EVENT and DEADLINE <br>
@@ -261,6 +284,37 @@ Addcommand also has recurring functionality incoporated into it. This function i
 
 If the user try recurring on a FLOATING TASKS, the system will only add it once regardless of how many time the user want the task to be added.
 
+### Configuration
+<img src="images/EditDirectly.png" width="500">  <br>
+<img src="images/EditUsingLogic.png" width="500">  <br>
+
+* Users are not recommended to edit the config file directly even if they are advanced user
+* This is to prevent user from breaking the programs. Command such as freetime retrieve values found in the config file.
+* If keyname in the config are changed inappropriately, taskforce will be unable to retrieve those values assign to the keyname.
+* taskforce is design to reset both config.json and savedata.xml if they do not follow the proper format (e.g keyname). 
+* Both new user and advanced user are encourged to use the UI, mainly config command and Cd command to modify the location of savedata or changing the setting of the taskForce.
+
+<!-- @@author A0135768R -->
+
+### ConfigCommand
+
+Certain properties of the application can be controlled (e.g App name, logging level, activeTime) through the configuration file
+(default: `config.json`): 
+Users are allowed to edit the config.json file directly such as changing the savepath or setting new activetime.
+However, modifying the Keyname of the config file in any way is not recommended. Doing so will result in invaliding the configuration option and the system will overwrite the current config file with a default one
+
+* Users are commended to only interact with the config options through config command
+* Setting such as activeTimes, App name, logging level can be controlled through config command
+* Config command is also required in order for user to clear their sava data completely. 
+
+<!-- @@author A0139942W -->
+
+### CdCommand
+The Cd command enable user to check for the location of current sava data, or change the sava data location to a new path.
+
+* Cd command will create a new savefile from scratch using the current savedata if the file does not exist in the specified path.
+* If the file exist in that specified path. cd Command will overwrite the file with its current savadata stored.
+
 <!-- @@author A0140037W -->
 ### ClearCommand
 The ClearCommand will erase TaskForce data and history upon executed. A confirmation dialog will appear to get user's confirmation before proceed to do the irreversable operation. 
@@ -268,16 +322,6 @@ The user can use arrow key and space bar to select the options on the confirmati
 
 ClearCommand also REQUIRE enableSudo to be enabled in the config file using configCommand before clear can be used. 
 
-<!-- @@author A0135768R -->
-
-### Configuration
-
-Certain properties of the application can be controlled (e.g App name, logging level) through the configuration file
-(default: `config.json`): 
-Users are allowed to edit the config.json file directly such as changing the savepath or setting new activetime.
-However, modifying the Keyname of the config file in any way is not recommended. Doing so will result in invaliding the configuration option and the system will overwrite the current config file with a default one
-
-It is therefore recommended that users only interact with the config options through the config command provided as the command will not invalidate the whole config file with accidental changes.
 
 <!-- @@author A0111277M -->
 ## Testing
