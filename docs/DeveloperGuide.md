@@ -200,7 +200,7 @@ and logging destinations.
 <!-- @@author A0139942W -->
 ### Tasks
 
-<img src="images/TaskClass.png" width="600"><br>
+<img src="images/TaskClass.png" width="500"><br>
 Above image is a simplied class diagram of our task class <br>
 A task is known as a TASK, FLOATING TASK or REMINDER. <br>
 A task is split into three kind, TASK, EVENT and DEADLINE <br>
@@ -276,8 +276,8 @@ Addcommand also has recurring functionality incoporated into it. This function i
 If the user try recurring on a FLOATING TASKS, the system will only add it once regardless of how many time the user want the task to be added.
 
 ### Configuration
-<img src="images/EditDirectly.png" width="800">  <br>
-<img src="images/EditUsingLogic.png" width="800">  <br>
+<img src="images/EditDirectly.png" width="500">  <br>
+<img src="images/EditUsingLogic.png" width="500">  <br>
 
 * Users are not recommended to edit the config file directly even if they are advanced user
 * This is to prevent user from breaking the programs. Command such as freetime retrieve values found in the config file.
