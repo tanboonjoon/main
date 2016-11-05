@@ -240,6 +240,7 @@ The following is the sequence diagram for a typical command executed.
 <img src="images/UndoCommandLogic.PNG" width="800">  <br>
 > When the undo command is executed, the undo command will call the revertChanges method in the Model which will then pop from the stack of changes and returns it to UndoCommand
 > which will then undo the changes
+
 <!-- @@author A0139942W -->
 ### SortedList
 TaskForce wraps the ObservableList with a FilteredList, this allows users to filter out keyword using TaskForce's FindCommand.
@@ -266,6 +267,7 @@ The ClearCommand will erase TaskForce data and history upon executed. A confirma
 The user can use arrow key and space bar to select the options on the confirmation dialog.
 
 ClearCommand also REQUIRE enableSudo to be enabled in the config file using configCommand before clear can be used. 
+
 <!-- @@author A0135768R -->
 
 ### Configuration
