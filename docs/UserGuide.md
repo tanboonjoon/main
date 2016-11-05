@@ -105,10 +105,9 @@ Format: `block NAME st/START_DATE et/END_DATE [st/START_DATE et/END_DATE]...`
 > - Date format is MM-DD-YYYY HHMM (24 hour Format) e.g. `st/ 10-22-2016 1500`
 > 	- The command also supports natural language dates such as `today 6pm`
 > 	- See the section [On Entering Dates](#On Entering Dates) for more details
-> - If no start time is specified, the time will be assumed to be the time right now.
-> - If no start date is specified, it is assumed to be today.
-> - If no end date/time is specified, the end date/time will be the same day on 2359.
-> - You must have the `st/START_DATE` & `et/END_DATE` tag even if you use default for both date and time
+> - If no start date is specified, it is assumed to be today on the time provided.
+> - If no end date is specified, the end date will be the same day as the start date on the time provided.
+> - Failing to provide any start and/or end dates will result in a invalid command.
 
 Examples:
 * `block meeting with boss st/1400 et/1600 st/tommorrow 1400 et/1600`
