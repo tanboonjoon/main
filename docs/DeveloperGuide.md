@@ -139,7 +139,7 @@ Given below is the Sequence Diagram for interactions within the `Logic` componen
 **API** : [`Model.java`](../src/main/java/seedu/address/model/Model.java)
 
 The `Model`,
-* stores a `UserPref` object that represents the user's preferences.
+* stores a `Config` object that represents the user's current config setting.
 * stores the TaskForce app data.
 * exposes a `UnmodifiableObservableList<ReadOnlyTask>` that can be 'observed' e.g. the UI can be bound to this list
   so that the UI automatically updates when the data in the list change.
@@ -148,7 +148,21 @@ The `Model`,
   * Deadlines contain an endDate, Events contain a StartDate and EndDate.
 * The model also holds a list of `Tags` through a `UniqueTagList`.
 
+#### Config
+
+<img src="images/ModelManagerDiagram.png?v1" width="800"><br>
+
+* The Model now store an instance of config class.
+* The instance of the config class always contained the updated setting set by User
+* Commands such as freetimeCommand will access the values of config class through the model using getter method.
+* Commands no longer have to find the location of config.json, parse and reading the file.
+* The original Config class always contain DEFAULT value everytime the program is rerun.
+The programs has no way to find out the latest config setting other than parsing the config.json file directly and reading it. Storing an instance of the latest config class in the Model eliminate the need to read and parse external file.
+
+
 ### Storage component
+
+The 'Config.java'
 
 <img src="images/StorageClassDiagram.png" width="800">  
 
