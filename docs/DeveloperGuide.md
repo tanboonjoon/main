@@ -275,6 +275,37 @@ Addcommand also has recurring functionality incoporated into it. This function i
 
 If the user try recurring on a FLOATING TASKS, the system will only add it once regardless of how many time the user want the task to be added.
 
+### Configuration
+<img src="images/EditDirectly.PNG" width="800">  <br>
+<img src="images/EditUsingLogic.PNG" width="800">  <br>
+
+* Users are not recommended to edit the config file directly even if they are advanced user
+* This is to prevent user from breaking the programs. Command such as freetime retrieve values found in the config file.
+* If keyname in the config are changed inappropriately, taskforce will be unable to retrieve those values assign to the keyname.
+* taskforce is design to reset both config.json and savedata.xml if they do not follow the proper format (e.g keyname). 
+* Both new user and advanced user are encourged to use the UI, mainly config command and Cd command to modify the location of savedata or changing the setting of the taskForce.
+
+<!-- @@author A0135768R -->
+
+### ConfigCommand
+
+Certain properties of the application can be controlled (e.g App name, logging level, activeTime) through the configuration file
+(default: `config.json`): 
+Users are allowed to edit the config.json file directly such as changing the savepath or setting new activetime.
+However, modifying the Keyname of the config file in any way is not recommended. Doing so will result in invaliding the configuration option and the system will overwrite the current config file with a default one
+
+* Users are commended to only interact with the config options through config command
+* Setting such as activeTimes, App name, logging level can be controlled through config command
+* Config command is also required in order for user to clear their sava data completely. 
+
+<!-- @@author A0139942W -->
+
+### CdCommand
+The Cd command enable user to check for the location of current sava data, or change the sava data location to a new path.
+
+* Cd command will create a new savefile from scratch using the current savedata if the file does not exist in the specified path.
+* If the file exist in that specified path. cd Command will overwrite the file with its current savadata stored.
+
 <!-- @@author A0140037W -->
 ### ClearCommand
 The ClearCommand will erase TaskForce data and history upon executed. A confirmation dialog will appear to get user's confirmation before proceed to do the irreversable operation. 
@@ -282,16 +313,6 @@ The user can use arrow key and space bar to select the options on the confirmati
 
 ClearCommand also REQUIRE enableSudo to be enabled in the config file using configCommand before clear can be used. 
 
-<!-- @@author A0135768R -->
-
-### Configuration
-
-Certain properties of the application can be controlled (e.g App name, logging level) through the configuration file
-(default: `config.json`): 
-Users are allowed to edit the config.json file directly such as changing the savepath or setting new activetime.
-However, modifying the Keyname of the config file in any way is not recommended. Doing so will result in invaliding the configuration option and the system will overwrite the current config file with a default one
-
-It is therefore recommended that users only interact with the config options through the config command provided as the command will not invalidate the whole config file with accidental changes.
 
 <!-- @@author A0111277M -->
 ## Testing
