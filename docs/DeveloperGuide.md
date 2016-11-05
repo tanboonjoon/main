@@ -132,6 +132,15 @@ Given below is the Sequence Diagram for interactions within the `Logic` componen
  API call.  
 <img src="images/DeletePersonSdForLogic.png" width="800"><br>
 
+
+<img src="images/Parser.png" width="800"><br>
+
+* CommandParser make use of ArgumentsParser to parse the command string input by user
+* CommandArgs contain a series of acceptable arguments and this also decide the flexibility of
+the command parsing.
+* e.g Arguments NAME require 'n/' to be parsed. other variation such as 'name/' , 'taskname' can be added by simply modifying and adding to the enum class. improving the flexibility of each command without much modification.
+* This also eliminate the needs of regex to parse each command arguments String.
+
 ### Model component
 
 <img src="images/ModelClassDiagram.png?v1" width="800"><br>
