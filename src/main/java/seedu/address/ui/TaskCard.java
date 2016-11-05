@@ -26,6 +26,9 @@ import seedu.address.model.task.ReadOnlyTask;
 public class TaskCard extends UiPart {
 
     private static final String FXML = "TaskListCard.fxml";
+    
+    private static final String DUE_ON = "Due on " ;
+    private static final String DUE_IN = "Due in " ;
 
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("d MMM h:mm a");
 
@@ -147,17 +150,18 @@ public class TaskCard extends UiPart {
             startline.setVisible(true);
 
             LocalDateTime deadline = ((Deadline) task).getEndDate();
-
+            
+            
             long difference = DateUtil.getTimeDifferenceFromNow(deadline, ChronoUnit.SECONDS);
 
             if (Math.abs(difference) > 5 * 3600) {
                 // If task is more than 5 hours from now, display the absolute
                 // dates
-                startline.setText(deadline.format(FORMATTER).toString());
+                startline.setText(DUE_ON + deadline.format(FORMATTER).toString());
 
             } else {
                 FxViewUtil.setNodeStyle(startline, (difference > 0) ? NodeStyle.TIME_UPCOMING : null);
-                startline.setText(DateUtil.getRelativeDateFromNow(deadline));
+                startline.setText(DUE_IN + DateUtil.getRelativeDateFromNow(deadline));
             }
         }
 

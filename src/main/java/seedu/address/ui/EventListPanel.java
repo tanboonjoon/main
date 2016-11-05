@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 
 import com.google.common.eventbus.Subscribe;
 
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
@@ -97,6 +98,22 @@ public class EventListPanel extends UiPart {
         ObservableList<ReadOnlyTask> items = eventListView.getItems() ;
         eventListView.setItems(null);
         eventListView.setItems(items);
+    }
+    
+    public void clearSelection() {
+        Platform.runLater(() -> {
+            eventListView.getSelectionModel().clearSelection();
+        }) ;
+    }
+    
+    public void scrollToTask(ReadOnlyTask task) {
+        Platform.runLater(() -> {
+
+            int index = eventListView.getItems().indexOf(task);
+
+            eventListView.scrollTo(index);
+            eventListView.getSelectionModel().clearAndSelect(index);
+        });
     }
     
     class EventListViewCell extends ListCell<ReadOnlyTask> {

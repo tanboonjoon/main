@@ -3,7 +3,6 @@ package seedu.address.ui;
 import java.util.logging.Logger;
 
 import com.google.common.eventbus.Subscribe;
-
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -22,6 +21,8 @@ import seedu.address.commons.events.ui.TaskPanelSelectionChangedEvent;
 import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.Logic;
 import seedu.address.model.UserPrefs;
+import seedu.address.model.task.Event;
+import seedu.address.model.task.ReadOnlyTask;
 
 /**
  * The manager of the UI component.
@@ -132,11 +133,19 @@ public class UiManager extends ComponentManager implements Ui {
     private void handleTaskListChangedEvent(TaskForceTaskListChangedEvent event) {
         logger.info(LogsCenter.getEventHandlingLogMessage(event));
 
-        if (event.tasksAdded.isEmpty()) {
+        if (event.tasksAdded.isEmpty() || mainWindow.getTaskListPanel() == null || mainWindow.getEventListPanel() == null) {
             return;
         }
-
-        mainWindow.getTaskListPanel().scrollToTask(event.tasksAdded.get(event.tasksAdded.size() - 1));
+        
+        ReadOnlyTask task = event.tasksAdded.get(event.tasksAdded.size() - 1) ;
+        
+        if (task instanceof Event) {
+            mainWindow.getTaskListPanel().clearSelection();
+            mainWindow.getEventListPanel().scrollToTask(task);
+        } else {
+            mainWindow.getEventListPanel().clearSelection();
+            mainWindow.getTaskListPanel().scrollToTask(task);
+        }
     }
 
     @Subscribe

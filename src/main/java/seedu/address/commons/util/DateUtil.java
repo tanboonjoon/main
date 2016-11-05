@@ -289,10 +289,7 @@ public final class DateUtil {
                 return "0 second ago";
             }
 
-            if (miliseconds > 0) {
-                buffer.append(" later");
-
-            } else {
+            if (miliseconds <= 0) {
                 buffer.append(" ago");
             }
 
