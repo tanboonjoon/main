@@ -217,7 +217,7 @@ Nevertheless our FindCommand is also capable of replacing ListCommand Completely
 * A 'find type/mark' will list out every single tasks marked done 
 * A 'find type/overdue' will list out all deadline that are dued and not marked done.
 
-
+<!-- @@author A0135768R -->
 ### UndoCommand and RedoCommand
 We have set a limit for UndoCommand to 10. Users can only undo up to 10 previous command that they have inputted while the program is 
 active. Having a ceiling for UndoCommand prevent any form of huge resource hog by TaskForce and this allow Users to multitasks many 
@@ -240,7 +240,7 @@ The following is the sequence diagram for a typical command executed.
 <img src="images/UndoCommandLogic.PNG" width="800">  <br>
 > When the undo command is executed, the undo command will call the revertChanges method in the Model which will then pop from the stack of changes and returns it to UndoCommand
 > which will then undo the changes
-
+<!-- @@author A0139942W -->
 ### SortedList
 TaskForce wraps the ObservableList with a FilteredList, this allows users to filter out keyword using TaskForce's FindCommand.
 The FilteredList is further wrapped with a SortedList to ensure the list shown to users are constantly sorted at all time.
@@ -273,9 +273,9 @@ ClearCommand also REQUIRE enableSudo to be enabled in the config file using conf
 Certain properties of the application can be controlled (e.g App name, logging level) through the configuration file
 (default: `config.json`): 
 Users are allowed to edit the config.json file directly such as changing the savepath or setting new activetime.
-However, they are not recommended to edit/change/remove the Keyname of the config file. Doing so will result in invaliding the configuration option and the system will overwrite the current config file with a default one
+However, modifying the Keyname of the config file in any way is not recommended. Doing so will result in invaliding the configuration option and the system will overwrite the current config file with a default one
 
-This is to prevent the breaking of the system. Certain commands such as freetime will retrieve values found in config using keyname. Hence changing the keyname will break the command if the default config setting is not restored.
+It is therefore recommended that users only interact with the config options through the config command provided as the command will not invalidate the whole config file with accidental changes.
 
 <!-- @@author A0111277M -->
 ## Testing
