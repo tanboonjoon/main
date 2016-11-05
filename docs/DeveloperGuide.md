@@ -102,7 +102,7 @@ The sections below give more details of each component.
 
 **API** : [`Ui.java`](../src/main/java/seedu/address/ui/Ui.java)
 
-The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `TaskListPanel`,
+The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `TaskListPanel`, `EventListPanel`
 `StatusBarFooter` etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class
 and they can be loaded using the `UiPartLoader`.
 
@@ -276,8 +276,8 @@ Addcommand also has recurring functionality incoporated into it. This function i
 If the user try recurring on a FLOATING TASKS, the system will only add it once regardless of how many time the user want the task to be added.
 
 ### Configuration
-<img src="images/EditDirectly.PNG" width="800">  <br>
-<img src="images/EditUsingLogic.PNG" width="800">  <br>
+<img src="images/EditDirectly.png" width="800">  <br>
+<img src="images/EditUsingLogic.png" width="800">  <br>
 
 * Users are not recommended to edit the config file directly even if they are advanced user
 * This is to prevent user from breaking the programs. Command such as freetime retrieve values found in the config file.
