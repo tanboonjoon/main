@@ -134,7 +134,7 @@ Given below is the Sequence Diagram for interactions within the `Logic` componen
 
 ### Model component
 
-<img src="images/ModelClassDiagram.png" width="800"><br>
+<img src="images/ModelClassDiagram.png?v1" width="800"><br>
 
 **API** : [`Model.java`](../src/main/java/seedu/address/model/Model.java)
 
@@ -242,8 +242,8 @@ The following is the sequence diagram for a typical command executed.
 > which will then undo the changes
 
 ### SortedList
-TaskForce wraps the ObservableList with a FilteredList, this allow Users to filter out keyword using TaskForce's FindCommand.
-The FilteredList is further wrapped with a SortedList to ensure the list shown to Users are constantly sorted at all time.
+TaskForce wraps the ObservableList with a FilteredList, this allows users to filter out keyword using TaskForce's FindCommand.
+The FilteredList is further wrapped with a SortedList to ensure the list shown to users are constantly sorted at all time.
 The nature of the ObservableList allow the list shown to be constantly updated whenever a new changes occured such as Addition/Deletion of a new Tasks
 
 The list are sorted by this order FLOATING TASK --> DEADLINE --> EVENT <br>
@@ -655,7 +655,7 @@ Use case ends
 3. Should come with automated unit tests and open source code.
 4. Should favor DOS style commands over Unix-style commands.
 5. Should not take more than 5 seconds when executing find command
-6. Should not use too much memory (less than 250 MB)
+6. Should not use too much memory (less than 300 MB)
 7. Should be able to recreate a new save data in a event of corruption/missing file
 8. Should be open source and allow developer to contribute to the project anytime
 9. Should always maintain an updated version of both UserGuide and DeveloperGuide 
