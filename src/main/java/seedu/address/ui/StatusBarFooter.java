@@ -25,7 +25,6 @@ import seedu.address.commons.util.FxViewUtil;
 public class StatusBarFooter extends UiPart {
     private static final Logger logger = LogsCenter.getLogger(StatusBarFooter.class);
     private StatusBar syncStatus;
-    private ImageView legendBar ;
 
     private GridPane mainPane;
 
@@ -55,7 +54,7 @@ public class StatusBarFooter extends UiPart {
     }
     
     private void placeLegendBar() {
-        legendBar = new ImageView(getImage(LEGEND_BAR)) ;
+        ImageView legendBar = new ImageView(getImage(LEGEND_BAR)) ;
         legendBar.setFitHeight(25);
         legendBar.setFitWidth(500);
         FxViewUtil.applyAnchorBoundaryParameters(legendBar, 15.0, 0.0, 5.0, 0.0);

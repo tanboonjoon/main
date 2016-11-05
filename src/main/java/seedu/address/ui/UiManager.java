@@ -29,7 +29,7 @@ import seedu.address.model.task.ReadOnlyTask;
  */
 public class UiManager extends ComponentManager implements Ui {
     private static final Logger logger = LogsCenter.getLogger(UiManager.class);
-    private static final String ICON_APPLICATION = "/images/logo.PNG";
+    private static final String ICON_APPLICATION = "/images/logo.png";
 
     private Logic logic;
     private Config config;
