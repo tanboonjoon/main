@@ -150,7 +150,7 @@ The `Model`,
 
 #### Config
 
-<img src="images/ModelManagerDiagram.png?v1" width="800"><br>
+<img src="images/ModeManagerDiagram.png" width="800"><br>
 
 * The Model now store an instance of config class.
 * The instance of the config class always contained the updated setting set by User
