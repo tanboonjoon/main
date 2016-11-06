@@ -4,7 +4,7 @@
 
 # TaskForce - Task Management App for Desktop
 
-<img src="docs/images/taskforce_gui_3.PNG?v1" width="800"><br>
+<img src="docs/images/taskforce_gui_3.PNG?v2" width="800"><br>
 
 * This is a desktop task management application. It has a GUI but most of the user interactions happen using
   a CLI (Command Line Interface).
