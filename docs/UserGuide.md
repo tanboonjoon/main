@@ -22,9 +22,8 @@ command-line interface (CLI)-based application.
 
 ### Advanced User
 #### [Config command](#command-examples)
-> 1. Once you have used the program long enough, you can use the [Config command](#command-examples) to edit the value of the config.json
-> 2. You are advised not to edit the config.json file directly. If it is detected as corrupted or invalidFormat, the current config.json file will be REPLACED by a default one.
-> 3. Through the config command, you can change the name of the program or set your free time .
+> 1. You are advised not to edit the config.json file directly. If the format of the file is corrupted, the current config.json file will be replaced with a default file with default values.
+> 2. It is therefore advisable to use the [Config command](#command-examples) to edit the values of the config.json as the command will not corrupt the file.
 
 #### Recurring functionality.
 > 1. The recurring functionality in the [Add command](#command-examples) is only available to Event and Deadline
@@ -62,6 +61,10 @@ command-line interface (CLI)-based application.
 > * Items in `[SQUARE_BRACKETS]` are optional.
 > * Items with `...` after them can have multiple instances.
 > * The order of parameters are not fixed.
+> * Several commands refer to the use of datetime. Unless otherwise stated, the following definitions applies:
+>   * Datetime shall refer to the full formal date format (see [On entering dates](#on-entering-dates) ) consisting of a date portion and a time portion
+>   * Date shall only refer to the date portion of the datetime with the time left out
+>   * Time shall only refer to the time portion of the datetime with the date left out
 
 #### Viewing help : `help`
 Displays information on how to use commands.  
@@ -81,9 +84,10 @@ Format:
 > - Date format is MM-DD-YYYY HHMM (24 hour Format) e.g. `st/ 10-22-2016 1500`
 > 	- The command also supports natural language keywords such as `today 6pm`
 > 	- See the section [On Entering Dates](#On Entering Dates) for more details
-> - If no time is specified, the time will be assumed to be the time right now.
+> - If no start time is specified, the time will be assumed to be the time right now.
 > - If no start date is specified, it is assumed to be today.
-> - If start date/time is specified but end date/time is not specified, the end date/time will be the same day on 2359.
+> - If start datetime is specified but end datetime is not specified, the end datetime will be the same day on 2359.
+> - If start datetime is specified but end date is not specified, the end date will be the same day as the start date on the time provided.
 > - FlexiCommand is available for addCommand, refer to [Command Examples](#command-examples) for examples of usage.
 > - You can recur a Deadline and Event a number of times. The number of repetition must be specified using `r/POSITIVE_INTEGER` argument. 
 
@@ -263,8 +267,9 @@ There is no need to save manually.
 TaskForce supports flexible date inputs and thus allows many natural variations of dates. The following are three broad categories of dates supported by TaskForce
 
 ### Formal Dates
-> Format Dates follow the format MM-DD-YYYY HHMM <br>
+> Formal Dates follow the format MM-DD-YYYY HHMM <br>
 > 	* 03-15-2016 1500
+> 	* 03-15-2016 0900
 
 ### Relaxed Dates
 > Relaxed dates are dates that expressed months in words instead of numbers. If the year is not provided, it is assumed to be this year
