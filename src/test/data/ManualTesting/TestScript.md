@@ -52,6 +52,7 @@ Steps no. | Steps | Test Data | ExpectedResult
 
 TestCase ID : TC004 <br>
 Title : Searching for task <br>
+Description : Tester should be able to search task using keywords. <br>
 Format : <br>
 `find name/KEYWORDS [mark/true]` <br> 
 `find desc/KEYWORDS [mark/true]` <br>
@@ -61,7 +62,7 @@ Format : <br>
 `find type/all` <br>
 `find type/overdue` <br>
 `find type/mark` <br>
-Description : Tester should be able to search task using keywords. <br>
+
 
 Steps no. | Steps | Test Data | ExpectedResult
 --- | :---------------- | :---------------- | :----------------
@@ -89,9 +90,10 @@ Steps no. | Steps | Test Data | ExpectedResult
 
 TestCase ID : TC006 <br>
 Title : Blocking event < br>
+Description : Testing should be able to block mutiple timeslot for a uncomfirmed event <br>
 Format :
 `block EVENT_NAME st/DATES et/DATES st/DATES et/DATES...` <br>
-Description : Testing should be able to block mutiple timeslot for a uncomfirmed event <br>
+
 
 Steps no. | Steps | Test Data | ExpectedResult
 --- | :---------------- | :---------------- | :----------------
@@ -102,9 +104,9 @@ The list should now show three event that is tagged with a white circle
 
 TestCase ID : TC007 <br>
 Title : Confirm a block Event < br>
+Description : Tester should be able to block mutiple timing for a uncomfirmed event 
 Format :
 `block EVENT_NAME st/DATES et/DATES st/DATES et/DATES...` <br>
-Description : Tester should be able to block mutiple timeslot for a uncomfirmed event  <br>
 Precondition : TC006 must be completed first <br>
 Assumption : The list is still under the effect of 'find name/block' so it should contain only 3 event <br>
 
@@ -114,6 +116,7 @@ Steps no. | Steps | Test Data | ExpectedResult
 
 TestCase ID : TC008 <br>
 Title : Recur a Event and Deadline <br>
+Description : Tester should be able to add/recurr a deadline and event with just one command <br>
 Format : <br>
 `add DEADLINE_NAME et/MM-DD-YYYY HHMM [d/DESCRIPTION] [t/TAG...t/TAG...] [recur/TYPE] [r/TIME]` <br>
 `add EVENT_NAME st/MM-DD-YYYY HHMM et/MM-DD-YYYY HHMM [d/DESCRIPTION] [t/TAG...t/TAG...] [recur/TYPE] [r/TIME]` <br>
@@ -130,7 +133,6 @@ Recur TYPE Format:
 > * alternate year
 > * biyearly <br>
 
-Description : Tester should be able to recur a deadline and event mutiple times with just one command 
 Precondition : TC002, TC003, TC004 haven been completed
 Assumption : Tester are already familiar with add, find command format
 
@@ -170,10 +172,73 @@ Format : <br>
 `freetime` will show the default free time for day <br>
 `freetime day/WHOLE_NUMBER` <br>
 
-
 Steps no. | Steps | Test Data | ExpectedResult
 --- | :---------------- | :---------------- | :----------------
 1 | type freetime command to search for today freetime | freetime | the list should be updated to show deadline and event that start/due today. a time bar should appeared on the result message panel showing your free time according to the events reflected in the list.
 2 | type freetime command to search for tomorrow free time | freetime day/1 | the list should be updated to show deadline and event that start/due tomorrow . a time bar should appeared on the result message panel showing your free time according to the events reflected in the list.
+
+TestCase ID : TC012 <br>
+Title : Changing/Check save data location <br>
+Description : Tester should be able to check or change the save data location <br>
+Format : <br>
+`cd` will tell you the current save data location <br>
+`cd C:\Users\Boon\newSaveName.xml` will change the location on a window platform
+`cd ./path/to/new/location/on/unix/platform/sampleData.xml` will change the location on a unix platform
+Description : Tester should be able to check and change the location of the save data location.
+Assumption : Tester should be able to provide a valid file path, not doing so will result in a invalid file path message
+Tester should provide a file path that do not require system permission (e.g saving inside a C drive C:\newfile.xml )
+
+Steps no. | Steps | Test Data | ExpectedResult
+--- | :---------------- | :---------------- | :----------------
+1 | check for the current location of sava data using cd command | cd | the system will display the location of the current save data
+2 | change the test data to a new location | refer to format under TC012 | The system should display the location of the new sav data. the new data should be created physically on the new location as well
+
+TestCase ID :TC012 <br>
+Title : Modying config file <br>
+Description : Tester should be able modify the config file using config command <br>
+Format : <br>
+`config CONFG_OPTION v/NEW_VALUE`
+Config optiop : 
+userPrefsFilePath  : Value
+activeHoursFrom : 0000 to 2359
+activeHoursTo : 0000 to 2359
+enableSudo : true or false
+
+Steps no. | Steps | Test Data | ExpectedResult
+--- | :---------------- | :---------------- | :----------------
+1 | Change the activeHoursTo to 10pm using config command | config activeHoursTo v/2200 | the system should show a message saying activeHoursTo is successfully set to 2200
+2 | Change the activeHoursFrom to 8am using config command | config activeHoursTo v/0800 | the system should show a message saying activeHoursFrom is successfully set to 0800
+3 | disable the sudo mode using config command | config enableSudo v/false | the system should show a message saying enableSudo is set to false
+
+
+Steps no. | Steps | Test Data | ExpectedResult
+--- | :---------------- | :---------------- | :----------------
+1 | default the list to show everything in the save data | find type/all | the list should show everything stored in the save data
+2 | try to clear the command using clear command | clear | the system should show a error message saying SUDO mode needs to be required
+3 | enable sudo mode using Config Command | config enableSudo v/true | the system should show enablesudo is successfuly set to true
+4 | try to clear the command again usign clear command | clear | a confirmation dialog should pop up now telling user the operation is undoable
+5 | press ok to the confirmation dialog | | The list should be empty now. System should show a message saying taskforce data has been cleared
+
+TestCase ID :TC013 <br>
+Title : Clear the entire save data <br>
+Description : Tester should be able to clear the entire save data completely 
+Precondition : TC012 completed
+Assumption : Tester did not set enableSudo to true during TC012
+
+Steps no. | Steps | Test Data | ExpectedResult
+--- | :---------------- | :---------------- | :----------------
+1 | default the list to show everything in the save data | find type/all | the list should show everything stored in the save data
+2 | try to clear the command using clear command | clear | the system should show a error message saying SUDO mode needs to be required
+3 | enable sudo mode using Config Command | config enableSudo v/true | the system should show enablesudo is successfuly set to true
+4 | try to clear the command again usign clear command | clear | a confirmation dialog should pop up now telling user the operation is undoable
+5 | press ok to the confirmation dialog | | The list should be empty now. System should show a message saying taskforce data has been cleared
+
+TestCase ID : TC014 <br>
+Title : Exit the TaskForce Program <br >
+Description : Tester should be able to exit the program successfully
+
+Steps no. | Steps | Test Data | ExpectedResult
+--- | :---------------- | :---------------- | :----------------
+1 | exit the program using exit command | exit | the taskforce should close automatically
 
 
