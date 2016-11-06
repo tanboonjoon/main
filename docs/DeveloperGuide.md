@@ -154,8 +154,8 @@ The `Model`,
 * exposes a `UnmodifiableObservableList<ReadOnlyTask>` that can be 'observed' e.g. the UI can be bound to this list
   so that the UI automatically updates when the data in the list change.
 * does not depend on any of the other three components.
-* 3 different classes of tasks implement the `ReadonyTask` interface: `Task`, the most basic form (with only ID, Name and Description), as well as `Deadline` and `Event`, which extends it.
-  * Deadlines contain an endDate, Events contain a StartDate and EndDate.
+* 3 different classes of tasks implement the `ReadOnyTask` interface: `Task`, the most basic form (with only ID, Name and Description), as well as `Deadline` and `Event`, which extends it.
+  * Deadlines contain an EndDate, Events contain a StartDate and EndDate.
 * The model also holds a list of `Tags` through a `UniqueTagList`.
 
 #### Config
@@ -164,7 +164,7 @@ The `Model`,
 
 * The Model now store an instance of config class.
 * The instance of the config class always contained the updated setting set by User
-* Commands such as freetimeCommand will access the values of config class through the model using getter method.
+* Commands such as FreetimeCommand will access the values of config class through the model using getter method.
 * Commands no longer have to find the location of config.json, parse and reading the file.
 * The original Config class always contain DEFAULT value everytime the program is rerun.
 The programs has no way to find out the latest config setting other than parsing the config.json file directly and reading it. Storing an instance of the latest config class in the Model eliminate the need to read and parse external file.
