@@ -1,4 +1,4 @@
-Testcase ID: TC000 <br>
+TestCase ID: TC000 <br>
 Title : Loading Sample test data <br>
 Description : Tester should be able to load the sample data successfully <br>
 Assumption : Tester has yet to open the app once <br>
@@ -12,7 +12,7 @@ Steps no. | Steps | ExpectedResult
 5 | Transfer the forDemoUse.xml in  'ManualTesting' folder and overwrite the forDemoUse file in 'taskForceTest' | the forDemoUse.xml in 'taskForceTest' should be overwritten by the one in 'ManualTeting folder'
 6 | open the app again | TaskForce should open with some tasks shown on the list
 
-Testcase ID: TC001 <br>
+TestCase ID: TC001 <br>
 Title : Opening the help menu <br>
 Description : Tester should be able to open the help menu <br>
 Precondition : TaskForce app is opened 
@@ -86,3 +86,56 @@ Steps no. | Steps | Test Data | ExpectedResult
 1 | Default the list to show everything using find command | find type/all | the list should show everything stored in the save data
 2 | Delete the first task that is index 1 | delete 1 | the task should be gone from the list
 3 | Delete the mutiple tasks found in the list | delete 1,3,2,6 | the 4 tasks should be deleted and dissapear from the list
+
+TestCase ID : TC006 <br>
+Title : Blocking event < br>
+Format :
+`block EVENT_NAME st/DATES et/DATES st/DATES et/DATES...` <br>
+Description : Testing should be able to block mutiple timeslot for a uncomfirmed event <br>
+
+Steps no. | Steps | Test Data | ExpectedResult
+--- | :---------------- | :---------------- | :----------------
+1 | default the list to only show taskname that contain block | find name/block | the list shown should be empty because no task has block in its' name
+2 | enter the block command | block blockMeeting st/today 5pm et/today 6pm st/tomorrow 3pm et/tomorrow 5pm st/today 9pm et/today 11pm |
+The list should now show three event that is tagged with a white circle
+
+
+TestCase ID : TC007 <br>
+Title : Confirm a block Event < br>
+Format :
+`block EVENT_NAME st/DATES et/DATES st/DATES et/DATES...` <br>
+Description : Tester should be able to block mutiple timeslot for a uncomfirmed event  <br>
+Precondition : TC006 must be completed first <br>
+Assumption : The list is still under the effect of 'find name/block' so it should contain only 3 event <br>
+
+Steps no. | Steps | Test Data | ExpectedResult
+--- | :---------------- | :---------------- | :----------------
+1 | comfirm the first event aand change the timing | confirm 1 st/today 6:30pm et/7:30pm | the list should only show one event now. And the color of the circle is changed from white to yellow. The remaining block are released/deleted automatically
+
+TestCase ID : TC008 <br>
+Title : Recur a Event and Deadline <br>
+Format : <br>
+`add DEADLINE_NAME et/MM-DD-YYYY HHMM [d/DESCRIPTION] [t/TAG...t/TAG...] [recur/TYPE] [r/TIME]` <br>
+`add EVENT_NAME st/MM-DD-YYYY HHMM et/MM-DD-YYYY HHMM [d/DESCRIPTION] [t/TAG...t/TAG...] [recur/TYPE] [r/TIME]` <br>
+Recur TYPE Format:
+> * daily
+> * weekly
+> * monthly
+> * yearly
+> * alternate day
+> * fortnightly
+> * biweekly
+> * alternate month
+> * bimonthly
+> * alternate year
+> * biyearly <br>
+
+Description : Tester should be able to recur a deadline and event mutiple times with just one command 
+Precondition : TC002, TC003, TC004 haven been completed
+Assumption : Tester are already familiar with add, find command format
+
+Steps no. | Steps | Test Data | ExpectedResult
+--- | :---------------- | :---------------- | :----------------
+1 | Default the list to show task with recur in its' name | find name/recur | the list should be empty as no task should have recur in its' name
+2 | recurr a deadline using the test data | add recurDeadline et/today 6pm recur/weekly r/4 | 4 deadline should be added to the list, each deadline is 1 week after the previous one
+3 | recur a event using the test data | add recurEvent st/today 2pm et/today 4pm recur/daily r/3 | 3 event should be shown, event that start today, tomorrow and the next day.
