@@ -11,3 +11,15 @@ Steps no. | Steps | ExpectedResult
 4 | close the app | TaskForce app should be closed
 5 | Transfer the forDemoUse.xml in  'ManualTesting' folder and overwrite the forDemoUse file in 'taskForceTest' | the forDemoUse.xml in 'taskForceTest' should be overwritten by the one in 'ManualTeting folder'
 6 | open the app again | TaskForce should open with some tasks shown on the list
+
+
+TestCase ID: TC002 <br>
+Title : Adding a task, deadline, event <br>
+Description : Test should be able to load the sample data successfully <br>
+Pre-condition : TaskForce Must be entered
+Steps no. | Steps | Test Data |  ExpectedResult
+--- | :---------------- | :---------------- | :----------------
+1 | Go to the 'Enter Command Here..' box | | User should be able to type anything here
+2 | Write/ Paste the Test Data into the box And press enter| add testing a program now d/testing taskforce t/test | The added task should be added and highlighted under 'Reminders & Deadline'
+3 | Repeat step 2 but with a different set of test data | add this is a deadline et/today 6pm | the added event should be added and highlighted under 'Reminders & Deadline'
+4 | Repeat step 2 one more time but adding a Event this time | add test cs2103 product st/today 10am et/today 11pm | the added event should be added and highlighted under "Event"
