@@ -97,7 +97,7 @@ Examples:
   Add the task into the TaskForce using `add` command.
 
 <!-- @@author A0135768R-->
-#### Blocking out time: `block`
+#### Blocking out time: `block | reserve`
 Blocks out time for a potential Event.  
 This command can block multiple timeslots at once, all for one specific event.  
 If multiple timeslots were blocked, when one timeslot is confirmed, all other timeslots are released (further explained in the [Confirm command](#command-examples))      
@@ -169,7 +169,7 @@ Method | Explanation | Example
 'type/mark' | List out all tasks that are marked done | 'find type/mark'
 
 <!-- @@author A0135768R-->
-#### Deleting a task : `delete` (undoable)
+#### Deleting a task : `delete | remove` (undoable)
 Deletes the specified task from the task list. 
 Format: `delete INDEX[, INDEX,...]`
 
@@ -184,7 +184,7 @@ Examples:
   Deletes the *1st* task in the results of the `find` command.
 
 <!-- @@author A0111277M-->
-#### Editing a task: `edit`  
+#### Editing a task: `edit | postpone`  
 Edits a task in the task list.  
 Format: `edit INDEX [NAME] [d/DESCRIPTION] [st/START_DATE] [et/END_DATE] [t/TAGS...]`   
 
