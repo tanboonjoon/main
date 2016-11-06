@@ -38,7 +38,7 @@ command-line interface (CLI)-based application.
 1. Download the latest `taskforce.jar` from the [releases](../../../releases) tab.
 2. Copy the file to the folder you want to use as the home folder for your TaskForce app.
 3. Double-click the file to start the app. The GUI should appear in a few seconds.
-   > <img src="images/taskforce_gui_3.PNG?v1" width="600">
+   > <img src="images/taskforce_gui_4.PNG" width="600">
 
 4. Type the command in the command box and press <kbd>Enter</kbd> to execute it. <br>
    e.g. typing **`help`** and pressing <kbd>Enter</kbd> will open the help window.

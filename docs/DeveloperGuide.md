@@ -172,8 +172,6 @@ The programs has no way to find out the latest config setting other than parsing
 
 ### Storage component
 
-The 'Config.java'
-
 <img src="images/StorageClassDiagram.png" width="800">  
 
 **API** : [`Storage.java`](../src/main/java/seedu/address/storage/Storage.java)
@@ -292,7 +290,7 @@ If the user try recurring on a FLOATING TASKS, the system will only add it once 
 * Users are not recommended to edit the config file directly even if they are advanced user
 * This is to prevent user from breaking the programs. Command such as freetime retrieve values found in the config file.
 * If keyname in the config are changed inappropriately, taskforce will be unable to retrieve those values assign to the keyname.
-* taskforce is design to reset both config.json and savedata.xml if they do not follow the proper format (e.g keyname). 
+* Taskforce is design to reset both config.json and savedata.xml if they do not follow the proper format (e.g keyname). 
 * Both new user and advanced user are encourged to use the UI, mainly config command and Cd command to modify the location of savedata or changing the setting of the taskForce.
 
 <!-- @@author A0135768R -->
@@ -304,7 +302,7 @@ Certain properties of the application can be controlled (e.g App name, logging l
 Users are allowed to edit the config.json file directly such as changing the savepath or setting new activetime.
 However, modifying the Keyname of the config file in any way is not recommended. Doing so will result in invaliding the configuration option and the system will overwrite the current config file with a default one
 
-* Users are commended to only interact with the config options through config command
+* Users are recommended to only interact with the config options through config command
 * Setting such as activeTimes, App name, logging level can be controlled through config command
 * Config command is also required in order for user to clear their sava data completely. 
 
