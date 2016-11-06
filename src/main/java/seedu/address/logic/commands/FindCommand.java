@@ -77,7 +77,6 @@ public class FindCommand extends Command {
     }
 
     private boolean isSearchByType(String typeOfFind, Set<String> keywords) throws IllegalValueException {
-        // TODO Auto-generated method stub
         if (!typeOfFind.equals(FIND_TYPE_TYPE)) {
             return false;
         }
@@ -100,6 +99,7 @@ public class FindCommand extends Command {
 
     @Override
     public CommandResult execute() {
+        assert model != null;
         model.updateFilteredTaskList(keywords, typeOfFind, isMarkCheck);
         return new CommandResult(getMessageForTaskListShownSummary(model.getSortedFilteredTask().size()), true);
     }

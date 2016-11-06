@@ -76,6 +76,7 @@ public class FreetimeCommand extends Command {
 
     @Override
     public CommandResult execute() {
+        assert model != null;
         model.updateFilteredTaskList(searchSets, SEARCH_TYPE, false);
         List<ReadOnlyTask> filteredList = model.getFilteredTaskList();
 
