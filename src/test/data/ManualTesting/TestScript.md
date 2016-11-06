@@ -80,6 +80,7 @@ Title : Deleting (a) tasks <br>
 Format: <br>
 `delete index [,index2, index3...]` <br> 
 Description : Tester should be able to delete away task
+
 Steps no. | Steps | Test Data | ExpectedResult
 --- | :---------------- | :---------------- | :----------------
 1 | Default the list to show everything using find command | find type/all | the list should show everything stored in the save data
