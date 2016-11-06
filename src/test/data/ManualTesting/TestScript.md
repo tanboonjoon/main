@@ -47,8 +47,9 @@ Assumption : TC002 has been tested and Tester are familiar with the format of ad
 Steps no. | Steps | Test Data | ExpectedResult
 --- | :---------------- | :---------------- | :----------------
 1 | Add a floating task using the test data | add very flexible t/flexible d/testing the flexibility t/test | the task should be added and highlighted under 'Reminders & Deadline'.
-2 | Add a deadline | add cs2103 report d/very important et/today 10pm t/schoolwork | the dealdine should be added and highlighted under 'Reminders & Deadline'
+2 | Add a deadline | add cs2103 report d/very important et/tomorrow 10pm t/schoolwork | the dealdine should be added and highlighted under 'Reminders & Deadline'
 3 | Add a event | add dinner with professor et/today 11pm d/learn from prof st/today 9pm t/dinner | the event should be added and highlighted under 'Reminders & Deadline'.
+3 | Add another event | schedule Gym session et/9pm d/gotta get my money's worth! st/friday 7pm t/get_moving | the event should be added and highlighted under 'Reminders & Deadline'. Furthermore, the end date should be on friday even though the user did not provide a date.
 
 TestCase ID : TC004 <br>
 Title : Searching for task <br>
@@ -152,7 +153,7 @@ Assumption : The list is still under the effect of 'find name/recur' the list sh
 Steps no. | Steps | Test Data | ExpectedResult
 --- | :---------------- | :---------------- | :----------------
 1 | edit the first task and change it name | edit 1 testing recurring deadline | the edited task should be highlighted reflecting the new changes
-2 | edit the event and postpone it to another day | edit 4 st/today 6pm et/today 8pm | the event with changes timing should be highlighted reflecting the new changes 
+2 | edit the event and postpone it to another day | postpone 4 st/today 6pm et/today 8pm | the event with changes timing should be highlighted reflecting the new changes 
 
 TestCase ID : TC010 <br>
 Title : Undo/Redo a action <br> 
@@ -209,15 +210,6 @@ Steps no. | Steps | Test Data | ExpectedResult
 1 | Change the activeHoursTo to 10pm using config command | config activeHoursTo v/2200 | the system should show a message saying activeHoursTo is successfully set to 2200
 2 | Change the activeHoursFrom to 8am using config command | config activeHoursTo v/0800 | the system should show a message saying activeHoursFrom is successfully set to 0800
 3 | disable the sudo mode using config command | config enableSudo v/false | the system should show a message saying enableSudo is set to false
-
-
-Steps no. | Steps | Test Data | ExpectedResult
---- | :---------------- | :---------------- | :----------------
-1 | default the list to show everything in the save data | find type/all | the list should show everything stored in the save data
-2 | try to clear the command using clear command | clear | the system should show a error message saying SUDO mode needs to be required
-3 | enable sudo mode using Config Command | config enableSudo v/true | the system should show enablesudo is successfuly set to true
-4 | try to clear the command again usign clear command | clear | a confirmation dialog should pop up now telling user the operation is undoable
-5 | press ok to the confirmation dialog | | The list should be empty now. System should show a message saying taskforce data has been cleared
 
 TestCase ID :TC013 <br>
 Title : Clear the entire save data <br>
