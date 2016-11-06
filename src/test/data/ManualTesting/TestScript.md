@@ -15,11 +15,16 @@ Steps no. | Steps | ExpectedResult
 
 TestCase ID: TC002 <br>
 Title : Adding a task, deadline, event <br>
-Description : Test should be able to load the sample data successfully <br>
-Pre-condition : TaskForce Must be entered
+Description : Tester should be able to add a task event and deadline today <br>
+Format : <br>
+`add TASKNAME [d/DESCRIPTION] [t/TAG...t/TAG...]` <br> 
+`add DEADLINE_NAME et/MM-DD-YYYY HHMM [d/DESCRIPTION] [t/TAG...t/TAG...]` <br>
+`add EVENT_NAME st/MM-DD-YYYY HHMM et/MM-DD-YYYY HHMM [d/DESCRIPTION] [t/TAG...t/TAG...]` <br>
+Pre-condition : TaskForce Must be opened <br>
+
 Steps no. | Steps | Test Data |  ExpectedResult
 --- | :---------------- | :---------------- | :----------------
 1 | Go to the 'Enter Command Here..' box | | User should be able to type anything here
-2 | Write/ Paste the Test Data into the box And press enter| add testing a program now d/testing taskforce t/test | The added task should be added and highlighted under 'Reminders & Deadline'
-3 | Repeat step 2 but with a different set of test data | add this is a deadline et/today 6pm | the added event should be added and highlighted under 'Reminders & Deadline'
-4 | Repeat step 2 one more time but adding a Event this time | add test cs2103 product st/today 10am et/today 11pm | the added event should be added and highlighted under "Event"
+2 | Write/ Paste the Test Data into the box And press enter|  add testing a program now d/testing taskforce t/test | The added task should be added and highlighted under 'Reminders & Deadline'
+3 | Repeat step 2 but with a different set of test data |  add this is a deadline et/11-11-2016 1000 | the added event should be added and highlighted under 'Reminders & Deadline'
+4 | Repeat step 2 one more time but adding a Event this time | add test cs2103 product st/11-11-2016 1000 et/11-11-2016 1100 | the added event should be added and highlighted under "Event"
