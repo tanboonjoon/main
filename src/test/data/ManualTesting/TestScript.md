@@ -1,4 +1,4 @@
-Testcase ID: TC001 <br>
+Testcase ID: TC000 <br>
 Title : Loading Sample test data <br>
 Description : Tester should be able to load the sample data successfully <br>
 Assumption : Tester has yet to open the app once <br>
@@ -12,7 +12,17 @@ Steps no. | Steps | ExpectedResult
 5 | Transfer the forDemoUse.xml in  'ManualTesting' folder and overwrite the forDemoUse file in 'taskForceTest' | the forDemoUse.xml in 'taskForceTest' should be overwritten by the one in 'ManualTeting folder'
 6 | open the app again | TaskForce should open with some tasks shown on the list
 
+Testcase ID: TC001 <br>
+Title : Opening the help menu <br>
+Description : Tester should be able to open the help menu <br>
+Precondition : TaskForce app is opened 
 
+
+Steps no. | Steps | Test Data |  ExpectedResult
+--- | :---------------- | :---------------- | :----------------
+1 | Go to the 'Enter Command Here..' box | | User should be able to type anything here
+2 | Enter the help command in the box and press enter | help | a Help window should pop up
+3 | close the help window by pressing esc | | The help window should close
 TestCase ID: TC002 <br>
 Title : Adding a task, deadline, event <br>
 Description : Tester should be able to add a task event and deadline today <br>
@@ -51,7 +61,7 @@ Format : <br>
 `find type/all` <br>
 `find type/overdue` <br>
 `find type/mark` <br>
-Description : Test should be able to search task using keywords. <br>
+Description : Tester should be able to search task using keywords. <br>
 
 Steps no. | Steps | Test Data | ExpectedResult
 --- | :---------------- | :---------------- | :----------------
@@ -64,3 +74,14 @@ Steps no. | Steps | Test Data | ExpectedResult
 7 | Enter find by type/all command | find type/all | the list should show everything in the save data, the last index of event should be at least 9x
 8 | Enter find by type/overdue command | find type/overdue | the list should deadline that are tagged with a red circle which mean they are overdue
 9 | Enter find by type/mark command | find type/mark | the list should show only tasks that are crossed out/ marked down
+
+TestCase ID : TC005 <br>
+Title : Deleting (a) tasks <br>
+Format: <br>
+`delete index [,index2, index3...]` <br> 
+Description : Tester should be able to delete away task
+Steps no. | Steps | Test Data | ExpectedResult
+--- | :---------------- | :---------------- | :----------------
+1 | Default the list to show everything using find command | find type/all | the list should show everything stored in the save data
+2 | Delete the first task that is index 1 | delete 1 | the task should be gone from the list
+3 | Delete the mutiple tasks found in the list | delete 1,3,2,6 | the 4 tasks should be deleted and dissapear from the list
