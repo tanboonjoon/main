@@ -305,6 +305,12 @@ Any other type input will be treaded as invalid command. <br>
 **Q**: How do I transfer my data to another Computer?<br>
 **A**: Install the app in the other computer and overwrite the empty data file it creates with
        the file that contains the data of your previous TaskForce folder.
+       
+**Q**: The task that i have added is not reflect in the list?<br>
+**A**: Our taskforce is constantly in a filtered task, for example if you type 'find name/cs' and you add a task call "housework", it wont be reflect in the list since the task does not contain 'cs' in it name. 
+
+**Q**: The taskforce is not showing everything that i have added when i open it up?<br>
+**A**: Our taskforce is defaulted to 'find day/0' basically showing only deadline and event that you need to do TODAY. adding a event deadline that is not required to be done TODAY will not be reflected. You can use other find functionality or 'find type/all' to list everything that you have added to the system.
 
 ## Command Summary
 
