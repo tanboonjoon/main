@@ -241,18 +241,16 @@ Nevertheless our FindCommand is also capable of replacing ListCommand Completely
 
 <!-- @@author A0135768R -->
 ### UndoCommand and RedoCommand
-We have set a limit for UndoCommand to 10. Users can only undo up to 10 previous command that they have inputted while the program is 
-active. Having a ceiling for UndoCommand prevent any form of huge resource hog by TaskForce and this allow Users to multitasks many 
-programs with TaskForce opened at the same time.
-
 The undo command uses the Event Driven approach in order to reduce the coupling between command classes. 
 
-Under this implementation, all commands is required to declare their changes to the TaskForce system. Since all Tasks object in the TaskForce system are immutable, a Command can only add or delete a task. If a command does not add or delete a task,
+Under this implementation, all commands are required to declare their changes to the TaskForce system. Since all Tasks object in the TaskForce system are immutable, a command can only add or delete a task. If a command does not add or delete a task,
 the command is not undoable. 
 
 The undo command, if executed, will then simply do the opposite to the declared changes - delete what is added and add what is deleted. In this manner, the undo command does not need to know what command is executed. This also eliminates the need to implement a Undoable interface to all commands - if the command declares that it does nothing to the data, then the undo command cannot undo its actions.
 
 Since the undo command can also be reduced to a sequence of tasks additions and deletions - needless to say, the redo command can do the same to redo any changes.
+
+There is however a limit to how many actions the user can undo. This limit is currently set to 10. This is to limit the amount of memory used by the application during runtime and we feel 10 actions is reasonable enough to cover most use cases.
 
 The following is the sequence diagram for a typical command executed.
 
