@@ -24,7 +24,10 @@ public class FindCommandParser extends CommandParser {
 
     /**
      * Parses arguments in the context of the find task command.
-     *
+     * FindCommand consist of three type of searches
+     * Keywords : name , desc, tag
+     * Day/week : day , week
+     * TYPE : all , mark, overdue
      * @param args  full command args string
      *           
      * @return the prepared command
@@ -170,7 +173,7 @@ public class FindCommandParser extends CommandParser {
         case "TAG":
             return parser.getArgValue(CommandArgs.FIND_TAG).get().split("\\s+");
         case "TYPE":
-            if (parser.getArgValue(CommandArgs.FIND_MARK).isPresent()) {
+            if (parser.getArgValue(CommandArgs.FIND_MARK).isPresent()) {    //MARK filter is only allowed for keywords searched and day/week searched
                 throw new IncorrectCommandException();
             }
             return parser.getArgValue(CommandArgs.FIND_TYPE).get().split("\\s+");

@@ -20,7 +20,8 @@ import seedu.address.model.task.ReadOnlyTask;
 //@@author A0139942W
 /*
  * Finds and list out all the time slot that the user are free on that particular day 
- * All time slot are rounded up to block of 30min interval
+ * All time slot are rounded up to block of 30min interval to prevent program from telling user are
+ * free for only 1 min etc.
  * It take into consideration user activeHour that are stored in config file. 
  */
 public class FreetimeCommand extends Command {
@@ -37,6 +38,7 @@ public class FreetimeCommand extends Command {
     public static final String NUM_OF_FREESLOT_MESSAGE = "you have %1$s freeslots";
     public static final String ONGOING_EVENT_MESSAGE = "There is a ongoing event from %1$s to %2$s \n";
     public static final String NO_FREE_TIME_MESSAGE = "There no freetime within the freetime period";
+    public static final String INVALID_ACTIVE_HOUR_MSG = "Please set your activeEndTime to be after activeStartTime";
 
     private static final String SEARCH_TYPE = "DAY";
     private static final boolean HAS_FREE_TIME = true;
@@ -70,6 +72,7 @@ public class FreetimeCommand extends Command {
         this.datetimeFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy HHmm");
         this.noOfFreeSlot = 0;
         this.freetimeMsgBuilder = new StringBuilder();
+        setActiveHours();
     }
 
     @Override
@@ -79,6 +82,9 @@ public class FreetimeCommand extends Command {
 
         LocalDateTime searchedDay = getSearchedDay();
         setActiveHours();
+        if (!isValidActiveHour()) {
+            return new CommandResult(INVALID_ACTIVE_HOUR_MSG);
+        }
         getAllEvent(filteredList);
         sortEventList();
 
@@ -89,8 +95,12 @@ public class FreetimeCommand extends Command {
     private void setActiveHours() {
         this.activeHourStart = roundUpTime(readActiveHours("activeHoursFrom"));
         this.activeHourEnd = roundUpTime(readActiveHours("activeHoursTo"));
-    }
 
+    }
+    
+    private boolean isValidActiveHour() {
+        return this.activeHourStart.isBefore(this.activeHourEnd);
+    }
 
     private LocalDateTime readActiveHours(String key) {
         Config config = model.getConfigs();
@@ -164,7 +174,6 @@ public class FreetimeCommand extends Command {
 
 
     private String freetimeForMutipleEvents(LocalDateTime startTime, LocalDateTime endTime, LocalDateTime searchedDay) {
-        int same_day = searchedDay.getDayOfMonth();
         freetimeMsgBuilder.append(String.format(DEFAULT_STARTING_MESSAGE, searchedDay.format(dateFormat)));
         LocalDateTime currentStartTime = startTime;
         LocalDateTime currentEndTime = endTime;    
@@ -224,7 +233,11 @@ public class FreetimeCommand extends Command {
     public void increaseNoOfFreeSlot() {
         noOfFreeSlot++;
     }
-
+    
+    /*
+     * Get all the event that start/end or is ongoing on that searchedDay, round them up to the nearest 30min and add them to
+     * a List containing pair<eventStartTime, evenEndTime>
+     */
     private void getAllEvent(List<ReadOnlyTask> filteredList) {
         for (int listIndex = 0; listIndex < filteredList.size(); listIndex++) {
             if (!(filteredList.get(listIndex) instanceof Event)) {
@@ -241,6 +254,8 @@ public class FreetimeCommand extends Command {
             timeLists.add(datePair);
         }
     }
+    
+    
 
     private LocalDateTime roundUpTime(LocalDateTime dateTime) {
         int minutes = dateTime.getMinute();
@@ -275,6 +290,10 @@ public class FreetimeCommand extends Command {
         return totalMinutes / HALF_AN_HOUR;
     }
 
+    /*
+     * Both today 0000am and tomorrow 0000am are the same, hence if the day is different, it 
+     * is assumed to be 2359, the last block of the day
+     */
     private void createNewFreeTimeEntry(LocalDateTime startDate, LocalDateTime endDate, TimeStatus status) {
         int startDay = startDate.getDayOfMonth();
         int endDay = endDate.getDayOfMonth();
