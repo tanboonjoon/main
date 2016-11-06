@@ -72,7 +72,6 @@ public class FreetimeCommand extends Command {
         this.datetimeFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy HHmm");
         this.noOfFreeSlot = 0;
         this.freetimeMsgBuilder = new StringBuilder();
-        setActiveHours();
     }
 
     @Override
