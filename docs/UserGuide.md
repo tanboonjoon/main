@@ -273,12 +273,12 @@ TaskForce supports flexible date inputs and thus allows many natural variations 
 
 ### Relaxed Dates
 > Relaxed dates are dates that expressed months in words instead of numbers. If the year is not provided, it is assumed to be this year
-> 	* Oct 20 2016
+> 	* Oct 20 2016 10am
 > 	* 16 Aug
 
 ### Relative dates
 > Relative dates are the most natural variation of the three and supports inputs that is relative to today <br>
-> 	* today 5pm
+> 	* today
 > 	* next thursday 3pm
 > 	* tomorrow 9am
 
