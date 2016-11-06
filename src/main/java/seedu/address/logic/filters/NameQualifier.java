@@ -64,6 +64,7 @@ public class NameQualifier implements Qualifier {
 
     @Override
     public boolean run(ReadOnlyTask task) {
+        assert task != null;
         if (isTypeSearch(typeOfFind)) {
             return filterByType(task);
         }

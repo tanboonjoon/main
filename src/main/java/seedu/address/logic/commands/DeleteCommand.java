@@ -21,7 +21,7 @@ import seedu.address.model.task.UniqueTaskList.TaskNotFoundException;
  */
 public class DeleteCommand extends Command {
 
-    public static final String[] COMMAND_WORD = { "delete", "remove", };
+    public static final String[] COMMAND_WORD = { "delete", "remove" };
 
     public static final String DEFAULT_COMMAND_WORD = COMMAND_WORD[0];
 

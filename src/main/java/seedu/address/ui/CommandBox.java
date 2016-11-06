@@ -68,15 +68,28 @@ public class CommandBox extends UiPart {
     private void setKeyComboEvent(Logic logic) {
         commandTextField.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
             if (undoKeyCombo.match(key)) {
-                logic.execute(UndoCommand.COMMAND_WORD);
+                executeUndoCommand(logic);            
             } else if (redoKeyCombo.match(key)) {
-                logic.execute(RedoCommand.COMMAND_WORD);
+                executeRedoCommand(logic);
             } else if (key.getCode() == KeyCode.UP) {
                 this.previousStoredCommand();
             } else if (key.getCode() == KeyCode.DOWN) {
                 this.nextStoredCommand();
             }
         });
+    }
+    // @@author A0140037W
+    private void executeRedoCommand(Logic logic) {
+        mostRecentResult = logic.execute(RedoCommand.COMMAND_WORD);
+        resultDisplay.postMessage(mostRecentResult.feedbackToUser);
+        logger.info("Result: " + mostRecentResult.feedbackToUser);
+    }
+    
+    // @@author A0140037W
+    private void executeUndoCommand(Logic logic) {
+        mostRecentResult = logic.execute(UndoCommand.COMMAND_WORD);
+        resultDisplay.postMessage(mostRecentResult.feedbackToUser);
+        logger.info("Result: " + mostRecentResult.feedbackToUser);
     }
 
     // @@author reused
