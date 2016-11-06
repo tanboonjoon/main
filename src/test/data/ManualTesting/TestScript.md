@@ -139,3 +139,41 @@ Steps no. | Steps | Test Data | ExpectedResult
 1 | Default the list to show task with recur in its' name | find name/recur | the list should be empty as no task should have recur in its' name
 2 | recurr a deadline using the test data | add recurDeadline et/today 6pm recur/weekly r/4 | 4 deadline should be added to the list, each deadline is 1 week after the previous one
 3 | recur a event using the test data | add recurEvent st/today 2pm et/today 4pm recur/daily r/3 | 3 event should be shown, event that start today, tomorrow and the next day.
+
+
+TestCase ID : TC009 <br>
+Title : Editing a task <br>
+Description : Tester should be able to edit a task succesffully <br>
+Precondition : TC007 is completed <br>
+Assumption : The list is still under the effect of 'find name/recur' the list show only show tasks with 'recur' in its name <br>
+
+Steps no. | Steps | Test Data | ExpectedResult
+--- | :---------------- | :---------------- | :----------------
+1 | edit the first task and change it name | edit 1 testing recurring deadline | the edited task should be highlighted reflecting the new changes
+2 | edit the event and postpone it to another day | edit 4 st/today 6pm et/today 8pm | the event with changes timing should be highlighted reflecting the new changes 
+
+TestCase ID : TC010 <br>
+Title : Undo/Redo a action <br> 
+Description : Tester should be able to undo redo a actions related to add, delete and block command <br>
+
+Steps no. | Steps | Test Data | ExpectedResult
+--- | :---------------- | :---------------- | :----------------
+1 | default the list to only task with undo in it name | find name/undo | the list should be empty as no task contain undo its' name
+2 | add a task containing undo in it name | add task to undo | the list should now have the added task highlighted
+3 | undo the add action | undo | the added task should dissapear, making the list empty again
+4 | redo the previous action which will be undoing 'undo add action' | redo | the added task should appear and highlighted again.
+
+TestCase ID : TC011 <br>
+Title : Checking free time <br>
+Description : Tester should be able to check for freetime for the day <br>
+Format : <br>
+`freetime` will show the default free time for day <br>
+`freetime day/WHOLE_NUMBER` <br>
+
+
+Steps no. | Steps | Test Data | ExpectedResult
+--- | :---------------- | :---------------- | :----------------
+1 | type freetime command to search for today freetime | freetime | the list should be updated to show deadline and event that start/due today. a time bar should appeared on the result message panel showing your free time according to the events reflected in the list.
+2 | type freetime command to search for tomorrow free time | freetime day/1 | the list should be updated to show deadline and event that start/due tomorrow . a time bar should appeared on the result message panel showing your free time according to the events reflected in the list.
+
+
