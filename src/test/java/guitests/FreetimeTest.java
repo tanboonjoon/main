@@ -173,7 +173,6 @@ public class FreetimeTest extends TaskForceGuiTest{
             return dateTime;
         }
         if (minutes <= HALF_AN_HOUR) {
-            System.out.println(dateTime.toString());
             return dateTime.plusMinutes(HALF_AN_HOUR - minutes);
         }
 
