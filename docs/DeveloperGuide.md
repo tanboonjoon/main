@@ -115,6 +115,7 @@ The `UI` component,
 * Executes user commands using the `Logic` component.
 * Binds itself to some data in the `Model` so that the UI can auto-update when data in the `Model` change.
 * Responds to events raised from various parts of the App and updates the UI accordingly.
+* `TaskListPanel` is in charge of showing task and deadline whereas `EventListPanel`is in charge of showing event only
 
 ### Logic component
 
