@@ -3,14 +3,14 @@ Title : Loading Sample test data <br>
 Description : Tester should be able to load the sample data successfully <br>
 Assumption : Tester has yet to open the app once <br>
 
-Steps no. | Steps | ExpectedResult
---- | :---------------- | :----------------
-1 | create a folder call 'taskForceTest' on desktop | a folder called 'taskForceTest' should be created
-2  | download the jar file and place it inside 'taskForceTest' folder | the folder should contain the downloaded jar file
-3 | open the jar file | TaskForce window should appear. config, perferences and log file should be generated in the same folder
-4 | close the app | TaskForce app should be closed
-5 | Transfer the forDemoUse.xml in  'ManualTesting' folder and overwrite the forDemoUse file in 'taskForceTest' | the forDemoUse.xml in 'taskForceTest' should be overwritten by the one in 'ManualTeting folder'
-6 | open the app again | TaskForce should open with some tasks shown on the list
+Steps no. | Steps | Test Data |  ExpectedResult
+--- | :---------------- | :---------------- | :----------------
+1 | create a folder call 'taskForceTest' on desktop |  |a folder called 'taskForceTest' should be created
+2  | download the v0.5 jar file and place it inside 'taskForceTest' folder | 	[jar file](https://github.com/CS2103AUG2016-F10-C2/main/releases) |the folder should contain the downloaded jar file
+3 | open the jar file | |TaskForce window should appear. config, perferences and log file should be generated in the same folder
+4 | close the app | |TaskForce app should be closed
+5 | Transfer the forDemoUse.xml in  'ManualTesting' folder and overwrite the forDemoUse file in 'taskForceTest' | |the forDemoUse.xml in 'taskForceTest' should be overwritten by the one in 'ManualTeting folder'
+6 | open the app again | | TaskForce should open with some tasks shown on the list
 
 TestCase ID: TC001 <br>
 Title : Opening the help menu <br>
@@ -31,6 +31,7 @@ Format : <br>
 `add DEADLINE_NAME et/MM-DD-YYYY HHMM [d/DESCRIPTION] [t/TAG...t/TAG...]` <br>
 `add EVENT_NAME st/MM-DD-YYYY HHMM et/MM-DD-YYYY HHMM [d/DESCRIPTION] [t/TAG...t/TAG...]` <br>
 Pre-condition : TaskForce Must be opened <br>
+Assumption : Tester is testing on 11-11-2016. If not, the event and deadline added will not be reflected in the list because it defaulted to showing deadline and event that start/end today.
 
 Steps no. | Steps | Test Data |  ExpectedResult
 --- | :---------------- | :---------------- | :----------------
@@ -40,16 +41,17 @@ Steps no. | Steps | Test Data |  ExpectedResult
 4 | Repeat step 2 one more time but adding a Event this time | add test cs2103 product st/11-11-2016 1000 et/11-11-2016 1100 | the added event should be added and highlighted under "Event"
 
 TestCase ID: TC003 <br>
-Title : The Flexibility of adding a task,event ,deadline <br>
-Description : Tester should be able to add a task without following a rigid format and natural date language <br>
+Title : The Flexibility of adding a task,event ,deadline , checking for conflict<br>
+Description : Tester should be able to add a task without following a rigid format and natural date language and getting informed of conflict event <br>
 Assumption : TC002 has been tested and Tester are familiar with the format of adding atask <br>
 
 Steps no. | Steps | Test Data | ExpectedResult
 --- | :---------------- | :---------------- | :----------------
 1 | Add a floating task using the test data | add very flexible t/flexible d/testing the flexibility t/test | the task should be added and highlighted under 'Reminders & Deadline'.
-2 | Add a deadline | add cs2103 report d/very important et/tomorrow 10pm t/schoolwork | the dealdine should be added and highlighted under 'Reminders & Deadline'
+2 | Add a deadline | add cs2103 report d/very important et/today 10pm t/schoolwork | the dealdine should be added and highlighted under 'Reminders & Deadline'
 3 | Add a event | add dinner with professor et/today 11pm d/learn from prof st/today 9pm t/dinner | the event should be added and highlighted under 'Reminders & Deadline'.
-3 | Add another event | schedule Gym session et/9pm d/gotta get my money's worth! st/friday 7pm t/get_moving | the event should be added and highlighted under 'Reminders & Deadline'. Furthermore, the end date should be on friday even though the user did not provide a date.
+3 | Add another event | schedule Gym session et/9pm d/gotta get my money's worth! st/today 7pm t/getMoving | the event should be added and highlighted under 'Reminders & Deadline'. Furthermore, the end date should be on friday even though the user did not provide a date.
+There should be a conflict saying the event clashes with cs2102 lab as well
 
 TestCase ID : TC004 <br>
 Title : Searching for task <br>
@@ -86,8 +88,8 @@ Description : Tester should be able to delete away task
 Steps no. | Steps | Test Data | ExpectedResult
 --- | :---------------- | :---------------- | :----------------
 1 | Default the list to show everything using find command | find type/all | the list should show everything stored in the save data
-2 | Delete the first task that is index 1 | delete 1 | the task should be gone from the list
-3 | Delete the mutiple tasks found in the list | delete 1,3,2,6 | the 4 tasks should be deleted and dissapear from the list
+2 | Take note of the index 1 task and delete that task using delete command | delete 1 | the task should be gone from the list And System should print out the name of the task that is deleted 
+3 | Delete the mutiple tasks found in the list | delete 1,3,2,6 | the 4 tasks should be deleted and dissapear from the list and System should print out all the name of the tasks that are deleted
 
 TestCase ID : TC006 <br>
 Title : Blocking event < br>
@@ -99,8 +101,7 @@ Format :
 Steps no. | Steps | Test Data | ExpectedResult
 --- | :---------------- | :---------------- | :----------------
 1 | default the list to only show taskname that contain block | find name/block | the list shown should be empty because no task has block in its' name
-2 | enter the block command | block blockMeeting st/today 5pm et/today 6pm st/tomorrow 3pm et/tomorrow 5pm st/today 9pm et/today 11pm |
-The list should now show three event that is tagged with a white circle
+2 | enter the block command | block blockMeeting st/today 5pm et/today 6pm st/tomorrow 3pm et/tomorrow 5pm st/today 9pm et/today 11pm | The list should now show three event that is tagged with a white circle
 
 
 TestCase ID : TC007 <br>
@@ -109,7 +110,7 @@ Description : Tester should be able to block mutiple timing for a uncomfirmed ev
 Format :
 `block EVENT_NAME st/DATES et/DATES st/DATES et/DATES...` <br>
 Precondition : TC006 must be completed first <br>
-Assumption : The list is still under the effect of 'find name/block' so it should contain only 3 event <br>
+Assumption : The list is still under the effect of 'find name/block' so it should contain only 3 blocked event <br>
 
 Steps no. | Steps | Test Data | ExpectedResult
 --- | :---------------- | :---------------- | :----------------
@@ -153,7 +154,8 @@ Assumption : The list is still under the effect of 'find name/recur' the list sh
 Steps no. | Steps | Test Data | ExpectedResult
 --- | :---------------- | :---------------- | :----------------
 1 | edit the first task and change it name | edit 1 testing recurring deadline | the edited task should be highlighted reflecting the new changes
-2 | edit the event and postpone it to another day | postpone 4 st/today 6pm et/today 8pm | the event with changes timing should be highlighted reflecting the new changes 
+2 | edit the deadline and change it to a event | edit 2 changeToRecurrEvent st/today 6pm et/today 8 pm | the task should move to the Event column and highligted to reflect the new changes 
+3 | edit the event and postpone it to another day | postpone 6 st/today 6pm et/today 8pm | the event with changes timing should be highlighted reflecting the new changes 
 
 TestCase ID : TC010 <br>
 Title : Undo/Redo a action <br> 
@@ -184,8 +186,8 @@ Description : Tester should be able to check or change the save data location <b
 Format : <br>
 `cd` will tell you the current save data location <br>
 `cd C:\Users\Boon\newSaveName.xml` will change the location on a window platform
-`cd ./path/to/new/location/on/unix/platform/sampleData.xml` will change the location on a unix platform
-Description : Tester should be able to check and change the location of the save data location.
+`cd ./path/to/new/location/on/unix/platform/sampleData.xml` will change the location on a unix platform <br>
+Description : Tester should be able to check and change the location of the save data location. <br>
 Assumption : Tester should be able to provide a valid file path, not doing so will result in a invalid file path message
 Tester should provide a file path that do not require system permission (e.g saving inside a C drive C:\newfile.xml )
 
