@@ -81,9 +81,9 @@ Steps no. | Steps | Test Data | ExpectedResult
 
 TestCase ID : TC005 <br>
 Title : Deleting (a) tasks <br>
+Description : Tester should be able to delete away task <br>
 Format: <br>
 `delete index [,index2, index3...]` <br> 
-Description : Tester should be able to delete away task
 
 Steps no. | Steps | Test Data | ExpectedResult
 --- | :---------------- | :---------------- | :----------------
@@ -92,7 +92,7 @@ Steps no. | Steps | Test Data | ExpectedResult
 3 | Delete the mutiple tasks found in the list | delete 1,3,2,6 | the 4 tasks should be deleted and dissapear from the list and System should print out all the name of the tasks that are deleted
 
 TestCase ID : TC006 <br>
-Title : Blocking event < br>
+Title : Blocking event <br>
 Description : Testing should be able to block mutiple timeslot for a uncomfirmed event <br>
 Format :
 `block EVENT_NAME st/DATES et/DATES st/DATES et/DATES...` <br>
@@ -105,7 +105,7 @@ Steps no. | Steps | Test Data | ExpectedResult
 
 
 TestCase ID : TC007 <br>
-Title : Confirm a block Event < br>
+Title : Confirm a block Event <br>
 Description : Tester should be able to block mutiple timing for a uncomfirmed event 
 Format :
 `block EVENT_NAME st/DATES et/DATES st/DATES et/DATES...` <br>
@@ -215,9 +215,8 @@ Steps no. | Steps | Test Data | ExpectedResult
 
 TestCase ID :TC013 <br>
 Title : Clear the entire save data <br>
-Description : Tester should be able to clear the entire save data completely 
-Precondition : TC012 completed
-Assumption : Tester did not set enableSudo to true during TC012
+Description : Tester should be able to clear the entire save data completely <br>
+Precondition : TC012 completed <br>
 
 Steps no. | Steps | Test Data | ExpectedResult
 --- | :---------------- | :---------------- | :----------------
