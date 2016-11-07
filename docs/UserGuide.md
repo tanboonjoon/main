@@ -6,10 +6,10 @@
 * [Quick Start](#quick-start)
 * [Features](#features)
 * [Date Format](#Date-Format)
-* [Recurring Format](#Recurring-Format)
+* [Recurring Format](#Recurring Format)
 * [FAQ](#faq)
-* [Command Summary](#command-summary)
-* [Command Examples](#command-examples)
+* [Command Summary](#command summary)
+* [Command Examples](#command examples)
 
 ## Overview
 
