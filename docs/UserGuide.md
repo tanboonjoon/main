@@ -5,9 +5,12 @@
 * [Overview](#overview)
 * [Quick Start](#quick-start)
 * [Features](#features)
+* [Date Format](#Date-Format)
+* [Recurring Format](#Recurring-Format)
 * [FAQ](#faq)
 * [Command Summary](#command-summary)
 * [Command Examples](#command-examples)
+
 ## Overview
 
 1. TaskForce allows you to manage your tasks through a simple
@@ -262,7 +265,7 @@ TaskForce saves data in the hard disk automatically after any command that chang
 There is no need to save manually.
 
 <!-- @@author A0135768R-->
-## On Entering Dates
+## Date Format
 
 TaskForce supports flexible date inputs and thus allows many natural variations of dates. The following are three broad categories of dates supported by TaskForce
 
@@ -283,7 +286,7 @@ TaskForce supports flexible date inputs and thus allows many natural variations 
 > 	* tomorrow 9am
 
 <!-- @@author A0139942W-->
-## Recurring a Deadline and Event
+## Recurring Format
 TaskForce enable user to recur a deadline and event mutiple times reducing the hassle to add one by one. recurring functionality support
 the follow type of commands for [recur/TYPE]: `TYPE`
 > * daily
