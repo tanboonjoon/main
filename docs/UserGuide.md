@@ -5,11 +5,11 @@
 * [Overview](#overview)
 * [Quick Start](#quick-start)
 * [Features](#features)
-* [Date Format](#Date-Format)
-* [Recurring Format](#Recurring Format)
+* [Date Format](#date-format)
+* [Recurring Format](#recurring-format)
 * [FAQ](#faq)
-* [Command Summary](#command summary)
-* [Command Examples](#command examples)
+* [Command Summary](#command-summary)
+* [Command Examples](#command-examples)
 
 ## Overview
 
