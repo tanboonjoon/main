@@ -25,9 +25,9 @@ import seedu.address.model.task.ReadOnlyTask;
 import seedu.address.model.task.Task;
 import seedu.address.model.task.UniqueTaskList;
 import seedu.address.model.task.UniqueTaskList.TaskNotFoundException;
-
+//@@author A0111277M
 /*
- * @@author A0111277M
+ * 
  * Edits a existing task in all ways possible
  */
 public class EditCommand extends Command {
