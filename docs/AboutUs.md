@@ -29,6 +29,7 @@ Responsibilities: Team Lead, Integration
 > * Other major contributions:
 >   * Set up original AddCommand for floating task, event, deadline
 >   * Convert initial UserGuide markdown to html format for help format
+>   * Wrote the manual testingScript [[testscript]](https://github.com/CS2103AUG2016-F10-C2/main/blob/master/src/test/data/ManualTesting/TestScript.md)
 
 #### [Goh Yi Da Jeremy](https://github.com/MightyCupcakes)
 <img src="images/Jeremy.jpg" width="150"><br>
