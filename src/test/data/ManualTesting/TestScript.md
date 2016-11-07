@@ -91,7 +91,20 @@ Steps no. | Steps | Test Data | ExpectedResult
 2 | Take note of the index 1 task and delete that task using delete command | delete 1 | the task should be gone from the list And System should print out the name of the task that is deleted 
 3 | Delete the mutiple tasks found in the list | delete 1,3,2,6 | the 4 tasks should be deleted and dissapear from the list and System should print out all the name of the tasks that are deleted
 
+
 TestCase ID : TC006 <br>
+Title : Deleting (a) tasks <br>
+Description : Tester should be able to delete away task <br>
+Format: <br>
+`delete index [,index2, index3...]` <br> 
+
+Steps no. | Steps | Test Data | ExpectedResult
+--- | :---------------- | :---------------- | :----------------
+1 | Default the list to show everything using find command | find type/all | the list should show everything stored in the save data
+2 | Take note of the index 1 task and delete that task using delete command | delete 1 | the task should be gone from the list And System should print out the name of the task that is deleted 
+3 | Delete the mutiple tasks found in the list | delete 1,3,2,6 | the 4 tasks should be deleted and dissapear from the list and System should print out all the name of the tasks that are deleted
+
+TestCase ID : TC007 <br>
 Title : Blocking event <br>
 Description : Testing should be able to block mutiple timeslot for a uncomfirmed event <br>
 Format :
@@ -104,19 +117,19 @@ Steps no. | Steps | Test Data | ExpectedResult
 2 | enter the block command | block blockMeeting st/today 5pm et/today 6pm st/tomorrow 3pm et/tomorrow 5pm st/today 9pm et/today 11pm | The list should now show three event that is tagged with a white circle
 
 
-TestCase ID : TC007 <br>
+TestCase ID : TC008 <br>
 Title : Confirm a block Event <br>
 Description : Tester should be able to block mutiple timing for a uncomfirmed event 
 Format :
 `block EVENT_NAME st/DATES et/DATES st/DATES et/DATES...` <br>
-Precondition : TC006 must be completed first <br>
+Precondition : TC007 must be completed first <br>
 Assumption : The list is still under the effect of 'find name/block' so it should contain only 3 blocked event <br>
 
 Steps no. | Steps | Test Data | ExpectedResult
 --- | :---------------- | :---------------- | :----------------
 1 | comfirm the first event aand change the timing | confirm 1 st/today 6:30pm et/7:30pm | the list should only show one event now. And the color of the circle is changed from white to yellow. The remaining block are released/deleted automatically
 
-TestCase ID : TC008 <br>
+TestCase ID : TC009 <br>
 Title : Recur a Event and Deadline <br>
 Description : Tester should be able to add/recurr a deadline and event with just one command <br>
 Format : <br>
@@ -145,10 +158,10 @@ Steps no. | Steps | Test Data | ExpectedResult
 3 | recur a event using the test data | add recurEvent st/today 2pm et/today 4pm recur/daily r/3 | 3 event should be shown, event that start today, tomorrow and the next day.
 
 
-TestCase ID : TC009 <br>
+TestCase ID : TC010 <br>
 Title : Editing a task <br>
 Description : Tester should be able to edit a task succesffully <br>
-Precondition : TC007 is completed <br>
+Precondition : TC009 is completed <br>
 Assumption : The list is still under the effect of 'find name/recur' the list show only show tasks with 'recur' in its name <br>
 
 Steps no. | Steps | Test Data | ExpectedResult
@@ -157,7 +170,7 @@ Steps no. | Steps | Test Data | ExpectedResult
 2 | edit the deadline and change it to a event | edit 2 changeToRecurrEvent st/today 6pm et/today 8 pm | the task should move to the Event column and highligted to reflect the new changes 
 3 | edit the event and postpone it to another day | postpone 6 st/today 6pm et/today 8pm | the event with changes timing should be highlighted reflecting the new changes 
 
-TestCase ID : TC010 <br>
+TestCase ID : TC011 <br>
 Title : Undo/Redo a action <br> 
 Description : Tester should be able to undo redo a actions related to add, delete and block command <br>
 
@@ -168,7 +181,7 @@ Steps no. | Steps | Test Data | ExpectedResult
 3 | undo the add action | undo | the added task should dissapear, making the list empty again
 4 | redo the previous action which will be undoing 'undo add action' | redo | the added task should appear and highlighted again.
 
-TestCase ID : TC011 <br>
+TestCase ID : TC012 <br>
 Title : Checking free time <br>
 Description : Tester should be able to check for freetime for the day <br>
 Format : <br>
@@ -180,7 +193,7 @@ Steps no. | Steps | Test Data | ExpectedResult
 1 | type freetime command to search for today freetime | freetime | the list should be updated to show deadline and event that start/due today. a time bar should appeared on the result message panel showing your free time according to the events reflected in the list.
 2 | type freetime command to search for tomorrow free time | freetime day/1 | the list should be updated to show deadline and event that start/due tomorrow . a time bar should appeared on the result message panel showing your free time according to the events reflected in the list.
 
-TestCase ID : TC012 <br>
+TestCase ID : TC013 <br>
 Title : Changing/Check save data location <br>
 Description : Tester should be able to check or change the save data location <br>
 Format : <br>
@@ -196,7 +209,7 @@ Steps no. | Steps | Test Data | ExpectedResult
 1 | check for the current location of sava data using cd command | cd | the system will display the location of the current save data
 2 | change the test data to a new location | refer to format under TC012 | The system should display the location of the new sav data. the new data should be created physically on the new location as well
 
-TestCase ID :TC012 <br>
+TestCase ID :TC014 <br>
 Title : Modying config file <br>
 Description : Tester should be able modify the config file using config command <br>
 Format : <br>
@@ -213,7 +226,7 @@ Steps no. | Steps | Test Data | ExpectedResult
 2 | Change the activeHoursFrom to 8am using config command | config activeHoursTo v/0800 | the system should show a message saying activeHoursFrom is successfully set to 0800
 3 | disable the sudo mode using config command | config enableSudo v/false | the system should show a message saying enableSudo is set to false
 
-TestCase ID :TC013 <br>
+TestCase ID :TC015 <br>
 Title : Clear the entire save data <br>
 Description : Tester should be able to clear the entire save data completely <br>
 Precondition : TC012 completed <br>
@@ -226,7 +239,7 @@ Steps no. | Steps | Test Data | ExpectedResult
 4 | try to clear the command again usign clear command | clear | a confirmation dialog should pop up now telling user the operation is undoable
 5 | press ok to the confirmation dialog | | The list should be empty now. System should show a message saying taskforce data has been cleared
 
-TestCase ID : TC014 <br>
+TestCase ID : TC016 <br>
 Title : Exit the TaskForce Program <br >
 Description : Tester should be able to exit the program successfully
 
