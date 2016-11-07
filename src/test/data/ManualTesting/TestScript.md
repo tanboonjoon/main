@@ -5,12 +5,14 @@ Assumption : Tester has yet to open the app once <br>
 
 Steps no. | Steps | Test Data |  ExpectedResult
 --- | :---------------- | :---------------- | :----------------
-1 | create a folder call 'taskForceTest' on desktop |  |a folder called 'taskForceTest' should be created
-2  | download the v0.5 jar file and place it inside 'taskForceTest' folder | 	[jar file](https://github.com/CS2103AUG2016-F10-C2/main/releases) |the folder should contain the downloaded jar file
-3 | open the jar file | |TaskForce window should appear. config, perferences and log file should be generated in the same folder
-4 | close the app | |TaskForce app should be closed
-5 | Transfer the forDemoUse.xml in  'ManualTesting' folder and overwrite the forDemoUse file in 'taskForceTest' | |the forDemoUse.xml in 'taskForceTest' should be overwritten by the one in 'ManualTeting folder'
-6 | open the app again | | TaskForce should open with some tasks shown on the list
+1 | create a new empty folder named 'taskForceTest' (or any name you prefer) on any location |  |a folder called 'taskForceTest' (or as named) should be created
+2  | download the v0.5 jar file and place it inside 'taskForceTest' folder | 	[Project Releases](https://github.com/CS2103AUG2016-F10-C2/main/releases) |the folder should contain the downloaded jar file
+3 | Within the same folder you created, create a new folder called "data" | |A new folder named "data" should be created
+4 | Transfer the `forDemoUse.xml` in `ManualTesting` folder and put it in the `data` folder | |The forDemoUse.xml file should be inside the `data` folder
+5 | Rename the `forDemoUse.xml` to `taskForceData.xml` | |The `forDemoUse.xml` is renamed to `taskForceData.xml`
+6 | open the jar file | |TaskForce window should appear. config, perferences and log file should be generated in the same folder
+7 | close the app | |TaskForce app should be closed
+8 | open the app again | | TaskForce should open with some tasks shown on the list
 
 TestCase ID: TC001 <br>
 Title : Opening the help menu <br>
