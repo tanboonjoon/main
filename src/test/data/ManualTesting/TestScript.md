@@ -207,7 +207,7 @@ Tester should provide a file path that do not require system permission (e.g sav
 Steps no. | Steps | Test Data | ExpectedResult
 --- | :---------------- | :---------------- | :----------------
 1 | check for the current location of sava data using cd command | cd | the system will display the location of the current save data
-2 | change the test data to a new location | refer to format under TC012 | The system should display the location of the new sav data. the new data should be created physically on the new location as well
+2 | change the test data to a new location | refer to the cd command format explained in this test case | The system should display the location of the new sav data. the new data should be created physically on the new location as well
 
 TestCase ID :TC014 <br>
 Title : Modying config file <br>
