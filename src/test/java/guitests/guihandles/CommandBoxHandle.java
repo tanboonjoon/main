@@ -40,11 +40,12 @@ public class CommandBoxHandle extends GuiHandle {
         pressEnter();
         return new HelpWindowHandle(guiRobot, primaryStage);
     }
-
+    
+    // @@author A0140037W
     public void pressUpArrow() {
         guiRobot.type(KeyCode.UP).sleep(200);
     }
-
+    // @@author A0140037W
     public void pressDownArrow() {
         guiRobot.type(KeyCode.DOWN).sleep(200);
 
