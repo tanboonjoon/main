@@ -18,7 +18,7 @@ command-line interface (CLI)-based application.
 2. It allows for 3 main kinds of tasks:  
    * Reminders - a task with no start nor end date  
    * Deadline - a task that ends at a specific time <br>
-      >  A OVERDUE TASK is a Deadline that is past today date and not marked done. 
+      >  A OVERDUE TASK is a Deadline that is past today date and not marked done.
    * Event - an event has both a start and end time <br>
       >  A BLOCK is an uncomfirmed event that require you to confirm it later on.
 4. This app is built on Java, and runs on any Desktop.
@@ -52,8 +52,8 @@ command-line interface (CLI)-based application.
 6. Many commands requires an `INDEX` which is the number associated to the task in the current list.
        > <img src = "images/index_example.png" width="600"> <br>
        > #### The index of a task is the number beside it
-        
-        
+
+
 7. Refer to the [Features](#features) section below for details of each command.<br>
 
 
@@ -80,7 +80,7 @@ Format: `help`
 Adds a task to the task list.  
 Format:  
 > Reminder: `add TASKNAME  [d/DESCRIPTION] [t/TAG]...`  
-> Deadline: `add TASKNAME  [d/DESCRIPTION] et/END_DATE [t/TAG...] [recur/TYPE r/TIME]`  
+> Deadline: `add TASKNAME  [d/DESCRIPTION] et/END_DATE [t/TAG...] [recur/TYPE r/TIMES]`  
 > Event: `add TASKNAME  [d/DESCRIPTION]  st/START_DATE et/END_DATE [t/TAG...] [recur/TYPE r/TIMES]`  
 
 > - Tasks can have any number of tags (including 0)  
@@ -92,11 +92,11 @@ Format:
 > - If start datetime is specified but end datetime is not specified, the end datetime will be the same day on 2359.
 > - If start datetime is specified but end date is not specified, the end date will be the same day as the start date on the time provided.
 > - FlexiCommand is available for addCommand, refer to [Command Examples](#command-examples) for examples of usage.
-> - You can recur a Deadline and Event a number of times. The number of repetition must be specified using `r/POSITIVE_INTEGER` argument. 
+> - You can recur a Deadline and Event a number of times. The number of repetition must be specified using `r/POSITIVE_INTEGER` argument.
 
 Examples:
 * `add housework d/to get pocket money t/important`<br>
-* `add report d/school report et/130116 2200 t/important`<br>
+* `add report d/school report et/11-13-2016 2200 t/important`<br>
   Add the task into the TaskForce using `add` command.
 
 <!-- @@author A0135768R-->
@@ -117,7 +117,7 @@ Format: `block NAME st/START_DATE et/END_DATE [st/START_DATE et/END_DATE]...`
 > - Failing to provide any start and/or end datetime will result in a invalid command.
 
 Examples:
-* `block meeting with boss st/1400 et/1600 st/tommorrow 1400 et/1600`
+* `block meeting with boss st/1400 et/1600 st/tomorrow 1400 et/1600`
 * `block study period st/1300 et/1800 st/tomorrow 2000 et/2300`
 
 #### Confirming previously blocked time: `confirm`  
@@ -128,7 +128,7 @@ Format: `confirm INDEX st/START_TIME et/END_TIME [d/DESCRIPTION][t/TAG...]`
 > - To use this function, you must first list the desired timelot by using [find command](#command-examples).
 > - Following which, you can use this command to confirm your desired slot.
 > - All other times associated to the previously blocked out Event will be released, even if they are not in the current view.
-> - At the same time you can also change Event name, description or add additional tags. 
+> - At the same time you can also change Event name, description or add additional tags.
 
 Examples:
 * `confirm 5 d/venue TBC st/6pm et/8pm t/important`
@@ -173,7 +173,7 @@ Method | Explanation | Example
 
 <!-- @@author A0135768R-->
 #### Deleting a task : `delete | remove` (undoable)
-Deletes the specified task from the task list. 
+Deletes the specified task from the task list.
 Format: `delete INDEX[, INDEX,...]`
 
 > - Delete the task at the specified `INDEX`.
@@ -308,9 +308,9 @@ Any other type input will be treaded as invalid command. <br>
 **Q**: How do I transfer my data to another Computer?<br>
 **A**: Install the app in the other computer and overwrite the empty data file it creates with
        the file that contains the data of your previous TaskForce folder.
-       
+
 **Q**: The task that i have added is not reflect in the list?<br>
-**A**: Our taskforce is constantly in a filtered task, for example if you type 'find name/cs' and you add a task call "housework", it wont be reflect in the list since the task does not contain 'cs' in it name. 
+**A**: Our taskforce is constantly in a filtered task, for example if you type 'find name/cs' and you add a task call "housework", it wont be reflect in the list since the task does not contain 'cs' in it name.
 
 **Q**: The taskforce is not showing everything that i have added when i open it up?<br>
 **A**: Our taskforce is defaulted to 'find day/0' basically showing only deadline and event that you need to do TODAY. adding a event deadline that is not required to be done TODAY will not be reflected. You can use other find functionality or 'find type/all' to list everything that you have added to the system.
@@ -377,14 +377,14 @@ Exit | `exit`
 `cd ` <br>
 `cd C:\Users\Boon\Desktop\newLocation.xml` <br>
 `cd ./path/to/new/location/on/unix/platform/sampleData.xml` <br>
- 
+
 * **config** e.g : <br>
 `config activeHoursFrom v/0000 ` <br>
 `config activeHoursTo v/2359 ` <br>
 `config enableSudo v/true` <br>
 
 * **undo/redo** e.g : <br>
-`undo ` <br> 
+`undo ` <br>
 `redo ` <br>
 
 * **help** e.g : <br>
@@ -397,4 +397,3 @@ Exit | `exit`
 
 * **exit** e.g : <br>
 `exit ` <br>
-

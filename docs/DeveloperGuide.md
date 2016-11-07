@@ -11,14 +11,14 @@
 * [Appendix B: Use Cases](#appendix-b--use-cases)
 * [Appendix C: Non Functional Requirements](#appendix-c--non-functional-requirements)
 * [Appendix D: Glossary](#appendix-d--glossary)
-* [Appendix E : Product Survey](#appendix-e-product-survey)
+* [Appendix E: Product Survey](#appendix-e-product-survey)
 
 
 ## Setting up
 
 #### Prerequisites
 
-1. **JDK `1.8.0_60`**  or later<br>
+1. **JDK `1.8.0_60`**  or later  
 
     > Having any Java 8 version is not enough. <br>
     This app will not work with earlier versions of Java 8.
@@ -223,10 +223,10 @@ A OVERDUE task is considered as a EVENT that has end date past today date and is
 * Adding and Deleting Tasks will trigger an event to inform and update the Model side that the list is updated.
 * Having commands revolve around Adding and Deleting simplify our implementation as the Model only have to listen to when Tasks are
 added or deleted.
-* Immutable Tasks simplify the implementation of Undo/Redo since it just the reversal of actions. Deleted task are added back and Added Task are deleted. 
+* Immutable Tasks simplify the implementation of Undo/Redo since it just the reversal of actions. Deleted task are added back and Added Task are deleted.
 
 ### FindCommand
-Our FindCommand is implemented to replace the old ListCommand found in TaskForce. ListCommand simply list out all the tasks found in 
+Our FindCommand is implemented to replace the old ListCommand found in TaskForce. ListCommand simply list out all the tasks found in
 TaskForce and this may become a problem when the list get too big. User have to scroll up and down to locate the specified tasks that they are interested. As such our FindCommand are implemented to allow users to filter out tasks in a few ways.
 
 * Keywords Searched are filtered by TagName, Description and TaskName
@@ -236,15 +236,15 @@ TaskForce and this may become a problem when the list get too big. User have to 
 Nevertheless our FindCommand is also capable of replacing ListCommand Completely through the usage of TYPE/OPTION
 
 * A 'find type/all' will be exactly the same as what listCommand does, showing everything stored in the taskForce storage data.
-* A 'find type/mark' will list out every single tasks marked done 
+* A 'find type/mark' will list out every single tasks marked done
 * A 'find type/overdue' will list out all deadline that are dued and not marked done.
 
 <!-- @@author A0135768R -->
 ### UndoCommand and RedoCommand
-The undo command uses the Event Driven approach in order to reduce the coupling between command classes. 
+The undo command uses the Event Driven approach in order to reduce the coupling between command classes.
 
 Under this implementation, all commands are required to declare their changes to the TaskForce system. Since all Tasks object in the TaskForce system are immutable, a command can only add or delete a task. If a command does not add or delete a task,
-the command is not undoable. 
+the command is not undoable.
 
 The undo command, if executed, will then simply do the opposite to the declared changes - delete what is added and add what is deleted. In this manner, the undo command does not need to know what command is executed. This also eliminates the need to implement a Undoable interface to all commands - if the command declares that it does nothing to the data, then the undo command cannot undo its actions.
 
@@ -277,7 +277,7 @@ CdCommand is used.
 ### AddCommand
 Our Addcommand is used for adding a FLOATING TASK, EVENT and DEADLINE. It incoporates arguments flexibility and this allow user not having to follow a strict format for adding a task.
 
-Addcommand also has recurring functionality incoporated into it. This function is support for both DEADLINE and EVENT only. 
+Addcommand also has recurring functionality incoporated into it. This function is support for both DEADLINE and EVENT only.
 
 If the user try recurring on a FLOATING TASKS, the system will only add it once regardless of how many time the user want the task to be added.
 
@@ -288,7 +288,7 @@ If the user try recurring on a FLOATING TASKS, the system will only add it once 
 * Users are not recommended to edit the config file directly even if they are advanced user
 * This is to prevent user from breaking the programs. Command such as freetime retrieve values found in the config file.
 * If keyname in the config are changed inappropriately, taskforce will be unable to retrieve those values assign to the keyname.
-* Taskforce is design to reset both config.json and savedata.xml if they do not follow the proper format (e.g keyname). 
+* Taskforce is design to reset both config.json and savedata.xml if they do not follow the proper format (e.g keyname).
 * Both new user and advanced user are encourged to use the UI, mainly config command and Cd command to modify the location of savedata or changing the setting of the taskForce.
 
 <!-- @@author A0135768R -->
@@ -296,13 +296,13 @@ If the user try recurring on a FLOATING TASKS, the system will only add it once 
 ### ConfigCommand
 
 Certain properties of the application can be controlled (e.g App name, logging level, activeTime) through the configuration file
-(default: `config.json`): 
+(default: `config.json`):
 Users are allowed to edit the config.json file directly such as changing the savepath or setting new activetime.
 However, modifying the Keyname of the config file in any way is not recommended. Doing so will result in invaliding the configuration option and the system will overwrite the current config file with a default one
 
 * Users are recommended to only interact with the config options through config command
 * Setting such as activeTimes, App name, logging level can be controlled through config command
-* Config command is also required in order for user to clear their sava data completely. 
+* Config command is also required in order for user to clear their sava data completely.
 
 <!-- @@author A0139942W -->
 
@@ -314,10 +314,10 @@ The Cd command enable user to check for the location of current sava data, or ch
 
 <!-- @@author A0140037W -->
 ### ClearCommand
-The ClearCommand will erase TaskForce data and history upon executed. A confirmation dialog will appear to get user's confirmation before proceed to do the irreversable operation. 
+The ClearCommand will erase TaskForce data and history upon executed. A confirmation dialog will appear to get user's confirmation before proceed to do the irreversable operation.
 The user can use arrow key and space bar to select the options on the confirmation dialog.
 
-ClearCommand also REQUIRE enableSudo to be enabled in the config file using configCommand before clear can be used. 
+ClearCommand also REQUIRE enableSudo to be enabled in the config file using configCommand before clear can be used.
 
 
 <!-- @@author A0111277M -->
@@ -686,7 +686,7 @@ Use case ends
 > System will display "The given config option and or value is not valid!".
 
 1c. The config file is corrupted
-> System will display "Something went wrong when saving the config file! Your file might be corrupted. 
+> System will display "Something went wrong when saving the config file! Your file might be corrupted.
 Please try to delete it and load the app up again for the default config file!".
 
 Use case ends
@@ -701,7 +701,7 @@ Use case ends
 6. Should not use too much memory (less than 300 MB)
 7. Should be able to recreate a new save data in a event of corruption/missing file
 8. Should be open source and allow developer to contribute to the project anytime
-9. Should always maintain an updated version of both UserGuide and DeveloperGuide 
+9. Should always maintain an updated version of both UserGuide and DeveloperGuide
 10. Should come free without having Users pay money to use the software.
 
 ### Project Constraints NFR
@@ -730,9 +730,9 @@ Product Name | Strengths | Weakness
 ----------- | :---------------- | :----------------
 Todoist | <ul><li>Natural language parsing for location, timing</li><li>Ability to add tags, priority with # and !</li><li>Able to have recurring tasks using the "every" tag</li><li>Gamification: Gain exp(karma) and badges for completing assigned tasks, helps with building habits</li><li>Versatile in terms of accepting CLI and GUI both</li><li>Saved on the cloud, able to transfer within clients.</li></ul> | <ul><li>Many features are not free, require a premium account.</li><li>You must assign some form of date - no floating task.</li><li>Unable to block multiple dates and confirm</li><li>No calendar features - cannot have an event start and end at a time.</li><li>Hence, also unable to tell you your free time.</li></ul>
 Google Keep | <ul><li>Simple, lightweight text tool suitable for Jim</li><li>Able to archive to mark as done</li><li>Able to label with tags</li><li>Able to set a reminder by time</li><li>Multiple checklists in one keep note</li><li>Available on the cloud as it is browser based</li><li>Can pin for priority, colours for categories</li></ul> | <ul><li>Text based with no advanced functionality.</li><li>Calendar is a completely different app (google calendar)</li><li>Primary function to store text notes, not for reminders and tasks</li><li>Lack of CLI functionality or NLP for text parsing of dates </li></ul>
-Todo.txt | <ul><li> Can assign priority to task</li> <li>can associate many small task to a bigger task/project</li> <li> can search by keyword or by association to a projectName</li> <li>visual representation depending on priority of task </li> </ul> | <ul> <li>Require Addon to support task with due dates</li> <li> Require user to follow a strict input format</li> <li> does not tell you what time you are free</li> <li>Does not tell you if your task are overdue</li></ul> 
+Todo.txt | <ul><li> Can assign priority to task</li> <li>can associate many small task to a bigger task/project</li> <li> can search by keyword or by association to a projectName</li> <li>visual representation depending on priority of task </li> </ul> | <ul> <li>Require Addon to support task with due dates</li> <li> Require user to follow a strict input format</li> <li> does not tell you what time you are free</li> <li>Does not tell you if your task are overdue</li></ul>
 Remember the Milk |  <ul> <li>Allows the management of large number of tasks</li> <li> Clean GUI </li> <li> Predefined search terms allows for easy access to tasks that are due in the near future <li> Allows for multiple lists which allows for seperation of tasks according to users perference (such as work-related tasks and personal tasks not in the same list)</li><li>Allows for tranferring of tasks to others using the app which can be used as a collaboration tool in an organisation</li><li>Has a mobile app which allows for usage in multiple devices in different occasions</li> </ul> | <ul> <li>Requires many clicks to add simple deadline that is due on some day not in the near future because of the calendar GUI</li><li>Very confusing for a new user due to functions hidden behind small buttons with icons that are not very intuitive.</li><li>Lots of information is hidden in the UI which requires the user to click on each task individually in order to view them</li><li>Offline mode is only avaliable to paying users</li></ul>
-Any.do | <ul>  <li>Any.do Moment show tasks due TODAY </li> <li>Any.do Moment allows rescheduling, marking as done or delete </li>  <li> Allow users to set reminders </li> <li>Allow users to add sub-tasks to break a bigger task down </li> <li>User can see what due today/tomorrow or upcoming </li></ul>  | <ul> <li>Cannot block timeslots to reserve them </li>  <li>Requires internet connection for syncing of data </li>  <li> Frees user cannot customise recurring tasks</li>  <li> Free user cannot access Any.do Moment</li>  <li>Require monthly/yearly subscription for premium services  </li><li>Requires a lot of clicking</li> </ul> 
+Any.do | <ul>  <li>Any.do Moment show tasks due TODAY </li> <li>Any.do Moment allows rescheduling, marking as done or delete </li>  <li> Allow users to set reminders </li> <li>Allow users to add sub-tasks to break a bigger task down </li> <li>User can see what due today/tomorrow or upcoming </li></ul>  | <ul> <li>Cannot block timeslots to reserve them </li>  <li>Requires internet connection for syncing of data </li>  <li> Frees user cannot customise recurring tasks</li>  <li> Free user cannot access Any.do Moment</li>  <li>Require monthly/yearly subscription for premium services  </li><li>Requires a lot of clicking</li> </ul>
 Wunderlist | <ul><li> Ability to add subtask inside reminder.</li> <li>Remind/Notification functionality. </li> </ul> | <ul> <li>  Does not have event/appointment.</li><li>Does not prevent/warn user from creating duplicate item in the list.</li></ul>
 
 In general, most products lack a command line interface, or the customization that Jim needs - the ability to block, the ability to set time properly, etc.
