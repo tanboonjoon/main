@@ -93,16 +93,16 @@ Steps no. | Steps | Test Data | ExpectedResult
 
 
 TestCase ID : TC006 <br>
-Title : Deleting (a) tasks <br>
-Description : Tester should be able to delete away task <br>
+Title : Marking a task as done <br>
+Description : Tester should be able to mark a task as done <br>
 Format: <br>
-`delete index [,index2, index3...]` <br> 
+`mark index` <br> 
 
 Steps no. | Steps | Test Data | ExpectedResult
 --- | :---------------- | :---------------- | :----------------
-1 | Default the list to show everything using find command | find type/all | the list should show everything stored in the save data
-2 | Take note of the index 1 task and delete that task using delete command | delete 1 | the task should be gone from the list And System should print out the name of the task that is deleted 
-3 | Delete the mutiple tasks found in the list | delete 1,3,2,6 | the 4 tasks should be deleted and dissapear from the list and System should print out all the name of the tasks that are deleted
+1 | Use the find command to find only overdue task | find type/overdue | the list should show all overdue deadlines
+2 | Mark the task in index 1 as done | mark 1 | the task should be gone from the list along with a confirmation message that the task is successfully marked as done
+3 | use the find command with the mark flag to include completed tasks | find name/event mark/true | Under the `reminders and deadlines` column, there should be two deadlines including the tasks you just marked as done.
 
 TestCase ID : TC007 <br>
 Title : Blocking event <br>
