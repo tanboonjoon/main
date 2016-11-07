@@ -10,9 +10,7 @@ Steps no. | Steps | Test Data |  ExpectedResult
 3 | Within the same folder you created, create a new folder called "data" | |A new folder named "data" should be created
 4 | Transfer the `forDemoUse.xml` in `ManualTesting` folder and put it in the `data` folder | |The forDemoUse.xml file should be inside the `data` folder
 5 | Rename the `forDemoUse.xml` to `taskForceData.xml` | |The `forDemoUse.xml` is renamed to `taskForceData.xml`
-6 | open the jar file | |TaskForce window should appear. config, perferences and log file should be generated in the same folder
-7 | close the app | |TaskForce app should be closed
-8 | open the app again | | TaskForce should open with some tasks shown on the list
+6 | open the jar file | |TaskForce window should appear. config, perferences and log file should be generated in the same folder and some tasks should already be loaded into the system.
 
 TestCase ID: TC001 <br>
 Title : Opening the help menu <br>
